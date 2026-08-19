@@ -1,7 +1,7 @@
+import { Link } from "wouter";
 import { useState } from "react";
 import type { AdminStatus } from "@/lib/types";
 import { JOBS } from "@/lib/dummy-data";
-import { AdminChat } from "@/components/common/admin-chat";
 import {
   CheckCircle2,
   Activity,
@@ -18,6 +18,7 @@ import {
   Droplets,
   Filter,
   HandCoins,
+  MessageSquare,
   MoreHorizontal,
   RefreshCw,
   Search,
@@ -44,10 +45,6 @@ function AdminDashboard() {
       (serviceFilter === "All" || job.kind === serviceFilter),
   );
   const statusClass = (status: AdminStatus) => status.toLowerCase();
-
-  const handleJobAction = (jobId: string, action: string) => {
-    notify(`Job ${jobId} marked as ${action}`);
-  };
 
   const handleRefresh = () => {
     notify("Operations board refreshed at " + new Date().toLocaleTimeString());
@@ -89,6 +86,13 @@ function AdminDashboard() {
             >
               <RefreshCw size={14} /> Refresh board
             </button>
+            <Link
+              href="/admin/chat"
+              className="primary-button button-small"
+              data-testid="button-view-chats"
+            >
+              <MessageSquare size={14} /> View Chats
+            </Link>
             <button
               className="primary-button button-small"
               onClick={() => notify("New request form opened")}
@@ -426,7 +430,6 @@ function AdminDashboard() {
           </section>
         </div>
       </main>
-      <AdminChat />
     </div>
   );
 }
