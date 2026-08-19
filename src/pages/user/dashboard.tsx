@@ -10,13 +10,39 @@ import {
   MessageCircle,
   TicketCheck,
 } from "lucide-react";
+import { RequestModal } from "@/components/common/request-modal";
 
 function Dashboard() {
   const [banner, setBanner] = useState("");
+  const [requestOpen, setRequestOpen] = useState(false);
+
   const notify = (message: string) => {
     setBanner(message);
     window.setTimeout(() => setBanner(""), 3200);
   };
+
+  const handleRequestService = () => {
+    setRequestOpen(true);
+  };
+
+  const handleViewServiceHistory = () => {
+    notify("Your service history is ready to review.");
+  };
+
+  const handleMessageCareTeam = () => {
+    notify("A care coordinator will reply here shortly.");
+  };
+
+  const handleViewDetails = () => {
+    notify(
+      "Your visit window is saved. We will text you the day before.",
+    );
+  };
+
+  const handleOpenProof = () => {
+    notify("Opening your May 02 service record.");
+  };
+
   return (
     <div>
       <main className="container dashboard-wrap" id="overview">
@@ -48,7 +74,7 @@ function Dashboard() {
           </div>
           <button
             className="primary-button"
-            // onClick={() => setRequestOpen(true)}
+            onClick={handleRequestService}
             data-testid="button-dashboard-request"
           >
             Request a service <ArrowRight size={15} />
@@ -83,18 +109,14 @@ function Dashboard() {
               </div>
               <div>
                 <h3>Home protection visit</h3>
-                <p>Wednesday · 10:00 – 11:30 AM</p>
+                <p>Wednesday \u00b7 10:00 \u2013 11:30 AM</p>
               </div>
             </div>
             <div className="status-line">
               <span className="status-pill">Confirmed</span>
               <button
                 className="text-button"
-                onClick={() =>
-                  notify(
-                    "Your visit window is saved. We will text you the day before.",
-                  )
-                }
+                onClick={handleViewDetails}
                 data-testid="button-visit-details"
               >
                 View details <ChevronRight size={14} />
@@ -123,30 +145,26 @@ function Dashboard() {
             <div className="quick-actions" style={{ marginTop: "1rem" }}>
               <button
                 className="quick-action"
-                // onClick={() => setRequestOpen(true)}
+                onClick={handleRequestService}
                 data-testid="button-quick-new-request"
               >
-                <ClipboardCheck size={16} /> Start a new request{" "}
+                <ClipboardCheck size={16} /> Start a new request\u00a0
                 <ChevronRight size={14} />
               </button>
               <button
                 className="quick-action"
-                onClick={() =>
-                  notify("Your service history is ready to review.")
-                }
+                onClick={handleViewServiceHistory}
                 data-testid="button-quick-history"
               >
-                <FileCheck2 size={16} /> View service history{" "}
+                <FileCheck2 size={16} /> View service history\u00a0
                 <ChevronRight size={14} />
               </button>
               <button
                 className="quick-action"
-                onClick={() =>
-                  notify("A care coordinator will reply here shortly.")
-                }
+                onClick={handleMessageCareTeam}
                 data-testid="button-quick-message"
               >
-                <MessageCircle size={16} /> Message the care team{" "}
+                <MessageCircle size={16} /> Message the care team\u00a0
                 <ChevronRight size={14} />
               </button>
             </div>
@@ -161,7 +179,7 @@ function Dashboard() {
                 </div>
                 <div>
                   <strong>Before / after photos added</strong>
-                  <span>Kitchen perimeter · May 02, 2025</span>
+                  <span>Kitchen perimeter \u00b7 May 02, 2025</span>
                 </div>
               </div>
               <div className="activity-row">
@@ -170,7 +188,7 @@ function Dashboard() {
                 </div>
                 <div>
                   <strong>Visit marked complete</strong>
-                  <span>Home protection · May 02, 2025</span>
+                  <span>Home protection \u00b7 May 02, 2025</span>
                 </div>
               </div>
               <div className="activity-row">
@@ -190,7 +208,7 @@ function Dashboard() {
             <div className="proof-thumb" data-testid="img-dashboard-proof" />
             <button
               className="text-button"
-              onClick={() => notify("Opening your May 02 service record.")}
+              onClick={handleOpenProof}
               style={{ marginTop: ".75rem" }}
               data-testid="button-open-proof"
             >
@@ -199,6 +217,10 @@ function Dashboard() {
           </section>
         </div>
       </main>
+      <RequestModal
+        open={requestOpen}
+        onClose={() => setRequestOpen(false)}
+      />
     </div>
   );
 }

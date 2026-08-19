@@ -1,15 +1,12 @@
 import { useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
+import { useMessages } from "@/contexts/message-context";
 
 function Chat() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([
-    {
-      text: "Hi, I’m Mina from Ajike. Tell me what is happening in your space and I will help you find the right next step.",
-      user: false,
-    },
-  ]);
+  const { messages, addMessage } = useMessages();
+
   const starters = [
     [
       "Book an inspection",
@@ -17,7 +14,7 @@ function Chat() {
     ],
     [
       "Help identify a pest",
-      "Describe what you saw, where you saw it, and when it started. A photo is helpful but never required — our technician can inspect it in person.",
+      "Describe what you saw, where you saw it, and when it started. A photo is helpful but never required \u2014 our technician can inspect it in person.",
     ],
     [
       "Ask about cleaning",
@@ -25,26 +22,25 @@ function Chat() {
     ],
     [
       "Set up recurring care",
-      "After your first visit, we can recommend a recurring schedule based on the property and the issue — every 30, 60, or 90 days.",
+      "After your first visit, we can recommend a recurring schedule based on the property and the issue \u2014 every 30, 60, or 90 days.",
     ],
     [
       "What areas do you serve?",
       "Ajike serves homes and businesses across the local metro area. Send a request with your address and we will confirm coverage.",
     ],
   ];
+
   const send = (text = message) => {
     if (!text.trim()) return;
     const starter = starters.find(([label]) => label === text);
     const reply =
       starter?.[1] ||
       "I can help you get oriented. You can ask about an inspection, pest identification, cleaning, recurring maintenance, pricing, or service areas.";
-    setMessages((current) => [
-      ...current,
-      { text, user: true },
-      { text: reply, user: false },
-    ]);
+    addMessage({ text, sender: "user", userName: "User" });
+    addMessage({ text: reply, sender: "bot", userName: "Mina" });
     setMessage("");
   };
+
   if (!open)
     return (
       <button
@@ -56,6 +52,7 @@ function Chat() {
         <MessageCircle size={22} />
       </button>
     );
+
   return (
     <section
       className="chat-window"
@@ -65,7 +62,7 @@ function Chat() {
       <div className="chat-head">
         <div>
           <strong>Ask Mina</strong>
-          <span>Ajike service concierge · usually replies fast</span>
+          <span>Ajike service concierge \u00b7 usually replies fast</span>
         </div>
         <button
           className="icon-button"
@@ -79,8 +76,8 @@ function Chat() {
       <div className="chat-messages">
         {messages.map((item, index) => (
           <div
-            className={`chat-message ${item.user ? "user" : ""}`}
-            key={`${item.text}-${index}`}
+            className={`chat-message ${item.sender === "user" ? "user" : ""}`}
+            key={`${item.id}-${index}`}
             data-testid={`chat-message-${index}`}
           >
             {item.text}

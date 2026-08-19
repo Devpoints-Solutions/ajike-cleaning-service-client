@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { AdminStatus } from "@/lib/types";
 import { JOBS } from "@/lib/dummy-data";
+import { AdminChat } from "@/components/common/admin-chat";
 import {
   CheckCircle2,
   Activity,
@@ -43,6 +44,15 @@ function AdminDashboard() {
       (serviceFilter === "All" || job.kind === serviceFilter),
   );
   const statusClass = (status: AdminStatus) => status.toLowerCase();
+
+  const handleJobAction = (jobId: string, action: string) => {
+    notify(`Job ${jobId} marked as ${action}`);
+  };
+
+  const handleRefresh = () => {
+    notify("Operations board refreshed at " + new Date().toLocaleTimeString());
+  };
+
   return (
     <div className="admin-page">
       <main className="container admin-wrap">
@@ -68,20 +78,20 @@ function AdminDashboard() {
             <div className="eyebrow">Operations console / Tuesday 17 June</div>
             <h1>Keep the field moving.</h1>
             <p>
-              Today’s service board, coverage, and proof in one working view.
+              Today\u2019s service board, coverage, and proof in one working view.
             </p>
           </div>
           <div className="admin-top-actions">
             <button
               className="secondary-button button-small"
-              onClick={() => notify("Operations report refreshed at 09:42.")}
+              onClick={handleRefresh}
               data-testid="button-refresh-admin"
             >
               <RefreshCw size={14} /> Refresh board
             </button>
             <button
               className="primary-button button-small"
-              // onClick={() => setRequestOpen(true)}
+              onClick={() => notify("New request form opened")}
               data-testid="button-admin-new-request"
             >
               <ClipboardCheck size={14} /> New request
@@ -90,7 +100,7 @@ function AdminDashboard() {
         </div>
         <section className="admin-kpi-grid">
           <article className="admin-kpi kpi-navy">
-            <span>Today’s visits</span>
+            <span>Today\u2019s visits</span>
             <strong>08</strong>
             <small>
               <TrendingUp size={12} /> 2 ahead of yesterday
@@ -123,7 +133,7 @@ function AdminDashboard() {
             <div className="admin-panel-head">
               <div>
                 <span className="panel-label">Live schedule</span>
-                <h2>Today’s route board</h2>
+                <h2>Today\u2019s route board</h2>
               </div>
               <button
                 className="icon-button"
@@ -136,9 +146,13 @@ function AdminDashboard() {
             </div>
             <div className="admin-filter-row">
               <div className="admin-filter-tabs">
-                {(
-                  ["All", "New", "Quoted", "Scheduled", "Complete"] as const
-                ).map((item) => (
+                {([
+                  "All",
+                  "New",
+                  "Quoted",
+                  "Scheduled",
+                  "Complete",
+                ] as const).map((item) => (
                   <button
                     className={filter === item ? "active" : ""}
                     onClick={() => setFilter(item)}
@@ -182,7 +196,7 @@ function AdminDashboard() {
                   <div className="schedule-job">
                     <strong>{job.client}</strong>
                     <span>
-                      {job.service} · {job.address}
+                      {job.service} \u00b7 {job.address}
                     </span>
                   </div>
                   <div className="tech-badge" title={`Assigned to ${job.tech}`}>
@@ -195,7 +209,7 @@ function AdminDashboard() {
                     className="icon-button row-more"
                     onClick={() =>
                       notify(
-                        `${job.id} opened — ${job.client} is assigned to ${job.tech}.`,
+                        `${job.id} opened \u2014 ${job.client} is assigned to ${job.tech}.`,
                       )
                     }
                     aria-label={`Open ${job.id}`}
@@ -237,7 +251,7 @@ function AdminDashboard() {
                   <span className="crew-avatar navy">JR</span>
                   <span>
                     <strong>Jalen R.</strong>
-                    <small>North + central · 3 jobs</small>
+                    <small>North + central \u00b7 3 jobs</small>
                   </span>
                   <CheckCircle2 size={14} />
                 </div>
@@ -245,7 +259,7 @@ function AdminDashboard() {
                   <span className="crew-avatar sky">TN</span>
                   <span>
                     <strong>Tessa N.</strong>
-                    <small>Cleaning route · 2 jobs</small>
+                    <small>Cleaning route \u00b7 2 jobs</small>
                   </span>
                   <CheckCircle2 size={14} />
                 </div>
@@ -253,7 +267,7 @@ function AdminDashboard() {
                   <span className="crew-avatar pale">SK</span>
                   <span>
                     <strong>Sofia K.</strong>
-                    <small>South route · 2 jobs</small>
+                    <small>South route \u00b7 2 jobs</small>
                   </span>
                   <AlertTriangle size={14} />
                 </div>
@@ -295,7 +309,7 @@ function AdminDashboard() {
                   <Droplets size={15} />
                   <span>
                     <strong>Low supply note</strong>
-                    <small>Blue-safe cleaner · van 03</small>
+                    <small>Blue-safe cleaner \u00b7 van 03</small>
                   </span>
                   <ChevronRight size={14} />
                 </button>
@@ -306,7 +320,7 @@ function AdminDashboard() {
                   <UserRound size={15} />
                   <span>
                     <strong>1 request unassigned</strong>
-                    <small>Move-out clean · due today</small>
+                    <small>Move-out clean \u00b7 due today</small>
                   </span>
                   <ChevronRight size={14} />
                 </button>
@@ -348,7 +362,7 @@ function AdminDashboard() {
             </div>
             <div className="mix-foot">
               <span>42 completed jobs</span>
-              <span>↑ 8.4% vs May</span>
+              <span>\u2191 8.4% vs May</span>
             </div>
           </section>
           <section className="admin-panel revenue-panel">
@@ -396,7 +410,7 @@ function AdminDashboard() {
               </div>
               <div>
                 <strong>Kitchen perimeter</strong>
-                <small>AJ-2041 · Juniper Facilities</small>
+                <small>AJ-2041 \u00b7 Juniper Facilities</small>
                 <span className="proof-approved">
                   <CheckCheck size={12} /> Client-ready record
                 </span>
@@ -412,6 +426,7 @@ function AdminDashboard() {
           </section>
         </div>
       </main>
+      <AdminChat />
     </div>
   );
 }
