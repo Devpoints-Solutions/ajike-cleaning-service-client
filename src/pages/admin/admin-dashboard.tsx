@@ -16,14 +16,16 @@ import {
   ClipboardCheck,
   Clock3,
   Droplets,
+  Eye,
   Filter,
   HandCoins,
   MessageSquare,
-  MoreHorizontal,
+  MoreVertical,
   RefreshCw,
   Search,
   SprayCan,
   TrendingUp,
+  Trash2,
   UserCheck,
   UserRound,
 } from "lucide-react";
@@ -34,6 +36,7 @@ function AdminDashboard() {
     "All" | "Pest" | "Cleaning"
   >("All");
   const [notice, setNotice] = useState("");
+  const [showActions, setShowActions] = useState<{ [key: string]: boolean }>({});
   const notify = (message: string) => {
     setNotice(message);
     window.setTimeout(() => setNotice(""), 3000);
@@ -48,6 +51,22 @@ function AdminDashboard() {
 
   const handleRefresh = () => {
     notify("Operations board refreshed at " + new Date().toLocaleTimeString());
+  };
+
+  const toggleActions = (id: string) => {
+    setShowActions((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
+  const handleViewDetails = (id: string) => {
+    // Navigate or show details
+    notify(`Viewing details for schedule ${id}`);
+  };
+
+  const handleDelete = (id: string) => {
+    notify(`Schedule ${id} deleted`);
   };
 
   return (
@@ -209,18 +228,41 @@ function AdminDashboard() {
                   <span className={`admin-status ${statusClass(job.status)}`}>
                     {job.status}
                   </span>
-                  <button
-                    className="icon-button row-more"
-                    onClick={() =>
-                      notify(
-                        `${job.id} opened \u2014 ${job.client} is assigned to ${job.tech}.`,
-                      )
-                    }
-                    aria-label={`Open ${job.id}`}
-                    data-testid={`button-admin-job-${job.id}`}
-                  >
-                    <MoreHorizontal size={16} />
-                  </button>
+                  <div className="schedule-row-actions">
+                    <button
+                      className="icon-button"
+                      onClick={() => toggleActions(job.id)}
+                      aria-label={`Actions for ${job.id}`}
+                      data-testid={`button-schedule-actions-${job.id}`}
+                    >
+                      <MoreVertical size={16} />
+                    </button>
+                    {showActions[job.id] && (
+                      <div className="schedule-actions-dropdown">
+                        <Link
+                          href={`/admin/schedule/${job.id}`}
+                          className="schedule-action-item"
+                          data-testid={`button-view-details-${job.id}`}
+                        >
+                          <Eye size={14} /> View Details
+                        </Link>
+                        <Link
+                          href={`/admin/schedule/${job.id}`}
+                          className="schedule-action-item"
+                          data-testid={`button-update-status-${job.id}`}
+                        >
+                          <Clock3 size={14} /> Update Status
+                        </Link>
+                        <button
+                          className="schedule-action-item delete"
+                          onClick={() => handleDelete(job.id)}
+                          data-testid={`button-delete-schedule-${job.id}`}
+                        >
+                          <Trash2 size={14} /> Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

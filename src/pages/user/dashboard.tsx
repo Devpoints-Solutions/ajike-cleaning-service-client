@@ -1,3 +1,4 @@
+import { Link } from "wouter";
 import { useState } from "react";
 import {
   ArrowRight,
@@ -72,13 +73,22 @@ function Dashboard() {
               Your home care, in one calm place. Last updated today at 9:42 AM.
             </p>
           </div>
-          <button
-            className="primary-button"
-            onClick={handleRequestService}
-            data-testid="button-dashboard-request"
-          >
-            Request a service <ArrowRight size={15} />
-          </button>
+          <div className="dashboard-top-actions">
+            <button
+              className="primary-button"
+              onClick={handleRequestService}
+              data-testid="button-dashboard-request"
+            >
+              Request a service <ArrowRight size={15} />
+            </button>
+            <Link
+              href="/active-schedules"
+              className="secondary-button"
+              data-testid="button-view-active-schedules"
+            >
+              View Active Schedules
+            </Link>
+          </div>
         </div>
         <div className="dashboard-grid">
           <section className="dashboard-card summary-card">
