@@ -11,7 +11,7 @@ import {
   MessageCircle,
   TicketCheck,
 } from "lucide-react";
-import { RequestModal } from "@/components/common/request-modal";
+import RequestModal from "@/components/common/request-modal";
 
 function Dashboard() {
   const [banner, setBanner] = useState("");
@@ -35,9 +35,7 @@ function Dashboard() {
   };
 
   const handleViewDetails = () => {
-    notify(
-      "Your visit window is saved. We will text you the day before.",
-    );
+    notify("Your visit window is saved. We will text you the day before.");
   };
 
   const handleOpenProof = () => {
@@ -227,10 +225,7 @@ function Dashboard() {
           </section>
         </div>
       </main>
-      <RequestModal
-        open={requestOpen}
-        onClose={() => setRequestOpen(false)}
-      />
+      <RequestModal open={requestOpen} onClose={() => setRequestOpen(false)} />
     </div>
   );
 }
