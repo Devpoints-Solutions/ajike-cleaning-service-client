@@ -37,8 +37,12 @@
   --secondary-foreground: 211 64% 20%;
   --muted: 204 27% 92%;
   --muted-foreground: 207 21% 43%;
-  --font-body: "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", "Inter", "Inter Fallback", ui-sans-serif, sans-serif;
-  --font-display: "Space Mono", monospace;
+  --font-body:
+    "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", "Inter",
+    "Inter Fallback", ui-sans-serif, sans-serif;
+  --font-display:
+    "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", "Inter",
+    "Inter Fallback", ui-sans-serif, sans-serif;
   --radius: 1.15rem;
 }
 
@@ -107,7 +111,7 @@ a {
   align-items: center;
   gap: 0.65rem;
   font: 700 1rem var(--font-display);
-  letter-spacing: -0.06em;
+  /* letter-spacing: -0.06em; */
   color: #092d4b;
   white-space: nowrap;
 }
@@ -258,7 +262,7 @@ a {
 .hero-copy h1 {
   color: #092d4b;
   font: 700 clamp(2.7rem, 5.2vw, 5.3rem)/0.96 var(--font-display);
-  letter-spacing: -0.095em;
+  /* letter-spacing: -0.001em; */
   margin: 1rem 0 1.35rem;
   max-width: 650px;
 }
@@ -485,7 +489,7 @@ a {
 .section-heading h2 {
   color: #092d4b;
   font: 700 clamp(1.8rem, 3.5vw, 3.1rem)/1 var(--font-display);
-  letter-spacing: -0.08em;
+  /* letter-spacing: -0.08em; */
   margin: 0.65rem 0 0;
 }
 .section-heading p {
@@ -533,7 +537,7 @@ a {
   margin: 1.1rem 0 0.38rem;
   color: #103d5d;
   font: 700 0.92rem var(--font-display);
-  letter-spacing: -0.04em;
+  /* letter-spacing: -0.04em; */
 }
 .service-card p {
   color: #698292;
@@ -552,7 +556,7 @@ a {
   color: #138bb6;
   font: 700 0.58rem var(--font-display);
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  /* letter-spacing: 0.07em; */
 }
 .mini-arrow {
   color: #0b4168;
@@ -583,13 +587,13 @@ a {
   bottom: -36px;
   color: rgba(168, 226, 247, 0.13);
   font: 700 10rem/0.8 var(--font-display);
-  letter-spacing: -0.1em;
+  /* letter-spacing: -0.1em; */
 }
 .coverage-intro h2 {
   position: relative;
   z-index: 1;
   font: 700 clamp(1.85rem, 3.5vw, 3.1rem)/0.98 var(--font-display);
-  letter-spacing: -0.09em;
+  /* letter-spacing: -0.09em; */
   margin: 0.8rem 0 1rem;
 }
 .coverage-intro p {
@@ -644,7 +648,7 @@ a {
 .featured-copy h2 {
   color: #0b4168;
   font: 700 clamp(2rem, 4vw, 4rem)/0.98 var(--font-display);
-  letter-spacing: -0.1em;
+  /* letter-spacing: -0.1em; */
   max-width: 500px;
   margin: 0.8rem 0 1rem;
 }
@@ -689,7 +693,7 @@ a {
   background: #0b4168;
   color: #dff5fb;
   font: 700 0.52rem var(--font-display);
-  letter-spacing: 0.1em;
+  /* letter-spacing: 0.1em; */
   padding: 0.35rem 0.45rem;
 }
 .proof-frame::after {
@@ -782,7 +786,7 @@ a {
   position: relative;
   z-index: 1;
   font: 700 1.3rem/1.25 var(--font-display);
-  letter-spacing: -0.06em;
+  /* letter-spacing: -0.06em; */
   margin: 2rem 0;
   max-width: 340px;
 }
@@ -841,7 +845,7 @@ a {
 .final-cta h2 {
   color: #0b4168;
   font: 700 clamp(1.9rem, 4vw, 3.7rem)/0.98 var(--font-display);
-  letter-spacing: -0.09em;
+  /* letter-spacing: -0.09em; */
   margin: 0.7rem 0 0;
   max-width: 600px;
 }
@@ -899,7 +903,7 @@ a {
 .modal-head h2 {
   color: #0b4168;
   font: 700 1.25rem var(--font-display);
-  letter-spacing: -0.06em;
+  /* letter-spacing: -0.06em; */
   margin: 0.4rem 0 0;
 }
 .modal-body {
@@ -1136,7 +1140,7 @@ a {
 .dashboard-top h1 {
   color: #092d4b;
   font: 700 clamp(1.8rem, 4vw, 3rem)/1 var(--font-display);
-  letter-spacing: -0.09em;
+  /* letter-spacing: -0.09em; */
   margin: 0.5rem 0;
 }
 .dashboard-top p {
@@ -1158,7 +1162,7 @@ a {
 .dashboard-card h2 {
   color: #103d5d;
   font: 700 0.9rem var(--font-display);
-  letter-spacing: -0.03em;
+  /* letter-spacing: -0.03em; */
   margin: 0;
 }
 .dashboard-card .card-kicker {
@@ -1270,7 +1274,7 @@ a {
 .plan-name {
   color: #0b4168;
   font: 700 1.5rem var(--font-display);
-  letter-spacing: -0.08em;
+  /* letter-spacing: -0.08em; */
   margin: 1.35rem 0 0.4rem;
 }
 .plan-card p {
@@ -1447,7 +1451,7 @@ a {
 }
 .auth-quote h1 {
   font: 700 clamp(2rem, 4.5vw, 4.2rem)/0.98 var(--font-display);
-  letter-spacing: -0.1em;
+  /* letter-spacing: -0.1em; */
   margin: 0.9rem 0 1rem;
 }
 .auth-quote p {
@@ -1476,7 +1480,7 @@ a {
 .auth-card-header h2 {
   color: #0b4168;
   font: 700 clamp(1.55rem, 3vw, 2.35rem)/1 var(--font-display);
-  letter-spacing: -0.09em;
+  /* letter-spacing: -0.09em; */
   margin: 0.55rem 0 0.55rem;
 }
 .auth-card-header p {
@@ -1619,7 +1623,7 @@ a {
 .not-found h1 {
   color: #0b4168;
   font: 700 2.5rem var(--font-display);
-  letter-spacing: -0.08em;
+  /* letter-spacing: -0.08em; */
 }
 
 @keyframes lift-in {
@@ -1936,7 +1940,7 @@ a {
 .page-intro h1 {
   color: #092d4b;
   font: 700 clamp(2.7rem, 6vw, 5.5rem)/0.94 var(--font-display);
-  letter-spacing: -0.1em;
+  /* letter-spacing: -0.1em; */
   margin: 1rem 0 1.2rem;
 }
 .page-intro h1 em {
@@ -1982,7 +1986,7 @@ a {
 }
 .manifesto-stamp span {
   font: 700 1.65rem var(--font-display);
-  letter-spacing: -0.15em;
+  /* letter-spacing: -0.15em; */
 }
 .manifesto-stamp small {
   color: #4e88a0;
@@ -1995,7 +1999,7 @@ a {
 .standards-copy h2 {
   color: #0b4168;
   font: 700 clamp(2rem, 4vw, 3.8rem)/0.98 var(--font-display);
-  letter-spacing: -0.1em;
+  /* letter-spacing: -0.1em; */
   margin: 0.7rem 0 1.1rem;
 }
 .about-manifesto p,
@@ -2359,7 +2363,7 @@ a {
 .service-detail-title h2 {
   color: #103d5d;
   font: 700 1.02rem var(--font-display);
-  letter-spacing: -0.05em;
+  /* letter-spacing: -0.05em; */
   margin: 0.3rem 0 0.25rem;
 }
 .service-detail-title p {
@@ -2454,7 +2458,7 @@ a {
 .service-guidance h2 {
   color: #0b4168;
   font: 700 clamp(1.25rem, 3vw, 2.2rem)/1 var(--font-display);
-  letter-spacing: -0.08em;
+  /* letter-spacing: -0.08em; */
   margin: 0.6rem 0 0;
 }
 .service-guidance p {
@@ -2494,7 +2498,7 @@ a {
 }
 .pricing-board-head h2 {
   font: 700 clamp(1.2rem, 2.5vw, 2rem)/1 var(--font-display);
-  letter-spacing: -0.08em;
+  /* letter-spacing: -0.08em; */
   margin: 0.55rem 0 0;
 }
 .pricing-board-head .eyebrow {
@@ -2609,7 +2613,7 @@ a {
 .pricing-reassurance h2 {
   color: #0b4168;
   font: 700 clamp(1.45rem, 3vw, 2.55rem)/1 var(--font-display);
-  letter-spacing: -0.09em;
+  /* letter-spacing: -0.09em; */
   margin: 0.65rem 0 0.8rem;
 }
 .pricing-reassurance p {
@@ -2638,7 +2642,7 @@ a {
 .admin-top h1 {
   color: #092d4b;
   font: 700 clamp(1.9rem, 4vw, 3.3rem)/0.98 var(--font-display);
-  letter-spacing: -0.1em;
+  /* letter-spacing: -0.1em; */
   margin: 0.55rem 0 0.45rem;
 }
 .admin-top p {
@@ -2686,7 +2690,7 @@ a {
   display: block;
   color: #133f5c;
   font: 700 1.75rem var(--font-display);
-  letter-spacing: -0.08em;
+  /* letter-spacing: -0.08em; */
   margin: 0.85rem 0 0.4rem;
 }
 .admin-kpi.kpi-navy strong {
@@ -2738,7 +2742,7 @@ a {
 .admin-panel-head h2 {
   color: #123f5d;
   font: 700 1rem var(--font-display);
-  letter-spacing: -0.05em;
+  /* letter-spacing: -0.05em; */
   margin: 0.4rem 0 0;
 }
 .admin-filter-row {
@@ -2909,7 +2913,7 @@ a {
   display: block;
   color: #0b4168;
   font: 700 1.7rem var(--font-display);
-  letter-spacing: -0.08em;
+  /* letter-spacing: -0.08em; */
 }
 .coverage-meter span {
   color: #78929e;
@@ -3095,7 +3099,7 @@ a {
 .revenue-number {
   color: #0b4168;
   font: 700 1.65rem var(--font-display);
-  letter-spacing: -0.08em;
+  /* letter-spacing: -0.08em; */
   margin: 1.4rem 0 0.8rem;
 }
 .revenue-number span {
@@ -3374,7 +3378,6 @@ a {
     grid-template-columns: 1fr 1fr;
   }
 }
-
 
 /* Admin Chat Styles */
 .admin-chat-launcher {
