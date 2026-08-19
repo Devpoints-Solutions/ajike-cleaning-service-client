@@ -6,12 +6,18 @@ import PublicFooter from "./public-footer";
 function Layout() {
   const [pathname] = useLocation();
 
+  console.log();
+
   return (
     <>
-      <Header
-        dashboard={pathname === "/dashboard" || pathname === "/admin/dashboard"}
-        onRequest={() => {}}
-      />
+      {!pathname.startsWith("/auth") && (
+        <Header
+          dashboard={
+            pathname === "/dashboard" || pathname === "/admin/dashboard"
+          }
+          onRequest={() => {}}
+        />
+      )}
 
       <AppRoutes />
 
