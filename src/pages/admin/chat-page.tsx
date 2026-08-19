@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import {
   ArrowLeft,
   MessageCircle,
@@ -18,24 +18,26 @@ export function AdminChatPage() {
   const { messages, addMessage } = useMessages();
 
   // Group messages by conversation/session
-  const conversations = messages.reduce((acc, msg) => {
-    const sessionId = msg.userId || "general";
-    if (!acc[sessionId]) {
-      acc[sessionId] = [];
-    }
-    acc[sessionId].push(msg);
-    return acc;
-  }, {} as Record<string, typeof messages>);
+  const conversations = messages.reduce(
+    (acc, msg) => {
+      const sessionId = msg.userId || "general";
+      if (!acc[sessionId]) {
+        acc[sessionId] = [];
+      }
+      acc[sessionId].push(msg);
+      return acc;
+    },
+    {} as Record<string, typeof messages>,
+  );
 
   const conversationList = Object.entries(conversations).map(
     ([sessionId, msgs]) => ({
       id: sessionId,
       messages: msgs,
       latestMessage: msgs[msgs.length - 1],
-      unreadCount: msgs.filter(
-        (m) => m.sender === "user" || m.sender === "bot"
-      ).length,
-    })
+      unreadCount: msgs.filter((m) => m.sender === "user" || m.sender === "bot")
+        .length,
+    }),
   );
 
   const filteredConversations = conversationList.filter((conv) => {
@@ -197,10 +199,7 @@ export function AdminChatPage() {
                   ))}
                 </div>
 
-                <form
-                  className="admin-chat-reply-form"
-                  onSubmit={sendReply}
-                >
+                <form className="admin-chat-reply-form" onSubmit={sendReply}>
                   <input
                     type="text"
                     value={replyMessage}

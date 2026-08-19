@@ -36,7 +36,9 @@ function AdminDashboard() {
     "All" | "Pest" | "Cleaning"
   >("All");
   const [notice, setNotice] = useState("");
-  const [showActions, setShowActions] = useState<{ [key: string]: boolean }>({});
+  const [showActions, setShowActions] = useState<{ [key: string]: boolean }>(
+    {},
+  );
   const notify = (message: string) => {
     setNotice(message);
     window.setTimeout(() => setNotice(""), 3000);
@@ -60,10 +62,10 @@ function AdminDashboard() {
     }));
   };
 
-  const handleViewDetails = (id: string) => {
-    // Navigate or show details
-    notify(`Viewing details for schedule ${id}`);
-  };
+  // const handleViewDetails = (id: string) => {
+  //   // Navigate or show details
+  //   notify(`Viewing details for schedule ${id}`);
+  // };
 
   const handleDelete = (id: string) => {
     notify(`Schedule ${id} deleted`);
@@ -94,7 +96,8 @@ function AdminDashboard() {
             <div className="eyebrow">Operations console / Tuesday 17 June</div>
             <h1>Keep the field moving.</h1>
             <p>
-              Today\u2019s service board, coverage, and proof in one working view.
+              Today\u2019s service board, coverage, and proof in one working
+              view.
             </p>
           </div>
           <div className="admin-top-actions">
@@ -169,13 +172,9 @@ function AdminDashboard() {
             </div>
             <div className="admin-filter-row">
               <div className="admin-filter-tabs">
-                {([
-                  "All",
-                  "New",
-                  "Quoted",
-                  "Scheduled",
-                  "Complete",
-                ] as const).map((item) => (
+                {(
+                  ["All", "New", "Quoted", "Scheduled", "Complete"] as const
+                ).map((item) => (
                   <button
                     className={filter === item ? "active" : ""}
                     onClick={() => setFilter(item)}

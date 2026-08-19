@@ -10,7 +10,6 @@ import {
   Eye,
   Edit2,
   Trash2,
-  CheckCircle,
   XCircle,
   AlertTriangle,
 } from "lucide-react";
@@ -236,11 +235,11 @@ export function ScheduleDetailsPage() {
 
         {/* Status Update Modal */}
         {showStatusModal && (
-          <div className="modal-overlay" onClick={() => setShowStatusModal(false)}>
-            <div
-              className="modal-content"
-              onClick={(e) => e.stopPropagation()}
-            >
+          <div
+            className="modal-overlay"
+            onClick={() => setShowStatusModal(false)}
+          >
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
                 <h3>Update Schedule Status</h3>
                 <button
@@ -264,13 +263,14 @@ export function ScheduleDetailsPage() {
                       <span
                         className="status-option-dot"
                         style={{
-                          backgroundColor: s === "Complete"
-                            ? "#25ad76"
-                            : s === "Scheduled"
-                            ? "#178db4"
-                            : s === "Quoted"
-                            ? "#71bed7"
-                            : "#d89435",
+                          backgroundColor:
+                            s === "Complete"
+                              ? "#25ad76"
+                              : s === "Scheduled"
+                                ? "#178db4"
+                                : s === "Quoted"
+                                  ? "#71bed7"
+                                  : "#d89435",
                         }}
                       />
                       {s}
@@ -284,11 +284,11 @@ export function ScheduleDetailsPage() {
 
         {/* Delete Confirmation Modal */}
         {showDeleteConfirm && (
-          <div className="modal-overlay" onClick={() => setShowDeleteConfirm(false)}>
-            <div
-              className="modal-content"
-              onClick={(e) => e.stopPropagation()}
-            >
+          <div
+            className="modal-overlay"
+            onClick={() => setShowDeleteConfirm(false)}
+          >
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
                 <h3>Confirm Delete</h3>
                 <button
