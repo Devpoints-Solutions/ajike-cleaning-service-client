@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "wouter";
+import { ArrowLeft } from "lucide-react";
 import Brand from "@/components/common/brand";
 
 function AuthShell({
@@ -23,8 +25,20 @@ function AuthShell({
           Licensed service. Clear records. Better mornings.
         </div>
       </aside>
+
       <main className="auth-main">
-        <div className="auth-card">{children}</div>
+        <div className="auth-card">
+          <div className="admin-chat-back my-4">
+            <Link
+              href="/"
+              className="text-button"
+              data-testid="button-back-to-home"
+            >
+              <ArrowLeft size={18} /> Go back
+            </Link>
+          </div>
+          {children}
+        </div>
       </main>
     </div>
   );

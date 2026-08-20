@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AuthShell from "./auth-shell";
 import { Link, useLocation } from "wouter";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
 import PasswordField from "./password-field";
 
 function SignIn() {
@@ -25,7 +25,6 @@ function SignIn() {
       description="Sign in to see upcoming visits, service records, photo proof, and the next small step for your property."
     >
       <div className="auth-card-header">
-        <div className="eyebrow">Welcome back</div>
         <h2>Sign in to Ajike</h2>
         <p>Your service history and care plan are waiting for you.</p>
       </div>

@@ -1,25 +1,73 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthShell from "./auth-shell";
 import { Link } from "wouter";
 import { ArrowRight, Mail } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import PasswordField from "./password-field";
+import { signupSchema } from "@/helpers/data-validator-schema";
+import { useForm } from "@/hooks/use-form";
+import { useCreateAccountMutation } from "@/features/apis/auth-apis";
+import { Loader } from "@/components/common/loader";
+import { formatError } from "@/helpers/format-error";
+
+const formInput = [
+  { name: "firstName", placeholder: "John", label: "First name" },
+  { name: "lastName", label: "Last name", placeholder: "Doe" },
+  { name: "email", label: "email", placeholder: "johndoe@example.com" },
+  { name: "phoneNumber", label: "Phone number", placeholder: "(555) 014-0288" },
+  {
+    name: "password",
+    label: "Create a password",
+    placeholder: "At least 8 characters",
+  },
+];
 
 function SignUp() {
-  const [success, setSuccess] = useState(false);
   const [show, setShow] = useState(false);
-  const [password, setPassword] = useState("");
   const [consent, setConsent] = useState(false);
-  const [error, setError] = useState("");
+
+  const { data, getFormInput, error, isValid } = useForm(signupSchema);
+
+  const [
+    createAccount,
+    { isLoading, isSuccess, data: requestData, isError, error: requestError },
+  ] = useCreateAccountMutation();
+
+  const { toast } = useToast();
+
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!consent) {
-      setError("Please agree to service updates to continue.");
-      return;
+
+    console.log(error && Object.values(error));
+    if (error && !isValid) {
+      return toast({
+        title: `Invalid ${error?.field} value`,
+        description: error?.message,
+        variant: "default",
+      });
     }
-    setError("");
-    setSuccess(true);
+    if (!consent) {
+      return toast({
+        title: "Accept Terms",
+        description: "Agree to terms and privacy policy",
+        variant: "default",
+      });
+    }
+
+    createAccount({ ...data, confirmPassword: data.password, consent });
   };
-  if (success)
+
+  useEffect(() => {
+    if (isError || requestError) {
+      toast({
+        title: "Create user failed!",
+        description: formatError(requestError),
+        variant: "default",
+      });
+    }
+  }, [isError, requestError]);
+
+  if (isSuccess && requestData)
     return (
       <AuthShell
         title="A better record starts here."
@@ -31,13 +79,14 @@ function SignUp() {
           </div>
           <h3>Check your inbox.</h3>
           <p>
-            We created your local demo account. Verify your email to finish
-            setting up your Ajike care space.
+            Your account has been created. Verify your email to finish setting
+            up your Ajike care space.
           </p>
           <Link
             className="primary-button"
             href="/auth/verify"
             data-testid="link-signup-verify"
+            state={{ email: requestData?.email }}
           >
             Continue to verification <ArrowRight size={15} />
           </Link>
@@ -58,44 +107,57 @@ function SignUp() {
         </p>
       </div>
       <form className="auth-form" onSubmit={submit}>
-        <div className="auth-field">
-          <label htmlFor="signup-name">Full name</label>
-          <input
-            id="signup-name"
-            required
-            placeholder="Amina Johnson"
-            data-testid="input-signup-name"
-          />
-        </div>
-        <div className="auth-field">
-          <label htmlFor="signup-email">Email address</label>
-          <input
-            id="signup-email"
-            required
-            type="email"
-            placeholder="you@example.com"
-            data-testid="input-signup-email"
-          />
-        </div>
-        <div className="auth-field">
-          <label htmlFor="signup-phone">Phone number</label>
-          <input
-            id="signup-phone"
-            required
-            type="tel"
-            placeholder="(555) 014-0288"
-            data-testid="input-signup-phone"
-          />
-        </div>
-        <PasswordField
-          id="signup-password"
-          label="Create a password"
-          value={password}
-          onChange={setPassword}
-          show={show}
-          onToggle={() => setShow(!show)}
-          placeholder="At least 8 characters"
-        />
+        {formInput?.map((input, index) => {
+          return input?.name !== "password" ? (
+            <div className="auth-field" key={index}>
+              <label htmlFor="signup-name">{input.label}</label>
+              <input
+                name={input.name}
+                placeholder={input.placeholder}
+                onChange={getFormInput}
+              />
+
+              {error && error?.message && error?.field == input.name && (
+                <div
+                  key={index + 1}
+                  className="auth-error"
+                  role="alert"
+                  data-testid="text-signup-error"
+                >
+                  {error?.message}
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <PasswordField
+                key={index * 5}
+                id="signup-password"
+                label={input.label}
+                onChange={(event) =>
+                  getFormInput({
+                    ...event,
+                    target: { ...event.target, name: input.name },
+                  })
+                }
+                show={show}
+                onToggle={() => setShow(!show)}
+                placeholder={input.placeholder}
+              />
+              {error && error?.message && error?.field == input.name && (
+                <div
+                  key={index * 2}
+                  className="auth-error"
+                  role="alert"
+                  data-testid="text-signup-error"
+                >
+                  {error?.message}
+                </div>
+              )}
+            </>
+          );
+        })}
+
         <label className="check-row">
           <input
             type="checkbox"
@@ -104,25 +166,23 @@ function SignUp() {
             data-testid="checkbox-signup-consent"
           />
           <span>
-            I agree to receive service updates and understand Ajike will use
-            these details to coordinate my care.
+            I have read agree to the{" "}
+            <Link className="text-button" href="/terms">
+              Terms
+            </Link>{" "}
+            and{" "}
+            <Link className="text-button" href="/privacy-policy">
+              Privacy Policy
+            </Link>
           </span>
         </label>
-        {error && (
-          <div
-            className="auth-error"
-            role="alert"
-            data-testid="text-signup-error"
-          >
-            {error}
-          </div>
-        )}
+
         <button
           className="primary-button"
           type="submit"
           data-testid="button-signup-submit"
         >
-          Create account <ArrowRight size={15} />
+          {isLoading && <Loader />} Create account <ArrowRight size={15} />
         </button>
       </form>
       <div className="auth-footer">

@@ -2,11 +2,10 @@ import { useLocation } from "wouter";
 import AppRoutes from "./app-routes";
 import Header from "./header";
 import PublicFooter from "./public-footer";
+import { Toaster } from "@/components/ui/toaster";
 
 function Layout() {
   const [pathname] = useLocation();
-
-  console.log();
 
   return (
     <>
@@ -26,6 +25,8 @@ function Layout() {
       pathname === "/about" ? (
         <PublicFooter />
       ) : null}
+
+      <Toaster />
     </>
   );
 }

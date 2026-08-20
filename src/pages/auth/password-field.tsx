@@ -1,4 +1,5 @@
 import { Eye, EyeOff } from "lucide-react";
+import type { ChangeEvent } from "react";
 
 function PasswordField({
   id,
@@ -11,8 +12,8 @@ function PasswordField({
 }: {
   id: string;
   label: string;
-  value: string;
-  onChange: (value: string) => void;
+  value?: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   show: boolean;
   onToggle: () => void;
   placeholder?: string;
@@ -25,7 +26,7 @@ function PasswordField({
           id={id}
           type={show ? "text" : "password"}
           value={value}
-          onChange={(event) => onChange(event.target.value)}
+          onChange={(event) => onChange(event)}
           placeholder={placeholder}
           data-testid={`input-${id}`}
         />
@@ -36,7 +37,7 @@ function PasswordField({
           aria-label={show ? "Hide password" : "Show password"}
           data-testid={`button-toggle-${id}`}
         >
-          <>{show ? <EyeOff size={16} /> : <Eye size={16} />}</>
+          {show ? <EyeOff size={16} /> : <Eye size={16} />}
         </button>
       </div>
     </div>
