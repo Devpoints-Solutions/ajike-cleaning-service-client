@@ -22,7 +22,7 @@ export const signupSchema = object({
 });
 
 export const accountVerificationSchema = object({
-  verificationCode: string()
+  otp: string()
     .required("Verification code is required")
     .min(6, "Verification code must be 6 characters")
     .max(6, "Verification code must be 6 characters")
@@ -41,7 +41,7 @@ export const passwordResetSchema = object({
 });
 
 export const updatePasswordResetSchema = object({
-  passwordResetCode: string()
+  otp: string()
     .required("Verification code is required")
     .min(6, "Verification code must be 6 characters")
     .max(6, "Verification code must be 6 characters")

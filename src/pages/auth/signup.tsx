@@ -38,8 +38,7 @@ function SignUp() {
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    console.log(error && Object.values(error));
-    if (error && !isValid) {
+    if (!isValid) {
       return toast({
         title: `Invalid ${error?.field} value`,
         description: error?.message,
@@ -60,7 +59,7 @@ function SignUp() {
   useEffect(() => {
     if (isError || requestError) {
       toast({
-        title: "Create user failed!",
+        title: "Account creation failed!",
         description: formatError(requestError),
         variant: "default",
       });
@@ -86,7 +85,7 @@ function SignUp() {
             className="primary-button"
             href="/auth/verify"
             data-testid="link-signup-verify"
-            state={{ email: requestData?.email }}
+            state={{ ...data, confirmPassword: data.password, consent }}
           >
             Continue to verification <ArrowRight size={15} />
           </Link>

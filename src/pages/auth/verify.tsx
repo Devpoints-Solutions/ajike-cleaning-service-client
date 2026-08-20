@@ -1,17 +1,74 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthShell from "./auth-shell";
 import { Link } from "wouter";
 import { ArrowRight, Check } from "lucide-react";
+import { accountVerificationSchema } from "@/helpers/data-validator-schema";
+import {
+  useVerifyAccountMutation,
+  useCreateAccountMutation,
+} from "@/features/apis/auth-apis";
+import { useForm } from "@/hooks/use-form";
+import { useToast } from "@/hooks/use-toast";
+import { Loader } from "@/components/common/loader";
+import { formatError } from "@/helpers/format-error";
 
 function Verify() {
-  const [code, setCode] = useState("");
-  const [verified, setVerified] = useState(false);
-  const [resent, setResent] = useState(false);
+  const [verifyAccount, { isError, isLoading, error, isSuccess }] =
+    useVerifyAccountMutation();
+
+  const [countdown, setCountdown] = useState(60);
+  const [isCounting, setIsCounting] = useState(true);
+
+  const [getNewVerificationCode] = useCreateAccountMutation();
+
+  const { toast } = useToast();
+
+  const {
+    data: formData,
+    error: formError,
+    isValid,
+    getFormInput,
+  } = useForm(accountVerificationSchema);
+
+  useEffect(() => {
+    if (isError && error) {
+      toast({
+        title: "Create user failed!",
+        description: formatError(error),
+        variant: "default",
+      });
+    }
+  }, [isError, error]);
+
+  useEffect(() => {
+    if (countdown <= 0) return setIsCounting(false);
+
+    if (!isCounting) return;
+
+    const timer = setInterval(() => {
+      setCountdown((count) => count - 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [countdown]);
+
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (code.length >= 4) setVerified(true);
+
+    if (!isValid) {
+      return toast({
+        title: `Invalid ${formError?.field} value`,
+        description: formError?.message,
+        variant: "default",
+      });
+    }
+
+    verifyAccount(formData);
   };
-  if (verified)
+
+  if (isSuccess)
     return (
       <AuthShell
         title="You are all set."
@@ -23,15 +80,15 @@ function Verify() {
           </div>
           <h3>Email verified.</h3>
           <p>
-            Thanks for confirming. You can now see your customer dashboard and
-            request a service.
+            Thanks for confirming. You can now continue to login into your
+            dashboard and request a service.
           </p>
           <Link
             className="primary-button"
-            href="/dashboard"
+            href="/auth/signin"
             data-testid="link-verify-dashboard"
           >
-            Go to dashboard <ArrowRight size={15} />
+            Continue to login <ArrowRight size={15} />
           </Link>
         </div>
       </AuthShell>
@@ -55,30 +112,44 @@ function Verify() {
           <input
             id="verify-code"
             className="code-input"
+            name="otp"
             maxLength={6}
-            value={code}
-            onChange={(event) => setCode(event.target.value)}
-            placeholder="• • • •"
+            onChange={getFormInput}
+            placeholder="• • • • • •"
             data-testid="input-verify-code"
           />
+
+          {formError && formError?.message && formError?.field == "otp" && (
+            <div
+              className="auth-error"
+              role="alert"
+              data-testid="text-signup-error"
+            >
+              {formError?.message}
+            </div>
+          )}
         </div>
         <button
           className="primary-button"
           type="submit"
           data-testid="button-verify-submit"
         >
-          Verify email <Check size={15} />
+          {isLoading && <Loader />} Verify email <Check size={15} />
         </button>
       </form>
       <div className="auth-footer">
-        {resent ? (
+        {isCounting ? (
           <span data-testid="text-verify-resent">
-            A fresh code is on its way.
+            Request a new code after {countdown}
           </span>
         ) : (
           <button
             className="text-button"
-            onClick={() => setResent(true)}
+            onClick={() => {
+              getNewVerificationCode(history.state);
+              setCountdown(60);
+              setIsCounting(true);
+            }}
             data-testid="button-resend-code"
           >
             Resend code

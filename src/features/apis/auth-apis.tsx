@@ -44,14 +44,6 @@ export const authApis = createApi({
       },
     }),
 
-    getNewVerificationCode: builder.mutation({
-      query: (payload) => ({
-        url: `/users/new-verification-code`,
-        method: "POST",
-        body: payload,
-      }),
-    }),
-
     requestPasswordReset: builder.mutation({
       query: (payload) => ({
         url: `/users/password/reset`,
@@ -74,7 +66,6 @@ export const {
   useCreateAccountMutation,
   useVerifyAccountMutation,
   useLoginAccountMutation,
-  useGetNewVerificationCodeMutation,
   useRequestPasswordResetMutation,
   useUpdatePasswordMutation,
 } = authApis;
