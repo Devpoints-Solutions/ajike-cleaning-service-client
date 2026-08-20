@@ -80,8 +80,8 @@ function Verify() {
           </div>
           <h3>Email verified.</h3>
           <p>
-            Thanks for confirming. You can now continue to login into your
-            dashboard and request a service.
+            Congratulation. You can now continue to login into your dashboard
+            and request a service.
           </p>
           <Link
             className="primary-button"

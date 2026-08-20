@@ -1,12 +1,38 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import AuthShell from "./auth-shell";
 import { Link } from "wouter";
 import { ArrowRight, Mail } from "lucide-react";
+import { useRequestPasswordResetMutation } from "@/features/apis/auth-apis";
+import { useForm } from "@/features/hooks/use-form";
+import { Loader } from "@/components/common/loader";
+import { passwordResetSchema } from "@/helpers/data-validator-schema";
+import { formatError } from "@/helpers/format-error";
+import { useToast } from "@/features/hooks/use-toast";
 
 function ForgotPassword() {
-  const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
-  if (sent)
+  const {
+    getFormInput,
+    error: formError,
+    data: formData,
+    isValid,
+  } = useForm(passwordResetSchema);
+
+  const { toast } = useToast();
+
+  const [requestPasswordReset, { isLoading, data, isSuccess, error, isError }] =
+    useRequestPasswordResetMutation();
+
+  useEffect(() => {
+    if (isError && error) {
+      toast({
+        title: "Passord reset request failed!",
+        description: formatError(error),
+        variant: "default",
+      });
+    }
+  }, [isError, error]);
+
+  if (isSuccess && data)
     return (
       <AuthShell
         title="A fresh start is close."
@@ -18,13 +44,14 @@ function ForgotPassword() {
           </div>
           <h3>Reset link requested.</h3>
           <p>
-            If an Ajike account uses {email || "that email"}, a reset link will
-            be waiting in its inbox shortly.
+            If an Ajike account uses {data?.data?.email || "that email"}, a
+            reset link will be waiting in its inbox shortly.
           </p>
           <Link
             className="primary-button"
             href="/auth/reset-password"
             data-testid="link-forgot-reset"
+            state={{ email: data?.data?.email }}
           >
             Set a new password <ArrowRight size={15} />
           </Link>
@@ -45,27 +72,44 @@ function ForgotPassword() {
         className="auth-form"
         onSubmit={(event) => {
           event.preventDefault();
-          setSent(true);
+          if (!isValid && formError)
+            return toast({
+              title: `Invalid ${formError?.field} value`,
+              description: formError?.message,
+              variant: "default",
+            });
+
+          requestPasswordReset(formData);
         }}
       >
         <div className="auth-field">
           <label htmlFor="forgot-email">Email address</label>
           <input
             id="forgot-email"
-            required
             type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            name="email"
+            value={formData?.email}
+            onChange={getFormInput}
             placeholder="you@example.com"
             data-testid="input-forgot-email"
           />
+
+          {formError && formError.field === "email" && (
+            <div
+              className="auth-error"
+              role="alert"
+              data-testid="text-signin-error"
+            >
+              {formError.message}
+            </div>
+          )}
         </div>
         <button
           className="primary-button"
           type="submit"
           data-testid="button-forgot-submit"
         >
-          Send reset link <ArrowRight size={15} />
+          {isLoading && <Loader />} Reset Password <ArrowRight size={15} />
         </button>
       </form>
       <div className="auth-footer">

@@ -41,7 +41,7 @@ export function useForm(validatorSchema: Schema) {
           setIsValid(false);
         }
       })();
-    }, 1000);
+    }, 500);
 
     return () => {
       clearTimeout(timer);

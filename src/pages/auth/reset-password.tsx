@@ -1,23 +1,72 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthShell from "./auth-shell";
 import { Link } from "wouter";
 import { ArrowRight, Check, KeyRound } from "lucide-react";
 import PasswordField from "./password-field";
+import {
+  useRequestPasswordResetMutation,
+  useUpdatePasswordMutation,
+} from "@/features/apis/auth-apis";
+import { useForm } from "@/features/hooks/use-form";
+import { Loader } from "@/components/common/loader";
+import { updatePasswordResetSchema } from "@/helpers/data-validator-schema";
+import { formatError } from "@/helpers/format-error";
+import { useToast } from "@/features/hooks/use-toast";
 
 function ResetPassword() {
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [show, setShow] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const strength =
-    password.length > 11
-      ? "Strong"
-      : password.length > 7
-        ? "Good"
-        : password.length > 3
-          ? "Getting there"
-          : "Start typing";
-  if (success)
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [countdown, setCountdown] = useState<number>(60);
+  const [isCounting, setIsCounting] = useState<boolean>(true);
+
+  const { toast } = useToast();
+
+  const [updatePassword, { isSuccess, isError, error, isLoading }] =
+    useUpdatePasswordMutation();
+
+  const [requestPasswordReset, { isSuccess: newCodeSuccess }] =
+    useRequestPasswordResetMutation();
+
+  const {
+    error: formError,
+    data: formData,
+    getFormInput,
+    isValid,
+  } = useForm(updatePasswordResetSchema);
+
+  useEffect(() => {
+    if (isError) {
+      toast({
+        title: "Password update failed!",
+        description: formatError(error),
+        variant: "default",
+      });
+    }
+
+    if (newCodeSuccess) {
+      toast({
+        title: "Password code sent",
+        description: `New code has been sent to your email`,
+        variant: "default",
+      });
+    }
+  }, [isError, error, newCodeSuccess]);
+
+  useEffect(() => {
+    if (countdown <= 0) return setIsCounting(false);
+
+    if (!isCounting) return;
+
+    const timer = setInterval(() => {
+      setCountdown((count) => count - 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [countdown]);
+
+  if (isSuccess)
     return (
       <AuthShell
         title="New key, same calm."
@@ -29,8 +78,8 @@ function ResetPassword() {
           </div>
           <h3>Password updated.</h3>
           <p>
-            Your new password is active in this local demo. You can sign in
-            whenever you are ready.
+            Congratulation. You can now continue to login into your dashboard
+            and request a service.
           </p>
           <Link
             className="primary-button"
@@ -58,50 +107,115 @@ function ResetPassword() {
         className="auth-form"
         onSubmit={(event) => {
           event.preventDefault();
-          if (password.length >= 8 && password === confirm) setSuccess(true);
+          if (!isValid)
+            return toast({
+              title: `Invalid ${formError?.field} value`,
+              description: formError?.message,
+              variant: "default",
+            });
+          updatePassword(formData);
         }}
       >
         <PasswordField
           id="reset-password"
           label="New password"
-          value={password}
-          onChange={setPassword}
-          show={show}
-          onToggle={() => setShow(!show)}
+          value={formData?.password}
+          onChange={(event) =>
+            getFormInput({
+              ...event,
+              target: { ...event.target, name: "password" },
+            })
+          }
+          show={showPassword}
+          onToggle={() => setShowPassword(!showPassword)}
         />
-        <div className="password-meter">
-          <span>{strength}</span>
-          <div className="plan-progress">
-            <span style={{ width: `${Math.min(100, password.length * 8)}%` }} />
+        {formError && formError?.message && formError?.field == "password" && (
+          <div
+            className="auth-error"
+            role="alert"
+            data-testid="text-signup-error"
+          >
+            {formError?.message}
           </div>
-        </div>
+        )}
+
         <PasswordField
           id="reset-confirm"
           label="Confirm new password"
-          value={confirm}
-          onChange={setConfirm}
-          show={show}
-          onToggle={() => setShow(!show)}
+          value={formData?.confirmPassword}
+          onChange={(event) =>
+            getFormInput({
+              ...event,
+              target: { ...event.target, name: "confirmPassword" },
+            })
+          }
+          show={showConfirmPassword}
+          onToggle={() => setShowConfirmPassword(!showConfirmPassword)}
         />
-        {confirm && password !== confirm && (
-          <div className="auth-error" data-testid="text-reset-mismatch">
-            Passwords do not match yet.
-          </div>
-        )}
+
+        {formError &&
+          formError?.message &&
+          formError?.field == "confirmPassword" && (
+            <div
+              className="auth-error"
+              role="alert"
+              data-testid="text-signup-error"
+            >
+              {formError?.message}
+            </div>
+          )}
+
+        <div className="auth-field">
+          <label htmlFor="verify-code">Verification code</label>
+          <input
+            id="verify-code"
+            className="code-input"
+            name="otp"
+            maxLength={6}
+            onChange={getFormInput}
+            placeholder="• • • • • •"
+            data-testid="input-verify-code"
+          />
+
+          {formError && formError?.message && formError?.field == "otp" && (
+            <div
+              className="auth-error"
+              role="alert"
+              data-testid="text-signup-error"
+            >
+              {formError?.message}
+            </div>
+          )}
+        </div>
         <button
           className="primary-button"
           type="submit"
-          disabled={password.length < 8 || password !== confirm}
+          disabled={!isValid}
           data-testid="button-reset-submit"
         >
-          Update password <Check size={15} />
+          {isLoading && <Loader />} Update password <Check size={15} />
         </button>
+
+        <div className="auth-footer">
+          {isCounting ? (
+            <span data-testid="text-verify-resent">
+              Request a new code after {countdown}
+            </span>
+          ) : (
+            <button
+              className="text-button"
+              onClick={() => {
+                requestPasswordReset(history.state);
+                setCountdown(60);
+                setIsCounting(true);
+              }}
+              data-testid="button-resend-code"
+            >
+              Resend code
+            </button>
+          )}
+        </div>
       </form>
-      <div className="auth-footer">
-        <Link href="/auth/sign-in" data-testid="link-reset-cancel">
-          Cancel and return
-        </Link>
-      </div>
     </AuthShell>
   );
 }

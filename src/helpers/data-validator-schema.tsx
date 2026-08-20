@@ -41,11 +41,6 @@ export const passwordResetSchema = object({
 });
 
 export const updatePasswordResetSchema = object({
-  otp: string()
-    .required("Verification code is required")
-    .min(6, "Verification code must be 6 characters")
-    .max(6, "Verification code must be 6 characters")
-    .matches(/^\d+$/, "Verification code must be a number"),
   password: string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters")
@@ -56,4 +51,9 @@ export const updatePasswordResetSchema = object({
   confirmPassword: string()
     .oneOf([ref("password")], "Passwords must match")
     .required("Confirm password is required"),
+  otp: string()
+    .required("Verification code is required")
+    .min(6, "Verification code must be 6 characters")
+    .max(6, "Verification code must be 6 characters")
+    .matches(/^\d+$/, "Verification code must be a number"),
 });

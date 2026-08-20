@@ -44,15 +44,15 @@ export const authApis = createApi({
 
     requestPasswordReset: builder.mutation({
       query: (payload) => ({
-        url: `/users/password/reset`,
-        method: "POST",
+        url: `/users/reset-password`,
+        method: "PATCH",
         body: payload,
       }),
     }),
 
     updatePassword: builder.mutation({
       query: (payload) => ({
-        url: `/users/password/reset/update`,
+        url: `/users/update-password`,
         method: "PATCH",
         body: payload,
       }),
