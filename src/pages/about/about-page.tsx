@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowRight, CheckCheck, ChevronDown } from "lucide-react";
 import { Link } from "wouter";
-import PageIntro from "./page-intro";
+import PageIntro from "@/components/common/page-intro";
 
 function About() {
   const [standardOpen, setStandardOpen] = useState(0);

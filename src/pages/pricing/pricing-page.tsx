@@ -13,8 +13,8 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { SERVICES } from "@/lib/dummy-data";
-import ServiceIcon from "./service-icon";
-import PageIntro from "./page-intro";
+import ServiceIcon from "@/components/common/service-icon";
+import PageIntro from "@/components/common/page-intro";
 
 function Pricing() {
   const [mode, setMode] = useState<"one-time" | "recurring">("one-time");

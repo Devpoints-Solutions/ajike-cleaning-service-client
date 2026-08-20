@@ -10,8 +10,8 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import { SERVICES, SERVICE_DETAILS } from "@/lib/dummy-data";
-import ServiceIcon from "./service-icon";
-import PageIntro from "./page-intro";
+import ServiceIcon from "@/components/common/service-icon";
+import PageIntro from "@/components/common/page-intro";
 
 function Services() {
   const [filter, setFilter] = useState<"All" | "Residential" | "Commercial">(
