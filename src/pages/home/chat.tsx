@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
-import { useMessages } from "@/contexts/message-context";
+import { useMessages } from "@/features/contexts/message-context";
 
 function Chat() {
   const [open, setOpen] = useState(false);

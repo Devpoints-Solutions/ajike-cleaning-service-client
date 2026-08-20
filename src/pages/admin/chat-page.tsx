@@ -9,7 +9,7 @@ import {
   Clock,
   Search,
 } from "lucide-react";
-import { useMessages } from "@/contexts/message-context";
+import { useMessages } from "@/features/contexts/message-context";
 
 export function AdminChatPage() {
   const [replyMessage, setReplyMessage] = useState("");

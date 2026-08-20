@@ -1,5 +1,5 @@
 import Layout from "@/components/layout/layout";
-import { MessageProvider } from "@/contexts/message-context";
+import { MessageProvider } from "@/features/contexts/message-context";
 
 function App() {
   return (

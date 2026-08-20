@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Brand from "@/components/common/brand";
 import { Link } from "wouter";
-import { Menu, ArrowRight, LayoutDashboard } from "lucide-react";
+import { Menu, ArrowRight, LayoutDashboard, LogOutIcon } from "lucide-react";
+import { useAuthContext } from "@/features/contexts/auth-context";
 
 function Header({
   onRequest,
@@ -11,113 +12,161 @@ function Header({
   dashboard?: boolean;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const { currentUser, isAuthenticated, signout } = useAuthContext();
+
+  const role = currentUser?.role;
+
+  const isAdmin = isAuthenticated && role === "admin";
+  const isUser = isAuthenticated && role === "user";
+
+  const dashboardPath = isAdmin
+    ? "/admin/dashboard"
+    : isUser
+      ? "/dashboard"
+      : "/auth/sign-in";
+
+  const closeMenu = () => setMenuOpen(false);
+
+  const publicNavItems = [
+    { href: "/services", label: "Services", testId: "link-nav-services" },
+    { href: "/pricing", label: "Pricing", testId: "link-nav-pricing" },
+    { href: "/about", label: "About", testId: "link-nav-about" },
+  ];
+
+  const dashboardNavItems = [
+    { href: "#overview", label: "Overview", testId: "link-nav-overview" },
+    { href: "#activity", label: "Activity", testId: "link-nav-activity" },
+    { href: "#account", label: "Account", testId: "link-nav-account" },
+  ];
+
+  const navItems =
+    isAuthenticated && dashboard ? dashboardNavItems : publicNavItems;
+
   return (
     <header className="site-header">
       <Brand />
+
+      {/* Desktop Navigation */}
       <nav className="main-nav" aria-label="Main navigation">
-        {dashboard ? (
-          <>
-            <a href="#overview" data-testid="link-nav-overview">
-              Overview
-            </a>
-            <a href="#activity" data-testid="link-nav-activity">
-              Activity
-            </a>
-            <a href="#account" data-testid="link-nav-account">
-              Account
-            </a>
-          </>
-        ) : (
-          <>
-            <Link href="/services" data-testid="link-nav-services">
-              Services
-            </Link>
-            <Link href="/pricing" data-testid="link-nav-pricing">
-              Pricing
-            </Link>
-            <Link href="/about" data-testid="link-nav-about">
-              About
-            </Link>
-          </>
-        )}
+        {navItems.map((item) => (
+          <Link key={item.href} href={item.href} data-testid={item.testId}>
+            {item.label}
+          </Link>
+        ))}
       </nav>
+
+      {/* Header Actions */}
       <div className="header-actions">
-        <Link
-          href="/dashboard"
-          className="header-link"
-          data-testid="link-header-dashboard"
-        >
-          {dashboard ? "Account" : "Sign in"}
-        </Link>
-        <Link
-          href="/admin/dashboard"
-          className="header-link admin-header-link"
-          data-testid="link-header-admin"
-        >
-          <LayoutDashboard size={13} /> Admin
-        </Link>
+        {isAuthenticated && (
+          <div className="hidden sm:flex">
+            <Link
+              href={dashboardPath}
+              className="header-link admin-header-link"
+              data-testid="link-header-dashboard"
+            >
+              <LayoutDashboard size={13} />
+              Dashboard
+            </Link>
+
+            <button
+              type="button"
+              className="header-link admin-header-link"
+              onClick={signout}
+              data-testid="button-header-logout"
+            >
+              <LogOutIcon size={14} />
+            </button>
+          </div>
+        )}
+
+        {!isAuthenticated && (
+          <Link
+            className="secondary-button button-small"
+            href="/auth/sign-in"
+            data-testid="button-header-request"
+          >
+            Request service
+            <ArrowRight size={14} />
+          </Link>
+        )}
+
         <button
-          className="secondary-button button-small"
-          onClick={onRequest}
-          data-testid="button-header-request"
-        >
-          Request service <ArrowRight size={14} />
-        </button>
-        <button
+          type="button"
           className="icon-button mobile-toggle"
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={() => setMenuOpen((prev) => !prev)}
           aria-label="Toggle navigation"
           data-testid="button-mobile-menu"
         >
           <Menu size={18} />
         </button>
       </div>
+
+      {/* Mobile Menu */}
       {menuOpen && (
         <div className="mobile-menu-panel" data-testid="menu-mobile">
-          <Link
-            href="/services"
-            onClick={() => setMenuOpen(false)}
-            data-testid="link-mobile-services"
-          >
-            Services
-          </Link>
-          <Link
-            href="/pricing"
-            onClick={() => setMenuOpen(false)}
-            data-testid="link-mobile-pricing"
-          >
-            Pricing
-          </Link>
-          <Link
-            href="/about"
-            onClick={() => setMenuOpen(false)}
-            data-testid="link-mobile-about"
-          >
-            About Ajike
-          </Link>
-          <Link
-            href="/dashboard"
-            onClick={() => setMenuOpen(false)}
-            data-testid="link-mobile-dashboard"
-          >
-            Customer dashboard
-          </Link>
-          <Link
-            href="/admin/dashboard"
-            onClick={() => setMenuOpen(false)}
-            data-testid="link-mobile-admin"
-          >
-            Admin dashboard
-          </Link>
-          <button
-            onClick={() => {
-              setMenuOpen(false);
-              onRequest();
-            }}
-            data-testid="button-mobile-request"
-          >
-            Request a service <ArrowRight size={14} />
-          </button>
+          {/* Public Navigation */}
+          {publicNavItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={closeMenu}
+              data-testid={`link-mobile-${item.label.toLowerCase()}`}
+            >
+              {item.label}
+            </Link>
+          ))}
+
+          {/* Authenticated User Actions */}
+          {isAuthenticated && (
+            <>
+              <Link
+                href={dashboardPath}
+                onClick={closeMenu}
+                data-testid="link-mobile-dashboard"
+              >
+                Dashboard
+              </Link>
+
+              <button
+                type="button"
+                onClick={() => {
+                  closeMenu();
+                  onRequest();
+                }}
+                data-testid="button-mobile-request"
+              >
+                Request a service
+                <ArrowRight size={14} />
+              </button>
+
+              <button
+                type="button"
+                className="header-link admin-header-link"
+                onClick={() => {
+                  closeMenu();
+                  signout();
+                }}
+                data-testid="button-mobile-logout"
+              >
+                Sign out
+                <LogOutIcon size={14} />
+              </button>
+            </>
+          )}
+
+          {/* Unauthenticated Actions */}
+          {!isAuthenticated && (
+            <Link
+              className="secondary-button button-small"
+              href="/auth/sign-in"
+              onClick={closeMenu}
+              data-testid="button-mobile-request"
+            >
+              Request service
+              <ArrowRight size={14} />
+            </Link>
+          )}
         </div>
       )}
     </header>

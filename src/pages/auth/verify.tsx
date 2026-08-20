@@ -7,8 +7,8 @@ import {
   useVerifyAccountMutation,
   useCreateAccountMutation,
 } from "@/features/apis/auth-apis";
-import { useForm } from "@/hooks/use-form";
-import { useToast } from "@/hooks/use-toast";
+import { useForm } from "@/features/hooks/use-form";
+import { useToast } from "@/features/hooks/use-toast";
 import { Loader } from "@/components/common/loader";
 import { formatError } from "@/helpers/format-error";
 

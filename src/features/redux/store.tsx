@@ -2,11 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { authApis } from "@/features/apis/auth-apis";
 import { userApis } from "@/features/apis/user-apis";
-import { authSlice } from "@/features/redux/auth-slice";
 
 export const store = configureStore({
   reducer: {
-    authState: authSlice.reducer,
     [authApis.reducerPath]: authApis.reducer,
     [userApis.reducerPath]: userApis.reducer,
   },

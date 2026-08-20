@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setCurrentUser } from "@/features/redux/auth-slice";
 
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
 
@@ -31,17 +30,16 @@ export const authApis = createApi({
         url: "/auth/login",
         method: "POST",
         body: payload,
+        credentials: "include",
       }),
+    }),
 
-      async onQueryStarted(__, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-
-          dispatch(setCurrentUser(data.data?.user));
-        } catch (error) {
-          // console.log(error);
-        }
-      },
+    logoutAccount: builder.mutation({
+      query: () => ({
+        url: "/auth/logout",
+        method: "POST",
+        credentials: "include",
+      }),
     }),
 
     requestPasswordReset: builder.mutation({
@@ -68,4 +66,5 @@ export const {
   useLoginAccountMutation,
   useRequestPasswordResetMutation,
   useUpdatePasswordMutation,
+  useLogoutAccountMutation,
 } = authApis;

@@ -1,24 +1,69 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthShell from "./auth-shell";
 import { Link, useLocation } from "wouter";
-import { ArrowRight, ArrowLeft } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import PasswordField from "./password-field";
+import { useForm } from "@/features/hooks/use-form";
+import { loginSchema } from "@/helpers/data-validator-schema";
+import { useLoginAccountMutation } from "@/features/apis/auth-apis";
+import { useToast } from "@/features/hooks/use-toast";
+import { Loader } from "@/components/common/loader";
+import { formatError } from "@/helpers/format-error";
+import { useAuthContext } from "@/features/contexts/auth-context";
 
 function SignIn() {
   const [, setLocation] = useLocation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
-  const [error, setError] = useState("");
+
+  const [loginAccount, { isLoading, isSuccess, error, isError, data }] =
+    useLoginAccountMutation();
+
+  const { updateIsAuthenticatedState } = useAuthContext();
+
+  const {
+    getFormInput,
+    data: formData,
+    error: formError,
+    isValid,
+  } = useForm(loginSchema);
+
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (isError) {
+      toast({
+        title: "Login failed!",
+        description: formatError(error),
+        variant: "default",
+      });
+    }
+
+    if (isSuccess && data && data?.data?.role === "user") {
+      localStorage.setItem("isAuth", JSON.stringify(true));
+      updateIsAuthenticatedState(data?.data);
+      setLocation("/dashboard");
+    }
+
+    if (isSuccess && data && data?.data?.role === "admin") {
+      localStorage.setItem("isAuth", JSON.stringify(true));
+      updateIsAuthenticatedState(data?.data);
+      setLocation("/admin/dashboard");
+    }
+  }, [isError, error, isSuccess, data]);
+
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!email || !password) {
-      setError("Enter your email and password to continue.");
-      return;
+    if (!isValid) {
+      return toast({
+        title: `Invalid ${formError?.field} value`,
+        description: formError?.message,
+        variant: "default",
+      });
     }
-    setError("");
-    setLocation("/dashboard");
+
+    loginAccount(formData);
   };
+
   return (
     <AuthShell
       title="Your space, looked after."
@@ -34,31 +79,47 @@ function SignIn() {
           <input
             id="signin-email"
             type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            name="email"
+            value={formData?.email}
+            onChange={getFormInput}
             placeholder="you@example.com"
             data-testid="input-signin-email"
           />
+
+          {formError && formError.field === "email" && (
+            <div
+              className="auth-error"
+              role="alert"
+              data-testid="text-signin-error"
+            >
+              {formError.message}
+            </div>
+          )}
         </div>
         <PasswordField
           id="signin-password"
           label="Password"
-          value={password}
-          onChange={setPassword}
+          value={formData?.password}
+          onChange={(event) =>
+            getFormInput({
+              ...event,
+              target: { ...event.target, name: "password" },
+            })
+          }
           show={show}
           onToggle={() => setShow(!show)}
         />
-        {error && (
+        {formError && formError.field === "password" && (
           <div
             className="auth-error"
             role="alert"
             data-testid="text-signin-error"
           >
-            {error}
+            {formError.message}
           </div>
         )}
         <div className="form-inline">
-          <span>Secure local demo access</span>
+          <span>Secure access</span>
           <Link href="/auth/forgot-password" data-testid="link-forgot-password">
             Forgot password?
           </Link>
@@ -68,7 +129,7 @@ function SignIn() {
           type="submit"
           data-testid="button-signin-submit"
         >
-          Sign in <ArrowRight size={15} />
+          {isLoading && <Loader />} Sign in <ArrowRight size={15} />
         </button>
       </form>
       <div className="auth-footer">

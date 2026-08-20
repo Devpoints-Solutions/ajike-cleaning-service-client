@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setCurrentUser } from "@/features/redux/auth-slice";
 
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
 
@@ -14,26 +13,18 @@ export const userApis = createApi({
       query: () => ({
         url: "/users",
         method: "GET",
+        credentials: "include",
       }),
     }),
-    getAdminProfile: builder.mutation({
+    getProfile: builder.mutation({
       query: () => ({
-        url: "/auth/me",
+        url: "/users/profile",
         method: "GET",
+        credentials: "include",
       }),
-      async onQueryStarted(__, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-
-          // console.log(data?.data);
-          dispatch(setCurrentUser(data.data));
-        } catch (error) {
-          // console.log(error);
-        }
-      },
     }),
   }),
 });
 
-export const { useGetAdminProfileMutation, useGetAllRegisteredUsersMutation } =
+export const { useGetProfileMutation, useGetAllRegisteredUsersMutation } =
   userApis;
