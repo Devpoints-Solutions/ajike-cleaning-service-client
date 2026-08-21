@@ -10,20 +10,23 @@ import {
   FileCheck2,
   MessageCircle,
   TicketCheck,
+  CalendarClock,
+  ClockFading,
 } from "lucide-react";
-import RequestModal from "@/components/common/request-modal";
+import CtaButton from "@/components/common/cta-button";
+import { useAuthContext } from "@/features/contexts/auth-context";
+import { getGreeting } from "@/helpers/time";
+import { useTime } from "@/features/hooks/use-time";
 
 function Dashboard() {
   const [banner, setBanner] = useState("");
-  const [requestOpen, setRequestOpen] = useState(false);
+
+  const { isAuthenticated, currentUser } = useAuthContext();
+  const { date, seconds, minute, hour } = useTime();
 
   const notify = (message: string) => {
     setBanner(message);
     window.setTimeout(() => setBanner(""), 3200);
-  };
-
-  const handleRequestService = () => {
-    setRequestOpen(true);
   };
 
   const handleViewServiceHistory = () => {
@@ -66,19 +69,35 @@ function Dashboard() {
         <div className="dashboard-top">
           <div>
             <div className="eyebrow">Customer dashboard</div>
-            <h1>Good morning, Amina.</h1>
-            <p>
-              Your home care, in one calm place. Last updated today at 9:42 AM.
-            </p>
+            {isAuthenticated && currentUser && (
+              <h1>
+                {getGreeting()}, {currentUser?.firstName}
+              </h1>
+            )}
+            <p>Your home care, in one calm place.</p>
+
+            <div className="quick-actions grid-cols-2 mt-5">
+              <button className="quick-action">
+                <CalendarClock size={16} />
+                <p className="font-bold">{date}</p>
+              </button>
+
+              <button className="quick-action">
+                <ClockFading size={16} />{" "}
+                <p className="font-bold">{`${hour}:${minute}:${seconds}`}</p>
+              </button>
+            </div>
           </div>
           <div className="dashboard-top-actions">
-            <button
-              className="primary-button"
-              onClick={handleRequestService}
-              data-testid="button-dashboard-request"
-            >
-              Request a service <ArrowRight size={15} />
-            </button>
+            <CtaButton
+              text="Request a service"
+              icon={<ArrowRight size={15} />}
+              props={{
+                className: "primary-button",
+                "data-testid": "button-dashboard-request",
+              }}
+            />
+
             <Link
               href="/active-schedules"
               className="secondary-button"
@@ -153,10 +172,10 @@ function Dashboard() {
             <div className="quick-actions" style={{ marginTop: "1rem" }}>
               <button
                 className="quick-action"
-                onClick={handleRequestService}
+                // onClick={handleRequestService}
                 data-testid="button-quick-new-request"
               >
-                <ClipboardCheck size={16} /> Start a new request\u00a0
+                <ClipboardCheck size={16} /> Start a new request
                 <ChevronRight size={14} />
               </button>
               <button
@@ -164,7 +183,7 @@ function Dashboard() {
                 onClick={handleViewServiceHistory}
                 data-testid="button-quick-history"
               >
-                <FileCheck2 size={16} /> View service history\u00a0
+                <FileCheck2 size={16} /> View service history
                 <ChevronRight size={14} />
               </button>
               <button
@@ -172,7 +191,7 @@ function Dashboard() {
                 onClick={handleMessageCareTeam}
                 data-testid="button-quick-message"
               >
-                <MessageCircle size={16} /> Message the care team\u00a0
+                <MessageCircle size={16} /> Message the care team
                 <ChevronRight size={14} />
               </button>
             </div>
@@ -225,7 +244,6 @@ function Dashboard() {
           </section>
         </div>
       </main>
-      <RequestModal open={requestOpen} onClose={() => setRequestOpen(false)} />
     </div>
   );
 }
