@@ -29,6 +29,7 @@ function Header({
   const closeMenu = () => setMenuOpen(false);
 
   const publicNavItems = [
+    { href: "/", label: "Home", testId: "link-nav-home" },
     { href: "/services", label: "Services", testId: "link-nav-services" },
     { href: "/pricing", label: "Pricing", testId: "link-nav-pricing" },
     { href: "/about", label: "About", testId: "link-nav-about" },

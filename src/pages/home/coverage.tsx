@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import CtaButton from "@/components/common/cta-button";
 
 function Coverage() {
   return (
@@ -10,13 +11,15 @@ function Coverage() {
           From a nursery bedroom to a busy kitchen, Ajike brings the same calm
           process, careful communication, and respect for your space.
         </p>
-        <button
-          className="secondary-button button-small"
-          // onClick={() => request()}
-          data-testid="button-coverage-request"
-        >
-          Tell us about your space <ArrowRight size={14} />
-        </button>
+
+        <CtaButton
+          text="Tell us about your space"
+          props={{
+            className: "secondary-button button-small",
+            "data-testid": "button-coverage-request",
+          }}
+          icon={<ArrowRight size={14} />}
+        />
       </div>
       <div className="coverage-list">
         <div className="coverage-card">

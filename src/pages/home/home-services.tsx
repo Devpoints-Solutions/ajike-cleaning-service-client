@@ -1,6 +1,8 @@
 import { SERVICES } from "@/lib/dummy-data";
 import ServiceIcon from "@/components/common/service-icon";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronRight } from "lucide-react";
+import CtaButton from "@/components/common/cta-button";
+import { Link } from "wouter";
 
 function HomeServices() {
   return (
@@ -14,6 +16,15 @@ function HomeServices() {
           Start with a one-time visit or ask us to build a recurring plan around
           your property.
         </p>
+      </div>
+
+      <div className="flex justify-end my-2 items-center">
+        <Link
+          className="mini-arrow text-[13px] hover:text-[#087eaf] font-semibold flex items-center"
+          href="/services"
+        >
+          Explore services <ChevronRight size={16} />
+        </Link>
       </div>
       <div className="services-grid">
         {SERVICES.map((service, index) => (
@@ -33,14 +44,15 @@ function HomeServices() {
               <span className="service-tag">
                 {service.type} · {service.price}
               </span>
-              <button
-                className="icon-button mini-arrow"
-                // onClick={() => request(service.name)}
-                aria-label={`Request ${service.name}`}
-                data-testid={`button-request-${service.id}`}
-              >
-                <ArrowUpRight size={16} />
-              </button>
+              <CtaButton
+                text=""
+                icon={<ArrowUpRight size={16} />}
+                props={{
+                  className: "icon-button mini-arrow",
+                  "aria-label": `Request ${service.name}`,
+                  "data-testid": `button-request-${service.id}`,
+                }}
+              />
             </div>
           </article>
         ))}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowRight, CheckCheck, ChevronDown } from "lucide-react";
 import { Link } from "wouter";
 import PageIntro from "@/components/common/page-intro";
+import CtaButton from "@/components/common/cta-button";
 
 function About() {
   const [standardOpen, setStandardOpen] = useState(0);
@@ -32,13 +33,14 @@ function About() {
             </>
           }
           action={
-            <button
-              className="primary-button"
-              // onClick={() => setRequestOpen(true)}
-              data-testid="button-about-request"
-            >
-              Request a service <ArrowRight size={15} />
-            </button>
+            <CtaButton
+              props={{
+                className: "primary-button",
+                "data-testid": "button-about-request",
+              }}
+              text="Request a service"
+              icon={<ArrowRight size={15} />}
+            />
           }
         >
           Ajike exists for the moment when a space needs more than a quick fix.
@@ -186,13 +188,15 @@ function About() {
             <div className="eyebrow">A clear next step</div>
             <h2>Tell us what your space needs.</h2>
           </div>
-          <button
-            className="primary-button"
-            // onClick={() => setRequestOpen(true)}
-            data-testid="button-about-final-request"
-          >
-            Start a request <ArrowRight size={16} />
-          </button>
+
+          <CtaButton
+            text="Start a request"
+            icon={<ArrowRight size={15} />}
+            props={{
+              "data-testid": "button-about-final-request",
+              className: "primary-button",
+            }}
+          />
         </section>
       </main>
     </div>

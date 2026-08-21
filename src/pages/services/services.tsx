@@ -12,6 +12,7 @@ import { Link } from "wouter";
 import { SERVICES, SERVICE_DETAILS } from "@/lib/dummy-data";
 import ServiceIcon from "@/components/common/service-icon";
 import PageIntro from "@/components/common/page-intro";
+import CtaButton from "@/components/common/cta-button";
 
 function Services() {
   const [filter, setFilter] = useState<"All" | "Residential" | "Commercial">(
@@ -143,13 +144,15 @@ function Services() {
                     <div className="service-next">
                       <span className="info-label">Your next step</span>
                       <p>{detail.next}</p>
-                      <button
-                        className="primary-button button-small"
-                        // onClick={() => request(service.name)}
-                        data-testid={`button-request-detail-${service.id}`}
-                      >
-                        Request {service.name} <ArrowRight size={14} />
-                      </button>
+
+                      <CtaButton
+                        text={`Request ${service.name}`}
+                        icon={<ArrowRight size={14} />}
+                        props={{
+                          className: "primary-button button-small",
+                          "data-testid": `button-request-detail-${service.id}`,
+                        }}
+                      />
                     </div>
                   </div>
                 )}
@@ -167,13 +170,15 @@ function Services() {
             Tell us what changed, where you noticed it, and when you need help.
             A coordinator can guide the right service.
           </p>
-          <button
-            className="secondary-button button-small"
-            // onClick={() => request("")}
-            data-testid="button-services-guidance"
-          >
-            Talk through my space <ArrowRight size={14} />
-          </button>
+
+          <CtaButton
+            text="Talk through my space"
+            icon={<ArrowRight size={14} />}
+            props={{
+              className: "secondary-button button-small",
+              "data-testid": "button-services-guidance",
+            }}
+          />
         </section>
       </main>
     </div>

@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import CtaButton from "@/components/common/cta-button";
 
 function FinalCta() {
   return (
@@ -7,13 +8,15 @@ function FinalCta() {
         <div className="eyebrow">Good spaces start with a conversation</div>
         <h2>Ready to feel on top of it?</h2>
       </div>
-      <button
-        className="primary-button"
-        // onClick={() => request()}
-        data-testid="button-final-request"
-      >
-        Request your service <ArrowRight size={16} />
-      </button>
+
+      <CtaButton
+        text="Request your service"
+        icon={<ArrowRight size={16} />}
+        props={{
+          className: "primary-button",
+          "data-testid": "button-final-request",
+        }}
+      />
     </section>
   );
 }

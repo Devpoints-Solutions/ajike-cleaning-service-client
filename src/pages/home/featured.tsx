@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import CtaButton from "@/components/common/cta-button";
 
 function Featured() {
   return (
@@ -12,13 +13,14 @@ function Featured() {
             what we found, what we did, and what to watch next — with before and
             after photo proof when it helps.
           </p>
-          <button
-            className="text-button"
-            // onClick={() => request()}
-            data-testid="button-proof-request"
-          >
-            Book an accountable visit <ArrowRight size={15} />
-          </button>
+          <CtaButton
+            text="Book an accountable visit"
+            icon={<ArrowRight size={15} />}
+            props={{
+              className: "text-button",
+              "data-testid": "button-proof-request",
+            }}
+          />
         </div>
         <div className="proof-art" data-testid="img-before-after">
           <div className="proof-frame" />

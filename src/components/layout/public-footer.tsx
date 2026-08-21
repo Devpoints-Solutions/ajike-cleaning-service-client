@@ -1,7 +1,10 @@
 import Brand from "../common/brand";
 import { Link } from "wouter";
+import { useAuthContext } from "@/features/contexts/auth-context";
 
 function PublicFooter() {
+  const { isAuthenticated, currentUser } = useAuthContext();
+
   return (
     <footer className="container page-container site-footer extended-footer">
       <div>
@@ -28,15 +31,24 @@ function PublicFooter() {
       </div>
       <div className="footer-column">
         <span className="footer-label">Your records</span>
-        <Link href="/dashboard" data-testid="link-footer-dashboard">
-          Customer dashboard
-        </Link>
-        <Link href="/admin/dashboard" data-testid="link-footer-admin">
-          Admin dashboard
-        </Link>
-        <Link href="/auth/sign-in" data-testid="link-footer-sign-in">
-          Sign in
-        </Link>
+
+        {isAuthenticated ? (
+          <>
+            {currentUser && currentUser?.role === "user" ? (
+              <Link href="/dashboard" data-testid="link-footer-dashboard">
+                Dashboard
+              </Link>
+            ) : (
+              <Link href="/admin/dashboard" data-testid="link-footer-admin">
+                Dashboard
+              </Link>
+            )}
+          </>
+        ) : (
+          <Link href="/auth/sign-in" data-testid="link-footer-sign-in">
+            Sign in
+          </Link>
+        )}
       </div>
     </footer>
   );

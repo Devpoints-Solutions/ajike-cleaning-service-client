@@ -58,7 +58,7 @@ function RequestModal({
       },
       address: form.address,
       plan: form.plan as "re-occurrent" | "one-time",
-      status: form.status as "completed" | "pending" | "canceled" | "new",
+      status: "new",
       category: form.category as "Pest | Cleaning" | "Both",
       serviceLocation: form.serviceLocation,
       preferredDate: form.preferredDate,
@@ -199,7 +199,9 @@ function RequestModal({
                     id="customer-first"
                     required
                     value={form.customerFirstName}
-                    onChange={(e) => update("customerFirstName", e.target.value)}
+                    onChange={(e) =>
+                      update("customerFirstName", e.target.value)
+                    }
                     placeholder="Amina"
                     data-testid="input-customer-first"
                   />
@@ -223,7 +225,9 @@ function RequestModal({
                     id="customer-phone"
                     required
                     value={form.customerPhoneNumber}
-                    onChange={(e) => update("customerPhoneNumber", e.target.value)}
+                    onChange={(e) =>
+                      update("customerPhoneNumber", e.target.value)
+                    }
                     placeholder="(555) 014-0288"
                     data-testid="input-customer-phone"
                   />
@@ -280,21 +284,6 @@ function RequestModal({
                 </div>
 
                 <div className="field">
-                  <label htmlFor="request-status">Status</label>
-                  <select
-                    id="request-status"
-                    value={form.status}
-                    onChange={(e) => update("status", e.target.value)}
-                    data-testid="select-request-status"
-                  >
-                    <option value="new">new</option>
-                    <option value="pending">pending</option>
-                    <option value="completed">completed</option>
-                    <option value="canceled">canceled</option>
-                  </select>
-                </div>
-
-                <div className="field">
                   <label htmlFor="request-category">Category</label>
                   <select
                     id="request-category"
@@ -308,7 +297,9 @@ function RequestModal({
                 </div>
 
                 <div className="field full">
-                  <label htmlFor="request-service-location">Service location</label>
+                  <label htmlFor="request-service-location">
+                    Service location
+                  </label>
                   <input
                     id="request-service-location"
                     value={form.serviceLocation}

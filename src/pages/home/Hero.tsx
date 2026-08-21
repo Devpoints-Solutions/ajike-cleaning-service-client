@@ -4,6 +4,7 @@ import {
   ShieldCheck,
   ArrowUpRight,
 } from "lucide-react";
+import CtaButton from "@/components/common/cta-button";
 
 function Hero() {
   return (
@@ -19,13 +20,15 @@ function Hero() {
           work when we are done.
         </p>
         <div className="hero-actions">
-          <button
-            className="primary-button"
-            // onClick={() => request()}
-            data-testid="button-hero-request"
-          >
-            Request a service <ArrowRight size={16} />
-          </button>
+          <CtaButton
+            text="Request a service"
+            icon={<ArrowRight size={16} />}
+            props={{
+              className: "primary-button",
+              "data-testid": "button-hero-request",
+            }}
+          />
+
           <a
             className="secondary-button"
             href="#services"

@@ -16,10 +16,15 @@ import Verify from "@/pages/auth/verify";
 import ForgotPassword from "@/pages/auth/forgot-password";
 import ResetPassword from "@/pages/auth/reset-password";
 import Chat from "@/pages/home/chat";
+import ContactPage from "@/pages/contact/contact-page";
 import { RequireAuth } from "@/features/contexts/auth-context";
+import { useAuthContext } from "@/features/contexts/auth-context";
 
 function AppRoutes() {
   const [location] = useLocation();
+
+  const { isAuthenticated, currentUser } = useAuthContext();
+
   return (
     <div className="app-shell">
       <ErrorBoundary resetKey={location}>
@@ -28,7 +33,7 @@ function AppRoutes() {
           <Route path="/about" component={About} />
           <Route path="/services" component={Services} />
           <Route path="/pricing" component={Pricing} />
-
+          <Route path="/contact" component={ContactPage} />
           <Route path="/auth/sign-in" component={SignIn} />
           <Route path="/auth/sign-up" component={SignUp} />
           <Route path="/auth/verify" component={Verify} />
@@ -45,7 +50,9 @@ function AppRoutes() {
           <Route component={NotFound} />
         </Switch>
       </ErrorBoundary>
-      <Chat />
+      {isAuthenticated && currentUser && currentUser?.role === "user" && (
+        <Chat />
+      )}
     </div>
   );
 }

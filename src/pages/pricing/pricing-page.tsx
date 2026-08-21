@@ -15,6 +15,8 @@ import {
 import { SERVICES } from "@/lib/dummy-data";
 import ServiceIcon from "@/components/common/service-icon";
 import PageIntro from "@/components/common/page-intro";
+import CtaButton from "@/components/common/cta-button";
+import { Link } from "wouter";
 
 function Pricing() {
   const [mode, setMode] = useState<"one-time" | "recurring">("one-time");
@@ -57,13 +59,13 @@ function Pricing() {
             </>
           }
           action={
-            <button
+            <Link
               className="primary-button"
-              // onClick={() => setRequestOpen(true)}
               data-testid="button-pricing-request"
+              href="/contact"
             >
               Get a specific quote <ArrowRight size={15} />
-            </button>
+            </Link>
           }
         >
           Transparent starting prices for the everyday spaces we care for. Use
@@ -161,13 +163,15 @@ function Pricing() {
                       ? service.price.replace("From ", "Plans from ")
                       : service.price}
                   </strong>
-                  <button
-                    className="text-button"
-                    // onClick={() => setRequestOpen(true)}
-                    data-testid={`button-pricing-request-${service.id}`}
-                  >
-                    Request <ArrowUpRight size={14} />
-                  </button>
+
+                  <CtaButton
+                    props={{
+                      className: "text-button",
+                      "data-testid": `button-pricing-request-${service.id}`,
+                    }}
+                    text="Request"
+                    icon={<ArrowUpRight size={14} />}
+                  />
                 </div>
               </article>
             ))}
@@ -206,13 +210,14 @@ function Pricing() {
               Our quote is a checkpoint, not a trap. If the scope changes, we
               pause, explain why, and let you decide.
             </p>
-            <button
+
+            <Link
               className="secondary-button button-small"
-              // onClick={() => setRequestOpen(true)}
               data-testid="button-pricing-reassurance"
+              href="/contact"
             >
               Ask for a quote <ArrowRight size={14} />
-            </button>
+            </Link>
           </div>
           <div className="faq-list">
             {pricingFaqs.map(([question, answer], index) => (

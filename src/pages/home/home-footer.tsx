@@ -1,7 +1,9 @@
 import Brand from "@/components/common/brand";
+import { useAuthContext } from "@/features/contexts/auth-context";
 import { Link } from "wouter";
 
 function HomeFooter() {
+  const { isAuthenticated, currentUser } = useAuthContext();
   return (
     <footer className="site-footer">
       <div>
@@ -18,12 +20,23 @@ function HomeFooter() {
         <a href="#process" data-testid="link-footer-process">
           How it works
         </a>
-        <Link href="/dashboard" data-testid="link-footer-dashboard">
-          Customer dashboard
-        </Link>
-        <Link href="/auth/sign-in" data-testid="link-footer-sign-in">
-          Sign in
-        </Link>
+        {isAuthenticated ? (
+          <>
+            {currentUser && currentUser?.role === "user" ? (
+              <Link href="/dashboard" data-testid="link-footer-dashboard">
+                dashboard
+              </Link>
+            ) : (
+              <Link href="/admin/dashboard" data-testid="link-footer-dashboard">
+                dashboard
+              </Link>
+            )}
+          </>
+        ) : (
+          <Link href="/auth/sign-in" data-testid="link-footer-sign-in">
+            Sign in
+          </Link>
+        )}
       </div>
     </footer>
   );
