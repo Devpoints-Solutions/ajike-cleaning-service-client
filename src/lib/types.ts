@@ -11,6 +11,8 @@ export type IconProps = { size?: number; strokeWidth?: number };
 
 export type AdminStatus = "New" | "Quoted" | "Scheduled" | "Complete";
 
+export type ServiceStatus = "New" | "Completed" | "Pending" | "Canceled";
+
 export interface IUser {
   firstName: string;
   lastName: string;

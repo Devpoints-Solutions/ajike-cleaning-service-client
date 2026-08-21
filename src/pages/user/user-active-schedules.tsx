@@ -12,8 +12,10 @@ import {
 } from "lucide-react";
 import { JOBS } from "@/lib/dummy-data";
 
-export function ActiveSchedulesPage() {
-  const [showActions, setShowActions] = useState<{ [key: string]: boolean }>({});
+export function UserActiveSchedules() {
+  const [showActions, setShowActions] = useState<{ [key: string]: boolean }>(
+    {},
+  );
   const [notify, setNotify] = useState("");
 
   // Filter jobs for the current user (Amina Johnson)
@@ -98,19 +100,12 @@ export function ActiveSchedulesPage() {
                     </button>
                     {showActions[job.id] && (
                       <div className="schedule-actions-dropdown">
-                        <button
-                          className="schedule-action-item"
-                          onClick={() => handleViewDetails(job.id)}
-                          data-testid={`button-view-details-${job.id}`}
-                        >
-                          <Eye size={14} /> View Details
-                        </button>
                         <Link
-                          href={`/admin/schedule/${job.id}`}
+                          href={`/dashboard/schedules/${job.id}`}
                           className="schedule-action-item"
                           data-testid={`button-admin-view-${job.id}`}
                         >
-                          <Eye size={14} /> Admin View
+                          <Eye size={14} /> View Details
                         </Link>
                       </div>
                     )}
@@ -140,7 +135,9 @@ export function ActiveSchedulesPage() {
                     <Clock size={14} />
                     <span>
                       <strong>Status:</strong>
-                      <span className={`active-schedule-status ${job.status.toLowerCase()}`}>
+                      <span
+                        className={`active-schedule-status ${job.status.toLowerCase()}`}
+                      >
                         {job.status}
                       </span>
                     </span>
@@ -149,7 +146,7 @@ export function ActiveSchedulesPage() {
 
                 <div className="active-schedule-footer">
                   <Link
-                    href={`/admin/schedule/${job.id}`}
+                    href={`/dashboard/schedules/${job.id}`}
                     className="text-button"
                     data-testid={`button-view-full-details-${job.id}`}
                   >
@@ -165,4 +162,4 @@ export function ActiveSchedulesPage() {
   );
 }
 
-export default ActiveSchedulesPage;
+export default UserActiveSchedules;

@@ -2849,21 +2849,22 @@ a {
   border-radius: 999px;
   white-space: nowrap;
 }
+
 .admin-status.new {
-  background: #fff0d8;
-  color: #a87023;
+  background: #aff8de;
+  color: #44bb85;
 }
-.admin-status.quoted {
+.admin-status.completed {
   background: #e4e8fb;
-  color: #5962a1;
+  color: #25ad76;
 }
-.admin-status.scheduled {
-  background: #d9f3e9;
-  color: #217b59;
+.admin-status.pending {
+  background: #ffe4c8;
+  color: #d89435;
 }
-.admin-status.complete {
-  background: #e2eff4;
-  color: #5d8291;
+.admin-status.canceled {
+  background: #ffdcda;
+  color: #ff0000;
 }
 .row-more {
   width: 28px;

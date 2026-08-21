@@ -1,5 +1,6 @@
 import { useAuthContext } from "@/features/contexts/auth-context";
 import { Link } from "wouter";
+import { useServiceContext } from "@/features/contexts/service-context";
 
 function CtaButton({
   text,
@@ -11,10 +12,11 @@ function CtaButton({
   icon: React.ReactNode;
 }) {
   const { isAuthenticated } = useAuthContext();
+  const { toggleModal } = useServiceContext();
   return (
     <>
       {isAuthenticated ? (
-        <button {...props}>
+        <button {...props} onClick={toggleModal}>
           {text}
           {icon}
         </button>

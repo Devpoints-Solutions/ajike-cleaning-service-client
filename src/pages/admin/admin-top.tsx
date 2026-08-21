@@ -1,7 +1,6 @@
 import {
   RefreshCw,
   MessageSquare,
-  ClipboardCheck,
   CalendarClock,
   ClockFading,
 } from "lucide-react";
@@ -47,19 +46,12 @@ function AdminTop() {
           <RefreshCw size={14} /> Refresh board
         </button>
         <Link
-          href="/admin/chat"
+          href="/admin/dashboard/chat"
           className="primary-button button-small"
           data-testid="button-view-chats"
         >
           <MessageSquare size={14} /> View Chats
         </Link>
-        <button
-          className="primary-button button-small"
-          //   onClick={() => notify("New request form opened")}
-          data-testid="button-admin-new-request"
-        >
-          <ClipboardCheck size={14} /> New request
-        </button>
       </div>
     </div>
   );

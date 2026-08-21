@@ -1,22 +1,16 @@
 import { useState } from "react";
 import { X, CheckCircle2, ArrowRight } from "lucide-react";
 import { SERVICES } from "@/lib/dummy-data";
+import { useServiceContext } from "@/features/contexts/service-context";
 
-function RequestModal({
-  open,
-  onClose,
-  initialService,
-}: {
-  open: boolean;
-  onClose: () => void;
-  initialService?: string;
-}) {
+function RequestModal() {
   const [submitted, setSubmitted] = useState(false);
+  const { toggleModal } = useServiceContext();
 
   // Form state includes fields that map to IService properties (except user ObjectId)
   const [form, setForm] = useState({
     // existing/visible service selection (keeps compatibility with dummy data)
-    service: initialService || SERVICES[0].name,
+    service: SERVICES[0].name,
 
     // IService properties
     title: "",
@@ -88,7 +82,7 @@ function RequestModal({
           </div>
           <button
             className="icon-button"
-            onClick={onClose}
+            onClick={toggleModal}
             aria-label="Close request form"
             data-testid="button-close-request"
           >
@@ -110,7 +104,7 @@ function RequestModal({
               </p>
               <button
                 className="primary-button"
-                onClick={onClose}
+                onClick={toggleModal}
                 data-testid="button-close-request-success"
               >
                 Back to Ajike <ArrowRight size={15} />
@@ -327,7 +321,7 @@ function RequestModal({
                 <button
                   type="button"
                   className="secondary-button"
-                  onClick={onClose}
+                  onClick={toggleModal}
                   data-testid="button-cancel-request"
                 >
                   Not now

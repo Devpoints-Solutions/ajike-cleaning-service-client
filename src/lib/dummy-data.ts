@@ -1,4 +1,4 @@
-import type { Service, AdminStatus } from "@/lib/types";
+import type { Service, AdminStatus, ServiceStatus } from "@/lib/types";
 
 export const SERVICES: Service[] = [
   {
@@ -197,7 +197,7 @@ export const JOBS = [
     service: "General pest control",
     kind: "Pest",
     tech: "JR",
-    status: "Scheduled" as AdminStatus,
+    status: "New" as ServiceStatus,
     address: "Mission district",
   },
   {
@@ -207,7 +207,7 @@ export const JOBS = [
     service: "Home protection visit",
     kind: "Pest",
     tech: "ML",
-    status: "Scheduled" as AdminStatus,
+    status: "Completed" as ServiceStatus,
     address: "Noe Valley",
   },
   {
@@ -217,7 +217,7 @@ export const JOBS = [
     service: "Office cleaning",
     kind: "Cleaning",
     tech: "TN",
-    status: "Quoted" as AdminStatus,
+    status: "Pending" as ServiceStatus,
     address: "Dogpatch",
   },
   {
@@ -227,7 +227,7 @@ export const JOBS = [
     service: "Deep cleaning",
     kind: "Cleaning",
     tech: "SK",
-    status: "New" as AdminStatus,
+    status: "New" as ServiceStatus,
     address: "Bernal Heights",
   },
   {
@@ -237,7 +237,7 @@ export const JOBS = [
     service: "Rodent control",
     kind: "Pest",
     tech: "JR",
-    status: "Complete" as AdminStatus,
+    status: "Canceled" as ServiceStatus,
     address: "SoMa",
   },
 ];

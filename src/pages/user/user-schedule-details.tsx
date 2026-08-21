@@ -1,5 +1,6 @@
 import { Link, useParams } from "wouter";
 import { useState } from "react";
+import { getStatusColor } from "@/helpers/profile";
 import {
   ArrowLeft,
   Calendar,
@@ -8,35 +9,21 @@ import {
   User,
   MoreVertical,
   Eye,
-  Edit2,
-  Trash2,
-  XCircle,
+  //   Edit2,
+  //   Trash2,
+  //   XCircle,
   AlertTriangle,
 } from "lucide-react";
 import { JOBS } from "@/lib/dummy-data";
 
-export function ScheduleDetailsPage() {
+export function UserScheduleDetails() {
   const { id } = useParams<{ id: string }>();
-  const [showActions, setShowActions] = useState(false);
-  const [status, setStatus] = useState<string>("");
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [showStatusModal, setShowStatusModal] = useState(false);
+
+  //   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  //   const [showStatusModal, setShowStatusModal] = useState(false);
   const [notify, setNotify] = useState("");
 
   const job = JOBS.find((j) => j.id === id);
-
-  const handleStatusUpdate = (newStatus: string) => {
-    setStatus(newStatus);
-    setShowStatusModal(false);
-    setNotify(`Status updated to ${newStatus}`);
-    setTimeout(() => setNotify(""), 3000);
-  };
-
-  const handleDelete = () => {
-    setShowDeleteConfirm(false);
-    setNotify(`Schedule ${id} has been deleted`);
-    setTimeout(() => setNotify(""), 3000);
-  };
 
   if (!job) {
     return (
@@ -45,7 +32,7 @@ export function ScheduleDetailsPage() {
           <div className="not-found">
             <h1>Schedule Not Found</h1>
             <p>The schedule with ID {id} does not exist.</p>
-            <Link href="/admin/dashboard" className="primary-button">
+            <Link href="/dashboard/schedules" className="primary-button">
               Back to Dashboard
             </Link>
           </div>
@@ -53,21 +40,6 @@ export function ScheduleDetailsPage() {
       </div>
     );
   }
-
-  const getStatusColor = () => {
-    switch (status || job.status) {
-      case "Complete":
-        return "#25ad76";
-      case "Scheduled":
-        return "#178db4";
-      case "Quoted":
-        return "#71bed7";
-      case "New":
-        return "#d89435";
-      default:
-        return "#7897a3";
-    }
-  };
 
   return (
     <div className="admin-page">
@@ -88,18 +60,23 @@ export function ScheduleDetailsPage() {
           </div>
         )}
 
-        <div className="schedule-details-header">
+        <div className="flex items-start justify-between">
           <Link
-            href="/admin/dashboard"
+            href="/dashboard/schedules"
             className="text-button"
             data-testid="button-back-to-dashboard"
           >
-            <ArrowLeft size={18} /> Back to Dashboard
+            <ArrowLeft size={18} /> Back to schedules
           </Link>
           <div>
             <div className="eyebrow">Schedule Management</div>
-            <h1>Schedule Details</h1>
-            <p>View and manage schedule for {job.client}</p>
+
+            <div className="quick-actions">
+              <p className="quick-action my-3">
+                Service overview for:
+                <span className="font-bold">{job?.kind}</span>
+              </p>
+            </div>
           </div>
         </div>
 
@@ -107,18 +84,18 @@ export function ScheduleDetailsPage() {
           <section className="schedule-details-card">
             <div className="schedule-details-header-card">
               <div className="schedule-details-title">
-                <h2>{job.client}</h2>
+                <h2>{job?.kind}</h2>
                 <span className="schedule-details-id">#{job.id}</span>
               </div>
               <div className="schedule-details-actions">
                 <button
                   className="icon-button"
-                  onClick={() => setShowActions(!showActions)}
+                  //   onClick={() => setShowActions(!showActions)}
                   data-testid="button-schedule-actions"
                 >
                   <MoreVertical size={18} />
                 </button>
-                {showActions && (
+                {/* {showActions && (
                   <div className="schedule-actions-dropdown">
                     <button
                       className="schedule-action-item"
@@ -135,7 +112,7 @@ export function ScheduleDetailsPage() {
                       <Trash2 size={14} /> Delete Schedule
                     </button>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
 
@@ -188,7 +165,7 @@ export function ScheduleDetailsPage() {
                   <span className="schedule-detail-label">Status</span>
                   <span
                     className="schedule-status-badge"
-                    style={{ backgroundColor: getStatusColor() }}
+                    style={{ backgroundColor: getStatusColor(job.status) }}
                   >
                     {status || job.status}
                   </span>
@@ -216,25 +193,25 @@ export function ScheduleDetailsPage() {
 
             <div className="schedule-details-actions-bottom">
               <Link
-                href="/admin/dashboard"
+                href="/dashboard/schedules"
                 className="secondary-button"
                 data-testid="button-cancel"
               >
-                Cancel
+                Go back
               </Link>
-              <button
+              {/* <button
                 className="primary-button"
                 onClick={() => setShowStatusModal(true)}
                 data-testid="button-update-status-bottom"
               >
                 Update Status
-              </button>
+              </button> */}
             </div>
           </section>
         </div>
 
         {/* Status Update Modal */}
-        {showStatusModal && (
+        {/* {showStatusModal && (
           <div
             className="modal-overlay"
             onClick={() => setShowStatusModal(false)}
@@ -280,10 +257,10 @@ export function ScheduleDetailsPage() {
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Delete Confirmation Modal */}
-        {showDeleteConfirm && (
+        {/* {showDeleteConfirm && (
           <div
             className="modal-overlay"
             onClick={() => setShowDeleteConfirm(false)}
@@ -323,10 +300,10 @@ export function ScheduleDetailsPage() {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </main>
     </div>
   );
 }
 
-export default ScheduleDetailsPage;
+export default UserScheduleDetails;

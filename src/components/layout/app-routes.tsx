@@ -6,10 +6,11 @@ import About from "@/pages/about/about-page";
 import Services from "@/pages/services/services";
 import Pricing from "@/pages/pricing/pricing-page";
 import Dashboard from "@/pages/user/dashboard";
-import ActiveSchedules from "@/pages/user/active-schedules";
+import UserActiveSchedules from "@/pages/user/user-active-schedules";
 import AdminDashboard from "@/pages/admin/admin-dashboard";
 import AdminChatPage from "@/pages/admin/chat-page";
-import ScheduleDetails from "@/pages/admin/schedule-details";
+import AdminScheduleDetails from "@/pages/admin/admin-schedule-details";
+import UserScheduleDetails from "@/pages/user/user-schedule-details";
 import SignIn from "@/pages/auth/signin";
 import SignUp from "@/pages/auth/signup";
 import Verify from "@/pages/auth/verify";
@@ -19,11 +20,14 @@ import Chat from "@/pages/home/chat";
 import ContactPage from "@/pages/contact/contact-page";
 import { RequireAuth } from "@/features/contexts/auth-context";
 import { useAuthContext } from "@/features/contexts/auth-context";
+import { useServiceContext } from "@/features/contexts/service-context";
+import RequestModal from "../common/request-modal";
 
 function AppRoutes() {
   const [location] = useLocation();
 
   const { isAuthenticated, currentUser } = useAuthContext();
+  const { isOpen } = useServiceContext();
 
   return (
     <div className="app-shell">
@@ -42,16 +46,31 @@ function AppRoutes() {
 
           <RequireAuth>
             <Route path="/dashboard" component={Dashboard} />
-            <Route path="/active-schedules" component={ActiveSchedules} />
+            <Route
+              path="/dashboard/schedules"
+              component={UserActiveSchedules}
+            />
+            <Route
+              path="/dashboard/schedules/:id"
+              component={UserScheduleDetails}
+            />
+
             <Route path="/admin/dashboard" component={AdminDashboard} />
-            <Route path="/admin/chat" component={AdminChatPage} />
-            <Route path="/admin/schedule/:id" component={ScheduleDetails} />
+
+            <Route path="/admin/dashboard/chat" component={AdminChatPage} />
+            <Route
+              path="/admin/dashboard/schedules/:id"
+              component={AdminScheduleDetails}
+            />
           </RequireAuth>
           <Route component={NotFound} />
         </Switch>
       </ErrorBoundary>
       {isAuthenticated && currentUser && currentUser?.role === "user" && (
-        <Chat />
+        <>
+          <Chat />
+          {isOpen && <RequestModal />}
+        </>
       )}
     </div>
   );

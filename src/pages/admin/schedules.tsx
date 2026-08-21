@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { useState } from "react";
-import type { AdminStatus } from "@/lib/types";
+import type { ServiceStatus } from "@/lib/types";
 
 import {
   CheckCircle2,
@@ -18,11 +18,11 @@ import {
   Trash2,
   UserRound,
 } from "lucide-react";
-
+import { getStatusColor } from "@/helpers/profile";
 import { JOBS } from "@/lib/dummy-data";
 
 function Schedules() {
-  const [filter, setFilter] = useState<"All" | AdminStatus>("All");
+  const [filter, setFilter] = useState<"All" | ServiceStatus>("All");
   const [serviceFilter, setServiceFilter] = useState<
     "All" | "Pest" | "Cleaning"
   >("All");
@@ -36,7 +36,7 @@ function Schedules() {
       (filter === "All" || job.status === filter) &&
       (serviceFilter === "All" || job.kind === serviceFilter),
   );
-  const statusClass = (status: AdminStatus) => status.toLowerCase();
+  const statusClass = (status: ServiceStatus) => status.toLowerCase();
 
   const toggleActions = (id: string) => {
     setShowActions((prev) => ({
@@ -63,7 +63,7 @@ function Schedules() {
         </div>
         <div className="admin-filter-row">
           <div className="admin-filter-tabs">
-            {(["All", "New", "Quoted", "Scheduled", "Complete"] as const).map(
+            {(["All", "New", "Pending", "Completed", "Canceled"] as const).map(
               (item) => (
                 <button
                   className={filter === item ? "active" : ""}
@@ -130,14 +130,14 @@ function Schedules() {
                 {showActions[job.id] && (
                   <div className="schedule-actions-dropdown">
                     <Link
-                      href={`/admin/schedule/${job.id}`}
+                      href={`/admin/dashboard/schedules/${job.id}`}
                       className="schedule-action-item"
                       data-testid={`button-view-details-${job.id}`}
                     >
                       <Eye size={14} /> View Details
                     </Link>
                     <Link
-                      href={`/admin/schedule/${job.id}`}
+                      href={`/admin/dashbaord/schedules/${job.id}`}
                       className="schedule-action-item"
                       data-testid={`button-update-status-${job.id}`}
                     >

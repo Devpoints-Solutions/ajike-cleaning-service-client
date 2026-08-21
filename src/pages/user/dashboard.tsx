@@ -41,9 +41,9 @@ function Dashboard() {
     notify("Your visit window is saved. We will text you the day before.");
   };
 
-  const handleOpenProof = () => {
-    notify("Opening your May 02 service record.");
-  };
+  // const handleOpenProof = () => {
+  //   notify("Opening your May 02 service record.");
+  // };
 
   return (
     <div>
@@ -99,7 +99,7 @@ function Dashboard() {
             />
 
             <Link
-              href="/active-schedules"
+              href="/dashboard/schedules"
               className="secondary-button"
               data-testid="button-view-active-schedules"
             >
@@ -228,19 +228,6 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-          </section>
-          <section className="dashboard-card">
-            <div className="card-kicker">Latest job proof</div>
-            <h2>Kitchen perimeter</h2>
-            <div className="proof-thumb" data-testid="img-dashboard-proof" />
-            <button
-              className="text-button"
-              onClick={handleOpenProof}
-              style={{ marginTop: ".75rem" }}
-              data-testid="button-open-proof"
-            >
-              Open service record <ArrowRight size={14} />
-            </button>
           </section>
         </div>
       </main>
