@@ -49,6 +49,10 @@ function PublicFooter() {
             Sign in
           </Link>
         )}
+
+        <Link href="/contact" data-testid="link-footer-sign-in">
+          Contact
+        </Link>
       </div>
     </footer>
   );

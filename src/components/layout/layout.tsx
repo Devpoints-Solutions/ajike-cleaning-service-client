@@ -22,7 +22,8 @@ function Layout() {
 
       {pathname === "/services" ||
       pathname === "/pricing" ||
-      pathname === "/about" ? (
+      pathname === "/about" ||
+      pathname === "/contact" ? (
         <PublicFooter />
       ) : null}
 

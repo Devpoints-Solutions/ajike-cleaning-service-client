@@ -20,6 +20,10 @@ function HomeFooter() {
         <a href="#process" data-testid="link-footer-process">
           How it works
         </a>
+
+        <Link href="/contact" data-testid="link-footer-process">
+          Contact
+        </Link>
         {isAuthenticated ? (
           <>
             {currentUser && currentUser?.role === "user" ? (
