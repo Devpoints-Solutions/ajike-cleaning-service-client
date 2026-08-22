@@ -1,5 +1,11 @@
-import { useState } from "react";
-import { X, CheckCircle2, ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  X,
+  CheckCircle2,
+  ArrowRight,
+  CirclePlus,
+  CircleMinus,
+} from "lucide-react";
 import { SERVICES } from "@/lib/dummy-data";
 import { useServiceContext } from "@/features/contexts/service-context";
 import { useForm } from "@/features/hooks/use-form";
@@ -11,48 +17,30 @@ function RequestModal() {
   const [showCustomer, setShowCustomer] = useState<boolean>(false);
   const [showTitle, setShowTitle] = useState<boolean>(false);
   const { toggleModal } = useServiceContext();
-
-  // Form state includes fields that map to IService properties (except user ObjectId)
-  const [form, setForm] = useState({
-    // existing/visible service selection (keeps compatibility with dummy data)
-    service: SERVICES[0].name,
-
-    // IService properties
-    title: "",
-    description: "",
-    propertyType: "Home",
-    budget: "",
-    customerFirstName: "",
-    customerLastName: "",
-    customerPhoneNumber: "",
-    customerEmail: "",
-    address: "",
-    plan: "one-time", // ServiceType: "re-occurrent" | "one-time"
-    status: "new", // ServiceStatusType
-    category: "Pest | Cleaning", // CategoryType (kept as provided: "Pest | Cleaning" | "Both")
-    serviceLocation: "",
-    preferredDate: "",
-    notes: "",
-  });
+  const { toast } = useToast();
+  const {
+    getFormInput,
+    error: formError,
+    isValid,
+    data: formData,
+  } = useForm(serviceSchema);
 
   if (!open) return null;
-
-  const update = (key: string, value: string) =>
-    setForm((current) => ({ ...current, [key]: value }));
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
 
+    // Build the payload that aligns with IService shape (excluding `user` and Mongoose Document fields)
     const payload = {
-      title: form.title || form.service,
-      description: form.description || form.notes,
-      propertyType: form.propertyType,
-      budget: form.budget,
+      title: formData?.title,
+      description: formData?.description,
+      propertyType: formData?.propertyType,
+      budget: formData?.budget,
       customer: {
-        firstName: form.customerFirstName,
-        lastName: form.customerLastName,
-        phoneNumber: form.customerPhoneNumber,
-        email: form.customerEmail,
+        firstName: formData?.customerFirstName,
+        lastName: formData?.customerLastName,
+        phoneNumber: formData?.customerPhoneNumber,
+        email: formData?.customerEmail,
       },
       address: formData?.address,
       plan: formData?.plan as "re-occurrent" | "one-time",
@@ -62,12 +50,13 @@ function RequestModal() {
       preferredDate: formData?.preferredDate,
     };
 
-    // For now the form just shows a submitted state — wire up API call here as needed
-    // Example: await api.post('/services', payload)
-
-    // console.log('Submitting service request', payload);
+    if (!isValid)
+      return toast({
+        title: `Invalid ${formError?.field} value`,
+        description: formError?.message,
+        variant: "default",
+      });
     setSubmitted(true);
-    console.log("Submitting service request", payload);
   };
 
   return (
@@ -102,7 +91,7 @@ function RequestModal() {
                 <CheckCircle2 size={25} />
               </div>
               <h3>We have your request.</h3>
-              <p>
+              <p className="text-center">
                 A service coordinator will reach out during business hours to
                 confirm the details and offer a visit window. No payment is
                 needed to request an inspection.
@@ -118,37 +107,74 @@ function RequestModal() {
           ) : (
             <form onSubmit={submit}>
               <div className="form-grid">
-                <div className="field full">
-                  <label htmlFor="request-service">Service (preset)</label>
-                  <select
-                    id="request-service"
-                    value={form.service}
-                    onChange={(e) => update("service", e.target.value)}
-                    data-testid="select-request-service"
-                  >
-                    {SERVICES.map((service) => (
-                      <option key={service.id}>{service.name}</option>
-                    ))}
-                  </select>
-                </div>
+                {!showTitle && (
+                  <div className="field full">
+                    <label htmlFor="request-service">Title (preset)</label>
+                    <select
+                      id="request-service"
+                      name="title"
+                      value={formData?.title}
+                      onChange={getFormInput}
+                      data-testid="select-request-service"
+                    >
+                      {SERVICES.map((service) => (
+                        <option key={service.id}>{service.name}</option>
+                      ))}
+                    </select>
 
-                <div className="field full">
-                  <label htmlFor="request-title">Title</label>
-                  <input
-                    id="request-title"
-                    value={form.title}
-                    onChange={(e) => update("title", e.target.value)}
-                    placeholder="Short title for the service request"
-                    data-testid="input-request-title"
-                  />
-                </div>
+                    <div
+                      className="text-[10px] flex items-center gap-3"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      Have a prefered title?{" "}
+                      <a
+                        href="#"
+                        className="font-bold"
+                        onClick={() => setShowTitle(!showTitle)}
+                      >
+                        <CirclePlus size={16} />
+                      </a>
+                    </div>
+                  </div>
+                )}
+
+                {showTitle && (
+                  <div className="field full">
+                    <label htmlFor="request-title">Title</label>
+                    <input
+                      id="request-title"
+                      value={formData?.title}
+                      name="title"
+                      onChange={getFormInput}
+                      placeholder="Enter a preferred title if the presets doesn't fit your need "
+                      data-testid="input-request-title"
+                    />
+
+                    <div
+                      className="text-[10px] flex items-center gap-3"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      Prefer preset title?{" "}
+                      <a
+                        href="#"
+                        className="font-bold"
+                        onClick={() => setShowTitle(!showTitle)}
+                      >
+                        <CircleMinus size={15} />
+                      </a>
+                    </div>
+                  </div>
+                )}
 
                 <div className="field full">
                   <label htmlFor="request-description">Description</label>
                   <textarea
                     id="request-description"
-                    value={form.description}
-                    onChange={(e) => update("description", e.target.value)}
+                    name="description"
+                    value={formData?.description}
+                    onChange={getFormInput}
                     placeholder="Describe the issue or the work you want done"
                     data-testid="textarea-request-description"
                   />
@@ -195,61 +221,8 @@ function RequestModal() {
                   />
                 </div>
 
-                <div className="field">
-                  <label htmlFor="customer-first">Customer first name</label>
-                  <input
-                    id="customer-first"
-                    required
-                    value={form.customerFirstName}
-                    onChange={(e) =>
-                      update("customerFirstName", e.target.value)
-                    }
-                    placeholder="Amina"
-                    data-testid="input-customer-first"
-                  />
-                </div>
-
-                <div className="field">
-                  <label htmlFor="customer-last">Customer last name</label>
-                  <input
-                    id="customer-last"
-                    required
-                    value={form.customerLastName}
-                    onChange={(e) => update("customerLastName", e.target.value)}
-                    placeholder="Johnson"
-                    data-testid="input-customer-last"
-                  />
-                </div>
-
-                <div className="field">
-                  <label htmlFor="customer-phone">Customer phone</label>
-                  <input
-                    id="customer-phone"
-                    required
-                    value={form.customerPhoneNumber}
-                    onChange={(e) =>
-                      update("customerPhoneNumber", e.target.value)
-                    }
-                    placeholder="(555) 014-0288"
-                    data-testid="input-customer-phone"
-                  />
-                </div>
-
                 <div className="field full">
-                  <label htmlFor="customer-email">Customer email</label>
-                  <input
-                    id="customer-email"
-                    type="email"
-                    required
-                    value={form.customerEmail}
-                    onChange={(e) => update("customerEmail", e.target.value)}
-                    placeholder="you@example.com"
-                    data-testid="input-customer-email"
-                  />
-                </div>
-
-                <div className="field full">
-                  <label htmlFor="request-address">Address</label>
+                  <label htmlFor="address">Address</label>
                   <input
                     id="request-address"
                     name="address"
