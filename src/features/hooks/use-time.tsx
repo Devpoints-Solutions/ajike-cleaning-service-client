@@ -4,12 +4,14 @@ import moment from "moment";
 export function getTime() {
   const now = moment();
   const date = moment().format("dddd, MMMM DD, YYYY");
+  const period = moment().format("A");
 
   return {
     hour: now.hour(),
     minute: now.minute(),
     seconds: now.seconds(),
     date,
+    period,
   };
 }
 
@@ -19,6 +21,7 @@ export function useTime() {
     minute: number;
     seconds: number;
     hour: number;
+    period: string;
   }>(getTime);
 
   useEffect(() => {

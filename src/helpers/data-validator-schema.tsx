@@ -1,4 +1,4 @@
-import { object, string, ref } from "yup";
+import { object, string, number, ref } from "yup";
 
 export const signupSchema = object({
   firstName: string().required("First name is required"),
@@ -59,23 +59,35 @@ export const updatePasswordResetSchema = object({
 });
 
 export const serviceSchema = object({
-  title: string().required("Service title is required"),
-  description: string().required("Service description is required"),
+  title: string()
+    .required("Service title is required")
+    .min(3, "Servie title must be at least 3 characters")
+    .max(50, "Service title must not exceed 50 characters"),
+  description: string()
+    .required("Service description is required")
+    .min(50, "Servie description must be at least 50 characters")
+    .max(1000, "Service description must not exceed 1000 characters"),
   propertyType: string().required("Property type is required"),
 
-  budget: string().required("Budget is required"),
+  budget: number()
+    .required("Budget is required")
+    .transform((_value, originalValue) => {
+      return Number(originalValue);
+    })
+    .min(100, "The minimum allowed budget is $100"),
   preferredDate: string().required("Preferred date is required"),
+  address: string().required("Address is required"),
+  plan: string().required("Service plan is required"),
+  category: string().required("Service category is required"),
   customerFirstName: string().optional(),
   customerLastName: string().optional(),
-  customerEmail: string()
-    .optional()
-    .email("Enter a valid email address"),
+  customerEmail: string().optional().email("Enter a valid email address"),
   customerPhoneNumber: string()
     .optional()
     .matches(
       /^(?:\+1\s?)?(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}$/,
       "Please enter a valid US phone number",
     ),
-  address: string().required("Address is required"),
+
   serviceLocation: string().required("Please enter location"),
 });

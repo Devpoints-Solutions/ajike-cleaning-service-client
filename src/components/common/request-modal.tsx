@@ -33,6 +33,27 @@ function RequestModal() {
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
 
+    const payload = {
+      title: formData?.title,
+      description: formData?.description,
+      propertyType: formData?.propertyType,
+      budget: formData?.budget,
+      customer: showCustomer
+        ? {
+            firstName: formData?.customerFirstName,
+            lastName: formData?.customerLastName,
+            phoneNumber: formData?.customerPhoneNumber,
+            email: formData?.customerEmail,
+          }
+        : null,
+      address: formData?.address,
+      plan: formData?.plan as "re-occurrent" | "one-time",
+      status: "new",
+      category: formData?.category as "Pest | Cleaning" | "Both",
+      serviceLocation: formData?.serviceLocation,
+      preferredDate: formData?.preferredDate,
+    };
+
     if (!isValid)
       return toast({
         title: `Invalid ${formError?.field} value`,
@@ -139,6 +160,16 @@ function RequestModal() {
                         </option>
                       ))}
                     </select>
+
+                    {formError && formError.field === "title" && (
+                      <div
+                        className="auth-error"
+                        role="alert"
+                        data-testid="text-signin-error"
+                      >
+                        {formError.message}
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="field full">
@@ -151,6 +182,28 @@ function RequestModal() {
                       placeholder="Enter a preferred title if the presets don't fit your need"
                       data-testid="input-request-title"
                     />
+
+                    <div className="flex justify-between items-center">
+                      <div>
+                        {formError && formError.field === "title" && (
+                          <div
+                            className="auth-error"
+                            role="alert"
+                            data-testid="text-signin-error"
+                          >
+                            {formError.message}
+                          </div>
+                        )}
+                      </div>
+
+                      <div
+                        className={`text-[12px] font-bold ${formData?.title?.trim()?.length < 3 || formData?.title?.trim()?.length > 50 ? "text-[#ff0000]" : ""}`}
+                        role="alert"
+                        data-testid="text-signin-error"
+                      >
+                        {formData?.title?.trim()?.length}/50
+                      </div>
+                    </div>
                   </div>
                 )}
 
@@ -164,6 +217,27 @@ function RequestModal() {
                     placeholder="Describe the issue or the work you want done"
                     data-testid="textarea-request-description"
                   />
+                  <div className="flex justify-between items-center">
+                    <div>
+                      {formError && formError.field === "description" && (
+                        <div
+                          className="auth-error"
+                          role="alert"
+                          data-testid="text-signin-error"
+                        >
+                          {formError.message}
+                        </div>
+                      )}
+                    </div>
+
+                    <div
+                      className={`text-[12px] font-bold ${formData?.description?.trim()?.length < 50 || formData?.description?.trim()?.length > 1000 ? "text-[#ff0000]" : ""}`}
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formData?.description?.trim()?.length}/1000
+                    </div>
+                  </div>
                 </div>
 
                 <div className="field">
@@ -180,19 +254,39 @@ function RequestModal() {
                     <option>Office</option>
                     <option>Restaurant</option>
                     <option>Facility</option>
+                    <option>Others</option>
                   </select>
+                  {formError && formError.field === "propertyType" && (
+                    <div
+                      className="auth-error"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formError.message}
+                    </div>
+                  )}
                 </div>
 
                 <div className="field">
-                  <label htmlFor="budget">Budget</label>
+                  <label htmlFor="budget">Budget($)</label>
                   <input
                     id="budget"
                     value={formData?.budget}
                     name="budget"
+                    type="string"
                     onChange={getFormInput}
-                    placeholder="e.g. 5000"
+                    placeholder="e.g. 200"
                     data-testid="input-request-budget"
                   />
+                  {formError && formError.field === "budget" && (
+                    <div
+                      className="auth-error"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formError.message}
+                    </div>
+                  )}
                 </div>
 
                 <div className="field full">
@@ -205,6 +299,15 @@ function RequestModal() {
                     onChange={getFormInput}
                     data-testid="input-request-date"
                   />
+                  {formError && formError.field === "preferredDate" && (
+                    <div
+                      className="auth-error"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formError.message}
+                    </div>
+                  )}
                 </div>
 
                 <div className="field full">
@@ -217,6 +320,15 @@ function RequestModal() {
                     placeholder="Street address, city, state"
                     data-testid="input-request-address"
                   />
+                  {formError && formError.field === "address" && (
+                    <div
+                      className="auth-error"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formError.message}
+                    </div>
+                  )}
                 </div>
 
                 <div className="field">
@@ -232,6 +344,15 @@ function RequestModal() {
                     <option value="on-time">One Time</option>
                     <option value="re-occurrent">Re-occurrent</option>
                   </select>
+                  {formError && formError.field === "plan" && (
+                    <div
+                      className="auth-error"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formError.message}
+                    </div>
+                  )}
                 </div>
 
                 <div className="field">
@@ -247,6 +368,15 @@ function RequestModal() {
                     <option value="Cleaning">Cleaning</option>
                     <option value="Both">Both</option>
                   </select>
+                  {formError && formError.field === "category" && (
+                    <div
+                      className="auth-error"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formError.message}
+                    </div>
+                  )}
                 </div>
 
                 <div className="field full">
@@ -259,6 +389,15 @@ function RequestModal() {
                     placeholder="e.g. Mahattan, Time Square"
                     data-testid="input-request-service-location"
                   />
+                  {formError && formError.field === "serviceLocation" && (
+                    <div
+                      className="auth-error"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formError.message}
+                    </div>
+                  )}
                 </div>
 
                 <div className="field full">
@@ -308,6 +447,15 @@ function RequestModal() {
                         placeholder="John"
                         data-testid="input-customer-first"
                       />
+                      {formError && formError.field === "customerFirstName" && (
+                        <div
+                          className="auth-error"
+                          role="alert"
+                          data-testid="text-signin-error"
+                        >
+                          {formError.message}
+                        </div>
+                      )}
                     </div>
 
                     <div className="field">
@@ -322,6 +470,15 @@ function RequestModal() {
                         placeholder="Doe"
                         data-testid="input-customer-last"
                       />
+                      {formError && formError.field === "customerLastName" && (
+                        <div
+                          className="auth-error"
+                          role="alert"
+                          data-testid="text-signin-error"
+                        >
+                          {formError.message}
+                        </div>
+                      )}
                     </div>
 
                     <div className="field">
@@ -336,6 +493,17 @@ function RequestModal() {
                         placeholder="(555) 014-0288"
                         data-testid="input-customer-phone"
                       />
+
+                      {formError &&
+                        formError.field === "customerPhoneNumber" && (
+                          <div
+                            className="auth-error"
+                            role="alert"
+                            data-testid="text-signin-error"
+                          >
+                            {formError.message}
+                          </div>
+                        )}
                     </div>
 
                     <div className="field">
@@ -349,6 +517,15 @@ function RequestModal() {
                         placeholder="you@example.com"
                         data-testid="input-customer-email"
                       />
+                      {formError && formError.field === "customerEmail" && (
+                        <div
+                          className="auth-error"
+                          role="alert"
+                          data-testid="text-signin-error"
+                        >
+                          {formError.message}
+                        </div>
+                      )}
                     </div>
                   </>
                 )}

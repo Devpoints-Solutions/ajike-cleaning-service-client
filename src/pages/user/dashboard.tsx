@@ -12,6 +12,7 @@ import {
   TicketCheck,
   CalendarClock,
   ClockFading,
+  RefreshCw,
 } from "lucide-react";
 import CtaButton from "@/components/common/cta-button";
 import { useAuthContext } from "@/features/contexts/auth-context";
@@ -22,7 +23,7 @@ function Dashboard() {
   const [banner, setBanner] = useState("");
 
   const { isAuthenticated, currentUser } = useAuthContext();
-  const { date, seconds, minute, hour } = useTime();
+  const { date, seconds, minute, hour, period } = useTime();
 
   const notify = (message: string) => {
     setBanner(message);
@@ -84,7 +85,7 @@ function Dashboard() {
 
               <button className="quick-action">
                 <ClockFading size={16} />{" "}
-                <p className="font-bold">{`${hour}:${minute}:${seconds}`}</p>
+                <p className="font-bold">{`${hour}:${minute}:${seconds}${period}`}</p>
               </button>
             </div>
           </div>
@@ -105,6 +106,14 @@ function Dashboard() {
             >
               View Active Schedules
             </Link>
+
+            <button
+              className="secondary-button button-small"
+              //   onClick={handleRefresh}
+              data-testid="button-refresh-admin"
+            >
+              <RefreshCw size={14} /> Refresh board
+            </button>
           </div>
         </div>
         <div className="dashboard-grid">

@@ -11,7 +11,7 @@ import { Link } from "wouter";
 
 function AdminTop() {
   const { isAuthenticated, currentUser } = useAuthContext();
-  const { date, seconds, minute, hour } = useTime();
+  const { date, seconds, minute, hour, period } = useTime();
 
   return (
     <div className="admin-top">
@@ -32,7 +32,7 @@ function AdminTop() {
 
           <button className="quick-action">
             <ClockFading size={16} />{" "}
-            <p className="font-bold">{`${hour}:${minute}:${seconds}`}</p>
+            <p className="font-bold">{`${hour}:${minute}:${seconds}${period}`}</p>
           </button>
         </div>
       </div>
