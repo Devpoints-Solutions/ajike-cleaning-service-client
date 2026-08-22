@@ -1,5 +1,16 @@
 import { useState } from "react";
-import { X, CheckCircle2, ArrowRight } from "lucide-react";
+import {
+  X,
+  CheckCircle2,
+  ArrowRight,
+  Sparkles,
+  PencilLine,
+  UserRoundPlus,
+  User,
+  Mail,
+  Phone,
+  ShieldCheck,
+} from "lucide-react";
 import { SERVICES } from "@/lib/dummy-data";
 import { useServiceContext } from "@/features/contexts/service-context";
 
@@ -7,12 +18,16 @@ function RequestModal() {
   const [submitted, setSubmitted] = useState(false);
   const { toggleModal } = useServiceContext();
 
-  // Form state includes fields that map to IService properties (except user ObjectId)
-  const [form, setForm] = useState({
-    // existing/visible service selection (keeps compatibility with dummy data)
-    service: SERVICES[0].name,
+  const [titleMode, setTitleMode] = useState<"preset" | "custom">("preset");
+  const [customerFields, setCustomerFields] = useState({
+    firstName: true,
+    lastName: true,
+    email: true,
+    phone: true,
+  });
 
-    // IService properties
+  const [form, setForm] = useState({
+    service: SERVICES[0].name,
     title: "",
     description: "",
     propertyType: "Home",
@@ -22,33 +37,34 @@ function RequestModal() {
     customerPhoneNumber: "",
     customerEmail: "",
     address: "",
-    plan: "one-time", // ServiceType: "re-occurrent" | "one-time"
-    status: "new", // ServiceStatusType
-    category: "Pest | Cleaning", // CategoryType (kept as provided: "Pest | Cleaning" | "Both")
+    plan: "one-time",
+    status: "new",
+    category: "Pest | Cleaning",
     serviceLocation: "",
     preferredDate: "",
     notes: "",
   });
 
-  if (!open) return null;
-
   const update = (key: string, value: string) =>
     setForm((current) => ({ ...current, [key]: value }));
+
+  const toggleCustomerField = (key: keyof typeof customerFields) => {
+    setCustomerFields((current) => ({ ...current, [key]: !current[key] }));
+  };
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Build the payload that aligns with IService shape (excluding `user` and Mongoose Document fields)
     const payload = {
-      title: form.title || form.service,
+      title: titleMode === "custom" ? form.title || form.service : form.service,
       description: form.description || form.notes,
       propertyType: form.propertyType,
       budget: form.budget,
       customer: {
-        firstName: form.customerFirstName,
-        lastName: form.customerLastName,
-        phoneNumber: form.customerPhoneNumber,
-        email: form.customerEmail,
+        firstName: customerFields.firstName ? form.customerFirstName : "",
+        lastName: customerFields.lastName ? form.customerLastName : "",
+        phoneNumber: customerFields.phone ? form.customerPhoneNumber : "",
+        email: customerFields.email ? form.customerEmail : "",
       },
       address: form.address,
       plan: form.plan as "re-occurrent" | "one-time",
@@ -58,11 +74,8 @@ function RequestModal() {
       preferredDate: form.preferredDate,
     };
 
-    // For now the form just shows a submitted state — wire up API call here as needed
-    // Example: await api.post('/services', payload)
-
-    // console.log('Submitting service request', payload);
     setSubmitted(true);
+    console.log("Submitting service request", payload);
   };
 
   return (
@@ -98,9 +111,9 @@ function RequestModal() {
               </div>
               <h3>We have your request.</h3>
               <p>
-                A service coordinator will reach out during business hours to
-                confirm the details and offer a visit window. No payment is
-                needed to request an inspection.
+                Your request is in the queue. Our service team will reach out to
+                confirm the details, suggest the best visit window, and keep the
+                process simple from here.
               </p>
               <button
                 className="primary-button"
@@ -114,28 +127,58 @@ function RequestModal() {
             <form onSubmit={submit}>
               <div className="form-grid">
                 <div className="field full">
-                  <label htmlFor="request-service">Service (preset)</label>
-                  <select
-                    id="request-service"
-                    value={form.service}
-                    onChange={(e) => update("service", e.target.value)}
-                    data-testid="select-request-service"
-                  >
-                    {SERVICES.map((service) => (
-                      <option key={service.id}>{service.name}</option>
-                    ))}
-                  </select>
-                </div>
+                  <div className="field-header stack-header">
+                    <label htmlFor="request-service">Title</label>
+                    <div
+                      className="toggle-pills"
+                      role="tablist"
+                      aria-label="Request title mode"
+                    >
+                      <button
+                        type="button"
+                        className={
+                          titleMode === "preset" ? "toggle-pill active" : "toggle-pill"
+                        }
+                        onClick={() => setTitleMode("preset")}
+                        aria-pressed={titleMode === "preset"}
+                      >
+                        <Sparkles size={13} />
+                        Use preset
+                      </button>
+                      <button
+                        type="button"
+                        className={
+                          titleMode === "custom" ? "toggle-pill active" : "toggle-pill"
+                        }
+                        onClick={() => setTitleMode("custom")}
+                        aria-pressed={titleMode === "custom"}
+                      >
+                        <PencilLine size={13} />
+                        Custom title
+                      </button>
+                    </div>
+                  </div>
 
-                <div className="field full">
-                  <label htmlFor="request-title">Title</label>
-                  <input
-                    id="request-title"
-                    value={form.title}
-                    onChange={(e) => update("title", e.target.value)}
-                    placeholder="Short title for the service request"
-                    data-testid="input-request-title"
-                  />
+                  {titleMode === "preset" ? (
+                    <select
+                      id="request-service"
+                      value={form.service}
+                      onChange={(e) => update("service", e.target.value)}
+                      data-testid="select-request-service"
+                    >
+                      {SERVICES.map((service) => (
+                        <option key={service.id}>{service.name}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      id="request-title"
+                      value={form.title}
+                      onChange={(e) => update("title", e.target.value)}
+                      placeholder="Example: Deep kitchen clean and appliance polish"
+                      data-testid="input-request-title"
+                    />
+                  )}
                 </div>
 
                 <div className="field full">
@@ -144,7 +187,7 @@ function RequestModal() {
                     id="request-description"
                     value={form.description}
                     onChange={(e) => update("description", e.target.value)}
-                    placeholder="Describe the issue or the work you want done"
+                    placeholder="Tell us a little more about the space, the issue, and what you’d like done"
                     data-testid="textarea-request-description"
                   />
                 </div>
@@ -188,56 +231,117 @@ function RequestModal() {
                 </div>
 
                 <div className="field">
-                  <label htmlFor="customer-first">Customer first name</label>
-                  <input
-                    id="customer-first"
-                    required
-                    value={form.customerFirstName}
-                    onChange={(e) =>
-                      update("customerFirstName", e.target.value)
-                    }
-                    placeholder="Amina"
-                    data-testid="input-customer-first"
-                  />
+                  <div className="field-header">
+                    <label htmlFor="customer-first">First name</label>
+                    <button
+                      type="button"
+                      className={
+                        customerFields.firstName ? "mini-toggle on" : "mini-toggle"
+                      }
+                      onClick={() => toggleCustomerField("firstName")}
+                      aria-pressed={customerFields.firstName}
+                    >
+                      <User size={12} />
+                      {customerFields.firstName ? "Included" : "Optional"}
+                    </button>
+                  </div>
+                  {customerFields.firstName && (
+                    <input
+                      id="customer-first"
+                      value={form.customerFirstName}
+                      onChange={(e) => update("customerFirstName", e.target.value)}
+                      placeholder="Amina"
+                      data-testid="input-customer-first"
+                    />
+                  )}
                 </div>
 
                 <div className="field">
-                  <label htmlFor="customer-last">Customer last name</label>
-                  <input
-                    id="customer-last"
-                    required
-                    value={form.customerLastName}
-                    onChange={(e) => update("customerLastName", e.target.value)}
-                    placeholder="Johnson"
-                    data-testid="input-customer-last"
-                  />
+                  <div className="field-header">
+                    <label htmlFor="customer-last">Last name</label>
+                    <button
+                      type="button"
+                      className={
+                        customerFields.lastName ? "mini-toggle on" : "mini-toggle"
+                      }
+                      onClick={() => toggleCustomerField("lastName")}
+                      aria-pressed={customerFields.lastName}
+                    >
+                      <UserRoundPlus size={12} />
+                      {customerFields.lastName ? "Included" : "Optional"}
+                    </button>
+                  </div>
+                  {customerFields.lastName && (
+                    <input
+                      id="customer-last"
+                      value={form.customerLastName}
+                      onChange={(e) => update("customerLastName", e.target.value)}
+                      placeholder="Johnson"
+                      data-testid="input-customer-last"
+                    />
+                  )}
                 </div>
 
                 <div className="field">
-                  <label htmlFor="customer-phone">Customer phone</label>
-                  <input
-                    id="customer-phone"
-                    required
-                    value={form.customerPhoneNumber}
-                    onChange={(e) =>
-                      update("customerPhoneNumber", e.target.value)
-                    }
-                    placeholder="(555) 014-0288"
-                    data-testid="input-customer-phone"
-                  />
+                  <div className="field-header">
+                    <label htmlFor="customer-phone">Phone number</label>
+                    <button
+                      type="button"
+                      className={
+                        customerFields.phone ? "mini-toggle on" : "mini-toggle"
+                      }
+                      onClick={() => toggleCustomerField("phone")}
+                      aria-pressed={customerFields.phone}
+                    >
+                      <Phone size={12} />
+                      {customerFields.phone ? "Included" : "Optional"}
+                    </button>
+                  </div>
+                  {customerFields.phone && (
+                    <input
+                      id="customer-phone"
+                      value={form.customerPhoneNumber}
+                      onChange={(e) =>
+                        update("customerPhoneNumber", e.target.value)
+                      }
+                      placeholder="(555) 014-0288"
+                      data-testid="input-customer-phone"
+                    />
+                  )}
                 </div>
 
                 <div className="field full">
-                  <label htmlFor="customer-email">Customer email</label>
-                  <input
-                    id="customer-email"
-                    type="email"
-                    required
-                    value={form.customerEmail}
-                    onChange={(e) => update("customerEmail", e.target.value)}
-                    placeholder="you@example.com"
-                    data-testid="input-customer-email"
-                  />
+                  <div className="field-header">
+                    <label htmlFor="customer-email">Email</label>
+                    <button
+                      type="button"
+                      className={
+                        customerFields.email ? "mini-toggle on" : "mini-toggle"
+                      }
+                      onClick={() => toggleCustomerField("email")}
+                      aria-pressed={customerFields.email}
+                    >
+                      <Mail size={12} />
+                      {customerFields.email ? "Included" : "Optional"}
+                    </button>
+                  </div>
+                  {customerFields.email && (
+                    <input
+                      id="customer-email"
+                      type="email"
+                      value={form.customerEmail}
+                      onChange={(e) => update("customerEmail", e.target.value)}
+                      placeholder="you@example.com"
+                      data-testid="input-customer-email"
+                    />
+                  )}
+                </div>
+
+                <div className="field full">
+                  <div className="inline-assist">
+                    <ShieldCheck size={15} />
+                    <span>Need to skip any contact details? You can leave them off and we’ll still help.</span>
+                  </div>
                 </div>
 
                 <div className="field full">
