@@ -65,7 +65,10 @@ function RequestModal() {
         description: formError?.message,
         variant: "default",
       });
-    requestNewService(payload);
+    requestNewService({
+      ...payload,
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    });
   };
 
   useEffect(() => {
