@@ -1,22 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   X,
   CheckCircle2,
   ArrowRight,
-  CirclePlus,
-  CircleMinus,
+  Sparkles,
+  PenLine,
+  UserRoundPlus,
+  UserRoundCheck,
 } from "lucide-react";
 import { SERVICES } from "@/lib/dummy-data";
 import { useServiceContext } from "@/features/contexts/service-context";
 import { useForm } from "@/features/hooks/use-form";
 import { useToast } from "@/features/hooks/use-toast";
 import { serviceSchema } from "@/helpers/data-validator-schema";
+import { Switch } from "@/components/ui/switch";
 
 function RequestModal() {
   const [submitted, setSubmitted] = useState(false);
   const [showCustomer, setShowCustomer] = useState<boolean>(false);
-  const [showTitle, setShowTitle] = useState<boolean>(false);
-  const { toggleModal } = useServiceContext();
+  const [showTitle, setShowTitle] = useState<boolean>(true);
+  const { isOpen, toggleModal } = useServiceContext();
   const { toast } = useToast();
   const {
     getFormInput,
@@ -25,30 +28,10 @@ function RequestModal() {
     data: formData,
   } = useForm(serviceSchema);
 
-  if (!open) return null;
+  if (!isOpen) return null;
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    // Build the payload that aligns with IService shape (excluding `user` and Mongoose Document fields)
-    const payload = {
-      title: formData?.title,
-      description: formData?.description,
-      propertyType: formData?.propertyType,
-      budget: formData?.budget,
-      customer: {
-        firstName: formData?.customerFirstName,
-        lastName: formData?.customerLastName,
-        phoneNumber: formData?.customerPhoneNumber,
-        email: formData?.customerEmail,
-      },
-      address: formData?.address,
-      plan: formData?.plan as "re-occurrent" | "one-time",
-      status: "new",
-      category: formData?.category as "Pest | Cleaning" | "Both",
-      serviceLocation: formData?.serviceLocation,
-      preferredDate: formData?.preferredDate,
-    };
 
     if (!isValid)
       return toast({
@@ -107,39 +90,55 @@ function RequestModal() {
           ) : (
             <form onSubmit={submit}>
               <div className="form-grid">
-                {!showTitle && (
+                <div className="field full">
+                  <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-muted/20 p-3">
+                    <div className="flex items-center gap-2">
+                      {showTitle ? (
+                        <Sparkles size={18} className="text-primary" />
+                      ) : (
+                        <PenLine size={18} className="text-primary" />
+                      )}
+                      <div>
+                        <p className="text-sm font-medium">
+                          {showTitle
+                            ? "Use a suggested title"
+                            : "Write your own title"}
+                        </p>
+                        <p className="text-[10px] text-muted-foreground">
+                          {showTitle
+                            ? "Choose from our common service titles"
+                            : "Type a custom title for this request"}
+                        </p>
+                      </div>
+                    </div>
+                    <Switch
+                      checked={showTitle}
+                      onCheckedChange={(checked) => setShowTitle(checked)}
+                      aria-label={
+                        showTitle ? "Switch to custom title" : "Switch to preset title"
+                      }
+                    />
+                  </div>
+                </div>
+
+                {showTitle ? (
                   <div className="field full">
                     <label htmlFor="request-service">Title (preset)</label>
                     <select
                       id="request-service"
                       name="title"
-                      value={formData?.title}
+                      value={formData?.title || SERVICES[0]?.name}
                       onChange={getFormInput}
                       data-testid="select-request-service"
                     >
                       {SERVICES.map((service) => (
-                        <option key={service.id}>{service.name}</option>
+                        <option key={service.id} value={service.name}>
+                          {service.name}
+                        </option>
                       ))}
                     </select>
-
-                    <div
-                      className="text-[10px] flex items-center gap-3"
-                      role="alert"
-                      data-testid="text-signin-error"
-                    >
-                      Have a prefered title?{" "}
-                      <a
-                        href="#"
-                        className="font-bold"
-                        onClick={() => setShowTitle(!showTitle)}
-                      >
-                        <CirclePlus size={16} />
-                      </a>
-                    </div>
                   </div>
-                )}
-
-                {showTitle && (
+                ) : (
                   <div className="field full">
                     <label htmlFor="request-title">Title</label>
                     <input
@@ -147,24 +146,9 @@ function RequestModal() {
                       value={formData?.title}
                       name="title"
                       onChange={getFormInput}
-                      placeholder="Enter a preferred title if the presets doesn't fit your need "
+                      placeholder="Enter a preferred title if the presets don't fit your need"
                       data-testid="input-request-title"
                     />
-
-                    <div
-                      className="text-[10px] flex items-center gap-3"
-                      role="alert"
-                      data-testid="text-signin-error"
-                    >
-                      Prefer preset title?{" "}
-                      <a
-                        href="#"
-                        className="font-bold"
-                        onClick={() => setShowTitle(!showTitle)}
-                      >
-                        <CircleMinus size={15} />
-                      </a>
-                    </div>
                   </div>
                 )}
 
@@ -273,40 +257,37 @@ function RequestModal() {
                     placeholder="e.g. Mahattan, Time Square"
                     data-testid="input-request-service-location"
                   />
+                </div>
 
-                  {!showCustomer && (
-                    <div
-                      className="text-[10px] flex items-center gap-3"
-                      role="alert"
-                      data-testid="text-signin-error"
-                    >
-                      Third party request?{" "}
-                      <a
-                        href="#"
-                        className="font-bold"
-                        onClick={() => setShowCustomer(!showCustomer)}
-                      >
-                        <CirclePlus size={16} />
-                      </a>
+                <div className="field full">
+                  <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-muted/20 p-3">
+                    <div className="flex items-center gap-2">
+                      {showCustomer ? (
+                        <UserRoundCheck size={18} className="text-primary" />
+                      ) : (
+                        <UserRoundPlus size={18} className="text-primary" />
+                      )}
+                      <div>
+                        <p className="text-sm font-medium">
+                          {showCustomer
+                            ? "Customer details included"
+                            : "Include customer details"}
+                        </p>
+                        <p className="text-[10px] text-muted-foreground">
+                          {showCustomer
+                            ? "Optional contact info is visible below"
+                            : "Add a requester’s name, email, and phone"}
+                        </p>
+                      </div>
                     </div>
-                  )}
-
-                  {showCustomer && (
-                    <div
-                      className="text-[10px] flex items-center gap-3"
-                      role="alert"
-                      data-testid="text-signin-error"
-                    >
-                      Service is mine{" "}
-                      <a
-                        href="#"
-                        className="font-bold"
-                        onClick={() => setShowCustomer(!showCustomer)}
-                      >
-                        <CircleMinus size={16} />
-                      </a>
-                    </div>
-                  )}
+                    <Switch
+                      checked={showCustomer}
+                      onCheckedChange={(checked) => setShowCustomer(checked)}
+                      aria-label={
+                        showCustomer ? "Hide customer details" : "Show customer details"
+                      }
+                    />
+                  </div>
                 </div>
 
                 {showCustomer && (

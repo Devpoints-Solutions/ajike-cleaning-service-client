@@ -67,6 +67,9 @@ export const serviceSchema = object({
   preferredDate: string().required("Preferred date is required"),
   customerFirstName: string().optional(),
   customerLastName: string().optional(),
+  customerEmail: string()
+    .optional()
+    .email("Enter a valid email address"),
   customerPhoneNumber: string()
     .optional()
     .matches(
