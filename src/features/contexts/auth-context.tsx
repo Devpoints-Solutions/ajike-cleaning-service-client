@@ -23,7 +23,9 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   const [, navigate] = useLocation();
 
   useEffect(() => {
-    getCurrentUser(null);
+    if (localStorage.getItem("isAuth")) {
+      getCurrentUser(null);
+    }
   }, []);
 
   useEffect(() => {

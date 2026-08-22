@@ -13,11 +13,11 @@ export type ServiceStatus =
   | "New"
   | "Completed"
   | "Pending"
-  | "Canceled"
+  | "Cancelled"
   | "new"
   | "completed"
   | "pending"
-  | "canceled";
+  | "cancelled";
 
 export interface IUser {
   firstName: string;
@@ -52,3 +52,17 @@ export interface IService extends Document {
   serviceLocation: string;
   preferredDate: string;
 }
+
+export type ServiceStatsType = {
+  new: number;
+  pending: number;
+  completed: number;
+  cancelled: number;
+};
+
+export type ServiceContextType = {
+  isOpen: boolean;
+  toggleModal: () => void;
+  services: IService[];
+  serviceStats: ServiceStatsType;
+};

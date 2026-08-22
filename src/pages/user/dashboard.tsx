@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import CtaButton from "@/components/common/cta-button";
 import { useAuthContext } from "@/features/contexts/auth-context";
+import { useServiceContext } from "@/features/contexts/service-context";
 import { getGreeting } from "@/helpers/time";
 import { useTime } from "@/features/hooks/use-time";
 
@@ -24,6 +25,8 @@ function Dashboard() {
 
   const { isAuthenticated, currentUser } = useAuthContext();
   const { date, seconds, minute, hour, period } = useTime();
+
+  const { services, serviceStats } = useServiceContext();
 
   const notify = (message: string) => {
     setBanner(message);
@@ -117,22 +120,43 @@ function Dashboard() {
           </div>
         </div>
         <div className="dashboard-grid">
-          <section className="dashboard-card summary-card">
+          <section className="dashboard-card summary-card grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             <div>
               <div className="card-kicker">Your Ajike snapshot</div>
               <h2>Everything is on track.</h2>
             </div>
             <div className="summary-stat">
-              <strong>01</strong>
-              <span>active plan</span>
+              <strong>
+                {serviceStats?.new === 0
+                  ? serviceStats?.new
+                  : String(serviceStats?.new).padStart(2, "0")}
+              </strong>
+              <span>New requests</span>
             </div>
             <div className="summary-stat">
-              <strong>04</strong>
-              <span>completed visits</span>
+              <strong>
+                {serviceStats?.completed === 0
+                  ? serviceStats?.completed
+                  : String(serviceStats?.completed).padStart(2, "0")}
+              </strong>
+              <span>Completed visits</span>
             </div>
             <div className="summary-stat">
-              <strong>4.9</strong>
-              <span>care rating</span>
+              <strong>
+                {serviceStats?.pending === 0
+                  ? serviceStats?.pending
+                  : String(serviceStats?.pending).padStart(2, "0")}
+              </strong>
+              <span>Active</span>
+            </div>
+
+            <div className="summary-stat">
+              <strong>
+                {serviceStats?.cancelled === 0
+                  ? serviceStats?.cancelled
+                  : String(serviceStats?.cancelled).padStart(2, "0")}
+              </strong>
+              <span>Cancelled Requests</span>
             </div>
           </section>
           <section className="dashboard-card visit-card">

@@ -1279,8 +1279,8 @@ a {
   background: #0b4168;
   color: white;
   border: 0;
-  display: grid;
-  grid-template-columns: 1.3fr repeat(3, 0.7fr);
+  /* display: grid; */
+  /* grid-template-columns: 1.3fr repeat(4, 0.7fr); */
   gap: 1rem;
   align-items: center;
 }
