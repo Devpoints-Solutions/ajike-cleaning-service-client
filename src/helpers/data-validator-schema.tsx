@@ -75,12 +75,53 @@ export const serviceSchema = object({
       return Number(originalValue);
     })
     .min(100, "The minimum allowed budget is $100"),
-  preferredDate: string().required("Preferred date is required"),
+  preferredDate: string()
+    .required("Preferred date is required")
+    .test("not-past", "Date cannot be in the past", (value) => {
+      if (!value) return false;
+
+      const selected = new Date(`${value}T00:00:00`);
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      return selected >= today;
+    })
+    .test(
+      "within-one-week",
+      "Date must be more than 7 days from today",
+      (value) => {
+        if (!value) return false;
+
+        const selected = new Date(`${value}T00:00:00`);
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const maxDate = new Date(today);
+        maxDate.setDate(today.getDate() + 7);
+
+        return selected >= maxDate;
+      },
+    )
+    .test("not-sunday", "Sundays are not available", (value) => {
+      if (!value) return false;
+
+      const selected = new Date(`${value}T00:00:00`);
+
+      return selected.getDay() !== 0;
+    }),
   address: string().required("Address is required"),
   plan: string().required("Service plan is required"),
   category: string().required("Service category is required"),
-  customerFirstName: string().optional(),
-  customerLastName: string().optional(),
+  customerFirstName: string()
+    .optional()
+    .min(3, "Customer firstname is required and must be at least 3 characters")
+    .max(50, "Customer firstname must not exceed 50 characters"),
+  customerLastName: string()
+    .optional()
+    .min(3, "Customer lastname is required and must be at least 3 characters")
+    .max(50, "Customer lastname must not exceed 50 characters"),
   customerEmail: string().optional().email("Enter a valid email address"),
   customerPhoneNumber: string()
     .optional()

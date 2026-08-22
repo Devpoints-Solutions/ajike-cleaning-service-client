@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   X,
   CheckCircle2,
@@ -8,15 +8,17 @@ import {
   UserRoundPlus,
   UserRoundCheck,
 } from "lucide-react";
+import { Loader } from "./loader";
 import { SERVICES } from "@/lib/dummy-data";
 import { useServiceContext } from "@/features/contexts/service-context";
 import { useForm } from "@/features/hooks/use-form";
 import { useToast } from "@/features/hooks/use-toast";
 import { serviceSchema } from "@/helpers/data-validator-schema";
 import { Switch } from "@/components/ui/switch";
+import { useRequestNewServiceMutation } from "@/features/apis/service-apis";
+import { formatError } from "@/helpers/format-error";
 
 function RequestModal() {
-  const [submitted, setSubmitted] = useState(false);
   const [showCustomer, setShowCustomer] = useState<boolean>(false);
   const [showTitle, setShowTitle] = useState<boolean>(true);
   const { isOpen, toggleModal } = useServiceContext();
@@ -27,6 +29,9 @@ function RequestModal() {
     isValid,
     data: formData,
   } = useForm(serviceSchema);
+
+  const [requestNewService, { isError, error, isSuccess, isLoading }] =
+    useRequestNewServiceMutation();
 
   if (!isOpen) return null;
 
@@ -60,8 +65,18 @@ function RequestModal() {
         description: formError?.message,
         variant: "default",
       });
-    setSubmitted(true);
+    requestNewService(payload);
   };
+
+  useEffect(() => {
+    if (isError && error) {
+      toast({
+        title: "Service request failed!",
+        description: formatError(error),
+        variant: "default",
+      });
+    }
+  }, [isError, error]);
 
   return (
     <div
@@ -75,7 +90,7 @@ function RequestModal() {
           <div>
             <div className="eyebrow">A clear next step</div>
             <h2>
-              {submitted ? "Request received" : "Tell us what needs care"}
+              {isSuccess ? "Request received" : "Tell us what needs care"}
             </h2>
           </div>
           <button
@@ -89,7 +104,7 @@ function RequestModal() {
         </div>
 
         <div className="modal-body">
-          {submitted ? (
+          {isSuccess ? (
             <div className="success-panel">
               <div className="success-icon">
                 <CheckCircle2 size={25} />
@@ -256,15 +271,6 @@ function RequestModal() {
                     <option>Facility</option>
                     <option>Others</option>
                   </select>
-                  {formError && formError.field === "propertyType" && (
-                    <div
-                      className="auth-error"
-                      role="alert"
-                      data-testid="text-signin-error"
-                    >
-                      {formError.message}
-                    </div>
-                  )}
                 </div>
 
                 <div className="field">
@@ -278,15 +284,31 @@ function RequestModal() {
                     placeholder="e.g. 200"
                     data-testid="input-request-budget"
                   />
-                  {formError && formError.field === "budget" && (
-                    <div
-                      className="auth-error"
-                      role="alert"
-                      data-testid="text-signin-error"
-                    >
-                      {formError.message}
-                    </div>
-                  )}
+                </div>
+
+                <div className="grid field full grid-cols-2 justify-between items-center">
+                  <div>
+                    {formError && formError.field === "propertyType" && (
+                      <div
+                        className="auth-error"
+                        role="alert"
+                        data-testid="text-signin-error"
+                      >
+                        {formError.message}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    {formError && formError.field === "budget" && (
+                      <div
+                        className="auth-error"
+                        role="alert"
+                        data-testid="text-signin-error"
+                      >
+                        {formError.message}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="field full">
@@ -344,15 +366,6 @@ function RequestModal() {
                     <option value="on-time">One Time</option>
                     <option value="re-occurrent">Re-occurrent</option>
                   </select>
-                  {formError && formError.field === "plan" && (
-                    <div
-                      className="auth-error"
-                      role="alert"
-                      data-testid="text-signin-error"
-                    >
-                      {formError.message}
-                    </div>
-                  )}
                 </div>
 
                 <div className="field">
@@ -368,15 +381,30 @@ function RequestModal() {
                     <option value="Cleaning">Cleaning</option>
                     <option value="Both">Both</option>
                   </select>
-                  {formError && formError.field === "category" && (
-                    <div
-                      className="auth-error"
-                      role="alert"
-                      data-testid="text-signin-error"
-                    >
-                      {formError.message}
-                    </div>
-                  )}
+                </div>
+                <div className="grid field full grid-cols-2 justify-between items-center">
+                  <div>
+                    {formError && formError.field === "plan" && (
+                      <div
+                        className="auth-error"
+                        role="alert"
+                        data-testid="text-signin-error"
+                      >
+                        {formError.message}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    {formError && formError.field === "category" && (
+                      <div
+                        className="auth-error"
+                        role="alert"
+                        data-testid="text-signin-error"
+                      >
+                        {formError.message}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="field full">
@@ -447,15 +475,6 @@ function RequestModal() {
                         placeholder="John"
                         data-testid="input-customer-first"
                       />
-                      {formError && formError.field === "customerFirstName" && (
-                        <div
-                          className="auth-error"
-                          role="alert"
-                          data-testid="text-signin-error"
-                        >
-                          {formError.message}
-                        </div>
-                      )}
                     </div>
 
                     <div className="field">
@@ -470,15 +489,32 @@ function RequestModal() {
                         placeholder="Doe"
                         data-testid="input-customer-last"
                       />
-                      {formError && formError.field === "customerLastName" && (
-                        <div
-                          className="auth-error"
-                          role="alert"
-                          data-testid="text-signin-error"
-                        >
-                          {formError.message}
-                        </div>
-                      )}
+                    </div>
+                    <div className="grid field full grid-cols-2 justify-between items-center">
+                      <div>
+                        {formError &&
+                          formError.field === "customerFirstName" && (
+                            <div
+                              className="auth-error"
+                              role="alert"
+                              data-testid="text-signin-error"
+                            >
+                              {formError.message}
+                            </div>
+                          )}
+                      </div>
+                      <div>
+                        {formError &&
+                          formError.field === "customerLastName" && (
+                            <div
+                              className="auth-error"
+                              role="alert"
+                              data-testid="text-signin-error"
+                            >
+                              {formError.message}
+                            </div>
+                          )}
+                      </div>
                     </div>
 
                     <div className="field">
@@ -493,17 +529,6 @@ function RequestModal() {
                         placeholder="(555) 014-0288"
                         data-testid="input-customer-phone"
                       />
-
-                      {formError &&
-                        formError.field === "customerPhoneNumber" && (
-                          <div
-                            className="auth-error"
-                            role="alert"
-                            data-testid="text-signin-error"
-                          >
-                            {formError.message}
-                          </div>
-                        )}
                     </div>
 
                     <div className="field">
@@ -517,15 +542,32 @@ function RequestModal() {
                         placeholder="you@example.com"
                         data-testid="input-customer-email"
                       />
-                      {formError && formError.field === "customerEmail" && (
-                        <div
-                          className="auth-error"
-                          role="alert"
-                          data-testid="text-signin-error"
-                        >
-                          {formError.message}
-                        </div>
-                      )}
+                    </div>
+
+                    <div className="grid field full grid-cols-2 justify-between items-center">
+                      <div>
+                        {formError &&
+                          formError.field === "customerPhoneNumber" && (
+                            <div
+                              className="auth-error"
+                              role="alert"
+                              data-testid="text-signin-error"
+                            >
+                              {formError.message}
+                            </div>
+                          )}
+                      </div>
+                      <div>
+                        {formError && formError.field === "customerEmail" && (
+                          <div
+                            className="auth-error"
+                            role="alert"
+                            data-testid="text-signin-error"
+                          >
+                            {formError.message}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </>
                 )}
@@ -545,7 +587,8 @@ function RequestModal() {
                   className="primary-button"
                   data-testid="button-submit-request"
                 >
-                  Send request <ArrowRight size={15} />
+                  {isLoading && <Loader />} Send request{" "}
+                  <ArrowRight size={15} />
                 </button>
               </div>
             </form>
