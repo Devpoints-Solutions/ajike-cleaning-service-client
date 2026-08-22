@@ -57,3 +57,22 @@ export const updatePasswordResetSchema = object({
     .max(6, "Verification code must be 6 characters")
     .matches(/^\d+$/, "Verification code must be a number"),
 });
+
+export const serviceSchema = object({
+  title: string().required("Service title is required"),
+  description: string().required("Service description is required"),
+  propertyType: string().required("Property type is required"),
+
+  budget: string().required("Budget is required"),
+  preferredDate: string().required("Preferred date is required"),
+  customerFirstName: string().optional(),
+  customerLastName: string().optional(),
+  customerPhoneNumber: string()
+    .optional()
+    .matches(
+      /^(?:\+1\s?)?(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}$/,
+      "Please enter a valid US phone number",
+    ),
+  address: string().required("Address is required"),
+  serviceLocation: string().required("Please enter location"),
+});

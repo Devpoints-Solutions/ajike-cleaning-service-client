@@ -4163,7 +4163,7 @@ a {
   color: #688293;
   font-size: 0.74rem;
   line-height: 1.5;
-  margin: 0 0 1rem;
+  /* margin: 0 0 1rem; */
 }
 .modal-actions {
   display: flex;

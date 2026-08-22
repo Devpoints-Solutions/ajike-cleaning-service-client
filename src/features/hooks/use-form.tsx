@@ -12,7 +12,11 @@ export function useForm(validatorSchema: Schema) {
   const [error, setError] = useState<ErrorType | null>(null);
   const [isValid, setIsValid] = useState<boolean>(false);
 
-  function getFormInput(event: ChangeEvent<HTMLInputElement>) {
+  function getFormInput(
+    event: ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) {
     const { name, value } = event.target;
     return setData({
       ...data,
