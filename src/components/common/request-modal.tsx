@@ -115,7 +115,9 @@ function RequestModal() {
                       checked={showTitle}
                       onCheckedChange={(checked) => setShowTitle(checked)}
                       aria-label={
-                        showTitle ? "Switch to custom title" : "Switch to preset title"
+                        showTitle
+                          ? "Switch to custom title"
+                          : "Switch to preset title"
                       }
                     />
                   </div>
@@ -284,7 +286,9 @@ function RequestModal() {
                       checked={showCustomer}
                       onCheckedChange={(checked) => setShowCustomer(checked)}
                       aria-label={
-                        showCustomer ? "Hide customer details" : "Show customer details"
+                        showCustomer
+                          ? "Hide customer details"
+                          : "Show customer details"
                       }
                     />
                   </div>
