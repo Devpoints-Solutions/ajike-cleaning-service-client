@@ -326,23 +326,33 @@ function RequestModal() {
                 {showTitle ? (
                   <div className="field">
                     <label htmlFor="price">Price</label>
-                    <select
-                      id="request-price"
-                      name="budget"
-                      value={selectedPrice || ""}
-                      onChange={(event) =>
-                        handleBudgetSelection(event.target.value)
-                      }
-                      disabled={!!SERVICES.find((s) => s.name === formData?.title)}
-                      data-testid="select-request-price"
-                    >
-                      <option value="">Select price</option>
-                      {SERVICES.map((service) => (
-                                              <option key={service.id} value={normalizePriceString(service.price)}>
-                          {normalizePriceString(service.price)}
-                        </option>
-                      ))}
-                    </select>
+                    {SERVICES.find((s) => s.name === formData?.title) ? (
+                      <input
+                        id="request-price-readonly"
+                        name="budget"
+                        value={formData?.budget || selectedPrice || ""}
+                        readOnly
+                        type="number"
+                        data-testid="input-request-price-readonly"
+                      />
+                    ) : (
+                      <select
+                        id="request-price"
+                        name="budget"
+                        value={selectedPrice || ""}
+                        onChange={(event) =>
+                          handleBudgetSelection(event.target.value)
+                        }
+                        data-testid="select-request-price"
+                      >
+                        <option value="">Select price</option>
+                        {SERVICES.map((service) => (
+                          <option key={service.id} value={normalizePriceString(service.price)}>
+                            {normalizePriceString(service.price)}
+                          </option>
+                        ))}
+                      </select>
+                    )}
                   </div>
                 ) : (
                   <div className="field">
