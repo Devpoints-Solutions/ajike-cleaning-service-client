@@ -1,69 +1,8 @@
 import { object, string, number, ref } from "yup";
-
-export const signupSchema = object({
-  firstName: string().required("First name is required"),
-  lastName: string().required("Last name is required"),
-  email: string()
-    .email("Enter a valid email address")
-    .required("Email is required"),
-  phoneNumber: string()
-    .required("Phone number is required")
-    .matches(
-      /^(?:\+1\s?)?(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}$/,
-      "Please enter a valid US phone number",
-    ),
-  password: string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters")
-    .matches(/[a-z]/, "Password must contain a lowercase letter")
-    .matches(/[A-Z]/, "Password must contain an uppercase letter")
-    .matches(/\d/, "Password must contain a number")
-    .matches(/[@$!%*#?&]/, "Password must contain a special character"),
-});
-
-export const accountVerificationSchema = object({
-  otp: string()
-    .required("Verification code is required")
-    .min(6, "Verification code must be 6 characters")
-    .max(6, "Verification code must be 6 characters")
-    .matches(/^\d+$/, "Verification code must be a number"),
-});
-
-export const loginSchema = object({
-  email: string().required("Email is required"),
-  password: string().required("Password is required"),
-});
-
-export const passwordResetSchema = object({
-  email: string()
-    .email("Enter a valid email address")
-    .required("Email is required"),
-});
-
-export const updatePasswordResetSchema = object({
-  password: string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters")
-    .matches(/[a-z]/, "Password must contain a lowercase letter")
-    .matches(/[A-Z]/, "Password must contain an uppercase letter")
-    .matches(/\d/, "Password must contain a number")
-    .matches(/[@$!%*#?&]/, "Password must contain a special character"),
-  confirmPassword: string()
-    .oneOf([ref("password")], "Passwords must match")
-    .required("Confirm password is required"),
-  otp: string()
-    .required("Verification code is required")
-    .min(6, "Verification code must be 6 characters")
-    .max(6, "Verification code must be 6 characters")
-    .matches(/^\d+$/, "Verification code must be a number"),
-});
-
-import { object, string, number, ref } from "yup";
 import { SERVICES } from "@/lib/dummy-data";
 
 // compute minimum numeric price from SERVICES array (prices are like "From $89")
-const parsedPrices = SERVICES
-  .map((s) => (s.price || "").replace(/[^0-9]/g, ""))
+const parsedPrices = SERVICES.map((s) => (s.price || "").replace(/[^0-9]/g, ""))
   .map((p) => Number(p || 0))
   .filter((n) => !Number.isNaN(n) && n > 0);
 const MIN_SERVICE_PRICE = parsedPrices.length ? Math.min(...parsedPrices) : 100;
@@ -142,7 +81,10 @@ export const serviceSchema = object({
     .transform((_value, originalValue) => {
       return Number(originalValue);
     })
-    .min(MIN_SERVICE_PRICE, `The minimum allowed budget is $${MIN_SERVICE_PRICE}`),
+    .min(
+      MIN_SERVICE_PRICE,
+      `The minimum allowed budget is $${MIN_SERVICE_PRICE}`,
+    ),
   preferredDate: string()
     .required("Preferred date is required")
     .test("not-past", "Date cannot be in the past", (value) => {
@@ -197,7 +139,7 @@ export const serviceSchema = object({
   customerPhoneNumber: string()
     .optional()
     .matches(
-      /^(?:\+1\s?)?(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}$/, 
+      /^(?:\+1\s?)?(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}$/,
       "Please enter a valid US phone number",
     ),
 
