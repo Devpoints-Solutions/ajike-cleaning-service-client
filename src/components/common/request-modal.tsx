@@ -341,22 +341,9 @@ function RequestModal() {
                         data-testid="input-request-price-readonly"
                       />
                     ) : (
-                      <select
-                        id="request-price"
-                        name="budget"
-                        value={selectedPrice || ""}
-                        onChange={(event) =>
-                          handleBudgetSelection(event.target.value)
-                        }
-                        data-testid="select-request-price"
-                      >
-                        <option value="">Select price</option>
-                        {SERVICES.map((service) => (
-                          <option key={service.id} value={normalizePriceString(service.price)}>
-                            {normalizePriceString(service.price)}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="field">
+                        <input readOnly placeholder="$0.0" />
+                      </div>
                     )}
                   </div>
                 ) : (
@@ -409,15 +396,6 @@ function RequestModal() {
                     onChange={getFormInput}
                     data-testid="input-request-date"
                   />
-                  {formError && formError.field === "preferredDate" && (
-                    <div
-                      className="auth-error"
-                      role="alert"
-                      data-testid="text-signin-error"
-                    >
-                      {formError.message}
-                    </div>
-                  )}
                 </div>
 
                 <div className="field">
@@ -434,6 +412,31 @@ function RequestModal() {
                     <option value="one-time">One Time</option>
                     <option value="re-occurrent">Re-occurrent</option>
                   </select>
+                </div>
+
+                <div className="grid field full grid-cols-2 justify-between items-center">
+                  <div>
+                    {formError && formError.field === "preferredDate" && (
+                      <div
+                        className="auth-error"
+                        role="alert"
+                        data-testid="text-signin-error"
+                      >
+                        {formError.message}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    {formError && formError.field === "plan" && (
+                      <div
+                        className="auth-error"
+                        role="alert"
+                        data-testid="text-signin-error"
+                      >
+                        {formError.message}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {formData?.plan === "re-occurrent" && (
@@ -468,30 +471,16 @@ function RequestModal() {
                     <option value="Pest">Pest</option>
                     <option value="Cleaning">Cleaning</option>
                   </select>
-                </div>
-                <div className="grid field full grid-cols-2 justify-between items-center">
-                  <div>
-                    {formError && formError.field === "plan" && (
-                      <div
-                        className="auth-error"
-                        role="alert"
-                        data-testid="text-signin-error"
-                      >
-                        {formError.message}
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    {formError && formError.field === "category" && (
-                      <div
-                        className="auth-error"
-                        role="alert"
-                        data-testid="text-signin-error"
-                      >
-                        {formError.message}
-                      </div>
-                    )}
-                  </div>
+
+                  {formError && formError.field === "category" && (
+                    <div
+                      className="auth-error"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formError.message}
+                    </div>
+                  )}
                 </div>
 
                 <div className="field full">
