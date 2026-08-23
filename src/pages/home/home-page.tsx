@@ -12,9 +12,9 @@ function HomePage() {
   return (
     <div>
       <main>
+        <Hero />
+        <TrustedStrip />
         <div className="container">
-          <Hero />
-          <TrustedStrip />
           <HomeServices />
           <Coverage />
           <Featured />
