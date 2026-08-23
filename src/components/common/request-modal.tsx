@@ -38,9 +38,24 @@ function RequestModal() {
   useEffect(() => {
     const service = SERVICES.find((s) => s.name === formData?.title);
     if (service) {
-      setSelectedPrice(normalizePriceString(service.price));
+      const normalized = normalizePriceString(service.price);
+      setSelectedPrice(normalized);
+      // when a preset title is selected, update the budget form field to match the service price
+      getFormInput({
+        target: {
+          name: "budget",
+          value: normalized,
+        },
+      } as React.ChangeEvent<HTMLInputElement>);
     } else {
       setSelectedPrice("");
+      // clear budget when no preset title is selected
+      getFormInput({
+        target: {
+          name: "budget",
+          value: "",
+        },
+      } as React.ChangeEvent<HTMLInputElement>);
     }
   }, [formData?.title]);
 
@@ -318,11 +333,12 @@ function RequestModal() {
                       onChange={(event) =>
                         handleBudgetSelection(event.target.value)
                       }
+                      disabled={!!SERVICES.find((s) => s.name === formData?.title)}
                       data-testid="select-request-price"
                     >
                       <option value="">Select price</option>
                       {SERVICES.map((service) => (
-                        <option key={service.id} value={service.price}>
+                                              <option key={service.id} value={normalizePriceString(service.price)}>
                           {normalizePriceString(service.price)}
                         </option>
                       ))}
