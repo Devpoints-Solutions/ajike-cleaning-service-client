@@ -330,9 +330,14 @@ function RequestModal() {
                       <input
                         id="request-price-readonly"
                         name="budget"
-                        value={formData?.budget || selectedPrice || ""}
+                        value={
+                          formData?.budget
+                            ? `$${normalizePriceString(formData.budget)}`
+                            : selectedPrice
+                              ? `$${selectedPrice}`
+                              : ""
+                        }
                         readOnly
-                        type="number"
                         data-testid="input-request-price-readonly"
                       />
                     ) : (
