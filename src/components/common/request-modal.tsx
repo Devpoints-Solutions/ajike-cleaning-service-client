@@ -18,36 +18,6 @@ import { Switch } from "@/components/ui/switch";
 import { useRequestNewServiceMutation } from "@/features/apis/service-apis";
 import { formatError } from "@/helpers/format-error";
 
-// Cities for the supported states
-const NY_CITIES = [
-  "New York",
-  "Buffalo",
-  "Rochester",
-  "Yonkers",
-  "Syracuse",
-  "Albany",
-  "New Rochelle",
-  "Mount Vernon",
-  "Schenectady",
-  "Utica",
-];
-
-const NJ_CITIES = [
-  "Newark",
-  "Jersey City",
-  "Paterson",
-  "Elizabeth",
-  "Edison",
-  "Woodbridge",
-  "Lakewood",
-  "Toms River",
-  "Clifton",
-  "Camden",
-];
-
-const normalizeBudgetValue = (value?: string) =>
-  (value || "").replace(/[^0-9]/g, "");
-
 function RequestModal() {
   const [showCustomer, setShowCustomer] = useState<boolean>(false);
   const [showTitle, setShowTitle] = useState<boolean>(true);
@@ -60,41 +30,23 @@ function RequestModal() {
     data: formData,
   } = useForm(serviceSchema);
 
-  const [selectedPrice, setSelectedPrice] = useState<string>(() => {
-    const defaultService = SERVICES.find(
-      (service) => service.name === (formData?.title || SERVICES[0]?.name),
-    );
-    return normalizeBudgetValue(defaultService?.price || SERVICES[0]?.price);
-  });
+  // selectedPrice tracks the current price string for the chosen preset service
+  const [selectedPrice, setSelectedPrice] = useState<string>(
+    SERVICES.find((s) => s.name === (formData?.title || SERVICES[0]?.name))
+      ?.price ||
+      SERVICES[0]?.price ||
+      "",
+  );
 
+  // Keep selectedPrice in sync when the preset title changes
   useEffect(() => {
-    const service = SERVICES.find((item) => item.name === formData?.title);
+    const service = SERVICES.find((s) => s.name === formData?.title);
     if (service) {
-      setSelectedPrice(normalizeBudgetValue(service.price));
+      setSelectedPrice(service.price);
     } else if (!formData?.title && SERVICES[0]) {
-      setSelectedPrice(normalizeBudgetValue(SERVICES[0].price));
+      setSelectedPrice(SERVICES[0].price);
     }
   }, [formData?.title]);
-
-  const handleBudgetInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    const nextValue = normalizeBudgetValue(event.target.value);
-    getFormInput({
-      ...event,
-      target: {
-        ...event.target,
-        value: nextValue,
-      },
-    } as React.ChangeEvent<HTMLInputElement | HTMLSelectElement>);
-  };
-
-  const availableCities =
-    formData?.serviceState === "New York"
-      ? NY_CITIES
-      : formData?.serviceState === "New Jersey"
-        ? NJ_CITIES
-        : [];
 
   const [requestNewService, { isError, error, isSuccess, isLoading }] =
     useRequestNewServiceMutation();
@@ -104,14 +56,13 @@ function RequestModal() {
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const normalizedBudget = normalizeBudgetValue(formData?.budget);
-
     const payload = {
       title: formData?.title,
       description: formData?.description,
       propertyType: formData?.propertyType,
-      budget: normalizedBudget,
-      price: normalizedBudget,
+      // keep budget (used when user provides a custom title), and expose price when a preset title is used
+      budget: formData?.budget,
+      price: showTitle ? selectedPrice : undefined,
       customer: showCustomer
         ? {
             firstName: formData?.customerFirstName,
@@ -120,17 +71,11 @@ function RequestModal() {
             email: formData?.customerEmail,
           }
         : null,
-      plan: formData?.plan as "re-occurrent" | "one-time",
-      planInterval: formData?.planInterval || null,
-      category: formData?.category as "Pest" | "Cleaning" | "Both",
       address: formData?.address,
-      postcode: formData?.postcode,
-      serviceState: formData?.serviceState || null,
-      serviceCity: formData?.serviceCity || null,
-      serviceLocation: formData?.serviceState
-        ? `${formData.serviceState}, ${formData.serviceCity || ""}`.trim()
-        : null,
+      plan: formData?.plan as "re-occurrent" | "one-time",
       status: "new",
+      category: formData?.category as "Pest | Cleaning" | "Both",
+      serviceLocation: formData?.serviceLocation,
       preferredDate: formData?.preferredDate,
     };
 
@@ -243,11 +188,10 @@ function RequestModal() {
                     <select
                       id="request-service"
                       name="title"
-                      value={formData?.title || ""}
+                      value={formData?.title || SERVICES[0]?.name}
                       onChange={getFormInput}
                       data-testid="select-request-service"
                     >
-                      <option value="">Select service</option>
                       {SERVICES.map((service) => (
                         <option key={service.id} value={service.name}>
                           {service.name}
@@ -338,18 +282,17 @@ function RequestModal() {
                   <label htmlFor="request-property">Property type</label>
                   <select
                     id="request-property"
-                    value={formData?.propertyType || ""}
+                    value={formData.propertyType}
                     name="propertyType"
                     onChange={getFormInput}
                     data-testid="select-request-property"
                   >
-                    <option value="">Select property type</option>
-                    <option value="Home">Home</option>
-                    <option value="Apartment">Apartment</option>
-                    <option value="Office">Office</option>
-                    <option value="Restaurant">Restaurant</option>
-                    <option value="Facility">Facility</option>
-                    <option value="Others">Others</option>
+                    <option>Home</option>
+                    <option>Apartment</option>
+                    <option>Office</option>
+                    <option>Restaurant</option>
+                    <option>Facility</option>
+                    <option>Others</option>
                   </select>
                 </div>
 
@@ -358,20 +301,16 @@ function RequestModal() {
                     <label htmlFor="price">Price</label>
                     <select
                       id="request-price"
-                      name="budget"
+                      name="price"
                       value={selectedPrice}
-                      onChange={handleBudgetInputChange}
+                      onChange={(e) => setSelectedPrice(e.target.value)}
                       data-testid="select-request-price"
                     >
-                      <option value="">Select price</option>
-                      {SERVICES.map((service) => {
-                        const priceValue = normalizeBudgetValue(service.price);
-                        return (
-                          <option key={service.id} value={priceValue}>
-                            {service.price}
-                          </option>
-                        );
-                      })}
+                      {SERVICES.map((service) => (
+                        <option key={service.id} value={service.price}>
+                          {service.price}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 ) : (
@@ -379,10 +318,10 @@ function RequestModal() {
                     <label htmlFor="budget">Budget($)</label>
                     <input
                       id="budget"
-                      value={formData?.budget || ""}
+                      value={formData?.budget}
                       name="budget"
-                      type="text"
-                      onChange={handleBudgetInputChange}
+                      type="string"
+                      onChange={getFormInput}
                       placeholder="e.g. 200"
                       data-testid="input-request-budget"
                     />
@@ -435,51 +374,51 @@ function RequestModal() {
                   )}
                 </div>
 
+                <div className="field full">
+                  <label htmlFor="address">Address</label>
+                  <input
+                    id="request-address"
+                    name="address"
+                    value={formData?.address}
+                    onChange={getFormInput}
+                    placeholder="Street address, city, state"
+                    data-testid="input-request-address"
+                  />
+                  {formError && formError.field === "address" && (
+                    <div
+                      className="auth-error"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formError.message}
+                    </div>
+                  )}
+                </div>
+
                 <div className="field">
                   <label htmlFor="plan">Plan</label>
 
                   <select
                     id="request-plan"
-                    value={formData?.plan || ""}
+                    value={formData?.plan}
                     onChange={getFormInput}
                     name="plan"
                     data-testid="select-request-plan"
                   >
-                    <option value="">Select plan</option>
-                    <option value="one-time">One Time</option>
+                    <option value="on-time">One Time</option>
                     <option value="re-occurrent">Re-occurrent</option>
                   </select>
                 </div>
-
-                {formData?.plan === "re-occurrent" && (
-                  <div className="field">
-                    <label htmlFor="planInterval">Interval</label>
-                    <select
-                      id="request-plan-interval"
-                      name="planInterval"
-                      value={formData?.planInterval || ""}
-                      onChange={getFormInput}
-                      data-testid="select-request-plan-interval"
-                    >
-                      <option value="">Select interval</option>
-                      <option value="Weekly">Weekly</option>
-                      <option value="Monthly">Monthly</option>
-                      <option value="Quarterly">Quarterly</option>
-                      <option value="Yearly">Yearly</option>
-                    </select>
-                  </div>
-                )}
 
                 <div className="field">
                   <label htmlFor="category">Category</label>
                   <select
                     name="category"
                     id="request-category"
-                    value={formData?.category || ""}
+                    value={formData?.category}
                     onChange={getFormInput}
                     data-testid="select-request-category"
                   >
-                    <option value="">Select category</option>
                     <option value="Pest">Pest</option>
                     <option value="Cleaning">Cleaning</option>
                   </select>
@@ -510,89 +449,16 @@ function RequestModal() {
                 </div>
 
                 <div className="field full">
-                  <label htmlFor="address">Address</label>
+                  <label htmlFor="serviceLocation">Service location</label>
                   <input
-                    id="request-address"
-                    name="address"
-                    value={formData?.address}
+                    name="serviceLocation"
+                    id="request-service-location"
+                    value={formData?.serviceLocation}
                     onChange={getFormInput}
-                    placeholder="Street address, unit (optional)"
-                    data-testid="input-request-address"
+                    placeholder="e.g. Mahattan, Time Square"
+                    data-testid="input-request-service-location"
                   />
-                  {formError && formError.field === "address" && (
-                    <div
-                      className="auth-error"
-                      role="alert"
-                      data-testid="text-signin-error"
-                    >
-                      {formError.message}
-                    </div>
-                  )}
-                </div>
-
-                <div className="field">
-                  <label htmlFor="postcode">Postcode</label>
-                  <input
-                    id="request-postcode"
-                    name="postcode"
-                    value={formData?.postcode || ""}
-                    onChange={getFormInput}
-                    placeholder="ZIP code"
-                    maxLength={10}
-                    data-testid="input-request-postcode"
-                  />
-                  {formError && formError.field === "postcode" && (
-                    <div
-                      className="auth-error"
-                      role="alert"
-                      data-testid="text-signin-error"
-                    >
-                      {formError.message}
-                    </div>
-                  )}
-                </div>
-
-                <div className="field">
-                  <label htmlFor="serviceState">State</label>
-                  <select
-                    id="request-service-state"
-                    name="serviceState"
-                    value={formData?.serviceState || ""}
-                    onChange={getFormInput}
-                    data-testid="select-request-service-state"
-                  >
-                    <option value="">Select state</option>
-                    <option value="New Jersey">New Jersey</option>
-                    <option value="New York">New York</option>
-                  </select>
-                  {formError && formError.field === "serviceState" && (
-                    <div
-                      className="auth-error"
-                      role="alert"
-                      data-testid="text-signin-error"
-                    >
-                      {formError.message}
-                    </div>
-                  )}
-                </div>
-
-                <div className="field">
-                  <label htmlFor="serviceCity">City</label>
-                  <select
-                    id="request-service-city"
-                    name="serviceCity"
-                    value={formData?.serviceCity || ""}
-                    onChange={getFormInput}
-                    data-testid="select-request-service-city"
-                  >
-                    <option value="">Select city</option>
-                    {availableCities.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
-                  {formError && formError.field === "serviceCity" && (
+                  {formError && formError.field === "serviceLocation" && (
                     <div
                       className="auth-error"
                       role="alert"
