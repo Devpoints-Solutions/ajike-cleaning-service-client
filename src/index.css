@@ -526,12 +526,14 @@ a {
   gap: 0.75rem;
 }
 .service-card {
+<<<<<<< HEAD
   min-height: 260px;
+=======
+  min-height: 340px;
+>>>>>>> agents/rebuild-service-card-home-services
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 1.25rem;
+  overflow: hidden;
   border: 1px solid #d7e6ed;
   border-radius: 1.15rem;
   background: #fff;
@@ -545,6 +547,35 @@ a {
   border-color: #99d5ea;
   box-shadow: 0 16px 30px rgba(14, 76, 110, 0.1);
 }
+.service-visual {
+  position: relative;
+  height: 148px;
+  overflow: hidden;
+  background: #dff4fb;
+}
+.service-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.1) contrast(1.08);
+  transform: scale(1.06);
+}
+.service-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8, 33, 54, 0.14), rgba(9, 40, 65, 0.44));
+}
+.service-visual-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.85rem 0.8rem 0;
+}
 .service-icon {
   width: 38px;
   height: 38px;
@@ -554,8 +585,21 @@ a {
   background: #e0f4fb;
   color: #0a7eac;
 }
+.service-icon-visual {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #f5fdff;
+  backdrop-filter: blur(6px);
+}
+.service-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.1rem 1.05rem 1rem;
+}
 .service-card h3 {
-  margin: 1.1rem 0 0.38rem;
+  margin: 0 0 0.38rem;
   color: #103d5d;
   font: 700 0.92rem var(--font-display);
   /* letter-spacing: -0.04em; */
@@ -578,6 +622,14 @@ a {
   font: 700 0.58rem var(--font-display);
   text-transform: uppercase;
   /* letter-spacing: 0.07em; */
+}
+.service-tag-visual {
+  color: rgba(240, 251, 255, 0.95);
+  background: rgba(8, 33, 54, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(4px);
+  padding: 0.3rem 0.5rem;
+  border-radius: 999px;
 }
 .mini-arrow {
   color: #0b4168;
