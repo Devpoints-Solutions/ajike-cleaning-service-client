@@ -17,6 +17,9 @@ const ServiceContext = createContext<ServiceContextType>({
     completed: 0,
     cancelled: 0,
   },
+  nextVisit: null,
+  showChat: false,
+  toggleChat: () => {},
 });
 
 let tempServices: IService[] = [];
@@ -24,6 +27,7 @@ let tempServices: IService[] = [];
 export function ServiceContextProvider({ children }: React.PropsWithChildren) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [services, setServices] = useState<IService[]>([]);
+  const [showChat, setShowChat] = useState<boolean>(false);
   const [serviceStats, setServiceStats] = useState<ServiceStatsType>({
     new: 0,
     pending: 0,
@@ -31,6 +35,7 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
     cancelled: 0,
   });
 
+  const [nextVisit, setNextVisit] = useState<IService | null>(null);
   const { isAuthenticated, currentUser } = useAuthContext();
 
   const [getServicesByUser, { data, isSuccess }] =
@@ -58,49 +63,86 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
 
   useEffect(() => {
     if (isSuccess && data) {
-      tempServices = data?.data?.services;
-      setServices(data?.data?.services);
+      const srv = [...data?.data?.services]?.sort(
+        (a: IService, b: IService) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      );
+      tempServices = srv;
+      setServices(srv);
     }
   }, [data, isSuccess]);
 
   useEffect(() => {
-    if (services && services?.length > 0) {
-      const stats = services.reduce(
-        (acc, service: IService) => {
-          switch (service.status) {
-            case "new":
-              acc.new += 1;
-              break;
+    if (!services?.length) {
+      setServiceStats({
+        new: 0,
+        completed: 0,
+        pending: 0,
+        cancelled: 0,
+      });
+      setNextVisit(null);
+      return;
+    }
 
-            case "completed":
-              acc.completed += 1;
-              break;
+    const today = new Date().getTime();
 
-            case "pending":
-              acc.pending += 1;
-              break;
+    const result = services.reduce(
+      (acc, service: IService) => {
+        // Calculate status statistics
+        switch (service.status) {
+          case "new":
+            acc.stats.new++;
+            break;
 
-            case "cancelled":
-              acc.cancelled += 1;
-              break;
-          }
+          case "completed":
+            acc.stats.completed++;
+            break;
 
-          return acc;
-        },
-        {
+          case "pending":
+            acc.stats.pending++;
+
+            // Find closest pending visit
+            if (service.preferredDate) {
+              const date = new Date(service.preferredDate).getTime();
+              const diff = Math.abs(date - today);
+
+              if (!acc.closest || diff < acc.closestDiff) {
+                acc.closest = service;
+                acc.closestDiff = diff;
+              }
+            }
+
+            break;
+
+          case "cancelled":
+            acc.stats.cancelled++;
+            break;
+        }
+
+        return acc;
+      },
+      {
+        stats: {
           new: 0,
           completed: 0,
           pending: 0,
           cancelled: 0,
         },
-      );
+        closest: null as IService | null,
+        closestDiff: Infinity,
+      },
+    );
 
-      setServiceStats(stats);
-    }
+    setServiceStats(result.stats);
+    setNextVisit(result.closest);
   }, [services]);
 
   function toggleModal() {
     return setIsOpen(!isOpen);
+  }
+
+  function toggleChat() {
+    return setShowChat(!showChat);
   }
 
   const value = {
@@ -108,6 +150,9 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
     toggleModal,
     services,
     serviceStats,
+    nextVisit,
+    showChat,
+    toggleChat,
   };
 
   return (

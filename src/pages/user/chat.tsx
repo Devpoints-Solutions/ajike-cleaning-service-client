@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
 import { useMessages } from "@/features/contexts/message-context";
+import { useServiceContext } from "@/features/contexts/service-context";
 
 function Chat() {
-  const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const { messages, addMessage } = useMessages();
+
+  const { toggleChat, showChat } = useServiceContext();
 
   const starters = [
     [
@@ -41,11 +43,11 @@ function Chat() {
     setMessage("");
   };
 
-  if (!open)
+  if (!showChat)
     return (
       <button
         className="chat-launcher"
-        onClick={() => setOpen(true)}
+        onClick={toggleChat}
         aria-label="Open Ajike customer support chat"
         data-testid="button-open-chat"
       >
@@ -62,11 +64,11 @@ function Chat() {
       <div className="chat-head">
         <div>
           <strong>Ask Mina</strong>
-          <span>Ajike service concierge \u00b7 usually replies fast</span>
+          <span>Ajike pest control concierge usually replies fast</span>
         </div>
         <button
           className="icon-button"
-          onClick={() => setOpen(false)}
+          onClick={toggleChat}
           aria-label="Close support chat"
           data-testid="button-close-chat"
         >

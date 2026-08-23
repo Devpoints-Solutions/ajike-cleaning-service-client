@@ -16,7 +16,7 @@ import SignUp from "@/pages/auth/signup";
 import Verify from "@/pages/auth/verify";
 import ForgotPassword from "@/pages/auth/forgot-password";
 import ResetPassword from "@/pages/auth/reset-password";
-import Chat from "@/pages/home/chat";
+import Chat from "@/pages/user/chat";
 import ContactPage from "@/pages/contact/contact-page";
 import { RequireAuth } from "@/features/contexts/auth-context";
 import { useAuthContext } from "@/features/contexts/auth-context";

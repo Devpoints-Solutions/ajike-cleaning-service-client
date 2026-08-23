@@ -1,15 +1,13 @@
 import { Link } from "wouter";
-import { useState } from "react";
 import {
   ArrowRight,
-  Bell,
-  Camera,
-  CheckCircle2,
+  ListTodo,
+  CircleCheckBig,
+  ShieldOff,
   ChevronRight,
   ClipboardCheck,
   FileCheck2,
   MessageCircle,
-  TicketCheck,
   CalendarClock,
   ClockFading,
   RefreshCw,
@@ -17,59 +15,25 @@ import {
 import CtaButton from "@/components/common/cta-button";
 import { useAuthContext } from "@/features/contexts/auth-context";
 import { useServiceContext } from "@/features/contexts/service-context";
-import { getGreeting } from "@/helpers/time";
+import { getGreeting, getSpecificDate, getIsoFullDate } from "@/helpers/time";
 import { useTime } from "@/features/hooks/use-time";
 
 function Dashboard() {
-  const [banner, setBanner] = useState("");
-
   const { isAuthenticated, currentUser } = useAuthContext();
   const { date, seconds, minute, hour, period } = useTime();
 
-  const { services, serviceStats } = useServiceContext();
-
-  const notify = (message: string) => {
-    setBanner(message);
-    window.setTimeout(() => setBanner(""), 3200);
-  };
-
-  const handleViewServiceHistory = () => {
-    notify("Your service history is ready to review.");
-  };
-
-  const handleMessageCareTeam = () => {
-    notify("A care coordinator will reply here shortly.");
-  };
-
-  const handleViewDetails = () => {
-    notify("Your visit window is saved. We will text you the day before.");
-  };
-
-  // const handleOpenProof = () => {
-  //   notify("Opening your May 02 service record.");
-  // };
+  const {
+    services,
+    showChat,
+    toggleChat,
+    serviceStats,
+    nextVisit,
+    toggleModal,
+  } = useServiceContext();
 
   return (
     <div>
       <main className="container dashboard-wrap" id="overview">
-        {banner && (
-          <div
-            className="dashboard-banner"
-            role="status"
-            data-testid="status-dashboard"
-          >
-            <span>
-              <CheckCircle2 size={15} /> {banner}
-            </span>
-            <button
-              onClick={() => setBanner("")}
-              aria-label="Dismiss notification"
-              data-testid="button-dismiss-dashboard-status"
-            >
-              Dismiss
-            </button>
-          </div>
-        )}
         <div className="dashboard-top">
           <div>
             <div className="eyebrow">Customer dashboard</div>
@@ -112,7 +76,6 @@ function Dashboard() {
 
             <button
               className="secondary-button button-small"
-              //   onClick={handleRefresh}
               data-testid="button-refresh-admin"
             >
               <RefreshCw size={14} /> Refresh board
@@ -159,30 +122,37 @@ function Dashboard() {
               <span>Cancelled Requests</span>
             </div>
           </section>
-          <section className="dashboard-card visit-card">
-            <div className="card-kicker">Next visit</div>
-            <h2>We will see you soon.</h2>
-            <div className="visit-date">
-              <div className="date-block">
-                <strong>18</strong>
-                <span>Jun</span>
+          {nextVisit && (
+            <section className="dashboard-card visit-card">
+              <div className="card-kicker">Next visit</div>
+              <h2>We will see you soon.</h2>
+              <div className="visit-date">
+                <div className="date-block">
+                  <strong>
+                    {getSpecificDate(nextVisit?.preferredDate!).dayDate}
+                  </strong>
+                  <span>
+                    {getSpecificDate(nextVisit?.preferredDate!).monthName}
+                  </span>
+                </div>
+                <div>
+                  <h3>{nextVisit?.title}</h3>
+
+                  <p>{getSpecificDate(nextVisit?.preferredDate!).fullDate}</p>
+                </div>
               </div>
-              <div>
-                <h3>Home protection visit</h3>
-                <p>Wednesday \u00b7 10:00 \u2013 11:30 AM</p>
+              <div className="status-line">
+                <span className="status-pill">Confirmed</span>
+                <Link
+                  className="text-button"
+                  href={`dashboard/schedules/${nextVisit?._id}`}
+                  data-testid="button-visit-details"
+                >
+                  View details <ChevronRight size={14} />
+                </Link>
               </div>
-            </div>
-            <div className="status-line">
-              <span className="status-pill">Confirmed</span>
-              <button
-                className="text-button"
-                onClick={handleViewDetails}
-                data-testid="button-visit-details"
-              >
-                View details <ChevronRight size={14} />
-              </button>
-            </div>
-          </section>
+            </section>
+          )}
           <section className="dashboard-card plan-card">
             <div className="card-kicker">Active plan</div>
             <h2>Home care, every 60 days.</h2>
@@ -205,23 +175,23 @@ function Dashboard() {
             <div className="quick-actions" style={{ marginTop: "1rem" }}>
               <button
                 className="quick-action"
-                // onClick={handleRequestService}
+                onClick={toggleModal}
                 data-testid="button-quick-new-request"
               >
                 <ClipboardCheck size={16} /> Start a new request
                 <ChevronRight size={14} />
               </button>
-              <button
+              <Link
                 className="quick-action"
-                onClick={handleViewServiceHistory}
+                href="/dashboard/schedules"
                 data-testid="button-quick-history"
               >
                 <FileCheck2 size={16} /> View service history
                 <ChevronRight size={14} />
-              </button>
+              </Link>
               <button
                 className="quick-action"
-                onClick={handleMessageCareTeam}
+                onClick={() => !showChat && toggleChat()}
                 data-testid="button-quick-message"
               >
                 <MessageCircle size={16} /> Message the care team
@@ -231,35 +201,58 @@ function Dashboard() {
           </section>
           <section className="dashboard-card activity-card" id="activity">
             <div className="card-kicker">Recent activity</div>
-            <h2>Proof that stays with you.</h2>
+            <h2>Monitor all activities in one place</h2>
             <div className="activity-list">
-              <div className="activity-row">
-                <div className="activity-icon">
-                  <Camera size={15} />
-                </div>
-                <div>
-                  <strong>Before / after photos added</strong>
-                  <span>Kitchen perimeter \u00b7 May 02, 2025</span>
-                </div>
-              </div>
-              <div className="activity-row">
-                <div className="activity-icon">
-                  <TicketCheck size={15} />
-                </div>
-                <div>
-                  <strong>Visit marked complete</strong>
-                  <span>Home protection \u00b7 May 02, 2025</span>
-                </div>
-              </div>
-              <div className="activity-row">
-                <div className="activity-icon">
-                  <Bell size={15} />
-                </div>
-                <div>
-                  <strong>Next visit confirmed</strong>
-                  <span>Reminder set for June 17, 2025</span>
-                </div>
-              </div>
+              {services && services?.length > 0
+                ? services?.map((service) => {
+                    return service?.status === "new" ? (
+                      <div className="activity-row" key={service?._id}>
+                        <div className="activity-icon">
+                          <ListTodo size={15} />
+                        </div>
+                        <div>
+                          <strong>
+                            {service?.title}{" "}
+                            <p className="text-[9px]">
+                              {getIsoFullDate(service?.createdAt)}
+                            </p>
+                          </strong>
+                          <span>Service is booked and waiting approval</span>
+                        </div>
+                      </div>
+                    ) : service?.status === "cancelled" ? (
+                      <div className="activity-row" key={service?._id}>
+                        <div className="activity-icon">
+                          <ShieldOff size={15} />
+                        </div>
+                        <div>
+                          <strong>
+                            {service?.title}{" "}
+                            <p className="text-[9px]">
+                              {getIsoFullDate(service?.updatedAt)}
+                            </p>
+                          </strong>
+                          <span>Service is cancelled</span>
+                        </div>
+                      </div>
+                    ) : service?.status === "completed" ? (
+                      <div className="activity-row" key={service?._id}>
+                        <div className="activity-icon">
+                          <CircleCheckBig size={15} />
+                        </div>
+                        <div>
+                          <strong>
+                            {service?.title}{" "}
+                            <p className="text-[9px]">
+                              {getIsoFullDate(service?.updatedAt)}
+                            </p>
+                          </strong>
+                          <span>Service is marked as completed</span>
+                        </div>
+                      </div>
+                    ) : null;
+                  })
+                : null}
             </div>
           </section>
         </div>

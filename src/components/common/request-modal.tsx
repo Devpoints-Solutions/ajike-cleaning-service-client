@@ -382,7 +382,6 @@ function RequestModal() {
                   >
                     <option value="Pest">Pest</option>
                     <option value="Cleaning">Cleaning</option>
-                    <option value="Both">Both</option>
                   </select>
                 </div>
                 <div className="grid field full grid-cols-2 justify-between items-center">

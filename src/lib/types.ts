@@ -39,6 +39,7 @@ export type ServiceType = "re-occurrent" | "one-time";
 export type CategoryType = "Pest | Cleaning" | "Both";
 
 export interface IService extends Document {
+  _id: string;
   title: string;
   description: string;
   propertyType: string;
@@ -51,6 +52,8 @@ export interface IService extends Document {
   category: CategoryType;
   serviceLocation: string;
   preferredDate: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type ServiceStatsType = {
@@ -65,4 +68,7 @@ export type ServiceContextType = {
   toggleModal: () => void;
   services: IService[];
   serviceStats: ServiceStatsType;
+  nextVisit: IService | null;
+  showChat: boolean;
+  toggleChat: () => void;
 };
