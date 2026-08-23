@@ -42,7 +42,8 @@ function RequestModal() {
       title: formData?.title,
       description: formData?.description,
       propertyType: formData?.propertyType,
-      budget: formData?.budget,
+      // ensure budget/price is a simple numeric string (e.g. "100")
+      budget: formData?.budget ? String(formData?.budget) : formData?.budget,
       customer: showCustomer
         ? {
             firstName: formData?.customerFirstName,
@@ -52,6 +53,7 @@ function RequestModal() {
           }
         : null,
       address: formData?.address,
+      postcode: formData?.postcode,
       plan: formData?.plan as "re-occurrent" | "one-time",
       status: "new",
       category: formData?.category as "Pest | Cleaning" | "Both",
@@ -168,28 +170,39 @@ function RequestModal() {
                     <select
                       id="request-service"
                       name="title"
-                      value={formData?.title || SERVICES[0]?.name}
-                      onChange={getFormInput}
-                      data-testid="select-request-service"
-                    >
-                      {SERVICES.map((service) => (
-                        <option key={service.id} value={service.name}>
-                          {service.name}
-                        </option>
-                      ))}
-                    </select>
+                                      value={formData?.title || ""}
+                                      onChange={(e) => {
+                                        // update title value
+                                        getFormInput(e);
+                                        // set budget to the selected service price (numeric string)
+                                        const selected = SERVICES.find((s) => s.name === e.target.value);
+                                        if (selected && selected.price) {
+                                          const priceNumeric = (selected.price || "").replace(/[^0-9]/g, "");
+                                          // synthetic event to set budget via useForm's getFormInput
+                                          getFormInput({ target: { name: "budget", value: priceNumeric } } as any);
+                                        }
+                                      }}
+                                      data-testid="select-request-service"
+                                    >
+                                      <option value="">Select service</option>
+                                      {SERVICES.map((service) => (
+                                        <option key={service.id} value={service.name}>
+                                          {service.name}
+                                        </option>
+                                      ))}
+                                    </select>
 
-                    {formError && formError.field === "title" && (
-                      <div
-                        className="auth-error"
-                        role="alert"
-                        data-testid="text-signin-error"
-                      >
-                        {formError.message}
-                      </div>
-                    )}
-                  </div>
-                ) : (
+                                    {formError && formError.field === "title" && (
+                                      <div
+                                        className="auth-error"
+                                        role="alert"
+                                        data-testid="text-signin-error"
+                                      >
+                                        {formError.message}
+                                      </div>
+                                    )}
+                                  </div>
+                                ) : (
                   <div className="field full">
                     <label htmlFor="request-title">Title</label>
                     <input
@@ -262,18 +275,19 @@ function RequestModal() {
                   <label htmlFor="request-property">Property type</label>
                   <select
                     id="request-property"
-                    value={formData.propertyType}
+                                      value={formData?.propertyType || ""}
                     name="propertyType"
                     onChange={getFormInput}
                     data-testid="select-request-property"
                   >
-                    <option>Home</option>
-                    <option>Apartment</option>
-                    <option>Office</option>
-                    <option>Restaurant</option>
-                    <option>Facility</option>
-                    <option>Others</option>
-                  </select>
+                                      <option value="">Select property type</option>
+                                      <option>Home</option>
+                                      <option>Apartment</option>
+                                      <option>Office</option>
+                                      <option>Restaurant</option>
+                                      <option>Facility</option>
+                                      <option>Others</option>
+                                    </select>
                 </div>
 
                 <div className="field">
@@ -356,19 +370,41 @@ function RequestModal() {
                   )}
                 </div>
 
+                                <div className="field">
+                                  <label htmlFor="postcode">Postcode</label>
+                                  <input
+                                    id="request-postcode"
+                                    name="postcode"
+                                    value={formData?.postcode}
+                                    onChange={getFormInput}
+                                    placeholder="ZIP / Postcode"
+                                    data-testid="input-request-postcode"
+                                  />
+                                  {formError && formError.field === "postcode" && (
+                                    <div
+                                      className="auth-error"
+                                      role="alert"
+                                      data-testid="text-signin-error"
+                                    >
+                                      {formError.message}
+                                    </div>
+                                  )}
+                                </div>
+
                 <div className="field">
                   <label htmlFor="plan">Plan</label>
 
                   <select
                     id="request-plan"
-                    value={formData?.plan}
+                                      value={formData?.plan || ""}
                     onChange={getFormInput}
                     name="plan"
                     data-testid="select-request-plan"
                   >
-                    <option value="on-time">One Time</option>
-                    <option value="re-occurrent">Re-occurrent</option>
-                  </select>
+                                      <option value="">Select plan</option>
+                                      <option value="on-time">One Time</option>
+                                      <option value="re-occurrent">Re-occurrent</option>
+                                    </select>
                 </div>
 
                 <div className="field">
@@ -376,13 +412,14 @@ function RequestModal() {
                   <select
                     name="category"
                     id="request-category"
-                    value={formData?.category}
+                                      value={formData?.category || ""}
                     onChange={getFormInput}
                     data-testid="select-request-category"
                   >
-                    <option value="Pest">Pest</option>
-                    <option value="Cleaning">Cleaning</option>
-                  </select>
+                                      <option value="">Select category</option>
+                                      <option value="Pest">Pest</option>
+                                      <option value="Cleaning">Cleaning</option>
+                                    </select>
                 </div>
                 <div className="grid field full grid-cols-2 justify-between items-center">
                   <div>
