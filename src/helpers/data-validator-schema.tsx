@@ -180,7 +180,9 @@ export const serviceSchema = object({
       return selected.getDay() !== 0;
     }),
   address: string().required("Address is required"),
-  postcode: string().required("Postcode is required"),
+  postcode: string()
+    .required("Postcode is required")
+    .matches(/^\d{5}(-\d{4})?$/, "Enter a valid US ZIP code"),
   plan: string().required("Service plan is required"),
   category: string().required("Service category is required"),
   customerFirstName: string()
