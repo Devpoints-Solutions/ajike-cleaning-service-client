@@ -12,6 +12,7 @@ import {
   ClockFading,
   RefreshCw,
   HeartCrack,
+  MapPinCheckIcon,
 } from "lucide-react";
 import CtaButton from "@/components/common/cta-button";
 import { useAuthContext } from "@/features/contexts/auth-context";
@@ -186,7 +187,9 @@ function Dashboard() {
                   days.
                 </h2>
                 <div className="plan-name">{reOccurrentPlan?.title}</div>
-                <p className="text-[20px]">at: {reOccurrentPlan?.address}</p>
+                <p className="text-[20px] flex items-center gap-2">
+                  <MapPinCheckIcon size={15} /> {reOccurrentPlan?.address}
+                </p>
                 <div className="plan-progress">
                   <span />
                 </div>
