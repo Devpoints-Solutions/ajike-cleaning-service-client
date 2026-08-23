@@ -10,6 +10,7 @@ import { useToast } from "@/features/hooks/use-toast";
 import { Loader } from "@/components/common/loader";
 import { formatError } from "@/helpers/format-error";
 import { useAuthContext } from "@/features/contexts/auth-context";
+import GoogleButton from "./google-button";
 
 function SignIn() {
   const [, setLocation] = useLocation();
@@ -72,6 +73,19 @@ function SignIn() {
       <div className="auth-card-header">
         <h2>Sign in to Ajike</h2>
         <p>Your service history and care plan are waiting for you.</p>
+      </div>
+      <div className="mb-5 space-y-4">
+        <GoogleButton
+          label="Continue with Google"
+          testId="button-google-signin"
+        />
+        <div className="flex items-center gap-3">
+          <div className="h-px flex-1 bg-slate-200" />
+          <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+            or
+          </span>
+          <div className="h-px flex-1 bg-slate-200" />
+        </div>
       </div>
       <form className="auth-form" onSubmit={submit}>
         <div className="auth-field">

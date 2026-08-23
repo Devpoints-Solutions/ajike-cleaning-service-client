@@ -9,6 +9,7 @@ import { useForm } from "@/features/hooks/use-form";
 import { useCreateAccountMutation } from "@/features/apis/auth-apis";
 import { Loader } from "@/components/common/loader";
 import { formatError } from "@/helpers/format-error";
+import GoogleButton from "./google-button";
 
 const formInput = [
   { name: "firstName", placeholder: "John", label: "First name" },
@@ -104,6 +105,19 @@ function SignUp() {
           It takes less than a minute. You can request service without a payment
           method.
         </p>
+      </div>
+      <div className="mb-5 space-y-4">
+        <GoogleButton
+          label="Continue with Google"
+          testId="button-google-signup"
+        />
+        <div className="flex items-center gap-3">
+          <div className="h-px flex-1 bg-slate-200" />
+          <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+            or
+          </span>
+          <div className="h-px flex-1 bg-slate-200" />
+        </div>
       </div>
       <form className="auth-form" onSubmit={submit}>
         {formInput?.map((input, index) => {
