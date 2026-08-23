@@ -18,6 +18,33 @@ import { Switch } from "@/components/ui/switch";
 import { useRequestNewServiceMutation } from "@/features/apis/service-apis";
 import { formatError } from "@/helpers/format-error";
 
+// Cities for the supported states
+const NY_CITIES = [
+  "New York",
+  "Buffalo",
+  "Rochester",
+  "Yonkers",
+  "Syracuse",
+  "Albany",
+  "New Rochelle",
+  "Mount Vernon",
+  "Schenectady",
+  "Utica",
+];
+
+const NJ_CITIES = [
+  "Newark",
+  "Jersey City",
+  "Paterson",
+  "Elizabeth",
+  "Edison",
+  "Woodbridge",
+  "Lakewood",
+  "Toms River",
+  "Clifton",
+  "Camden",
+];
+
 function RequestModal() {
   const [showCustomer, setShowCustomer] = useState<boolean>(false);
   const [showTitle, setShowTitle] = useState<boolean>(true);
@@ -51,13 +78,15 @@ function RequestModal() {
             email: formData?.customerEmail,
           }
         : null,
-      address: formData?.address,
-      plan: formData?.plan as "re-occurrent" | "one-time",
-      status: "new",
-      category: formData?.category as "Pest | Cleaning" | "Both",
-      serviceLocation: formData?.serviceLocation,
-      preferredDate: formData?.preferredDate,
-    };
+          plan: formData?.plan as "re-occurrent" | "one-time",
+          planInterval: formData?.planInterval || null,
+          category: formData?.category as "Pest" | "Cleaning" | "Both",
+          address: formData?.address,
+          serviceState: formData?.serviceState || null,
+          serviceCity: formData?.serviceCity || null,
+          status: "new",
+          preferredDate: formData?.preferredDate,
+        };
 
     if (!isValid)
       return toast({
@@ -335,26 +364,6 @@ function RequestModal() {
                   )}
                 </div>
 
-                <div className="field full">
-                  <label htmlFor="address">Address</label>
-                  <input
-                    id="request-address"
-                    name="address"
-                    value={formData?.address}
-                    onChange={getFormInput}
-                    placeholder="Street address, city, state"
-                    data-testid="input-request-address"
-                  />
-                  {formError && formError.field === "address" && (
-                    <div
-                      className="auth-error"
-                      role="alert"
-                      data-testid="text-signin-error"
-                    >
-                      {formError.message}
-                    </div>
-                  )}
-                </div>
 
                 <div className="field">
                   <label htmlFor="plan">Plan</label>
@@ -366,10 +375,29 @@ function RequestModal() {
                     name="plan"
                     data-testid="select-request-plan"
                   >
-                    <option value="on-time">One Time</option>
+                    <option value="one-time">One Time</option>
                     <option value="re-occurrent">Re-occurrent</option>
                   </select>
                 </div>
+
+                {formData?.plan === "re-occurrent" && (
+                  <div className="field">
+                    <label htmlFor="planInterval">Interval</label>
+                    <select
+                      id="request-plan-interval"
+                      name="planInterval"
+                      value={formData?.planInterval || ""}
+                      onChange={getFormInput}
+                      data-testid="select-request-plan-interval"
+                    >
+                      <option value="">Select interval</option>
+                      <option value="Weekly">Weekly</option>
+                      <option value="Monthly">Monthly</option>
+                      <option value="Quarterly">Quarterly</option>
+                      <option value="Yearly">Yearly</option>
+                    </select>
+                  </div>
+                )}
 
                 <div className="field">
                   <label htmlFor="category">Category</label>
@@ -410,16 +438,16 @@ function RequestModal() {
                 </div>
 
                 <div className="field full">
-                  <label htmlFor="serviceLocation">Service location</label>
+                  <label htmlFor="address">Address</label>
                   <input
-                    name="serviceLocation"
-                    id="request-service-location"
-                    value={formData?.serviceLocation}
+                    id="request-address"
+                    name="address"
+                    value={formData?.address}
                     onChange={getFormInput}
-                    placeholder="e.g. Mahattan, Time Square"
-                    data-testid="input-request-service-location"
+                    placeholder="Street address, unit (optional)"
+                    data-testid="input-request-address"
                   />
-                  {formError && formError.field === "serviceLocation" && (
+                  {formError && formError.field === "address" && (
                     <div
                       className="auth-error"
                       role="alert"
@@ -429,6 +457,57 @@ function RequestModal() {
                     </div>
                   )}
                 </div>
+
+                <div className="field">
+                  <label htmlFor="serviceState">State</label>
+                  <select
+                    id="request-service-state"
+                    name="serviceState"
+                    value={formData?.serviceState || ""}
+                    onChange={getFormInput}
+                    data-testid="select-request-service-state"
+                  >
+                    <option value="">Select state</option>
+                    <option value="New Jersey">New Jersey</option>
+                    <option value="New York">New York</option>
+                  </select>
+                  {formError && formError.field === "serviceState" && (
+                    <div
+                      className="auth-error"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formError.message}
+                    </div>
+                  )}
+                </div>
+
+                {formData?.serviceState && (
+                  <div className="field">
+                    <label htmlFor="serviceCity">City</label>
+                    <select
+                      id="request-service-city"
+                      name="serviceCity"
+                      value={formData?.serviceCity || ""}
+                      onChange={getFormInput}
+                      data-testid="select-request-service-city"
+                    >
+                      <option value="">Select city</option>
+                      {(formData?.serviceState === "New York" ? NY_CITIES : NJ_CITIES).map((c) => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
+                    </select>
+                    {formError && formError.field === "serviceCity" && (
+                      <div
+                        className="auth-error"
+                        role="alert"
+                        data-testid="text-signin-error"
+                      >
+                        {formError.message}
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 <div className="field full">
                   <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-muted/20 p-3">
