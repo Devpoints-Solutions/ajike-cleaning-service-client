@@ -8,7 +8,7 @@ function Featured() {
         <div className="featured-copy">
           <div className="eyebrow">The Ajike difference</div>
           <h2>Every visit leaves a record.</h2>
-          <p>
+          <p className="mb-5">
             You deserve more than a quick knock and a vague goodbye. We share
             what we found, what we did, and what to watch next — with before and
             after photo proof when it helps.
