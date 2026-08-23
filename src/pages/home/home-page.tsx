@@ -21,8 +21,8 @@ function HomePage() {
           <Process />
           <ReAssurance />
           <FinalCta />
-          <HomeFooter />
         </div>
+        <HomeFooter />
       </main>
     </div>
   );
