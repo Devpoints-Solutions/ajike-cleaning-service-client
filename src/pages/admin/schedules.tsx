@@ -18,7 +18,6 @@ import {
   Trash2,
   UserRound,
 } from "lucide-react";
-import { getStatusColor } from "@/helpers/profile";
 import { JOBS } from "@/lib/dummy-data";
 
 function Schedules() {
@@ -63,7 +62,7 @@ function Schedules() {
         </div>
         <div className="admin-filter-row">
           <div className="admin-filter-tabs">
-            {(["All", "New", "Pending", "Completed", "Canceled"] as const).map(
+            {(["All", "New", "Pending", "Completed", "Cancelled"] as const).map(
               (item) => (
                 <button
                   className={filter === item ? "active" : ""}

@@ -45,6 +45,9 @@ const NJ_CITIES = [
   "Camden",
 ];
 
+const normalizeBudgetValue = (value?: string) =>
+  (value || "").replace(/[^0-9]/g, "");
+
 function RequestModal() {
   const [showCustomer, setShowCustomer] = useState<boolean>(false);
   const [showTitle, setShowTitle] = useState<boolean>(true);
@@ -57,23 +60,41 @@ function RequestModal() {
     data: formData,
   } = useForm(serviceSchema);
 
-  // selectedPrice tracks the current price string for the chosen preset service
-  const [selectedPrice, setSelectedPrice] = useState<string>(
-    SERVICES.find((s) => s.name === (formData?.title || SERVICES[0]?.name))
-      ?.price ||
-      SERVICES[0]?.price ||
-      "",
-  );
+  const [selectedPrice, setSelectedPrice] = useState<string>(() => {
+    const defaultService = SERVICES.find(
+      (service) => service.name === (formData?.title || SERVICES[0]?.name),
+    );
+    return normalizeBudgetValue(defaultService?.price || SERVICES[0]?.price);
+  });
 
-  // Keep selectedPrice in sync when the preset title changes
   useEffect(() => {
-    const service = SERVICES.find((s) => s.name === formData?.title);
+    const service = SERVICES.find((item) => item.name === formData?.title);
     if (service) {
-      setSelectedPrice(service.price);
+      setSelectedPrice(normalizeBudgetValue(service.price));
     } else if (!formData?.title && SERVICES[0]) {
-      setSelectedPrice(SERVICES[0].price);
+      setSelectedPrice(normalizeBudgetValue(SERVICES[0].price));
     }
   }, [formData?.title]);
+
+  const handleBudgetInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const nextValue = normalizeBudgetValue(event.target.value);
+    getFormInput({
+      ...event,
+      target: {
+        ...event.target,
+        value: nextValue,
+      },
+    } as React.ChangeEvent<HTMLInputElement | HTMLSelectElement>);
+  };
+
+  const availableCities =
+    formData?.serviceState === "New York"
+      ? NY_CITIES
+      : formData?.serviceState === "New Jersey"
+        ? NJ_CITIES
+        : [];
 
   const [requestNewService, { isError, error, isSuccess, isLoading }] =
     useRequestNewServiceMutation();
@@ -83,13 +104,14 @@ function RequestModal() {
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
 
+    const normalizedBudget = normalizeBudgetValue(formData?.budget);
+
     const payload = {
       title: formData?.title,
       description: formData?.description,
       propertyType: formData?.propertyType,
-      // keep budget (used when user provides a custom title), and expose price when a preset title is used
-      budget: formData?.budget,
-      price: showTitle ? selectedPrice : undefined,
+      budget: normalizedBudget,
+      price: normalizedBudget,
       customer: showCustomer
         ? {
             firstName: formData?.customerFirstName,
@@ -102,8 +124,12 @@ function RequestModal() {
       planInterval: formData?.planInterval || null,
       category: formData?.category as "Pest" | "Cleaning" | "Both",
       address: formData?.address,
+      postcode: formData?.postcode,
       serviceState: formData?.serviceState || null,
       serviceCity: formData?.serviceCity || null,
+      serviceLocation: formData?.serviceState
+        ? `${formData.serviceState}, ${formData.serviceCity || ""}`.trim()
+        : null,
       status: "new",
       preferredDate: formData?.preferredDate,
     };
@@ -217,10 +243,11 @@ function RequestModal() {
                     <select
                       id="request-service"
                       name="title"
-                      value={formData?.title || SERVICES[0]?.name}
+                      value={formData?.title || ""}
                       onChange={getFormInput}
                       data-testid="select-request-service"
                     >
+                      <option value="">Select service</option>
                       {SERVICES.map((service) => (
                         <option key={service.id} value={service.name}>
                           {service.name}
@@ -311,17 +338,18 @@ function RequestModal() {
                   <label htmlFor="request-property">Property type</label>
                   <select
                     id="request-property"
-                    value={formData.propertyType}
+                    value={formData?.propertyType || ""}
                     name="propertyType"
                     onChange={getFormInput}
                     data-testid="select-request-property"
                   >
-                    <option>Home</option>
-                    <option>Apartment</option>
-                    <option>Office</option>
-                    <option>Restaurant</option>
-                    <option>Facility</option>
-                    <option>Others</option>
+                    <option value="">Select property type</option>
+                    <option value="Home">Home</option>
+                    <option value="Apartment">Apartment</option>
+                    <option value="Office">Office</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Facility">Facility</option>
+                    <option value="Others">Others</option>
                   </select>
                 </div>
 
@@ -332,14 +360,18 @@ function RequestModal() {
                       id="request-price"
                       name="budget"
                       value={selectedPrice}
-                      onChange={getFormInput}
+                      onChange={handleBudgetInputChange}
                       data-testid="select-request-price"
                     >
-                      {SERVICES.map((service) => (
-                        <option key={service.id} value={service.price}>
-                          {service.price}
-                        </option>
-                      ))}
+                      <option value="">Select price</option>
+                      {SERVICES.map((service) => {
+                        const priceValue = normalizeBudgetValue(service.price);
+                        return (
+                          <option key={service.id} value={priceValue}>
+                            {service.price}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                 ) : (
@@ -347,10 +379,10 @@ function RequestModal() {
                     <label htmlFor="budget">Budget($)</label>
                     <input
                       id="budget"
-                      value={formData?.budget}
+                      value={formData?.budget || ""}
                       name="budget"
-                      type="string"
-                      onChange={getFormInput}
+                      type="text"
+                      onChange={handleBudgetInputChange}
                       placeholder="e.g. 200"
                       data-testid="input-request-budget"
                     />
@@ -408,11 +440,12 @@ function RequestModal() {
 
                   <select
                     id="request-plan"
-                    value={formData?.plan}
+                    value={formData?.plan || ""}
                     onChange={getFormInput}
                     name="plan"
                     data-testid="select-request-plan"
                   >
+                    <option value="">Select plan</option>
                     <option value="one-time">One Time</option>
                     <option value="re-occurrent">Re-occurrent</option>
                   </select>
@@ -442,10 +475,11 @@ function RequestModal() {
                   <select
                     name="category"
                     id="request-category"
-                    value={formData?.category}
+                    value={formData?.category || ""}
                     onChange={getFormInput}
                     data-testid="select-request-category"
                   >
+                    <option value="">Select category</option>
                     <option value="Pest">Pest</option>
                     <option value="Cleaning">Cleaning</option>
                   </select>
@@ -497,6 +531,28 @@ function RequestModal() {
                 </div>
 
                 <div className="field">
+                  <label htmlFor="postcode">Postcode</label>
+                  <input
+                    id="request-postcode"
+                    name="postcode"
+                    value={formData?.postcode || ""}
+                    onChange={getFormInput}
+                    placeholder="ZIP code"
+                    maxLength={10}
+                    data-testid="input-request-postcode"
+                  />
+                  {formError && formError.field === "postcode" && (
+                    <div
+                      className="auth-error"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formError.message}
+                    </div>
+                  )}
+                </div>
+
+                <div className="field">
                   <label htmlFor="serviceState">State</label>
                   <select
                     id="request-service-state"
@@ -530,10 +586,7 @@ function RequestModal() {
                     data-testid="select-request-service-city"
                   >
                     <option value="">Select city</option>
-                    {(formData?.serviceState === "New York"
-                      ? NY_CITIES
-                      : NJ_CITIES
-                    ).map((c) => (
+                    {availableCities.map((c) => (
                       <option key={c} value={c}>
                         {c}
                       </option>
