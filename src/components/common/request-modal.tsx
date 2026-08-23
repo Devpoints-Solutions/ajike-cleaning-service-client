@@ -30,6 +30,21 @@ function RequestModal() {
     data: formData,
   } = useForm(serviceSchema);
 
+  // selectedPrice tracks the current price string for the chosen preset service
+  const [selectedPrice, setSelectedPrice] = useState<string>(
+    SERVICES.find((s) => s.name === (formData?.title || SERVICES[0]?.name))?.price || SERVICES[0]?.price || ""
+  );
+
+  // Keep selectedPrice in sync when the preset title changes
+  useEffect(() => {
+    const service = SERVICES.find((s) => s.name === formData?.title);
+    if (service) {
+      setSelectedPrice(service.price);
+    } else if (!formData?.title && SERVICES[0]) {
+      setSelectedPrice(SERVICES[0].price);
+    }
+  }, [formData?.title]);
+
   const [requestNewService, { isError, error, isSuccess, isLoading }] =
     useRequestNewServiceMutation();
 
@@ -42,7 +57,9 @@ function RequestModal() {
       title: formData?.title,
       description: formData?.description,
       propertyType: formData?.propertyType,
+      // keep budget (used when user provides a custom title), and expose price when a preset title is used
       budget: formData?.budget,
+      price: showTitle ? selectedPrice : undefined,
       customer: showCustomer
         ? {
             firstName: formData?.customerFirstName,
@@ -276,18 +293,37 @@ function RequestModal() {
                   </select>
                 </div>
 
-                <div className="field">
-                  <label htmlFor="budget">Budget($)</label>
-                  <input
-                    id="budget"
-                    value={formData?.budget}
-                    name="budget"
-                    type="string"
-                    onChange={getFormInput}
-                    placeholder="e.g. 200"
-                    data-testid="input-request-budget"
-                  />
-                </div>
+                {showTitle ? (
+                  <div className="field">
+                    <label htmlFor="price">Price</label>
+                    <select
+                      id="request-price"
+                      name="price"
+                      value={selectedPrice}
+                      onChange={(e) => setSelectedPrice(e.target.value)}
+                      data-testid="select-request-price"
+                    >
+                      {SERVICES.map((service) => (
+                        <option key={service.id} value={service.price}>
+                          {service.price}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  <div className="field">
+                    <label htmlFor="budget">Budget($)</label>
+                    <input
+                      id="budget"
+                      value={formData?.budget}
+                      name="budget"
+                      type="string"
+                      onChange={getFormInput}
+                      placeholder="e.g. 200"
+                      data-testid="input-request-budget"
+                    />
+                  </div>
+                )}
 
                 <div className="grid field full grid-cols-2 justify-between items-center">
                   <div>
