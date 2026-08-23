@@ -1,4 +1,5 @@
 import moment from "moment";
+import type { PlanIntervalType } from "@/lib/types";
 
 export function getGreeting() {
   const hour = moment().hour();
@@ -25,4 +26,42 @@ export function getIsoFullDate(isoDate: string) {
   const date = moment(isoDate);
 
   return date.format("dddd, MMMM DD, YYYY");
+}
+
+export function getNextVisit(date: string, plan: PlanIntervalType) {
+  const currentDate = moment(date, "YYYY-MM-DD", true);
+
+  if (!currentDate.isValid()) {
+    throw new Error("Invalid date. Expected YYYY-MM-DD");
+  }
+
+  let nextVisit = currentDate.clone();
+
+  switch (plan) {
+    case "weekly":
+      nextVisit.add(7, "days");
+      break;
+
+    case "monthly":
+      nextVisit.add(1, "month");
+      break;
+
+    case "quarterly":
+      nextVisit.add(3, "months");
+      break;
+
+    case "yearly":
+      nextVisit.add(1, "year");
+      break;
+  }
+
+  // Don't allow Sunday as a visit day
+  while (nextVisit.day() === 0) {
+    nextVisit.add(1, "day");
+  }
+
+  return {
+    intervalDays: nextVisit.diff(currentDate, "days"),
+    nextVisit: nextVisit.format("dddd, MMMM DD, YYYY"),
+  };
 }

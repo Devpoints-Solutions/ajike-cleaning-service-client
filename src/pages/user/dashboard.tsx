@@ -16,7 +16,12 @@ import {
 import CtaButton from "@/components/common/cta-button";
 import { useAuthContext } from "@/features/contexts/auth-context";
 import { useServiceContext } from "@/features/contexts/service-context";
-import { getGreeting, getSpecificDate, getIsoFullDate } from "@/helpers/time";
+import {
+  getGreeting,
+  getSpecificDate,
+  getIsoFullDate,
+  getNextVisit,
+} from "@/helpers/time";
 import { useTime } from "@/features/hooks/use-time";
 
 function Dashboard() {
@@ -30,6 +35,7 @@ function Dashboard() {
     serviceStats,
     nextVisit,
     toggleModal,
+    reOccurrentPlan,
   } = useServiceContext();
 
   return (
@@ -165,20 +171,47 @@ function Dashboard() {
           </section>
 
           <section className="dashboard-card plan-card">
-            <div className="card-kicker">Active plan</div>
-            <h2>Home care, every 60 days.</h2>
-            <div className="plan-name">Steady Home</div>
-            <p>
-              Pest prevention with a check-in after every visit. Next review in
-              August.
-            </p>
-            <div className="plan-progress">
-              <span />
-            </div>
-            <div className="plan-meta">
-              <span>2 of 3 visits this cycle</span>
-              <span>67%</span>
-            </div>
+            <div className="card-kicker">Active Plan</div>
+
+            {reOccurrentPlan ? (
+              <>
+                <h2>
+                  Every{" "}
+                  {
+                    getNextVisit(
+                      reOccurrentPlan?.preferredDate,
+                      reOccurrentPlan?.planInterval,
+                    ).intervalDays
+                  }{" "}
+                  days.
+                </h2>
+                <div className="plan-name">{reOccurrentPlan?.title}</div>
+                <p className="text-[20px]">at: {reOccurrentPlan?.address}</p>
+                <div className="plan-progress">
+                  <span />
+                </div>
+                <div className="plan-meta">
+                  <span>
+                    Next visit is{" "}
+                    {
+                      getNextVisit(
+                        reOccurrentPlan?.preferredDate,
+                        reOccurrentPlan?.planInterval,
+                      ).nextVisit
+                    }{" "}
+                    after your intial chosen date
+                  </span>
+                </div>
+                <p className="mt-10">Contact support if you have any concern</p>
+              </>
+            ) : (
+              <div className="flex gap-2 items-center justify-center">
+                <HeartCrack />
+                <h1 className="font-semibold">
+                  You do not have an active Re-occurent plan
+                </h1>
+              </div>
+            )}
           </section>
           <section className="dashboard-card" id="account">
             <div className="card-kicker">Quick actions</div>

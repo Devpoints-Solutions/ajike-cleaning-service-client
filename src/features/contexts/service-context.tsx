@@ -20,6 +20,7 @@ const ServiceContext = createContext<ServiceContextType>({
   nextVisit: null,
   showChat: false,
   toggleChat: () => {},
+  reOccurrentPlan: null,
 });
 
 let tempServices: IService[] = [];
@@ -34,8 +35,8 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
     completed: 0,
     cancelled: 0,
   });
-
   const [nextVisit, setNextVisit] = useState<IService | null>(null);
+  const [reOccurrentPlan, setReoccurentPlan] = useState<IService | null>(null);
   const { isAuthenticated, currentUser } = useAuthContext();
 
   const [getServicesByUser, { data, isSuccess }] =
@@ -112,6 +113,16 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
               }
             }
 
+            if (service?.plan === "re-occurrent" && service?.preferredDate) {
+              const date = new Date(service.preferredDate).getTime();
+              const diff = Math.abs(date - today);
+
+              if (!acc.reClosest || diff < acc.reClosestDiff) {
+                acc.reClosest = service;
+                acc.reClosestDiff = diff;
+              }
+            }
+
             break;
 
           case "cancelled":
@@ -129,12 +140,15 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
           cancelled: 0,
         },
         closest: null as IService | null,
+        reClosest: null as IService | null,
+        reClosestDiff: Infinity,
         closestDiff: Infinity,
       },
     );
 
     setServiceStats(result.stats);
     setNextVisit(result.closest);
+    setReoccurentPlan(result?.reClosest);
   }, [services]);
 
   function toggleModal() {
@@ -153,6 +167,7 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
     nextVisit,
     showChat,
     toggleChat,
+    reOccurrentPlan,
   };
 
   return (

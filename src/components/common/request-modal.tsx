@@ -59,17 +59,6 @@ function RequestModal() {
     }
   }, [formData?.title]);
 
-  const handleBudgetSelection = (value: string) => {
-    const normalized = normalizePriceString(value);
-    setSelectedPrice(normalized);
-    getFormInput({
-      target: {
-        name: "budget",
-        value: normalized,
-      },
-    } as React.ChangeEvent<HTMLInputElement>);
-  };
-
   const [requestNewService, { isError, error, isSuccess, isLoading }] =
     useRequestNewServiceMutation();
 
@@ -450,10 +439,10 @@ function RequestModal() {
                       data-testid="select-request-plan-interval"
                     >
                       <option value="">Select interval</option>
-                      <option value="Weekly">Weekly</option>
-                      <option value="Monthly">Monthly</option>
-                      <option value="Quarterly">Quarterly</option>
-                      <option value="Yearly">Yearly</option>
+                      <option value="weekly">Weekly</option>
+                      <option value="monthly">Monthly</option>
+                      <option value="quarterly">Quarterly</option>
+                      <option value="yearly">Yearly</option>
                     </select>
                   </div>
                 )}
