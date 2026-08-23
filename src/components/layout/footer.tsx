@@ -7,7 +7,7 @@ import {
   MapPin,
 } from "lucide-react";
 
-const HomeFooter = () => {
+const Footer = () => {
   return (
     <footer className="w-full">
       {/* CTA SECTION */}
@@ -260,4 +260,4 @@ const HomeFooter = () => {
   );
 };
 
-export default HomeFooter;
+export default Footer;

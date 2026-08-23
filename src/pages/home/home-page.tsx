@@ -6,7 +6,6 @@ import Featured from "./featured";
 import Process from "./process";
 import ReAssurance from "./re-assurance";
 import FinalCta from "./final-cta";
-import HomeFooter from "./home-footer";
 
 function HomePage() {
   return (
@@ -22,7 +21,6 @@ function HomePage() {
           <ReAssurance />
           <FinalCta />
         </div>
-        <HomeFooter />
       </main>
     </div>
   );

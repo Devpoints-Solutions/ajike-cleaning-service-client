@@ -1,7 +1,7 @@
 import { useLocation } from "wouter";
 import AppRoutes from "./app-routes";
 import Header from "./header";
-import PublicFooter from "./public-footer";
+import Footer from "@/components/layout/footer";
 import { Toaster } from "@/components/ui/toaster";
 
 function Layout() {
@@ -20,11 +20,12 @@ function Layout() {
 
       <AppRoutes />
 
-      {pathname === "/services" ||
+      {pathname === "/" ||
+      pathname === "/services" ||
       pathname === "/pricing" ||
       pathname === "/about" ||
       pathname === "/contact" ? (
-        <PublicFooter />
+        <Footer />
       ) : null}
 
       <Toaster />

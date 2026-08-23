@@ -69,7 +69,7 @@ const Hero = () => {
             <br />
             and cleaning across
             <br />
-            <span className="text-[#FDBB35]">New Jersey & New York</span>
+            <span className="text-[#1687b6]">New Jersey & New York</span>
           </h1>
 
           {/* Description */}
@@ -104,14 +104,14 @@ const Hero = () => {
                 justify-center
                 gap-3
                 rounded-full
-                bg-[#FDBB35]
+                bg-[#1687b6]
                 px-7
                 font-bold
                 text-[#082d46]
                 transition-all
                 duration-300
                 hover:-translate-y-1
-                hover:bg-[#ffca5c]
+                hover:bg-[#082d46]
                 hover:shadow-xl
               "
             >
@@ -141,14 +141,15 @@ const Hero = () => {
                 items-center
                 justify-center
                 rounded-full
-                bg-white
+                border
+                border-white
                 px-7
                 font-bold
                 text-[#0b3554]
                 transition-all
                 duration-300
                 hover:-translate-y-1
-                hover:bg-[#e7f5fb]
+                hover:bg-[#082d46]
                 hover:shadow-xl
               "
             >
