@@ -1,5 +1,12 @@
-import { ArrowRight } from "lucide-react";
-import { Home, Building2, Store, Building, ArrowUpRight } from "lucide-react";
+import {
+  ArrowRight,
+  Home,
+  Building2,
+  Store,
+  Building,
+  ArrowUpRight,
+} from "lucide-react";
+import { Link } from "wouter";
 import CtaButton from "@/components/common/cta-button";
 
 const coverageCards = [
@@ -7,7 +14,7 @@ const coverageCards = [
     number: "01",
     title: "Homes & apartments",
     description:
-      "Protect the spaces that hold your routines, pets, and people.",
+      "Protect the spaces that hold your routines, pets, people, and weekends.",
     image:
       "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
     icon: Home,
@@ -25,7 +32,7 @@ const coverageCards = [
     number: "03",
     title: "Restaurants & retail",
     description:
-      "Practical plans designed around operating hours & inspections.",
+      "Practical service plans designed around operating hours and inspections.",
     image:
       "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
     icon: Store,
@@ -61,13 +68,13 @@ function Coverage() {
           icon={<ArrowRight size={14} />}
         />
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="coverage-list grid grid-cols-1 md:grid-cols-2 gap-6">
         {coverageCards.map((card) => {
           const Icon = card.icon;
 
           return (
-            <div
+            <Link
+              href="/services"
               key={card.number}
               className="relative h-[200px] overflow-hidden rounded-2xl group cursor-pointer"
             >
@@ -83,7 +90,7 @@ function Coverage() {
                 className="
                 absolute inset-0
                 bg-gradient-to-t
-                from-[#0c2743]
+                from-[#0a233e]
                 via-[#061a2f]/75
                 to-black/10
                 transition-all duration-500
@@ -96,7 +103,7 @@ function Coverage() {
                 {/* Number + Icon */}
                 <div className="flex items-center gap-3 mb-4">
                   <div
-                    className=" 
+                    className="
                     flex items-center justify-center
                     w-10 h-10
                     rounded-full
@@ -108,7 +115,7 @@ function Coverage() {
                     group-hover:scale-105
                   "
                   >
-                    <Icon size={15} strokeWidth={1.8} className="text-white" />
+                    <Icon size={19} strokeWidth={1.8} className="text-white" />
                   </div>
 
                   <span className="text-xs font-semibold tracking-[0.25em] text-white/70">
@@ -120,8 +127,8 @@ function Coverage() {
                 <h3
                   className="
                   mb-2
-                  text-[13px] md:text-[13px]
-                  font-semibold
+                  text-[0.7rem] md:text-[1rem]
+                  font-bold
                   tracking-tight
                   text-[#1687b6]
                   drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]
@@ -136,7 +143,7 @@ function Coverage() {
                 <p
                   className="
                   max-w-lg
-                  text-sm md:text-base
+                  text-sm md:text-[0.9rem]
                   leading-relaxed
                   text-white/85
                   drop-shadow-[0_1px_5px_rgba(0,0,0,0.6)]
@@ -170,7 +177,7 @@ function Coverage() {
                   />
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

@@ -84,7 +84,7 @@ function Header({
 
         {!isAuthenticated && (
           <Link
-            className="secondary-button button-small"
+            className="primary-button button-small"
             href="/auth/sign-in"
             data-testid="button-header-request"
           >

@@ -113,7 +113,7 @@ const Hero = () => {
                 transition-all
                 duration-300
                 hover:-translate-y-1
-                hover:bg-[#082d46]
+                hover:bg-[#001625]
                 hover:shadow-xl
               "
             >
@@ -137,6 +137,7 @@ const Hero = () => {
             <a
               href="#careers"
               className="
+            
                 inline-flex
                 h-[52px]
                 min-w-[240px]
@@ -151,7 +152,7 @@ const Hero = () => {
                 transition-all
                 duration-300
                 hover:-translate-y-1
-                hover:bg-[#082d46]
+                hover:bg-[#001625]
                 hover:shadow-xl
               "
             >
