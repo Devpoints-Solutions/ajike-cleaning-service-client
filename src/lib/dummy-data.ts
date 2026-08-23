@@ -241,3 +241,30 @@ export const JOBS = [
     address: "SoMa",
   },
 ];
+
+// Cities for the supported states
+export const NY_CITIES = [
+  "New York",
+  "Buffalo",
+  "Rochester",
+  "Yonkers",
+  "Syracuse",
+  "Albany",
+  "New Rochelle",
+  "Mount Vernon",
+  "Schenectady",
+  "Utica",
+];
+
+export const NJ_CITIES = [
+  "Newark",
+  "Jersey City",
+  "Paterson",
+  "Elizabeth",
+  "Edison",
+  "Woodbridge",
+  "Lakewood",
+  "Toms River",
+  "Clifton",
+  "Camden",
+];

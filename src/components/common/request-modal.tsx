@@ -9,7 +9,7 @@ import {
   UserRoundCheck,
 } from "lucide-react";
 import { Loader } from "./loader";
-import { SERVICES } from "@/lib/dummy-data";
+import { SERVICES, NY_CITIES, NJ_CITIES } from "@/lib/dummy-data";
 import { useServiceContext } from "@/features/contexts/service-context";
 import { useForm } from "@/features/hooks/use-form";
 import { useToast } from "@/features/hooks/use-toast";
@@ -17,33 +17,6 @@ import { serviceSchema } from "@/helpers/data-validator-schema";
 import { Switch } from "@/components/ui/switch";
 import { useRequestNewServiceMutation } from "@/features/apis/service-apis";
 import { formatError } from "@/helpers/format-error";
-
-// Cities for the supported states
-const NY_CITIES = [
-  "New York",
-  "Buffalo",
-  "Rochester",
-  "Yonkers",
-  "Syracuse",
-  "Albany",
-  "New Rochelle",
-  "Mount Vernon",
-  "Schenectady",
-  "Utica",
-];
-
-const NJ_CITIES = [
-  "Newark",
-  "Jersey City",
-  "Paterson",
-  "Elizabeth",
-  "Edison",
-  "Woodbridge",
-  "Lakewood",
-  "Toms River",
-  "Clifton",
-  "Camden",
-];
 
 const normalizePriceString = (value?: string) =>
   (value ?? "").replace(/[^0-9]/g, "");
@@ -342,7 +315,9 @@ function RequestModal() {
                       id="request-price"
                       name="budget"
                       value={selectedPrice || ""}
-                      onChange={(event) => handleBudgetSelection(event.target.value)}
+                      onChange={(event) =>
+                        handleBudgetSelection(event.target.value)
+                      }
                       data-testid="select-request-price"
                     >
                       <option value="">Select price</option>
@@ -393,7 +368,7 @@ function RequestModal() {
                   </div>
                 </div>
 
-                <div className="field full">
+                <div className="field">
                   <label htmlFor="preferredDate">Preferred date</label>
                   <input
                     id="request-preferred-date"
