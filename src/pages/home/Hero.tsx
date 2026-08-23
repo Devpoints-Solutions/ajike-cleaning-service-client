@@ -1,64 +1,36 @@
-import {
-  ArrowRight,
-  ChevronDown,
-  ShieldCheck,
-  ArrowUpRight,
-} from "lucide-react";
-import CtaButton from "@/components/common/cta-button";
+import { ArrowRight, MapPin } from "lucide-react";
 
 function Hero() {
   return (
-    <section className="hero">
-      <div className="hero-copy reveal">
-        <div className="eyebrow">The accountable care team</div>
-        <h1>
-          A cleaner, safer place to <em>come home to.</em>
-        </h1>
-        <p>
-          Ajike brings pest control and cleaning together under one dependable
-          team — with licensed professionals, clear pricing, and proof of the
-          work when we are done.
-        </p>
-        <div className="hero-actions">
-          <CtaButton
-            text="Request a service"
-            icon={<ArrowRight size={16} />}
-            props={{
-              className: "primary-button",
-              "data-testid": "button-hero-request",
-            }}
-          />
+    <section className="hero" aria-label="Ajike home hero">
+      <div className="hero-inner">
+        <div className="hero-badge" data-testid="hero-badge">
+          <span className="hero-badge-icon">
+            <MapPin size={14} />
+          </span>
+          Now serving New Jersey &amp; New York
+        </div>
 
-          <a
-            className="secondary-button"
-            href="#services"
-            data-testid="link-hero-services"
-          >
-            Explore services <ChevronDown size={15} />
+        <h1>
+          Reliable pest control
+          <br />
+          and cleaning across
+          <span> New Jersey &amp; New York</span>
+        </h1>
+
+        <p>
+          One trusted company for homes and businesses. Request a service, and
+          our operations team assigns verified, trained professionals — with photo
+          proof on every job.
+        </p>
+
+        <div className="hero-actions">
+          <a className="primary-button hero-primary-button" href="#contact">
+            Request Service <ArrowRight size={18} />
           </a>
-        </div>
-        <div className="hero-note">
-          <ShieldCheck size={15} /> Licensed, insured, and careful in the
-          details.
-        </div>
-      </div>
-      <div
-        className="hero-visual reveal delay-2"
-        data-testid="img-hero-property"
-      >
-        <div className="visual-orbit" />
-        <div className="visual-card float">
-          <strong>4.9 / 5</strong>
-          <span>from 286 local visits</span>
-        </div>
-        <div className="visual-house">
-          <span className="roof" />
-          <span className="body" />
-          <span className="window" />
-          <span className="door" />
-        </div>
-        <div className="visual-caption">
-          One team / every room <ArrowUpRight size={13} />
+          <a className="secondary-button hero-secondary-button" href="#careers">
+            Apply to Work With Us
+          </a>
         </div>
       </div>
     </section>
