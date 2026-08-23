@@ -1,5 +1,44 @@
 import { ArrowRight } from "lucide-react";
 import CtaButton from "@/components/common/cta-button";
+import AboutImage from "@/assets/about.jpg";
+import PricingImage from "@/assets/pricing.jpg";
+import ServiceImage from "@/assets/services.jpg";
+import SupportImage from "@/assets/support.jpg";
+
+const coverageCards = [
+  {
+    id: "01",
+    title: "Homes & apartments",
+    description:
+      "Protect the spaces that hold your routines, pets, people, and weekends.",
+    image: AboutImage,
+    alt: "A tidy and comfortable home interior",
+  },
+  {
+    id: "02",
+    title: "Offices & studios",
+    description:
+      "Keep shared spaces ready for teams, clients, and focused work.",
+    image: ServiceImage,
+    alt: "A polished work environment with a calm, professional feel",
+  },
+  {
+    id: "03",
+    title: "Restaurants & retail",
+    description:
+      "Practical service plans designed around operating hours and inspections.",
+    image: PricingImage,
+    alt: "A retail space prepared for customer-facing cleanliness",
+  },
+  {
+    id: "04",
+    title: "Facilities & property teams",
+    description:
+      "Consistent documentation and a partner who understands multiple sites.",
+    image: SupportImage,
+    alt: "A property support team maintaining a well-managed facility",
+  },
+];
 
 function Coverage() {
   return (
@@ -22,35 +61,18 @@ function Coverage() {
         />
       </div>
       <div className="coverage-list">
-        <div className="coverage-card">
-          <span className="coverage-num">01</span>
-          <h3>Homes & apartments</h3>
-          <p>
-            Protect the spaces that hold your routines, pets, people, and
-            weekends.
-          </p>
-        </div>
-        <div className="coverage-card">
-          <span className="coverage-num">02</span>
-          <h3>Offices & studios</h3>
-          <p>Keep shared spaces ready for teams, clients, and focused work.</p>
-        </div>
-        <div className="coverage-card">
-          <span className="coverage-num">03</span>
-          <h3>Restaurants & retail</h3>
-          <p>
-            Practical service plans designed around operating hours and
-            inspections.
-          </p>
-        </div>
-        <div className="coverage-card">
-          <span className="coverage-num">04</span>
-          <h3>Facilities & property teams</h3>
-          <p>
-            Consistent documentation and a partner who understands multiple
-            sites.
-          </p>
-        </div>
+        {coverageCards.map(({ id, title, description, image, alt }) => (
+          <div className="coverage-card" key={title}>
+            <div className="coverage-visual">
+              <img src={image} alt={alt} />
+            </div>
+            <div className="coverage-copy">
+              <span className="coverage-num">{id}</span>
+              <h3>{title}</h3>
+              <p>{description}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
