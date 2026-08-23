@@ -47,7 +47,9 @@ const NJ_CITIES = [
   "Camden",
 ];
 
->>>>>>> parent of 8944fdf (Agent Host changes for agents/update-request-modal-add-postcode-validation-40afda33)
+const normalizeBudgetValue = (value?: string) =>
+  (value || "").replace(/[^0-9]/g, "");
+
 function RequestModal() {
   const [showCustomer, setShowCustomer] = useState<boolean>(false);
   const [showTitle, setShowTitle] = useState<boolean>(true);
@@ -104,10 +106,15 @@ function RequestModal() {
       address: formData?.address,
 <<<<<<< HEAD
       plan: formData?.plan as "re-occurrent" | "one-time",
-=======
+      planInterval: formData?.planInterval || null,
+      category: formData?.category as "Pest" | "Cleaning" | "Both",
+      address: formData?.address,
+      postcode: formData?.postcode,
       serviceState: formData?.serviceState || null,
       serviceCity: formData?.serviceCity || null,
->>>>>>> parent of 8944fdf (Agent Host changes for agents/update-request-modal-add-postcode-validation-40afda33)
+      serviceLocation: formData?.serviceState
+        ? `${formData.serviceState}, ${formData.serviceCity || ""}`.trim()
+        : null,
       status: "new",
       category: formData?.category as "Pest | Cleaning" | "Both",
       serviceLocation: formData?.serviceLocation,
@@ -338,11 +345,7 @@ function RequestModal() {
                       id="request-price"
                       name="price"
                       value={selectedPrice}
-<<<<<<< HEAD
-                      onChange={(e) => setSelectedPrice(e.target.value)}
-=======
-                      onChange={getFormInput}
->>>>>>> parent of 8944fdf (Agent Host changes for agents/update-request-modal-add-postcode-validation-40afda33)
+                      onChange={handleBudgetInputChange}
                       data-testid="select-request-price"
                     >
                       {SERVICES.map((service) => (
@@ -444,9 +447,7 @@ function RequestModal() {
                     name="plan"
                     data-testid="select-request-plan"
                   >
-<<<<<<< HEAD
-                    <option value="on-time">One Time</option>
-=======
+                    <option value="">Select plan</option>
                     <option value="one-time">One Time</option>
 >>>>>>> parent of 8944fdf (Agent Host changes for agents/update-request-modal-add-postcode-validation-40afda33)
                     <option value="re-occurrent">Re-occurrent</option>
