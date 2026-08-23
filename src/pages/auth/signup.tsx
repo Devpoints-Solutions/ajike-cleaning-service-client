@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import AuthShell from "./auth-shell";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { ArrowRight, Mail } from "lucide-react";
 import { useToast } from "@/features/hooks/use-toast";
 import PasswordField from "./password-field";
 import { signupSchema } from "@/helpers/data-validator-schema";
 import { useForm } from "@/features/hooks/use-form";
-import { useCreateAccountMutation } from "@/features/apis/auth-apis";
+import {
+  useCreateAccountMutation,
+  useLoginWithGoogleMutation,
+} from "@/features/apis/auth-apis";
 import { Loader } from "@/components/common/loader";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useAuthContext } from "@/features/contexts/auth-context";
 import { formatError } from "@/helpers/format-error";
 import GoogleButton from "./google-button";
 
@@ -26,13 +31,33 @@ const formInput = [
 function SignUp() {
   const [show, setShow] = useState(false);
   const [consent, setConsent] = useState(false);
-
   const { data, getFormInput, error, isValid } = useForm(signupSchema);
+
+  const [, setLocation] = useLocation();
+
+  const { updateIsAuthenticatedState } = useAuthContext();
 
   const [
     createAccount,
     { isLoading, isSuccess, data: requestData, isError, error: requestError },
   ] = useCreateAccountMutation();
+
+  const [
+    loginWithGoogle,
+    {
+      isLoading: googleIsLoading,
+      isSuccess: googleSuccess,
+      error: googleError,
+      isError: googleIsError,
+      data: googleData,
+    },
+  ] = useLoginWithGoogleMutation();
+
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) =>
+      loginWithGoogle({ token: tokenResponse.access_token }),
+    flow: "implicit",
+  });
 
   const { toast } = useToast();
 
@@ -66,6 +91,28 @@ function SignUp() {
       });
     }
   }, [isError, requestError]);
+
+  useEffect(() => {
+    if (googleIsError && googleError) {
+      toast({
+        title: "Login with google failed!",
+        description: formatError(googleError),
+        variant: "default",
+      });
+    }
+
+    if (googleSuccess && googleData && googleData?.data?.role === "user") {
+      localStorage.setItem("isAuth", JSON.stringify(true));
+      updateIsAuthenticatedState(googleData?.data);
+      setLocation("/dashboard");
+    }
+
+    if (googleSuccess && googleData && googleData?.data?.role === "admin") {
+      localStorage.setItem("isAuth", JSON.stringify(true));
+      updateIsAuthenticatedState(googleData?.data);
+      setLocation("/admin/dashboard");
+    }
+  }, [googleError, googleSuccess, googleData, googleIsError]);
 
   if (isSuccess && requestData)
     return (
@@ -108,8 +155,10 @@ function SignUp() {
       </div>
       <div className="mb-5 space-y-4">
         <GoogleButton
+          isLoading={googleIsLoading}
           label="Continue with Google"
           testId="button-google-signup"
+          onClick={handleGoogleLogin}
         />
         <div className="flex items-center gap-3">
           <div className="h-px flex-1 bg-slate-200" />

@@ -5,9 +5,13 @@ import { ArrowRight } from "lucide-react";
 import PasswordField from "./password-field";
 import { useForm } from "@/features/hooks/use-form";
 import { loginSchema } from "@/helpers/data-validator-schema";
-import { useLoginAccountMutation } from "@/features/apis/auth-apis";
+import {
+  useLoginAccountMutation,
+  useLoginWithGoogleMutation,
+} from "@/features/apis/auth-apis";
 import { useToast } from "@/features/hooks/use-toast";
 import { Loader } from "@/components/common/loader";
+import { useGoogleLogin } from "@react-oauth/google";
 import { formatError } from "@/helpers/format-error";
 import { useAuthContext } from "@/features/contexts/auth-context";
 import GoogleButton from "./google-button";
@@ -18,6 +22,23 @@ function SignIn() {
 
   const [loginAccount, { isLoading, isSuccess, error, isError, data }] =
     useLoginAccountMutation();
+
+  const [
+    loginWithGoogle,
+    {
+      isLoading: googleIsLoading,
+      isSuccess: googleSuccess,
+      error: googleError,
+      isError: googleIsError,
+      data: googleData,
+    },
+  ] = useLoginWithGoogleMutation();
+
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) =>
+      loginWithGoogle({ token: tokenResponse.access_token }),
+    flow: "implicit",
+  });
 
   const { updateIsAuthenticatedState } = useAuthContext();
 
@@ -52,6 +73,28 @@ function SignIn() {
     }
   }, [isError, error, isSuccess, data]);
 
+  useEffect(() => {
+    if (googleIsError && googleError) {
+      toast({
+        title: "Login with google failed!",
+        description: formatError(googleError),
+        variant: "default",
+      });
+    }
+
+    if (googleSuccess && googleData && googleData?.data?.role === "user") {
+      localStorage.setItem("isAuth", JSON.stringify(true));
+      updateIsAuthenticatedState(googleData?.data);
+      setLocation("/dashboard");
+    }
+
+    if (googleSuccess && googleData && googleData?.data?.role === "admin") {
+      localStorage.setItem("isAuth", JSON.stringify(true));
+      updateIsAuthenticatedState(googleData?.data);
+      setLocation("/admin/dashboard");
+    }
+  }, [googleError, googleSuccess, googleData, googleIsError]);
+
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!isValid) {
@@ -78,6 +121,8 @@ function SignIn() {
         <GoogleButton
           label="Continue with Google"
           testId="button-google-signin"
+          isLoading={googleIsLoading}
+          onClick={handleGoogleLogin}
         />
         <div className="flex items-center gap-3">
           <div className="h-px flex-1 bg-slate-200" />

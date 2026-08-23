@@ -57,6 +57,15 @@ export const authApis = createApi({
         body: payload,
       }),
     }),
+
+    loginWithGoogle: builder.mutation({
+      query: (payload) => ({
+        url: "/auth/login/google",
+        method: "POST",
+        body: payload,
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
@@ -67,4 +76,5 @@ export const {
   useRequestPasswordResetMutation,
   useUpdatePasswordMutation,
   useLogoutAccountMutation,
+  useLoginWithGoogleMutation,
 } = authApis;
