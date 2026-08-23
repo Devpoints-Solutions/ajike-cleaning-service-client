@@ -106,7 +106,7 @@ a {
 }
 .eyebrow {
   color: #1687b6;
-  font: 700 0.68rem var(--font-display);
+  font: 700 1rem var(--font-display);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -676,8 +676,9 @@ a {
   position: relative;
   z-index: 1;
   color: #c6e8f5;
-  font-size: 0.8rem;
+  font-size: 1rem;
   line-height: 1.65;
+  margin-bottom: 15px;
   max-width: 300px;
 }
 .coverage-intro .eyebrow {
@@ -844,12 +845,12 @@ a {
 }
 .step h3 {
   color: #1687b6;
-  font: 700 1rem var(--font-display);
+  font: 700 1.3rem var(--font-display);
   margin: 1.3rem 0 0.5rem;
 }
 .step p {
   color: #ffffff;
-  font-size: 0.75rem;
+  font-size: 1rem;
   line-height: 1.6;
   max-width: 240px;
   margin: 0;
