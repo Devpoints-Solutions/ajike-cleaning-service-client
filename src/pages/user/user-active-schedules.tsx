@@ -28,6 +28,12 @@ export function UserActiveSchedules() {
     }));
   };
 
+  const handleViewDetails = (id: string) => {
+    // Navigate to details - for now just show notification
+    setNotify(`Viewing details for schedule ${id}`);
+    setTimeout(() => setNotify(""), 3000);
+  };
+
   return (
     <div>
       <main className="container dashboard-wrap">

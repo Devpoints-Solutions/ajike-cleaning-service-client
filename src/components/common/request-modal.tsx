@@ -18,6 +18,36 @@ import { Switch } from "@/components/ui/switch";
 import { useRequestNewServiceMutation } from "@/features/apis/service-apis";
 import { formatError } from "@/helpers/format-error";
 
+<<<<<<< HEAD
+=======
+// Cities for the supported states
+const NY_CITIES = [
+  "New York",
+  "Buffalo",
+  "Rochester",
+  "Yonkers",
+  "Syracuse",
+  "Albany",
+  "New Rochelle",
+  "Mount Vernon",
+  "Schenectady",
+  "Utica",
+];
+
+const NJ_CITIES = [
+  "Newark",
+  "Jersey City",
+  "Paterson",
+  "Elizabeth",
+  "Edison",
+  "Woodbridge",
+  "Lakewood",
+  "Toms River",
+  "Clifton",
+  "Camden",
+];
+
+>>>>>>> parent of 8944fdf (Agent Host changes for agents/update-request-modal-add-postcode-validation-40afda33)
 function RequestModal() {
   const [showCustomer, setShowCustomer] = useState<boolean>(false);
   const [showTitle, setShowTitle] = useState<boolean>(true);
@@ -72,7 +102,12 @@ function RequestModal() {
           }
         : null,
       address: formData?.address,
+<<<<<<< HEAD
       plan: formData?.plan as "re-occurrent" | "one-time",
+=======
+      serviceState: formData?.serviceState || null,
+      serviceCity: formData?.serviceCity || null,
+>>>>>>> parent of 8944fdf (Agent Host changes for agents/update-request-modal-add-postcode-validation-40afda33)
       status: "new",
       category: formData?.category as "Pest | Cleaning" | "Both",
       serviceLocation: formData?.serviceLocation,
@@ -303,7 +338,11 @@ function RequestModal() {
                       id="request-price"
                       name="price"
                       value={selectedPrice}
+<<<<<<< HEAD
                       onChange={(e) => setSelectedPrice(e.target.value)}
+=======
+                      onChange={getFormInput}
+>>>>>>> parent of 8944fdf (Agent Host changes for agents/update-request-modal-add-postcode-validation-40afda33)
                       data-testid="select-request-price"
                     >
                       {SERVICES.map((service) => (
@@ -405,7 +444,11 @@ function RequestModal() {
                     name="plan"
                     data-testid="select-request-plan"
                   >
+<<<<<<< HEAD
                     <option value="on-time">One Time</option>
+=======
+                    <option value="one-time">One Time</option>
+>>>>>>> parent of 8944fdf (Agent Host changes for agents/update-request-modal-add-postcode-validation-40afda33)
                     <option value="re-occurrent">Re-occurrent</option>
                   </select>
                 </div>
@@ -458,7 +501,65 @@ function RequestModal() {
                     placeholder="e.g. Mahattan, Time Square"
                     data-testid="input-request-service-location"
                   />
+<<<<<<< HEAD
                   {formError && formError.field === "serviceLocation" && (
+=======
+                  {formError && formError.field === "address" && (
+                    <div
+                      className="auth-error"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formError.message}
+                    </div>
+                  )}
+                </div>
+
+                <div className="field">
+                  <label htmlFor="serviceState">State</label>
+                  <select
+                    id="request-service-state"
+                    name="serviceState"
+                    value={formData?.serviceState || ""}
+                    onChange={getFormInput}
+                    data-testid="select-request-service-state"
+                  >
+                    <option value="">Select state</option>
+                    <option value="New Jersey">New Jersey</option>
+                    <option value="New York">New York</option>
+                  </select>
+                  {formError && formError.field === "serviceState" && (
+                    <div
+                      className="auth-error"
+                      role="alert"
+                      data-testid="text-signin-error"
+                    >
+                      {formError.message}
+                    </div>
+                  )}
+                </div>
+
+                <div className="field">
+                  <label htmlFor="serviceCity">City</label>
+                  <select
+                    id="request-service-city"
+                    name="serviceCity"
+                    value={formData?.serviceCity || ""}
+                    onChange={getFormInput}
+                    data-testid="select-request-service-city"
+                  >
+                    <option value="">Select city</option>
+                    {(formData?.serviceState === "New York"
+                      ? NY_CITIES
+                      : NJ_CITIES
+                    ).map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                  {formError && formError.field === "serviceCity" && (
+>>>>>>> parent of 8944fdf (Agent Host changes for agents/update-request-modal-add-postcode-validation-40afda33)
                     <div
                       className="auth-error"
                       role="alert"

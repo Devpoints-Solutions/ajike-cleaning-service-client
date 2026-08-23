@@ -1,4 +1,4 @@
-import { object, string, ref } from "yup";
+import { object, string, number, ref } from "yup";
 import { SERVICES } from "@/lib/dummy-data";
 
 // compute minimum numeric price from SERVICES array (prices are like "From $89")
@@ -65,37 +65,25 @@ export const updatePasswordResetSchema = object({
     .matches(/^\d+$/, "Verification code must be a number"),
 });
 
-const normalizeNumericValue = (value: unknown) => {
-  const stringValue = typeof value === "string" ? value : String(value ?? "");
-  return stringValue.replace(/[^0-9]/g, "");
-};
-
 export const serviceSchema = object({
   title: string()
-    .trim()
     .required("Service title is required")
-    .min(3, "Service title must be at least 3 characters")
+    .min(3, "Servie title must be at least 3 characters")
     .max(50, "Service title must not exceed 50 characters"),
   description: string()
-    .trim()
     .required("Service description is required")
-    .min(50, "Service description must be at least 50 characters")
+    .min(50, "Servie description must be at least 50 characters")
     .max(1000, "Service description must not exceed 1000 characters"),
-  propertyType: string().trim().required("Property type is required"),
-  budget: string()
+  propertyType: string().required("Property type is required"),
+
+  budget: number()
     .required("Budget is required")
-    .transform((value) => normalizeNumericValue(value))
-    .test("budget-is-number", "Budget must be a valid number", (value) => {
-      const numericValue = Number(normalizeNumericValue(value));
-      return Number.isFinite(numericValue) && numericValue > 0;
+    .transform((_value, originalValue) => {
+      return Number(originalValue);
     })
-    .test(
-      "budget-minimum",
+    .min(
+      MIN_SERVICE_PRICE,
       `The minimum allowed budget is $${MIN_SERVICE_PRICE}`,
-      (value) => {
-        const numericValue = Number(normalizeNumericValue(value));
-        return Number.isFinite(numericValue) && numericValue >= MIN_SERVICE_PRICE;
-      },
     ),
   preferredDate: string()
     .required("Preferred date is required")
@@ -133,40 +121,27 @@ export const serviceSchema = object({
 
       return selected.getDay() !== 0;
     }),
-  address: string().trim().required("Address is required"),
-  serviceState: string().trim().required("State is required"),
-  serviceCity: string().trim().required("City is required"),
+  address: string().required("Address is required"),
   postcode: string()
-    .trim()
     .required("Postcode is required")
     .matches(/^\d{5}(-\d{4})?$/, "Enter a valid US ZIP code"),
-  plan: string().trim().required("Service plan is required"),
-  planInterval: string()
-    .trim()
-    .when("plan", {
-      is: "re-occurrent",
-      then: (schema) => schema.required("Interval is required"),
-      otherwise: (schema) => schema.optional(),
-    }),
-  category: string().trim().required("Service category is required"),
+  plan: string().required("Service plan is required"),
+  category: string().required("Service category is required"),
   customerFirstName: string()
-    .trim()
     .optional()
     .min(3, "Customer firstname is required and must be at least 3 characters")
     .max(50, "Customer firstname must not exceed 50 characters"),
   customerLastName: string()
-    .trim()
     .optional()
     .min(3, "Customer lastname is required and must be at least 3 characters")
     .max(50, "Customer lastname must not exceed 50 characters"),
-  customerEmail: string().trim().optional().email("Enter a valid email address"),
+  customerEmail: string().optional().email("Enter a valid email address"),
   customerPhoneNumber: string()
-    .trim()
     .optional()
     .matches(
       /^(?:\+1\s?)?(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}$/,
       "Please enter a valid US phone number",
     ),
 
-  serviceLocation: string().trim().optional(),
+  serviceLocation: string().required("Please enter location"),
 });
