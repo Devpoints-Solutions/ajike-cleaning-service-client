@@ -39,7 +39,7 @@ const Footer = () => {
               className="flex items-center gap-3 rounded-full border border-[#1687b6] text-[#001625] px-8 py-4 text-sm font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
               <Phone size={18} strokeWidth={2.2} />
-              <span>(201) 555-1234</span>
+              <span> +1 (201) 486 0774</span>
             </a>
           </div>
         </div>
@@ -203,7 +203,7 @@ const Footer = () => {
                     href="tel:+12015551234"
                     className="text-blue-100/90 transition hover:text-white"
                   >
-                    (201) 555-1234
+                    +1 (201) 486 0774
                   </a>
                 </li>
 

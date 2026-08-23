@@ -27,7 +27,7 @@ function HomeServices() {
         </Link>
       </div>
       <div className="services-grid">
-        {SERVICES.map((service, index) => (
+        {SERVICES?.slice(0, 6).map((service, index) => (
           <article
             className={`service-card reveal delay-${(index % 3) + 1}`}
             key={service.id}

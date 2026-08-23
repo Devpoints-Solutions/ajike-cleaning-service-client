@@ -1,3 +1,5 @@
+import { Link } from "wouter";
+
 const Hero = () => {
   return (
     <section className="relative min-h-[710px] overflow-hidden">
@@ -93,8 +95,8 @@ const Hero = () => {
           {/* CTA buttons */}
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             {/* Request service */}
-            <a
-              href="#request-service"
+            <Link
+              href="/auth/sign-in"
               className="
                 group
                 inline-flex
@@ -129,7 +131,7 @@ const Hero = () => {
                 <path d="M5 12h14" />
                 <path d="m13 6 6 6-6 6" />
               </svg>
-            </a>
+            </Link>
 
             {/* Apply */}
             <a
