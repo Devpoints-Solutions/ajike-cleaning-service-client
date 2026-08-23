@@ -25,13 +25,15 @@ const SERVICE_IMAGES: Record<string, string> = {
 
 function HomeServices() {
   return (
-    <section className="section" id="services">
+    <section className="section container" id="services">
       <div className="section-heading">
         <div>
           <div className="eyebrow" style={{ fontSize: "0.8rem" }}>
             Pest + clean, under one roof
           </div>
-          <h2 className="mb-3">Care that meets the moment.</h2>
+          <h2 className="mb-3" style={{ color: "#001625" }}>
+            Care that meets the moment.
+          </h2>
           <div className="my-6"></div>
           <p className="text-[0.9rem]">
             Start with a one-time visit or ask us to build a recurring plan
@@ -49,9 +51,10 @@ function HomeServices() {
         </div>
       </div>
 
-      <div className="services-grid">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {SERVICES?.slice(0, 6).map((service, index) => (
-          <article
+          <Link
+            href="/auth/sign-in"
             className={`service-card mb-6 reveal delay-${(index % 3) + 1}`}
             key={service.id}
             data-testid={`card-service-${service.id}`}
@@ -92,7 +95,7 @@ function HomeServices() {
                 />
               </div>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </section>

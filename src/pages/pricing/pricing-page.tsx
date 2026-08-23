@@ -16,6 +16,7 @@ import { SERVICES } from "@/lib/dummy-data";
 import ServiceIcon from "@/components/common/service-icon";
 import PageIntro from "@/components/common/page-intro";
 import CtaButton from "@/components/common/cta-button";
+import pricingImage from "@/assets/pricing.jpg";
 import { Link } from "wouter";
 
 function Pricing() {
@@ -48,30 +49,31 @@ function Pricing() {
   ];
   return (
     <div>
+      <PageIntro
+        eyebrow="Pricing / clear by design"
+        title={
+          <>
+            Know the starting point.
+            <br />
+            <em>Choose the right rhythm.</em>
+          </>
+        }
+        bgImage={pricingImage}
+        action={
+          <Link
+            className="primary-button"
+            data-testid="button-pricing-request"
+            href="/contact"
+          >
+            Get a specific quote <ArrowRight size={15} />
+          </Link>
+        }
+      >
+        Transparent starting prices for the everyday spaces we care for. Use
+        these as a planning guide; your coordinator confirms the real scope and
+        quote before a technician or cleaning lead begins.
+      </PageIntro>
       <main className="container page-container">
-        <PageIntro
-          eyebrow="Pricing / clear by design"
-          title={
-            <>
-              Know the starting point.
-              <br />
-              <em>Choose the right rhythm.</em>
-            </>
-          }
-          action={
-            <Link
-              className="primary-button"
-              data-testid="button-pricing-request"
-              href="/contact"
-            >
-              Get a specific quote <ArrowRight size={15} />
-            </Link>
-          }
-        >
-          Transparent starting prices for the everyday spaces we care for. Use
-          these as a planning guide; your coordinator confirms the real scope
-          and quote before a technician or cleaning lead begins.
-        </PageIntro>
         <section className="pricing-controls">
           <div className="pricing-control">
             <span className="toolbar-label">Property context</span>

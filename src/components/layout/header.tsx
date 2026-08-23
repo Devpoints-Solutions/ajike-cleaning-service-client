@@ -33,6 +33,7 @@ function Header({
     { href: "/services", label: "Services", testId: "link-nav-services" },
     { href: "/pricing", label: "Pricing", testId: "link-nav-pricing" },
     { href: "/about", label: "About", testId: "link-nav-about" },
+    { href: "/contact", label: "Contact", testId: "link-nav-contact" },
   ];
 
   const dashboardNavItems = [

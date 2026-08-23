@@ -3,6 +3,7 @@ import { ArrowRight, CheckCheck, ChevronDown } from "lucide-react";
 import { Link } from "wouter";
 import PageIntro from "@/components/common/page-intro";
 import CtaButton from "@/components/common/cta-button";
+import aboutImage from "@/assets/about.jpg";
 
 function About() {
   const [standardOpen, setStandardOpen] = useState(0);
@@ -22,31 +23,32 @@ function About() {
   ];
   return (
     <div>
+      <PageIntro
+        eyebrow="About Ajike / field note 01"
+        title={
+          <>
+            The work is practical.
+            <br />
+            <em>The standard is personal.</em>
+          </>
+        }
+        bgImage={aboutImage}
+        action={
+          <CtaButton
+            props={{
+              className: "primary-button",
+              "data-testid": "button-about-request",
+            }}
+            text="Request a service"
+            icon={<ArrowRight size={15} />}
+          />
+        }
+      >
+        Ajike exists for the moment when a space needs more than a quick fix. We
+        bring pest control and cleaning together with a calm process,
+        accountable records, and people who take your space seriously.
+      </PageIntro>
       <main className="container page-container">
-        <PageIntro
-          eyebrow="About Ajike / field note 01"
-          title={
-            <>
-              The work is practical.
-              <br />
-              <em>The standard is personal.</em>
-            </>
-          }
-          action={
-            <CtaButton
-              props={{
-                className: "primary-button",
-                "data-testid": "button-about-request",
-              }}
-              text="Request a service"
-              icon={<ArrowRight size={15} />}
-            />
-          }
-        >
-          Ajike exists for the moment when a space needs more than a quick fix.
-          We bring pest control and cleaning together with a calm process,
-          accountable records, and people who take your space seriously.
-        </PageIntro>
         <section className="about-manifesto">
           <div className="manifesto-stamp">
             <span>AJK</span>

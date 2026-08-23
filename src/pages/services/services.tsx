@@ -13,6 +13,7 @@ import { SERVICES, SERVICE_DETAILS } from "@/lib/dummy-data";
 import ServiceIcon from "@/components/common/service-icon";
 import PageIntro from "@/components/common/page-intro";
 import CtaButton from "@/components/common/cta-button";
+import ServiceBg from "@/assets/services.jpg";
 
 function Services() {
   const [filter, setFilter] = useState<"All" | "Residential" | "Commercial">(
@@ -25,30 +26,31 @@ function Services() {
 
   return (
     <div>
+      <PageIntro
+        eyebrow="Services / field menu"
+        title={
+          <>
+            A clear plan for
+            <br />
+            <em>the space you keep.</em>
+          </>
+        }
+        bgImage={ServiceBg}
+        action={
+          <Link
+            href="/pricing"
+            className="secondary-button"
+            data-testid="link-services-pricing"
+          >
+            See starting prices <ArrowRight size={15} />
+          </Link>
+        }
+      >
+        Every service starts with a careful look and ends with a useful record.
+        Browse the full menu, understand what is included, and choose the next
+        step that fits your property.
+      </PageIntro>
       <main className="container page-container">
-        <PageIntro
-          eyebrow="Services / field menu"
-          title={
-            <>
-              A clear plan for
-              <br />
-              <em>the space you keep.</em>
-            </>
-          }
-          action={
-            <Link
-              href="/pricing"
-              className="secondary-button"
-              data-testid="link-services-pricing"
-            >
-              See starting prices <ArrowRight size={15} />
-            </Link>
-          }
-        >
-          Every service starts with a careful look and ends with a useful
-          record. Browse the full menu, understand what is included, and choose
-          the next step that fits your property.
-        </PageIntro>
         <section className="service-toolbar">
           <div>
             <span className="toolbar-label">Show me</span>

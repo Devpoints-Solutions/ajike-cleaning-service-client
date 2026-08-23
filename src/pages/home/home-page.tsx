@@ -13,14 +13,12 @@ function HomePage() {
       <main>
         <Hero />
         <TrustedStrip />
-        <div className="container">
-          <HomeServices />
-          <Coverage />
-          <Featured />
-          <Process />
-          <ReAssurance />
-          <FinalCta />
-        </div>
+        <HomeServices />
+        <Featured />
+        <Coverage />
+        <Process />
+        <ReAssurance />
+        <FinalCta />
       </main>
     </div>
   );

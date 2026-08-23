@@ -4,7 +4,7 @@ import CtaButton from "@/components/common/cta-button";
 function Featured() {
   return (
     <section className="section">
-      <div className="featured-panel">
+      <div className="featured-panel container">
         <div className="featured-copy">
           <div className="eyebrow">The Ajike difference</div>
           <h2>Every visit leaves a record.</h2>

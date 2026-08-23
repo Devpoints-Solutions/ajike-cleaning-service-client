@@ -3,7 +3,7 @@ import CtaButton from "@/components/common/cta-button";
 
 function FinalCta() {
   return (
-    <section className="final-cta">
+    <section className="final-cta container">
       <div>
         <div className="eyebrow">Good spaces start with a conversation</div>
         <h2>Ready to feel on top of it?</h2>

@@ -23,7 +23,7 @@ const faqs = [
 function ReAssurance() {
   const [faqOpen, setFaqOpen] = useState(0);
   return (
-    <section className="section reassurance" id="reassurance">
+    <section className="section reassurance container" id="reassurance">
       <div className="testimonial">
         <div className="quote-stars">
           <Star size={13} fill="currentColor" />

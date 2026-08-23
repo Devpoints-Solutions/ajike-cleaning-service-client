@@ -3,7 +3,7 @@ import CtaButton from "@/components/common/cta-button";
 
 function Coverage() {
   return (
-    <section className="section coverage-section" id="coverage">
+    <section className="section coverage-section container" id="coverage">
       <div className="coverage-intro">
         <div className="eyebrow">Where we show up</div>
         <h2>One standard of care, wherever you work and live.</h2>
