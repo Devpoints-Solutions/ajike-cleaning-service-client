@@ -3,21 +3,21 @@ import { BadgeCheck, ShieldCheck, Camera, MapPin } from "lucide-react";
 function TrustedStrip() {
   return (
     <section
-      className="trust-strip"
+      className="trust-strip container"
       aria-label="Ajike trust promises"
       data-testid="section-trust"
     >
       <div className="trust-item">
-        <BadgeCheck size={17} /> Verified professionals
+        <BadgeCheck size={30} /> Verified professionals
       </div>
       <div className="trust-item">
-        <ShieldCheck size={17} /> Licensed & insured
+        <ShieldCheck size={30} /> Licensed & insured
       </div>
       <div className="trust-item">
-        <Camera size={17} /> Before / after proof
+        <Camera size={30} /> Before / after proof
       </div>
       <div className="trust-item">
-        <MapPin size={17} /> Local service team
+        <MapPin size={30} /> Local service team
       </div>
     </section>
   );

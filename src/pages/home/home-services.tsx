@@ -28,27 +28,31 @@ function HomeServices() {
     <section className="section" id="services">
       <div className="section-heading">
         <div>
-          <div className="eyebrow">Pest + clean, under one roof</div>
-          <h2>Care that meets the moment.</h2>
+          <div className="eyebrow" style={{ fontSize: "0.8rem" }}>
+            Pest + clean, under one roof
+          </div>
+          <h2 className="mb-3">Care that meets the moment.</h2>
+          <div className="my-6"></div>
+          <p className="text-[0.9rem]">
+            Start with a one-time visit or ask us to build a recurring plan
+            around your property.
+          </p>
         </div>
-        <p>
-          Start with a one-time visit or ask us to build a recurring plan around
-          your property.
-        </p>
+
+        <div className="flex justify-end my-2 items-center">
+          <Link
+            className="mini-arrow text-[1rem] hover:text-[#087eaf] font-semibold flex items-center"
+            href="/services"
+          >
+            Explore services <ChevronRight size={16} />
+          </Link>
+        </div>
       </div>
 
-      <div className="flex justify-end my-2 items-center">
-        <Link
-          className="mini-arrow text-[13px] hover:text-[#087eaf] font-semibold flex items-center"
-          href="/services"
-        >
-          Explore services <ChevronRight size={16} />
-        </Link>
-      </div>
       <div className="services-grid">
         {SERVICES?.slice(0, 6).map((service, index) => (
           <article
-            className={`service-card reveal delay-${(index % 3) + 1}`}
+            className={`service-card mb-6 reveal delay-${(index % 3) + 1}`}
             key={service.id}
             data-testid={`card-service-${service.id}`}
           >
@@ -58,7 +62,9 @@ function HomeServices() {
                 alt={`${service.name} service`}
               />
               <div className="service-visual-overlay">
-                <span className="service-tag service-tag-visual">{service.type}</span>
+                <span className="service-tag service-tag-visual">
+                  {service.type}
+                </span>
                 <div className="service-icon service-icon-visual">
                   <ServiceIcon kind={service.icon} />
                 </div>

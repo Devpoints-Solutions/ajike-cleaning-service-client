@@ -121,7 +121,6 @@ a {
   padding: 0 max(1.25rem, calc((100vw - 1200px) / 2));
   background: rgba(245, 250, 253, 0.92);
   border-bottom: 1px solid #dce8ee;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px !important;
   position: sticky;
   top: 0;
   z-index: 30;
@@ -486,7 +485,8 @@ a {
   gap: 0.6rem;
   min-height: 74px;
   color: #4e7084;
-  font-size: 0.73rem;
+  font-size: 1rem;
+  font-weight: 500;
   border-right: 1px solid #d6e6ee;
   padding: 0.5rem;
   text-align: center;
@@ -516,7 +516,7 @@ a {
 .section-heading p {
   max-width: 300px;
   color: #60798a;
-  font-size: 0.8rem;
+  /* font-size: 0.8rem; */
   line-height: 1.5;
   margin: 0;
 }
@@ -526,11 +526,7 @@ a {
   gap: 0.75rem;
 }
 .service-card {
-<<<<<<< HEAD
-  min-height: 260px;
-=======
-  min-height: 340px;
->>>>>>> agents/rebuild-service-card-home-services
+  min-height: 210px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -565,7 +561,11 @@ a {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(8, 33, 54, 0.14), rgba(9, 40, 65, 0.44));
+  background: linear-gradient(
+    180deg,
+    rgba(8, 33, 54, 0.14),
+    rgba(9, 40, 65, 0.44)
+  );
 }
 .service-visual-overlay {
   position: absolute;
@@ -602,11 +602,13 @@ a {
   margin: 0 0 0.38rem;
   color: #103d5d;
   font: 700 0.92rem var(--font-display);
+  font-size: 1.3rem;
   /* letter-spacing: -0.04em; */
 }
 .service-card p {
   color: #698292;
-  font-size: 0.72rem;
+  font-size: 0.9rem;
+  font-weight: 500;
   line-height: 1.5;
   margin: 0;
 }
@@ -621,6 +623,7 @@ a {
   color: #138bb6;
   font: 700 0.58rem var(--font-display);
   text-transform: uppercase;
+  font-size: 0.7rem;
   /* letter-spacing: 0.07em; */
 }
 .service-tag-visual {
@@ -1935,6 +1938,7 @@ a {
   .section-heading p {
     margin-top: 0.8rem;
   }
+
   .services-grid {
     grid-template-columns: 1fr 1fr;
     gap: 0.55rem;
