@@ -1,4 +1,4 @@
-import { object, string, number, ref } from "yup";
+import { object, string, ref } from "yup";
 import { SERVICES } from "@/lib/dummy-data";
 
 // compute minimum numeric price from SERVICES array (prices are like "From $89")
@@ -6,6 +6,8 @@ const parsedPrices = SERVICES.map((s) => (s.price || "").replace(/[^0-9]/g, ""))
   .map((p) => Number(p || 0))
   .filter((n) => !Number.isNaN(n) && n > 0);
 const MIN_SERVICE_PRICE = parsedPrices.length ? Math.min(...parsedPrices) : 100;
+const sanitizeNumericValue = (value: unknown) =>
+  String(value ?? "").replace(/[^0-9]/g, "");
 
 export const signupSchema = object({
   firstName: string().required("First name is required"),
@@ -76,14 +78,19 @@ export const serviceSchema = object({
     .max(1000, "Service description must not exceed 1000 characters"),
   propertyType: string().required("Property type is required"),
 
-  budget: number()
+  budget: string()
     .required("Budget is required")
-    .transform((_value, originalValue) => {
-      return Number(originalValue);
+    .test("budget-format", "Budget must be a valid number", (value) => {
+      if (!value) return false;
+      return /^\d+$/.test(sanitizeNumericValue(value));
     })
-    .min(
-      MIN_SERVICE_PRICE,
+    .test(
+      "budget-min",
       `The minimum allowed budget is $${MIN_SERVICE_PRICE}`,
+      (value) => {
+        if (!value) return false;
+        return Number(sanitizeNumericValue(value)) >= MIN_SERVICE_PRICE;
+      },
     ),
   preferredDate: string()
     .required("Preferred date is required")
@@ -143,5 +150,5 @@ export const serviceSchema = object({
       "Please enter a valid US phone number",
     ),
 
-  serviceLocation: string().required("Please enter location"),
+  serviceLocation: string().optional(),
 });

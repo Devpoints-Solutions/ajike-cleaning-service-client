@@ -63,7 +63,7 @@ function Schedules() {
         </div>
         <div className="admin-filter-row">
           <div className="admin-filter-tabs">
-            {(["All", "New", "Pending", "Completed", "Canceled"] as const).map(
+            {(["All", "New", "Pending", "Completed", "Cancelled"] as const).map(
               (item) => (
                 <button
                   className={filter === item ? "active" : ""}
@@ -115,7 +115,10 @@ function Schedules() {
               <div className="tech-badge" title={`Assigned to ${job.tech}`}>
                 {job.tech}
               </div>
-              <span className={`admin-status ${statusClass(job.status)}`}>
+              <span
+                className={`admin-status ${statusClass(job.status)}`}
+                style={{ color: getStatusColor(job.status) }}
+              >
                 {job.status}
               </span>
               <div className="schedule-row-actions">

@@ -145,13 +145,14 @@ export function UserActiveSchedules() {
                 </div>
 
                 <div className="active-schedule-footer">
-                  <Link
-                    href={`/dashboard/schedules/${job.id}`}
+                  <button
+                    type="button"
                     className="text-button"
+                    onClick={() => handleViewDetails(job.id)}
                     data-testid={`button-view-full-details-${job.id}`}
                   >
                     View Full Details <ChevronRight size={14} />
-                  </Link>
+                  </button>
                 </div>
               </div>
             ))}
