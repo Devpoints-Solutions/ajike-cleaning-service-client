@@ -11,6 +11,7 @@ import {
   CalendarClock,
   ClockFading,
   RefreshCw,
+  HeartCrack,
 } from "lucide-react";
 import CtaButton from "@/components/common/cta-button";
 import { useAuthContext } from "@/features/contexts/auth-context";
@@ -122,37 +123,47 @@ function Dashboard() {
               <span>Cancelled Requests</span>
             </div>
           </section>
-          {nextVisit && (
-            <section className="dashboard-card visit-card">
-              <div className="card-kicker">Next visit</div>
-              <h2>We will see you soon.</h2>
-              <div className="visit-date">
-                <div className="date-block">
-                  <strong>
-                    {getSpecificDate(nextVisit?.preferredDate!).dayDate}
-                  </strong>
-                  <span>
-                    {getSpecificDate(nextVisit?.preferredDate!).monthName}
-                  </span>
-                </div>
-                <div>
-                  <h3>{nextVisit?.title}</h3>
 
-                  <p>{getSpecificDate(nextVisit?.preferredDate!).fullDate}</p>
+          <section className="dashboard-card visit-card">
+            <div className="card-kicker">Next visit</div>
+
+            {nextVisit ? (
+              <>
+                <h2>We will see you soon.</h2>
+                <div className="visit-date">
+                  <div className="date-block">
+                    <strong>
+                      {getSpecificDate(nextVisit?.preferredDate!).dayDate}
+                    </strong>
+                    <span>
+                      {getSpecificDate(nextVisit?.preferredDate!).monthName}
+                    </span>
+                  </div>
+                  <div>
+                    <h3>{nextVisit?.title}</h3>
+
+                    <p>{getSpecificDate(nextVisit?.preferredDate!).fullDate}</p>
+                  </div>
                 </div>
+                <div className="status-line">
+                  <span className="status-pill">Confirmed</span>
+                  <Link
+                    className="text-button"
+                    href={`dashboard/schedules/${nextVisit?._id}`}
+                    data-testid="button-visit-details"
+                  >
+                    View details <ChevronRight size={14} />
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <div className="flex gap-2 items-center justify-center">
+                <HeartCrack />
+                <h1 className="font-semibold">No approved service yet!</h1>
               </div>
-              <div className="status-line">
-                <span className="status-pill">Confirmed</span>
-                <Link
-                  className="text-button"
-                  href={`dashboard/schedules/${nextVisit?._id}`}
-                  data-testid="button-visit-details"
-                >
-                  View details <ChevronRight size={14} />
-                </Link>
-              </div>
-            </section>
-          )}
+            )}
+          </section>
+
           <section className="dashboard-card plan-card">
             <div className="card-kicker">Active plan</div>
             <h2>Home care, every 60 days.</h2>
