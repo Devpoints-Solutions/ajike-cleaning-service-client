@@ -32,7 +32,10 @@ function RequestModal() {
 
   // selectedPrice tracks the current price string for the chosen preset service
   const [selectedPrice, setSelectedPrice] = useState<string>(
-    SERVICES.find((s) => s.name === (formData?.title || SERVICES[0]?.name))?.price || SERVICES[0]?.price || ""
+    SERVICES.find((s) => s.name === (formData?.title || SERVICES[0]?.name))
+      ?.price ||
+      SERVICES[0]?.price ||
+      "",
   );
 
   // Keep selectedPrice in sync when the preset title changes
@@ -298,9 +301,9 @@ function RequestModal() {
                     <label htmlFor="price">Price</label>
                     <select
                       id="request-price"
-                      name="price"
+                      name="budget"
                       value={selectedPrice}
-                      onChange={(e) => setSelectedPrice(e.target.value)}
+                      onChange={getFormInput}
                       data-testid="select-request-price"
                     >
                       {SERVICES.map((service) => (
