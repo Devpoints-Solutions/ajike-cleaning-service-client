@@ -1,5 +1,45 @@
 import { ArrowRight } from "lucide-react";
+import { Home, Building2, Store, Building, ArrowUpRight } from "lucide-react";
 import CtaButton from "@/components/common/cta-button";
+
+const coverageCards = [
+  {
+    number: "01",
+    title: "Homes & apartments",
+    description:
+      "Protect the spaces that hold your routines, pets, and people.",
+    image:
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
+    icon: Home,
+  },
+  {
+    number: "02",
+    title: "Offices & studios",
+    description:
+      "Keep shared spaces ready for teams, clients, and focused work.",
+    image:
+      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=80",
+    icon: Building2,
+  },
+  {
+    number: "03",
+    title: "Restaurants & retail",
+    description:
+      "Practical plans designed around operating hours & inspections.",
+    image:
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+    icon: Store,
+  },
+  {
+    number: "04",
+    title: "Facilities & property teams",
+    description:
+      "Consistent documentation and a partner who understands multiple sites.",
+    image:
+      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
+    icon: Building,
+  },
+];
 
 function Coverage() {
   return (
@@ -21,60 +61,118 @@ function Coverage() {
           icon={<ArrowRight size={14} />}
         />
       </div>
-      <div className="coverage-list">
-        <div className="coverage-card">
-          <div className="coverage-visual">
-            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80" alt="Homes & apartments" />
-          </div>
 
-          <div className="coverage-overlay">
-            <span className="coverage-num">01</span>
-            <h3>Homes & apartments</h3>
-            <p>
-              Protect the spaces that hold your routines, pets, people, and
-              weekends.
-            </p>
-          </div>
-        </div>
-        <div className="coverage-card">
-          <div className="coverage-visual">
-            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=80" alt="Offices & studios" />
-          </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {coverageCards.map((card) => {
+          const Icon = card.icon;
 
-          <div className="coverage-overlay">
-            <span className="coverage-num">02</span>
-            <h3>Offices & studios</h3>
-            <p>Keep shared spaces ready for teams, clients, and focused work.</p>
-          </div>
-        </div>
-        <div className="coverage-card">
-          <div className="coverage-visual">
-            <img src="https://images.unsplash.com/photo-1541542684-7f15a7b6b49b?auto=format&fit=crop&w=1200&q=80" alt="Restaurants & retail" />
-          </div>
+          return (
+            <div
+              key={card.number}
+              className="relative h-[200px] overflow-hidden rounded-2xl group cursor-pointer"
+            >
+              {/* Background Image */}
+              <img
+                src={card.image}
+                alt={card.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
 
-          <div className="coverage-overlay">
-            <span className="coverage-num">03</span>
-            <h3>Restaurants & retail</h3>
-            <p>
-              Practical service plans designed around operating hours and
-              inspections.
-            </p>
-          </div>
-        </div>
-        <div className="coverage-card">
-          <div className="coverage-visual">
-            <img src="https://images.unsplash.com/photo-1505691723518-36a3f0ef8bca?auto=format&fit=crop&w=1200&q=80" alt="Facilities & property teams" />
-          </div>
+              {/* Dark overlay */}
+              <div
+                className="
+                absolute inset-0
+                bg-gradient-to-t
+                from-[#0c2743]
+                via-[#061a2f]/75
+                to-black/10
+                transition-all duration-500
+                group-hover:via-[#061a2f]/85
+              "
+              />
 
-          <div className="coverage-overlay">
-            <span className="coverage-num">04</span>
-            <h3>Facilities & property teams</h3>
-            <p>
-              Consistent documentation and a partner who understands multiple
-              sites.
-            </p>
-          </div>
-        </div>
+              {/* Content */}
+              <div className="absolute inset-0 z-10 flex flex-col justify-end p-6 md:p-8">
+                {/* Number + Icon */}
+                <div className="flex items-center gap-3 mb-4">
+                  <div
+                    className=" 
+                    flex items-center justify-center
+                    w-10 h-10
+                    rounded-full
+                    bg-[#001625]
+                    border border-white/25
+                    backdrop-blur-md
+                    transition-all duration-300
+                    group-hover:bg-white/20
+                    group-hover:scale-105
+                  "
+                  >
+                    <Icon size={15} strokeWidth={1.8} className="text-white" />
+                  </div>
+
+                  <span className="text-xs font-semibold tracking-[0.25em] text-white/70">
+                    {card.number}
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h3
+                  className="
+                  mb-2
+                  text-[13px] md:text-[13px]
+                  font-semibold
+                  tracking-tight
+                  text-[#1687b6]
+                  drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]
+                  transition-transform duration-300
+                  group-hover:-translate-y-1
+                "
+                >
+                  {card.title}
+                </h3>
+
+                {/* Description */}
+                <p
+                  className="
+                  max-w-lg
+                  text-sm md:text-base
+                  leading-relaxed
+                  text-white/85
+                  drop-shadow-[0_1px_5px_rgba(0,0,0,0.6)]
+                "
+                >
+                  {card.description}
+                </p>
+
+                {/* Arrow */}
+                <div
+                  className="
+                  absolute
+                  top-6 right-6
+                  flex items-center justify-center
+                  w-10 h-10
+                  rounded-full
+                  bg-white/10
+                  border border-white/20
+                  backdrop-blur-md
+                  opacity-0
+                  translate-y-2
+                  transition-all duration-300
+                  group-hover:opacity-100
+                  group-hover:translate-y-0
+                "
+                >
+                  <ArrowUpRight
+                    size={19}
+                    className="text-white"
+                    strokeWidth={1.8}
+                  />
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

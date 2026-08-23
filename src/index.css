@@ -246,13 +246,15 @@ a {
   box-shadow: 0 14px 28px rgba(11, 65, 104, 0.25);
 }
 .secondary-button {
-  background: #dff2fa;
-  color: #001625;
-  border-color: #bde1ef;
+  background: #001625;
+  color: #dff2fa;
+  border-color: #001625;
 }
 .secondary-button:hover {
-  background: #ccecf8;
+  background: #087eaf;
   transform: translateY(-2px);
+  border-color: #087eaf;
+  color: #bde1ef;
 }
 .text-button {
   min-height: auto;
@@ -708,15 +710,15 @@ a {
   display: block;
   transform: scale(1.02);
 }
-.coverage-overlay {
+/* .coverage-overlay {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   padding: 1rem;
-  background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.5));
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
   color: #fff;
-}
+} */
 .coverage-card .coverage-num {
   color: #dff2fb;
   font: 700 1.8rem var(--font-display);
@@ -727,7 +729,7 @@ a {
   margin: 0.3rem 0 0.35rem;
 }
 .coverage-card p {
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 0.72rem;
   line-height: 1.45;
   margin: 0;
