@@ -211,7 +211,6 @@ const ServiceCoverage = ({ serviceDetails }: { serviceDetails: any }) => {
                 </div>
               </div>
 
-              {/* CTA */}
               <CtaButton
                 icon={<ArrowRight size={25} />}
                 text="Request This Service"
