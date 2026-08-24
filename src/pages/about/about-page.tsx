@@ -22,6 +22,30 @@ function About() {
     ],
   ];
 
+  const standardsImage =
+    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80";
+
+  const people = [
+    {
+      name: "Amina",
+      role: "Service coordination",
+      image:
+        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=900&q=80",
+    },
+    {
+      name: "Jalen",
+      role: "Field technician",
+      image:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80",
+    },
+    {
+      name: "Tessa",
+      role: "Cleaning lead",
+      image:
+        "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80",
+    },
+  ];
+
   const steps = [
     {
       number: "01",
@@ -169,6 +193,10 @@ function About() {
 
         <section className="container section standards-section">
           <div className="standards-art">
+            <img
+              src={standardsImage}
+              alt="Ajike team member checking a home during a quality inspection"
+            />
             <div className="blueprint-label">FIELD STANDARD / 03</div>
             <div className="standards-crosshair" />
             <div className="standards-line line-one" />
@@ -224,21 +252,13 @@ function About() {
             </Link>
           </div>
           <div className="people-roster">
-            <div className="person-card">
-              <div className="person-initial">AM</div>
-              <strong>Amina</strong>
-              <span>Service coordination</span>
-            </div>
-            <div className="person-card">
-              <div className="person-initial sky">JR</div>
-              <strong>Jalen</strong>
-              <span>Field technician</span>
-            </div>
-            <div className="person-card">
-              <div className="person-initial pale">TN</div>
-              <strong>Tessa</strong>
-              <span>Cleaning lead</span>
-            </div>
+            {people.map((person) => (
+              <div className="person-card" key={person.name}>
+                <img src={person.image} alt={person.name} />
+                <strong>{person.name}</strong>
+                <span>{person.role}</span>
+              </div>
+            ))}
           </div>
         </section>
         <section className="final-cta container">

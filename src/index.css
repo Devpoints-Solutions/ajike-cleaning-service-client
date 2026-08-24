@@ -2304,20 +2304,37 @@ a {
   background: #001625;
   position: relative;
   overflow: hidden;
-  background-image:
-    linear-gradient(rgba(157, 222, 243, 0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(157, 222, 243, 0.15) 1px, transparent 1px);
-  background-size: 29px 29px;
+  box-shadow: inset 0 0 0 1px rgba(162, 224, 245, 0.18);
+}
+.standards-art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.08) contrast(1.06);
 }
 .standards-art::before {
   content: "";
   position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(3, 23, 36, 0.72),
+    rgba(3, 23, 36, 0.18)
+  );
+  z-index: 1;
+}
+.standards-art::after {
+  content: "";
+  position: absolute;
   inset: 13%;
-  border: 1px solid rgba(166, 229, 246, 0.38);
+  border: 1px solid rgba(166, 229, 246, 0.42);
   border-radius: 50%;
   box-shadow:
     0 0 0 34px rgba(166, 229, 246, 0.06),
     0 0 0 92px rgba(166, 229, 246, 0.04);
+  z-index: 2;
 }
 .blueprint-label {
   position: absolute;
@@ -2326,6 +2343,7 @@ a {
   color: #a6e2f4;
   font: 700 0.56rem var(--font-display);
   letter-spacing: 0.13em;
+  z-index: 3;
 }
 .standards-crosshair {
   position: absolute;
@@ -2335,6 +2353,7 @@ a {
   border-radius: 50%;
   left: calc(50% - 67px);
   top: calc(50% - 67px);
+  z-index: 3;
 }
 .standards-crosshair::before,
 .standards-crosshair::after {
@@ -2360,6 +2379,7 @@ a {
   border-top: 1px dashed rgba(170, 231, 246, 0.6);
   width: 90px;
   transform: rotate(-35deg);
+  z-index: 3;
 }
 .line-one {
   top: 26%;
@@ -2377,6 +2397,7 @@ a {
   color: #91d2e9;
   font: 700 0.53rem var(--font-display);
   letter-spacing: 0.08em;
+  z-index: 3;
 }
 .standards-check {
   position: absolute;
@@ -2389,6 +2410,7 @@ a {
   font: 700 0.58rem var(--font-display);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  z-index: 3;
 }
 .standards-check svg {
   color: #8bdaf0;
@@ -2454,29 +2476,20 @@ a {
   flex-direction: column;
   justify-content: flex-end;
   min-height: 205px;
-  padding: 1rem;
+  padding: 0.8rem;
   border: 1px solid #d4e4eb;
   border-radius: 1rem;
   background: #fff;
+  overflow: hidden;
 }
-.person-initial {
-  width: 58px;
-  height: 58px;
-  display: grid;
-  place-items: center;
-  margin-bottom: auto;
-  border-radius: 50%;
-  background: #001625;
-  color: #d9f5fb;
-  font: 700 1rem var(--font-display);
-}
-.person-initial.sky {
-  background: #7bc6df;
-  color: #001625;
-}
-.person-initial.pale {
-  background: #d6eff6;
-  color: #16799e;
+.person-card img {
+  width: 100%;
+  height: 150px;
+  display: block;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  margin-bottom: 0.8rem;
+  filter: saturate(1.06) contrast(1.02);
 }
 .person-card strong {
   color: #123f5e;
