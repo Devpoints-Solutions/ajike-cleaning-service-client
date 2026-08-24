@@ -220,8 +220,9 @@ function SignUp() {
           );
         })}
 
-        <label className="check-row">
+        <label className="flex gap-3">
           <input
+            style={{ width: "15px" }}
             type="checkbox"
             checked={consent}
             onChange={(event) => setConsent(event.target.checked)}
