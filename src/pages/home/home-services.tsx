@@ -5,7 +5,7 @@ import CtaButton from "@/components/common/cta-button";
 import mosquitoImage from "@/assets/mosquito.png";
 import rodentsImage from "@/assets/rodents.png";
 import pestControl from "@/assets/about.png";
-// import { motion } from "motion/react"
+import { motion } from "motion/react";
 import { Link } from "wouter";
 
 const SERVICE_IMAGES: Record<string, string> = {
@@ -23,6 +23,7 @@ const SERVICE_IMAGES: Record<string, string> = {
   "move-clean":
     "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=900&q=80",
 };
+const MotionLink = motion(Link);
 
 function HomeServices() {
   return (
@@ -53,22 +54,56 @@ function HomeServices() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-        {SERVICES?.slice(0, 6).map((service, index) => (
-          <Link
-            href="/auth/sign-in"
-            className={`service-card mb-6 reveal delay-${(index % 3) + 1}`}
+        {SERVICES?.slice(0, 6).map((service) => (
+          <MotionLink
+            to={`/services`}
             key={service.id}
             data-testid={`card-service-${service.id}`}
+            // @ts-ignore
+            className="service-card mb-6 block cursor-pointer overflow-hidden rounded-2xl"
+            initial={{
+              opacity: 0,
+              y: 20,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+              amount: 0.15,
+            }}
+            whileHover={{
+              y: -6,
+              scale: 1.015,
+            }}
+            whileTap={{
+              scale: 0.98,
+            }}
+            transition={{
+              duration: 0.18,
+              ease: "easeOut",
+            }}
           >
-            <div className="service-visual">
-              <img
+            <div className="service-visual overflow-hidden">
+              <motion.img
                 src={SERVICE_IMAGES[service.id] ?? SERVICE_IMAGES["home-clean"]}
                 alt={`${service.name} service`}
+                className="h-full w-full object-cover"
+                whileHover={{
+                  scale: 1.05,
+                }}
+                transition={{
+                  duration: 0.2,
+                  ease: "easeOut",
+                }}
               />
+
               <div className="service-visual-overlay">
                 <span className="service-tag service-tag-visual">
                   {service.type}
                 </span>
+
                 <div className="service-icon service-icon-visual">
                   <ServiceIcon kind={service.icon} />
                 </div>
@@ -85,18 +120,17 @@ function HomeServices() {
                 <span className="service-tag">
                   {service.type} · {service.price}
                 </span>
-                <CtaButton
-                  text=""
-                  icon={<ArrowUpRight size={16} />}
-                  props={{
-                    className: "icon-button mini-arrow",
-                    "aria-label": `Request ${service.name}`,
-                    "data-testid": `button-request-${service.id}`,
-                  }}
-                />
+
+                <div
+                  className="icon-button mini-arrow"
+                  aria-label={`Request ${service.name}`}
+                  data-testid={`button-request-${service.id}`}
+                >
+                  <ArrowUpRight size={16} />
+                </div>
               </div>
             </div>
-          </Link>
+          </MotionLink>
         ))}
       </div>
     </section>
