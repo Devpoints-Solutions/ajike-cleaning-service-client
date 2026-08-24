@@ -21,6 +21,31 @@ function About() {
       "You receive plain-language notes about what we found, what we did, and what is worth watching next.",
     ],
   ];
+
+  const steps = [
+    {
+      number: "01",
+
+      title: "Clear before clever",
+      description:
+        "We use plain language, transparent starting prices, and are commendation that matches the evidence.",
+    },
+    {
+      number: "02",
+
+      title: "Care is operational",
+      description:
+        " Respect shows up in arrival windows, safe prep notes, tidy exits, and records that do not disappear.",
+    },
+    {
+      number: "03",
+
+      title: "We are accountable",
+      description:
+        " The person coordinating the work is close enough to follow through before, during, and after the visit.",
+    },
+  ];
+
   return (
     <div>
       <PageIntro
@@ -48,8 +73,8 @@ function About() {
         bring pest control and cleaning together with a calm process,
         accountable records, and people who take your space seriously.
       </PageIntro>
-      <main className="container page-container">
-        <section className="about-manifesto">
+      <main className="page-container">
+        <section className="container about-manifesto">
           <div className="manifesto-copy">
             <div className="eyebrow">Our mission</div>
             <h2>Make care easier to trust.</h2>
@@ -64,7 +89,10 @@ function About() {
               office entrance, and every person who lets us through the door.
             </p>
           </div>
-          <div className="manifesto-visual" aria-label="Professional cleaning and pest control care">
+          <div
+            className="manifesto-visual"
+            aria-label="Professional cleaning and pest control care"
+          >
             <img
               src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80"
               alt="Professional cleaner caring for a home environment"
@@ -75,45 +103,71 @@ function About() {
             </div>
           </div>
         </section>
-        <section className="section about-values">
-          <div className="section-heading">
-            <div>
-              <div className="eyebrow">The Ajike brief</div>
-              <h2>Values you can see in the visit.</h2>
+
+        <section
+          id="process"
+          className="bg-[#001625] py-20 px-6 sm:px-8 lg:px-12 mb-32"
+        >
+          <div className="custom-container container mx-auto max-w-7xl">
+            {/* Heading */}
+            <div className="mb-14 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-2xl">
+                <span className="eyebrow">The Ajike brief</span>
+
+                <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+                  Values you can see in the visit.
+                </h2>
+              </div>
+
+              <p className="max-w-md text-base leading-7 text-white/70">
+                Not slogans on a wall. Small decisions in the field, repeated
+                until they become a standard.
+              </p>
             </div>
-            <p>
-              Not slogans on a wall. Small decisions in the field, repeated
-              until they become a standard.
-            </p>
-          </div>
-          <div className="values-grid">
-            <article>
-              <span className="value-number">01</span>
-              <h3>Clear before clever</h3>
-              <p>
-                We use plain language, transparent starting prices, and a
-                recommendation that matches the evidence.
-              </p>
-            </article>
-            <article>
-              <span className="value-number">02</span>
-              <h3>Care is operational</h3>
-              <p>
-                Respect shows up in arrival windows, safe prep notes, tidy
-                exits, and records that do not disappear.
-              </p>
-            </article>
-            <article>
-              <span className="value-number">03</span>
-              <h3>Local means accountable</h3>
-              <p>
-                The person coordinating the work is close enough to follow
-                through — before, during, and after the visit.
-              </p>
-            </article>
+
+            {/* Steps */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {steps.map((step, _index) => (
+                <div
+                  key={step.number}
+                  className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.06] p-7 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:border-white/20 hover:bg-white/[0.09] hover:shadow-2xl"
+                >
+                  {/* Decorative number */}
+                  <div className="absolute -right-5 -top-8 text-8xl font-black text-white/[0.04] transition-transform duration-500 group-hover:scale-110">
+                    {step.number}
+                  </div>
+
+                  {/* Step number */}
+                  <div className="relative mb-8 flex items-center justify-between">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-sm font-bold text-[#071f2c] shadow-md">
+                      {step.number}
+                    </span>
+
+                    {/* <span className="text-xs font-bold uppercase tracking-[0.2em] text-white/50">
+                      {step.label}
+                    </span> */}
+                  </div>
+
+                  {/* Content */}
+                  <div className="relative">
+                    <h3 className="mb-4 text-2xl font-bold text-[#1687b6]">
+                      {step.title}
+                    </h3>
+
+                    <p className="text-sm leading-7 text-white/65">
+                      {step.description}
+                    </p>
+                  </div>
+
+                  {/* Bottom accent */}
+                  <div className="mt-8 h-1 w-12 rounded-full bg-white/30 transition-all duration-300 group-hover:w-full group-hover:bg-white" />
+                </div>
+              ))}
+            </div>
           </div>
         </section>
-        <section className="section standards-section">
+
+        <section className="container section standards-section">
           <div className="standards-art">
             <div className="blueprint-label">FIELD STANDARD / 03</div>
             <div className="standards-crosshair" />
@@ -151,7 +205,7 @@ function About() {
             ))}
           </div>
         </section>
-        <section className="section people-section">
+        <section className="section container people-section">
           <div>
             <div className="eyebrow">The people behind the work</div>
             <h2>Good fieldwork has a human face.</h2>
@@ -187,7 +241,7 @@ function About() {
             </div>
           </div>
         </section>
-        <section className="final-cta">
+        <section className="final-cta container">
           <div>
             <div className="eyebrow">A clear next step</div>
             <h2>Tell us what your space needs.</h2>
