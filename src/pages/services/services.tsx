@@ -149,12 +149,10 @@ function Services() {
                     </div>
                     <div className="service-info-block">
                       <span className="info-label">Visit + preparation</span>
-                      <p>
+                      <span className="flex items-center text-[10px] font-bold text-[#1687b6]">
                         <Timer size={14} /> {detail.duration}
-                      </p>
-                      <p className="prep-note">
-                        <Info size={14} /> {detail.prep}
-                      </p>
+                      </span>
+                      <p className="prep-note">{detail.prep}</p>
                     </div>
                     <div className="service-next">
                       <span className="info-label">Your next step</span>

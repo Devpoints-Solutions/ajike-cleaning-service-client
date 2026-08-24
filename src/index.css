@@ -2632,7 +2632,7 @@ a {
 }
 .info-label {
   color: #1288b2;
-  font: 700 0.64rem var(--font-display);
+  font: 700 0.8rem var(--font-display);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
