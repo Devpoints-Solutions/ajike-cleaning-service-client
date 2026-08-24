@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import PageIntro from "@/components/common/page-intro";
 import CtaButton from "@/components/common/cta-button";
 import aboutImage from "@/assets/about.jpg";
+import standardImage from "@/assets/services.jpg";
 
 function About() {
   const [standardOpen, setStandardOpen] = useState(0);
@@ -169,6 +170,10 @@ function About() {
 
         <section className="container section standards-section">
           <div className="standards-art">
+            <img
+              src={standardImage}
+              alt="Ajike team member checking a home during a quality inspection"
+            />
             <div className="blueprint-label">FIELD STANDARD / 03</div>
             <div className="standards-crosshair" />
             <div className="standards-line line-one" />
@@ -205,6 +210,7 @@ function About() {
             ))}
           </div>
         </section>
+
         <section className="section container people-section">
           <div>
             <div className="eyebrow">The people behind the work</div>
