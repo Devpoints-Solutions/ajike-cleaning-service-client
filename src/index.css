@@ -859,34 +859,151 @@ a {
   text-transform: uppercase;
 }
 
-.steps {
+.process-shell {
+  background:
+    radial-gradient(circle at top left, rgba(82, 194, 242, 0.18), transparent 30%),
+    linear-gradient(180deg, #001625 0%, #072f46 100%);
+  padding: 6.5rem 0 5.5rem;
+  margin-bottom: 4.5rem;
+}
+.process-panel {
+  position: relative;
+}
+.process-heading {
+  margin-bottom: 2rem;
+}
+.process-heading h2 {
+  color: #effcff;
+}
+.process-heading p {
+  max-width: 360px;
+  color: rgba(208, 233, 244, 0.8);
+}
+.process-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid #cfe1e9;
-  border-bottom: 1px solid #cfe1e9;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
 }
-.step {
-  padding: 1.7rem 1.4rem 1.9rem;
-  border-right: 1px solid #cfe1e9;
+.process-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-height: 300px;
+  padding: 1.35rem;
+  background: linear-gradient(180deg, rgba(12, 41, 61, 0.92), rgba(7, 27, 40, 0.9));
+  border: 1px solid rgba(147, 207, 231, 0.18);
+  border-radius: 1.5rem;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
-.step:last-child {
-  border-right: 0;
+.process-card::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 52% 0;
+  height: 120px;
+  background: linear-gradient(135deg, rgba(103, 203, 255, 0.26), transparent 70%);
+  pointer-events: none;
 }
-.step-number {
-  color: #ffffff;
-  font: 700 0.75rem var(--font-display);
+.process-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(122, 214, 255, 0.5);
+  box-shadow: 0 28px 60px rgba(7, 40, 58, 0.28);
 }
-.step h3 {
-  color: #1687b6;
-  font: 700 1.3rem var(--font-display);
-  margin: 1.3rem 0 0.5rem;
+.process-card-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
 }
-.step p {
-  color: #ffffff;
-  font-size: 1rem;
-  line-height: 1.6;
-  max-width: 240px;
+.process-step-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(144, 220, 255, 0.1);
+  border: 1px solid rgba(144, 220, 255, 0.2);
+  color: #dff8ff;
+  font: 700 0.7rem var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.process-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(148, 216, 243, 0.24), rgba(124, 201, 237, 0.12));
+  color: #bfeeff;
+  border: 1px solid rgba(160, 229, 251, 0.2);
+}
+.process-card-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.process-index {
+  font: 700 2.8rem/0.9 var(--font-display);
+  color: rgba(146, 202, 228, 0.26);
+  letter-spacing: -0.08em;
+}
+.process-card h3 {
+  color: #f5fbff;
+  font: 700 1.5rem/1.05 var(--font-display);
   margin: 0;
+}
+.process-card p {
+  color: rgba(214, 233, 243, 0.82);
+  font-size: 0.98rem;
+  line-height: 1.65;
+  margin: 0;
+}
+.process-card-footer {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(168, 216, 237, 0.14);
+  color: #dff7ff;
+  font: 700 0.72rem var(--font-display);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.process-arrow {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(160, 235, 255, 0.12);
+  border: 1px solid rgba(160, 235, 255, 0.18);
+  color: #dff8ff;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.process-card:hover .process-arrow {
+  transform: translate(3px, -2px);
+  background: rgba(160, 235, 255, 0.18);
+}
+
+@media (max-width: 900px) {
+  .process-shell {
+    padding: 5.5rem 0 4.5rem;
+  }
+  .process-grid {
+    grid-template-columns: 1fr;
+  }
+  .process-card {
+    min-height: unset;
+  }
 }
 
 .reassurance {
