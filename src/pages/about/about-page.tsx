@@ -3,8 +3,9 @@ import { ArrowRight, CheckCheck, ChevronDown } from "lucide-react";
 import { Link } from "wouter";
 import PageIntro from "@/components/common/page-intro";
 import CtaButton from "@/components/common/cta-button";
-import aboutImage from "@/assets/about.jpg";
-import standardImage from "@/assets/services.jpg";
+import aboutImage from "@/assets/new_about.png";
+import standardImage from "@/assets/services.png";
+import homeImage from "@/assets/home.png";
 
 function About() {
   const [standardOpen, setStandardOpen] = useState(0);
@@ -95,7 +96,7 @@ function About() {
             aria-label="Professional cleaning and pest control care"
           >
             <img
-              src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80"
+              src={homeImage}
               alt="Professional cleaner caring for a home environment"
             />
             <div className="manifesto-visual-badge">

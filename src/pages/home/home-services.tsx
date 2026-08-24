@@ -2,17 +2,18 @@ import { SERVICES } from "@/lib/dummy-data";
 import ServiceIcon from "@/components/common/service-icon";
 import { ArrowUpRight, ChevronRight } from "lucide-react";
 import CtaButton from "@/components/common/cta-button";
+import mosquitoImage from "@/assets/mosquito.png";
+import rodentsImage from "@/assets/rodents.png";
+import pestControl from "@/assets/about.png";
+// import { motion } from "motion/react"
 import { Link } from "wouter";
 
 const SERVICE_IMAGES: Record<string, string> = {
-  "general-pest":
-    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80",
+  "general-pest": pestControl,
   "bed-bug":
     "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
-  rodent:
-    "https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=900&q=80",
-  mosquito:
-    "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80",
+  rodent: rodentsImage,
+  mosquito: mosquitoImage,
   "deep-clean":
     "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80",
   "home-clean":

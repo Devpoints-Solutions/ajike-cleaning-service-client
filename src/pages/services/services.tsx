@@ -12,7 +12,7 @@ import { SERVICES, SERVICE_DETAILS } from "@/lib/dummy-data";
 import ServiceIcon from "@/components/common/service-icon";
 import PageIntro from "@/components/common/page-intro";
 import CtaButton from "@/components/common/cta-button";
-import ServiceBg from "@/assets/services.jpg";
+import ServiceBg from "@/assets/services.png";
 
 function Services() {
   const [filter, setFilter] = useState<"All" | "Residential" | "Commercial">(
