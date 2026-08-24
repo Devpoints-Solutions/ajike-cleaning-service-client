@@ -7,22 +7,16 @@ import { Link } from "wouter";
 
 const MotionLink = motion(Link);
 
-function HomeServices() {
+function RelatedServices() {
   return (
-    <section className="section container" id="services">
+    <section className="container pt-11" id="services">
       <div className="section-heading">
         <div>
-          <div className="eyebrow" style={{ fontSize: "0.8rem" }}>
-            Pest + clean, under one roof
-          </div>
+          <div className="eyebrow">Related Services</div>
           <h2 className="mb-3" style={{ color: "#001625" }}>
-            Care that meets the moment.
+            You may all be interest in
           </h2>
           <div className="my-6"></div>
-          <p className="text-[0.9rem]">
-            Start with a one-time visit or ask us to build a recurring plan
-            around your property.
-          </p>
         </div>
 
         <div className="flex justify-end my-2 items-center">
@@ -30,13 +24,13 @@ function HomeServices() {
             className="mini-arrow text-[1rem] hover:text-[#087eaf] font-semibold flex items-center"
             href="/services"
           >
-            Explore services <ChevronRight size={16} />
+            Explore more... <ChevronRight size={16} />
           </Link>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-        {SERVICES?.slice(0, 6).map((service) => (
+        {SERVICES?.slice(0, 3)?.map((service) => (
           <MotionLink
             to={`/services/${service?.slug}`}
             key={service.id}
@@ -119,4 +113,4 @@ function HomeServices() {
   );
 }
 
-export default HomeServices;
+export default RelatedServices;

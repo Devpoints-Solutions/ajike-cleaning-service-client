@@ -19,6 +19,7 @@ function Services() {
     "All",
   );
   const [expanded, setExpanded] = useState<string | null>("general-pest");
+
   const visible = SERVICES.filter(
     (service) => filter === "All" || service.type === filter,
   );
@@ -160,7 +161,7 @@ function Services() {
                       <Link
                         className="primary-button button-small"
                         data-testid={`button-request-detail-${service.id}`}
-                        href={`/services/${service?.name}`}
+                        href={`/services/${service?.slug}`}
                       >
                         Get a better look <ArrowRight size={14} />
                       </Link>

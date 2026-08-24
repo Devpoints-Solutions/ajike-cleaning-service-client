@@ -2,29 +2,43 @@ import { useParams } from "wouter";
 import { SERVICES } from "@/lib/dummy-data";
 import { SERVICE_IMAGES } from "@/lib/dummy-data";
 import { SERVICE_DETAILS } from "@/lib/dummy-data";
-import ServiceIcon from "@/components/common/service-icon";
 import PageIntro from "@/components/common/page-intro";
-import { ArrowRight, Check, Clock, MapPin, ShieldCheck } from "lucide-react";
-import CtaButton from "@/components/common/cta-button";
+import { ArrowRight } from "lucide-react";
 import ServiceCoverage from "./service-coverage";
+import RelatedServices from "./related-services";
 import { Link } from "wouter";
+import { useEffect, useState } from "react";
+
+type ServiceDetails = {
+  audience: string;
+  included: string[];
+  duration: string;
+  prep: string;
+  next: string;
+};
 
 function ServiceDetails() {
   const { title } = useParams();
+  const [serviceDetails, setServiceDetails] = useState<
+    ((typeof SERVICES)[number] & ServiceDetails) | undefined
+  >();
 
-  const service = SERVICES.find((service) => service?.name === title);
-  const details = service ? SERVICE_DETAILS[service.id] : undefined;
+  const service = SERVICES.find((service) => service?.slug === title);
 
-  console.log(details);
+  useEffect(() => {
+    if (service) {
+      const details = SERVICE_DETAILS[service.id];
+      setServiceDetails({ ...service, ...details });
+    }
+  }, [service]);
 
   return (
-    <div>
+    <>
       <PageIntro
         eyebrow={`Services/${service?.type}/${service?.name}`}
         title={
           <>
             {service?.name}
-            <br />
             <br />
           </>
         }
@@ -42,8 +56,10 @@ function ServiceDetails() {
         {service?.detail}
       </PageIntro>
 
-      <ServiceCoverage serviceDetails={{ ...service, ...details }} />
-    </div>
+      {serviceDetails && <ServiceCoverage serviceDetails={serviceDetails} />}
+
+      <RelatedServices />
+    </>
   );
 }
 

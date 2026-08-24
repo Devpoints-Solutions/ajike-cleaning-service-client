@@ -6,6 +6,7 @@ import pestControl from "@/assets/about.png";
 export const SERVICES: Service[] = [
   {
     id: "general-pest",
+    slug: "general-pest-control",
     name: "General pest control",
     detail:
       "A practical reset for ants, roaches, spiders, and the small signs you should not ignore.",
@@ -16,6 +17,7 @@ export const SERVICES: Service[] = [
   {
     id: "bed-bug",
     name: "Bed bug treatment",
+    slug: "bed-bug-treatment",
     detail:
       "Careful inspection, targeted treatment, and a clear follow-up plan for peace of mind.",
     type: "Residential",
@@ -25,6 +27,7 @@ export const SERVICES: Service[] = [
   {
     id: "rodent",
     name: "Rodent control",
+    slug: "rodent-control",
     detail:
       "Find the entry points, remove the risk, and keep your home protected after we leave.",
     type: "Residential",
@@ -34,6 +37,7 @@ export const SERVICES: Service[] = [
   {
     id: "mosquito",
     name: "Mosquito control",
+    slug: "mosquito-control",
     detail: "Seasonal protection that helps your yard feel like yours again.",
     type: "Residential",
     icon: "sparkle",
@@ -42,6 +46,7 @@ export const SERVICES: Service[] = [
   {
     id: "deep-clean",
     name: "Deep cleaning",
+    slug: "deep-cleaning",
     detail:
       "A detailed top-to-bottom clean for the places everyday routines miss.",
     type: "Residential",
@@ -51,6 +56,7 @@ export const SERVICES: Service[] = [
   {
     id: "home-clean",
     name: "Standard home cleaning",
+    slug: "standard-home-cleaning",
     detail:
       "Reliable recurring or one-off cleaning for the rooms you live in most.",
     type: "Residential",
@@ -60,6 +66,7 @@ export const SERVICES: Service[] = [
   {
     id: "office-clean",
     name: "Office cleaning",
+    slug: "office-cleaning",
     detail:
       "Professional cleaning for productive, welcoming workspaces and shared areas.",
     type: "Commercial",
@@ -69,6 +76,7 @@ export const SERVICES: Service[] = [
   {
     id: "move-clean",
     name: "Move-in / move-out",
+    slug: "movie-in-movie-out",
     detail:
       "Start fresh or hand over the keys with a space that is ready for what is next.",
     type: "Residential",

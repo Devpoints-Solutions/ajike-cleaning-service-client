@@ -5,6 +5,7 @@ export type Service = {
   type: "Residential" | "Commercial";
   icon: string;
   price: string;
+  slug: string;
 };
 
 export type IconProps = { size?: number; strokeWidth?: number };

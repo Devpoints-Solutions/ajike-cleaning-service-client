@@ -24,7 +24,8 @@ function Layout() {
       pathname === "/services" ||
       pathname === "/pricing" ||
       pathname === "/about" ||
-      pathname === "/contact" ? (
+      pathname === "/contact" ||
+      pathname === `/services/${pathname.split("/")[2]}` ? (
         <Footer />
       ) : null}
 
