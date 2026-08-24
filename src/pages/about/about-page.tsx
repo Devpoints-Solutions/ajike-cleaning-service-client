@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import PageIntro from "@/components/common/page-intro";
 import CtaButton from "@/components/common/cta-button";
 import aboutImage from "@/assets/about.jpg";
+import standardImage from "@/assets/services.jpg";
 
 function About() {
   const [standardOpen, setStandardOpen] = useState(0);
@@ -21,9 +22,6 @@ function About() {
       "You receive plain-language notes about what we found, what we did, and what is worth watching next.",
     ],
   ];
-
-  const standardsImage =
-    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80";
 
   const people = [
     {
@@ -194,7 +192,7 @@ function About() {
         <section className="container section standards-section">
           <div className="standards-art">
             <img
-              src={standardsImage}
+              src={standardImage}
               alt="Ajike team member checking a home during a quality inspection"
             />
             <div className="blueprint-label">FIELD STANDARD / 03</div>
