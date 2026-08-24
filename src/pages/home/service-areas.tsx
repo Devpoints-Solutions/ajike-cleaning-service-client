@@ -138,7 +138,7 @@ const ServiceAreas = () => {
           {/* Bottom Note */}
           <div className="mt-6 text-right">
             <p className="text-sm text-[#001625] opacity-70">
-              Your ares is not listed?{" "}
+              Your city is not listed?{" "}
               <span className="text-[#086287] font-semibold cursor-pointer hover:underline">
                 <Link href="/contact">Let us know</Link>
               </span>
