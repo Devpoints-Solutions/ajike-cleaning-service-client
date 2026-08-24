@@ -21,6 +21,7 @@ import ContactPage from "@/pages/contact/contact-page";
 import { RequireAuth } from "@/features/contexts/auth-context";
 import { useAuthContext } from "@/features/contexts/auth-context";
 import { useServiceContext } from "@/features/contexts/service-context";
+import ServiceDetails from "@/pages/services/service-details";
 import RequestModal from "../common/request-modal";
 
 function AppRoutes() {
@@ -36,6 +37,7 @@ function AppRoutes() {
           <Route path="/" component={HomePage} />
           <Route path="/about" component={About} />
           <Route path="/services" component={Services} />
+          <Route path="services/:title" component={ServiceDetails} />
           <Route path="/pricing" component={Pricing} />
           <Route path="/contact" component={ContactPage} />
           <Route path="/auth/sign-in" component={SignIn} />

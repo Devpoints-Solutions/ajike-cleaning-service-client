@@ -157,14 +157,13 @@ function Services() {
                       <span className="info-label">Your next step</span>
                       <p>{detail.next}</p>
 
-                      <CtaButton
-                        text={`Request ${service.name}`}
-                        icon={<ArrowRight size={14} />}
-                        props={{
-                          className: "primary-button button-small",
-                          "data-testid": `button-request-detail-${service.id}`,
-                        }}
-                      />
+                      <Link
+                        className="primary-button button-small"
+                        data-testid={`button-request-detail-${service.id}`}
+                        href={`/services/${service?.name}`}
+                      >
+                        Get a better look <ArrowRight size={14} />
+                      </Link>
                     </div>
                   </div>
                 )}

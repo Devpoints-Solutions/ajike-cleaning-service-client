@@ -1,28 +1,10 @@
 import { SERVICES } from "@/lib/dummy-data";
 import ServiceIcon from "@/components/common/service-icon";
 import { ArrowUpRight, ChevronRight } from "lucide-react";
-import CtaButton from "@/components/common/cta-button";
-import mosquitoImage from "@/assets/mosquito.png";
-import rodentsImage from "@/assets/rodents.png";
-import pestControl from "@/assets/about.png";
+import { SERVICE_IMAGES } from "@/lib/dummy-data";
 import { motion } from "motion/react";
 import { Link } from "wouter";
 
-const SERVICE_IMAGES: Record<string, string> = {
-  "general-pest": pestControl,
-  "bed-bug":
-    "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
-  rodent: rodentsImage,
-  mosquito: mosquitoImage,
-  "deep-clean":
-    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80",
-  "home-clean":
-    "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=900&q=80",
-  "office-clean":
-    "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80",
-  "move-clean":
-    "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=900&q=80",
-};
 const MotionLink = motion(Link);
 
 function HomeServices() {
@@ -56,7 +38,7 @@ function HomeServices() {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
         {SERVICES?.slice(0, 6).map((service) => (
           <MotionLink
-            to={`/services`}
+            to={`/services/${service?.name}`}
             key={service.id}
             data-testid={`card-service-${service.id}`}
             // @ts-ignore

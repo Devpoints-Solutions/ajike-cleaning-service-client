@@ -1,4 +1,7 @@
 import type { Service, ServiceStatus } from "@/lib/types";
+import mosquitoImage from "@/assets/mosquito.png";
+import rodentsImage from "@/assets/rodents.png";
+import pestControl from "@/assets/about.png";
 
 export const SERVICES: Service[] = [
   {
@@ -73,6 +76,22 @@ export const SERVICES: Service[] = [
     price: "From $210",
   },
 ];
+
+export const SERVICE_IMAGES: Record<string, string> = {
+  "general-pest": pestControl,
+  "bed-bug":
+    "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
+  rodent: rodentsImage,
+  mosquito: mosquitoImage,
+  "deep-clean":
+    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80",
+  "home-clean":
+    "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=900&q=80",
+  "office-clean":
+    "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80",
+  "move-clean":
+    "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=900&q=80",
+};
 
 export const SERVICE_DETAILS: Record<
   string,
