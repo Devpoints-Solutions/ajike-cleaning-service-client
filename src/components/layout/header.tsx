@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Brand from "@/components/common/brand";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Menu, ArrowRight, LayoutDashboard, LogOutIcon } from "lucide-react";
 import { useAuthContext } from "@/features/contexts/auth-context";
 
@@ -12,6 +12,7 @@ function Header({
   dashboard?: boolean;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [pathname] = useLocation();
 
   const { currentUser, isAuthenticated, signout } = useAuthContext();
 
@@ -25,6 +26,26 @@ function Header({
     : isUser
       ? "/dashboard"
       : "/auth/sign-in";
+
+  const isCurrentPath = (href: string) => {
+    if (!href) {
+      return false;
+    }
+
+    if (href.startsWith("#")) {
+      return (
+        typeof window !== "undefined" &&
+        window.location.hash === href &&
+        (pathname === dashboardPath || pathname === "/dashboard" || pathname === "/admin/dashboard")
+      );
+    }
+
+    if (href === "/") {
+      return pathname === "/";
+    }
+
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -51,11 +72,21 @@ function Header({
 
       {/* Desktop Navigation */}
       <nav className="main-nav" aria-label="Main navigation">
-        {navItems.map((item) => (
-          <Link key={item.href} href={item.href} data-testid={item.testId}>
-            {item.label}
-          </Link>
-        ))}
+        {navItems.map((item) => {
+          const isActive = isCurrentPath(item.href);
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={isActive ? "active" : undefined}
+              aria-current={isActive ? "page" : undefined}
+              data-testid={item.testId}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
 
       {/* Header Actions */}
@@ -108,16 +139,22 @@ function Header({
       {menuOpen && (
         <div className="mobile-menu-panel" data-testid="menu-mobile">
           {/* Public Navigation */}
-          {publicNavItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={closeMenu}
-              data-testid={`link-mobile-${item.label.toLowerCase()}`}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {publicNavItems.map((item) => {
+            const isActive = isCurrentPath(item.href);
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={isActive ? "active" : undefined}
+                aria-current={isActive ? "page" : undefined}
+                onClick={closeMenu}
+                data-testid={`link-mobile-${item.label.toLowerCase()}`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
 
           {/* Authenticated User Actions */}
           {isAuthenticated && (

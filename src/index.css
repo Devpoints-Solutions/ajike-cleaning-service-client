@@ -172,6 +172,7 @@ a {
   font-weight: 600;
 }
 .main-nav a {
+  position: relative;
   transition:
     color 0.2s,
     transform 0.2s;
@@ -179,6 +180,22 @@ a {
 .main-nav a:hover {
   color: #087eaf;
   transform: translateY(-1px);
+}
+.main-nav a.active,
+.mobile-menu-panel a.active {
+  color: #001625;
+  font-weight: 700;
+}
+.main-nav a.active::after,
+.mobile-menu-panel a.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.42rem;
+  height: 2px;
+  border-radius: 999px;
+  background: #087eaf;
 }
 .header-actions {
   display: flex;
@@ -193,6 +210,10 @@ a {
 }
 .mobile-menu-panel {
   display: none;
+}
+.mobile-menu-panel a,
+.mobile-menu-panel button {
+  position: relative;
 }
 .icon-button {
   width: 38px;
