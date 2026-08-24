@@ -496,6 +496,9 @@ a {
   padding: 0.5rem 0.75rem;
   font-size: 0.7rem;
 }
+.header-request-button {
+  display: inline-flex;
+}
 
 .hero {
   min-height: 610px;
@@ -2138,6 +2141,9 @@ a {
     padding: 0 1rem;
   }
   .main-nav {
+    display: none;
+  }
+  .header-request-button {
     display: none;
   }
   .mobile-toggle {
