@@ -4,7 +4,6 @@ import {
   ArrowRight,
   Check,
   ChevronDown,
-  Info,
   ListFilter,
   Timer,
 } from "lucide-react";
