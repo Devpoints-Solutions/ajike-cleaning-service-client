@@ -7,12 +7,8 @@ import {
   ArrowRight,
   MapPinHouse,
   Timer,
-  MessageCircleQuestionMark,
 } from "lucide-react";
 import { Link } from "wouter";
-import xLogo from "@/assets/x.svg";
-import facebookLogo from "@/assets/facebook.svg";
-import instagramLogo from "@/assets/instagram.svg";
 import contactImage from "@/assets/support.jpg";
 
 type FormState = {
@@ -55,27 +51,6 @@ function ContactPage() {
       label: "Hours",
       value: "Mon–Fri · 8:00 AM — 5:00 PM",
       href: "#hours",
-    },
-  ];
-
-  const socialLinks = [
-    {
-      href: "https://x.com",
-      label: "X",
-      icon: xLogo,
-      alt: "X logo",
-    },
-    {
-      href: "https://facebook.com",
-      label: "Facebook",
-      icon: facebookLogo,
-      alt: "Facebook logo",
-    },
-    {
-      href: "https://instagram.com",
-      label: "Instagram",
-      icon: instagramLogo,
-      alt: "Instagram logo",
     },
   ];
 
@@ -276,41 +251,6 @@ function ContactPage() {
                 ))}
               </div>
             </div>
-
-            {/* <div className="dashboard-card plan-card contact-card contact-card-secondary">
-              <div className="plan-name mb-3.5">Other ways to connect</div>
-              <div className="activity-list">
-                <div className="activity-row">
-                  <div className="activity-icon">
-                    <MessageCircleQuestionMark size={15} />
-                  </div>
-                  <div>
-                    <strong>Support:</strong>
-                    <span>
-                      <a href="mailto:info@example.com">support@example.com</a>
-                    </span>
-                  </div>
-                </div>
-
-                {socialLinks.map(({ href, label, icon, alt }) => (
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="activity-row social-row"
-                    key={label}
-                  >
-                    <div className="activity-icon social-icon">
-                      <img src={icon} alt={alt} className="w-3.5" />
-                    </div>
-                    <div>
-                      <strong>{label}:</strong>
-                      <span>Connect with us</span>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </div> */}
 
             <div id="map" className="contact-map-wrap">
               <h3 className="map-heading">Find us on the map</h3>
