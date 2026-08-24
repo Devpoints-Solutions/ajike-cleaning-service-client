@@ -250,14 +250,13 @@ function About() {
               See the full service menu <ArrowRight size={15} />
             </Link>
           </div>
-          <div className="people-roster">
-            {people.map((person) => (
-              <div className="person-card" key={person.name}>
-                <img src={person.image} alt={person.name} />
-                <strong>{person.name}</strong>
-                <span>{person.role}</span>
-              </div>
-            ))}
+          <div className="">
+            <div className="person-card">
+              <img
+                src="https://images.unsplash.com/photo-1573164574511-73c773193279?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmxhY2slMjBwZW9wbGUlMjBhdCUyMHdvcmt8ZW58MHx8MHx8fDA%3D"
+                alt="office_worker"
+              />
+            </div>
           </div>
         </section>
         <section className="final-cta container">
