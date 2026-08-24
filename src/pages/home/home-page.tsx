@@ -6,6 +6,7 @@ import Featured from "./featured";
 import Process from "./process";
 import ReAssurance from "./re-assurance";
 import FinalCta from "./final-cta";
+import ServiceAreas from "./service-areas";
 
 function HomePage() {
   return (
@@ -17,6 +18,7 @@ function HomePage() {
         <Featured />
         <Coverage />
         <Process />
+        <ServiceAreas />
         <ReAssurance />
         <FinalCta />
       </main>
