@@ -23,8 +23,15 @@ function Featured() {
           />
         </div>
         <div className="proof-art" data-testid="img-before-after">
-          <div className="proof-frame" />
-          <div className="proof-dot" />
+          <div className="proof-visual proof-before">
+            <span>Before</span>
+          </div>
+          <div className="proof-visual proof-after">
+            <span>After</span>
+          </div>
+          <div className="proof-pin" aria-hidden="true">
+            <span>Proof</span>
+          </div>
         </div>
       </div>
     </section>
