@@ -50,15 +50,7 @@ function About() {
       </PageIntro>
       <main className="container page-container">
         <section className="about-manifesto">
-          <div className="manifesto-stamp">
-            <span>AJK</span>
-            <small>
-              EST. 2018
-              <br />
-              LOCAL CARE
-            </small>
-          </div>
-          <div>
+          <div className="manifesto-copy">
             <div className="eyebrow">Our mission</div>
             <h2>Make care easier to trust.</h2>
             <p>
@@ -71,6 +63,16 @@ function About() {
               That promise applies to a kitchen perimeter, a nursery bedroom, an
               office entrance, and every person who lets us through the door.
             </p>
+          </div>
+          <div className="manifesto-visual" aria-label="Professional cleaning and pest control care">
+            <img
+              src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80"
+              alt="Professional cleaner caring for a home environment"
+            />
+            <div className="manifesto-visual-badge">
+              <span>Local care</span>
+              <strong>Visible standards. Peace of mind.</strong>
+            </div>
           </div>
         </section>
         <section className="section about-values">

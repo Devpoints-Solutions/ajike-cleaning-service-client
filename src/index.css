@@ -2180,57 +2180,89 @@ a {
 }
 .about-manifesto {
   display: grid;
-  grid-template-columns: 0.35fr 1fr;
-  gap: clamp(2rem, 8vw, 8rem);
+  grid-template-columns: minmax(0, 1.05fr) minmax(290px, 0.95fr);
+  gap: clamp(2rem, 6vw, 5rem);
   padding: 6.5rem 4vw;
-  align-items: start;
+  align-items: center;
 }
-.manifesto-stamp {
-  width: 116px;
-  height: 116px;
-  display: grid;
-  place-content: center;
-  text-align: center;
-  border: 1px solid #75bdd7;
-  border-radius: 50%;
-  color: #001625;
-  transform: rotate(-8deg);
+.manifesto-copy {
+  max-width: 600px;
+}
+.manifesto-visual {
   position: relative;
+  min-height: 440px;
+  border-radius: 1.8rem;
+  overflow: hidden;
+  border: 1px solid #cfe7f0;
+  box-shadow: 0 22px 42px rgba(9, 62, 92, 0.16);
+  background: #d7edf6;
 }
-.manifesto-stamp::after {
+.manifesto-visual::after {
   content: "";
   position: absolute;
-  inset: 8px;
-  border: 1px dashed #8bcfe4;
-  border-radius: 50%;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(3, 22, 36, 0.06),
+    rgba(3, 22, 36, 0.42)
+  );
 }
-.manifesto-stamp span {
-  font: 700 1.65rem var(--font-display);
-  /* letter-spacing: -0.15em; */
+.manifesto-visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.15) contrast(1.08);
 }
-.manifesto-stamp small {
-  color: #4e88a0;
-  font: 700 0.47rem/1.4 var(--font-display);
-  letter-spacing: 0.1em;
-  margin-left: 0.12rem;
+.manifesto-visual-badge {
+  position: absolute;
+  left: 1.1rem;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  z-index: 1;
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  background: rgba(4, 24, 34, 0.38);
+  backdrop-filter: blur(6px);
+  color: #eaf9ff;
+}
+.manifesto-visual-badge span {
+  color: #a8e7ff;
+  font: 700 0.6rem var(--font-display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.manifesto-visual-badge strong {
+  font: 700 1rem/1.35 var(--font-display);
 }
 .about-manifesto h2,
 .people-section h2,
 .standards-copy h2 {
-  color: #001625;
-  font: 700 clamp(2rem, 4vw, 3.8rem)/0.98 var(--font-display);
-  /* letter-spacing: -0.1em; */
+  color: #0f2f48;
+  font: 800 clamp(2.2rem, 4vw, 4rem)/0.98 var(--font-display);
   margin: 0.7rem 0 1.1rem;
 }
 .about-manifesto p,
 .people-section p {
-  color: #607b8b;
-  font-size: 0.85rem;
-  line-height: 1.75;
+  color: #2d4c62;
+  font-size: 1rem;
+  line-height: 1.8;
   max-width: 560px;
+  font-weight: 600;
 }
 .about-values {
   padding-bottom: 7rem;
+}
+.section-heading p,
+.values-grid p,
+.standard-row p,
+.people-section p,
+.final-cta p {
+  color: #35556f;
+  font-weight: 600;
 }
 .values-grid {
   display: grid;
@@ -2250,14 +2282,14 @@ a {
   font: 700 0.75rem var(--font-display);
 }
 .values-grid h3 {
-  color: #103d5d;
-  font: 700 1.05rem var(--font-display);
+  color: #0e3553;
+  font: 800 1.2rem var(--font-display);
   margin: 2rem 0 0.55rem;
 }
 .values-grid p {
-  color: #6a8291;
-  font-size: 0.75rem;
-  line-height: 1.65;
+  color: #405d75;
+  font-size: 0.9rem;
+  line-height: 1.7;
   max-width: 250px;
 }
 .standards-section {
@@ -2387,7 +2419,8 @@ a {
   font: 700 0.65rem var(--font-display);
 }
 .standard-row button strong {
-  font: 700 0.8rem var(--font-display);
+  color: #153d5c;
+  font: 800 0.9rem var(--font-display);
 }
 .standard-row button svg {
   color: #168dbb;
@@ -2397,11 +2430,12 @@ a {
   transform: rotate(180deg);
 }
 .standard-row p {
-  color: #6a8291;
-  font-size: 0.76rem;
-  line-height: 1.6;
+  color: #405d75;
+  font-size: 0.9rem;
+  line-height: 1.7;
   padding: 0 2rem 1rem 35px;
   margin: 0;
+  font-weight: 600;
 }
 .people-section {
   display: grid;
