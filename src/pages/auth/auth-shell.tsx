@@ -17,7 +17,7 @@ function AuthShell({
       <aside className="auth-side">
         <Brand />
         <div className="auth-quote">
-          <div className="eyebrow">Ajike customer care</div>
+          <div className="eyebrow">Ajike pest control & Cleaning!</div>
           <h1>{title}</h1>
           <p>{description}</p>
         </div>
