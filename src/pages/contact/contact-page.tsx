@@ -159,9 +159,11 @@ function ContactPage() {
         </section>
 
         <section className="contact-main-grid">
-          <div className="contact-form-panel" aria-labelledby="contact-form-heading">
+          <div
+            className="contact-form-panel"
+            aria-labelledby="contact-form-heading"
+          >
             <div className="section-heading">
-              <span className="eyebrow">Send a message</span>
               <h2 id="contact-form-heading">Tell us about your property.</h2>
             </div>
 
@@ -245,9 +247,11 @@ function ContactPage() {
             </form>
           </div>
 
-          <aside aria-labelledby="company-details-heading" className="contact-details-panel">
+          <aside
+            aria-labelledby="company-details-heading"
+            className="contact-details-panel"
+          >
             <div className="section-heading">
-              <span className="eyebrow">Company details</span>
               <h2 id="company-details-heading">Let’s keep it simple.</h2>
             </div>
 
@@ -273,7 +277,7 @@ function ContactPage() {
               </div>
             </div>
 
-            <div className="dashboard-card plan-card contact-card contact-card-secondary">
+            {/* <div className="dashboard-card plan-card contact-card contact-card-secondary">
               <div className="plan-name mb-3.5">Other ways to connect</div>
               <div className="activity-list">
                 <div className="activity-row">
@@ -289,7 +293,13 @@ function ContactPage() {
                 </div>
 
                 {socialLinks.map(({ href, label, icon, alt }) => (
-                  <a href={href} target="_blank" rel="noreferrer" className="activity-row social-row" key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="activity-row social-row"
+                    key={label}
+                  >
                     <div className="activity-icon social-icon">
                       <img src={icon} alt={alt} className="w-3.5" />
                     </div>
@@ -300,7 +310,7 @@ function ContactPage() {
                   </a>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             <div id="map" className="contact-map-wrap">
               <h3 className="map-heading">Find us on the map</h3>
