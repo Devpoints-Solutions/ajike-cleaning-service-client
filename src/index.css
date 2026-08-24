@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
 
@@ -337,40 +338,46 @@ a {
   align-items: center;
   /* gap: 0.65rem; */
   font: 900 1rem var(--font-display);
-  /* letter-spacing: -0.06em; */
+
   color: #001625;
   white-space: nowrap;
 }
+
+.brand-name {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+  letter-spacing: 0.09em;
+}
+
+.brand-tagline {
+  font-weight: 600 !important;
+}
+.brand-tagline::after {
+  content: " ";
+  width: 20px;
+  gap: 5px;
+  height: 3px;
+  background-color: #001625;
+  display: inline-block;
+  margin-left: 2px;
+}
+
+.brand-tagline::before {
+  content: " ";
+  width: 20px;
+  gap: 5px;
+  height: 3px;
+  background-color: #001625;
+  display: inline-block;
+  margin-right: 2px;
+}
+
 .auth-brand-mobile {
   display: none;
 }
-.brand-mark {
-  width: 31px;
-  height: 31px;
-  border-radius: 9px 9px 11px 11px;
-  background: #001625;
-  position: relative;
-  display: grid;
-  place-items: center;
-  color: #1687b6;
-  overflow: hidden;
-}
-.brand-mark::before {
-  content: "";
-  width: 12px;
-  height: 12px;
-  border: 2px solid currentColor;
-  border-radius: 50%;
-}
-.brand-mark::after {
-  content: "";
-  position: absolute;
-  width: 2px;
-  height: 20px;
-  background: currentColor;
-  transform: rotate(45deg);
-  opacity: 0.8;
-}
+
 .main-nav {
   display: flex;
   align-items: center;
@@ -1887,6 +1894,26 @@ a {
   color: white;
   position: relative;
   z-index: 1;
+}
+
+.auth-side .brand-tagline::after {
+  content: " ";
+  width: 20px;
+  gap: 5px;
+  height: 3px;
+  background-color: #ffffff;
+  display: inline-block;
+  margin-left: 2px;
+}
+
+.auth-side .brand-tagline::before {
+  content: " ";
+  width: 20px;
+  gap: 5px;
+  height: 3px;
+  background-color: #ffffff;
+  display: inline-block;
+  margin-right: 2px;
 }
 .auth-side .brand-mark {
   background: #a3dff1;

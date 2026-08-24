@@ -10,8 +10,8 @@ function Brand() {
     >
       <img src={logo} alt="logo_of_ajike_pest_control" className="w-10 h-10" />
       <div className="flex flex-col items-center">
-        <h1 className="text-[1.6rem] font-semibold">AJIKE</h1>
-        <p className="text-[10px] font-bold">Pest & Cleaning</p>
+        <h1 className="text-[1.6rem] brand-name">AJIKE</h1>
+        <p className="text-[10px] font-bold brand-tagline">Pest & Cleaning</p>
       </div>
     </Link>
   );
