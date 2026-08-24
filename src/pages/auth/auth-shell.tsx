@@ -14,10 +14,25 @@ function AuthShell({
 }) {
   return (
     <div className="auth-page">
+      <div className="auth-brand-mobile">
+        <Brand />
+
+        <Link
+          href="/"
+          className="text-button"
+          data-testid="button-back-to-home"
+        >
+          <ArrowLeft size={18} /> Go back
+        </Link>
+      </div>
       <aside className="auth-side">
         <Brand />
         <div className="auth-quote">
+<<<<<<< HEAD
           <div className="eyebrow">Ajike pest control & Cleaning!</div>
+=======
+          <div className="eyebrow">Ajike pest control & cleaning</div>
+>>>>>>> agents/fix-auth-aside-responsive-visibility
           <h1>{title}</h1>
           <p>{description}</p>
         </div>
@@ -28,10 +43,10 @@ function AuthShell({
 
       <main className="auth-main">
         <div className="auth-card">
-          <div className="admin-chat-back my-4">
+          <div className="my-4 hidden md:block">
             <Link
               href="/"
-              className="text-button"
+              className="text-button "
               data-testid="button-back-to-home"
             >
               <ArrowLeft size={18} /> Go back

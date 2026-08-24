@@ -341,6 +341,9 @@ a {
   color: #001625;
   white-space: nowrap;
 }
+.auth-brand-mobile {
+  display: none;
+}
 .brand-mark {
   width: 31px;
   height: 31px;
@@ -2309,9 +2312,26 @@ a {
     grid-template-columns: 1fr;
   }
   .auth-side {
+    display: none;
     min-height: 260px;
     padding: 1.25rem 1.5rem;
   }
+  .auth-brand-mobile {
+    display: block;
+    /* position: absolute; */
+    display: flex;
+    justify-content: space-between;
+    /* background-color: red; */
+    align-items: flex-start;
+    padding: 20px 10px;
+    top: 0.85rem;
+    left: 0.85rem;
+    z-index: 60;
+  }
+
+  /* .main-back-btn {
+    display: none;
+  } */
   .auth-side-note {
     display: none;
   }
