@@ -1,11 +1,5 @@
-import {
-  // Facebook,
-  // Instagram,
-  // Linkedin,
-  Phone,
-  Mail,
-  MapPin,
-} from "lucide-react";
+import { Phone, Mail, MapPin, ArrowRight } from "lucide-react";
+import CtaButton from "../common/cta-button";
 
 const Footer = () => {
   return (
@@ -27,16 +21,18 @@ const Footer = () => {
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
-              href="#request-service"
-              className="rounded-full bg-[#1687b6] px-8 py-4 text-sm font-bold text-black transition-all duration-300 hover:-translate-y-1 hover:bg-[#1687b6] hover:shadow-lg"
-            >
-              Request Service
-            </a>
+            <CtaButton
+              icon={<ArrowRight size={20} />}
+              text="Request Service"
+              props={{
+                className:
+                  "rounded-full bg-[#1687b6] flex items-center gap-3 px-8 py-4 text-sm font-bold text-[#ffffff] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg",
+              }}
+            />
 
             <a
               href="tel:+12015551234"
-              className="flex items-center gap-3 rounded-full border border-[#1687b6] text-[#001625] px-8 py-4 text-sm font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="flex items-center gap-3 rounded-full border border-[#1687b6] text-[#ffffff] px-8 py-4 text-sm font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
               <Phone size={18} strokeWidth={2.2} />
               <span> +1 (201) 486 0774</span>

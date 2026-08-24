@@ -96,7 +96,7 @@ const Hero = () => {
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             {/* Request service */}
             <Link
-              href="/auth/sign-in"
+              href="/services"
               className="
                 group
                 inline-flex
@@ -109,7 +109,7 @@ const Hero = () => {
                 bg-[#1687b6]
                 px-7
                 font-bold
-                text-[#082d46]
+                text-[#ffffff]
                 transition-all
                 duration-300
                 hover:-translate-y-1
@@ -117,7 +117,7 @@ const Hero = () => {
                 hover:shadow-xl
               "
             >
-              <span>Request Service</span>
+              <span>Request service</span>
 
               <svg
                 className="transition-transform duration-300 group-hover:translate-x-1"
@@ -145,10 +145,11 @@ const Hero = () => {
                 justify-center
                 rounded-full
                 border
-                border-white
+          
+                text-[#ffffff]
                 px-7
                 font-bold
-                text-[#0b3554]
+                hover:text-[#1687b6]
                 transition-all
                 duration-300
                 hover:-translate-y-1
@@ -156,7 +157,7 @@ const Hero = () => {
                 hover:shadow-xl
               "
             >
-              Apply to Work With Us
+              Apply to work with us
             </a>
           </div>
         </div>

@@ -9,7 +9,7 @@ const MotionLink = motion(Link);
 
 function HomeServices() {
   return (
-    <section className="section container" id="services">
+    <section className="section container" id="services" data-testid="services">
       <div className="section-heading">
         <div>
           <div className="eyebrow" style={{ fontSize: "0.8rem" }}>

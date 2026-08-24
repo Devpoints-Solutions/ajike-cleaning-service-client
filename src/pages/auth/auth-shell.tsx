@@ -1,7 +1,8 @@
-import React from "react";
-import { Link } from "wouter";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "wouter";
 import { ArrowLeft } from "lucide-react";
 import Brand from "@/components/common/brand";
+import { useAuthContext } from "@/features/contexts/auth-context";
 
 function AuthShell({
   children,
@@ -12,6 +13,14 @@ function AuthShell({
   title: string;
   description: string;
 }) {
+  const [, navigate] = useLocation();
+  const { isAuthenticated } = useAuthContext();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
   return (
     <div className="auth-page">
       <div className="auth-brand-mobile">
