@@ -16,12 +16,12 @@ function ServiceDetails() {
   return (
     <div>
       <PageIntro
-        eyebrow={`Services/${service?.name}`}
+        eyebrow={`Services/${service?.type}/${service?.name}`}
         title={
           <>
-            Know the starting point.
+            {service?.name}
             <br />
-            <em>Choose the right rhythm.</em>
+            <br />
           </>
         }
         bgImage={SERVICE_IMAGES[service?.id!]}
