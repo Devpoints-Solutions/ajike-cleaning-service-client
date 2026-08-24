@@ -243,7 +243,9 @@ a {
   color: #173f5b;
   padding: 0.8rem 0.9rem;
   font-size: 0.92rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 .auth-form input:focus,
 .auth-form textarea:focus {
@@ -2561,6 +2563,7 @@ a {
     0 0 0 92px rgba(166, 229, 246, 0.04);
   z-index: 2;
 }
+
 .blueprint-label {
   position: absolute;
   top: 1.2rem;

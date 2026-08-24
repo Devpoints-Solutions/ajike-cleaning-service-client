@@ -36,7 +36,9 @@ function Header({
       return (
         typeof window !== "undefined" &&
         window.location.hash === href &&
-        (pathname === dashboardPath || pathname === "/dashboard" || pathname === "/admin/dashboard")
+        (pathname === dashboardPath ||
+          pathname === "/dashboard" ||
+          pathname === "/admin/dashboard")
       );
     }
 
