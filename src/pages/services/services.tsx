@@ -90,6 +90,16 @@ function Services() {
                 className={`service-detail-card ${isOpen ? "expanded" : ""}`}
                 key={service.id}
                 data-testid={`card-service-detail-${service.id}`}
+                onClick={() => setExpanded(isOpen ? null : service.id)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setExpanded(isOpen ? null : service.id);
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                aria-expanded={isOpen}
               >
                 <div className="service-detail-summary">
                   <div className="service-index">
@@ -109,7 +119,10 @@ function Services() {
                   </div>
                   <button
                     className="icon-button service-expand"
-                    onClick={() => setExpanded(isOpen ? null : service.id)}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setExpanded(isOpen ? null : service.id);
+                    }}
                     aria-label={`${isOpen ? "Collapse" : "Expand"} ${service.name}`}
                     aria-expanded={isOpen}
                     data-testid={`button-expand-service-${service.id}`}

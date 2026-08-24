@@ -2490,7 +2490,7 @@ a {
 .toolbar-label {
   display: block;
   color: #708b9a;
-  font: 700 0.58rem var(--font-display);
+  font: 700 0.72rem var(--font-display);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 0.55rem;
@@ -2511,12 +2511,12 @@ a {
   background: transparent;
   color: #5b7889;
   padding: 0.58rem 0.75rem;
-  font-size: 0.7rem;
+  font-size: 0.82rem;
   font-weight: 700;
 }
 .filter-tabs button span {
   color: #83a6b5;
-  font: 700 0.57rem var(--font-display);
+  font: 700 0.64rem var(--font-display);
 }
 .filter-tabs button.active,
 .segmented-control button.active {
@@ -2532,7 +2532,7 @@ a {
   align-items: center;
   gap: 0.4rem;
   color: #7a95a1;
-  font: 700 0.6rem var(--font-display);
+  font: 700 0.7rem var(--font-display);
   text-transform: uppercase;
   letter-spacing: 0.07em;
 }
@@ -2546,6 +2546,7 @@ a {
   border-radius: 1.1rem;
   background: #fff;
   overflow: hidden;
+  cursor: pointer;
   transition:
     border 0.2s,
     box-shadow 0.2s;
@@ -2553,6 +2554,10 @@ a {
 .service-detail-card.expanded {
   border-color: #93cfe3;
   box-shadow: 0 15px 30px rgba(16, 75, 104, 0.08);
+}
+.service-detail-card:focus-visible {
+  outline: 2px solid #45afd5;
+  outline-offset: 2px;
 }
 .service-detail-summary {
   min-height: 116px;
@@ -2565,7 +2570,7 @@ a {
 .service-index {
   align-self: start;
   color: #86b8ca;
-  font: 700 0.62rem var(--font-display);
+  font: 700 0.7rem var(--font-display);
   padding-top: 0.25rem;
 }
 .service-detail-icon {
@@ -2578,18 +2583,18 @@ a {
   background: #e1f4fa;
 }
 .service-detail-title .service-tag {
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.08em;
 }
 .service-detail-title h2 {
   color: #103d5d;
-  font: 800 1.36rem/1.2 var(--font-display);
+  font: 800 1.55rem/1.2 var(--font-display);
   margin: 0.35rem 0 0.35rem;
 }
 .service-detail-title p {
   color: #536f7d;
-  font-size: 0.8rem;
+  font-size: 0.92rem;
   line-height: 1.55;
   font-weight: 600;
   margin: 0;
@@ -2600,11 +2605,11 @@ a {
 .service-detail-price strong {
   display: block;
   color: #001625;
-  font: 800 1.02rem var(--font-display);
+  font: 800 1.18rem var(--font-display);
 }
 .service-detail-price span {
   color: #7d99a8;
-  font-size: 0.62rem;
+  font-size: 0.68rem;
   font-weight: 700;
 }
 .service-expand {
@@ -2627,13 +2632,13 @@ a {
 }
 .info-label {
   color: #1288b2;
-  font: 700 0.57rem var(--font-display);
+  font: 700 0.64rem var(--font-display);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .service-info-block p {
   color: #5d7a8b;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   line-height: 1.55;
   font-weight: 600;
 }
@@ -2648,7 +2653,7 @@ a {
   display: flex;
   gap: 0.4rem;
   color: #4c6b7d;
-  font-size: 0.74rem;
+  font-size: 0.8rem;
   line-height: 1.4;
   font-weight: 600;
 }
@@ -2670,6 +2675,9 @@ a {
 }
 .service-next p {
   margin: 0.55rem 0 0.8rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #5d7a8b;
 }
 .service-guidance {
   display: grid;
@@ -2683,13 +2691,12 @@ a {
 }
 .service-guidance h2 {
   color: #001625;
-  font: 700 clamp(1.25rem, 3vw, 2.2rem)/1 var(--font-display);
-  /* letter-spacing: -0.08em; */
+  font: 700 clamp(1.5rem, 3vw, 2.4rem)/1.1 var(--font-display);
   margin: 0.6rem 0 0;
 }
 .service-guidance p {
   color: #54778a;
-  font-size: 0.76rem;
+  font-size: 0.9rem;
   line-height: 1.6;
   margin: 0;
 }
