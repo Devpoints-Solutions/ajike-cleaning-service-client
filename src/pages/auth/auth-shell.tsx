@@ -28,11 +28,7 @@ function AuthShell({
       <aside className="auth-side">
         <Brand />
         <div className="auth-quote">
-<<<<<<< HEAD
-          <div className="eyebrow">Ajike pest control & Cleaning!</div>
-=======
           <div className="eyebrow">Ajike pest control & cleaning</div>
->>>>>>> agents/fix-auth-aside-responsive-visibility
           <h1>{title}</h1>
           <p>{description}</p>
         </div>
