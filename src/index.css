@@ -2578,17 +2578,20 @@ a {
   background: #e1f4fa;
 }
 .service-detail-title .service-tag {
-  font-size: 0.56rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 .service-detail-title h2 {
   color: #103d5d;
-  font: 700 1.02rem var(--font-display);
-  /* letter-spacing: -0.05em; */
-  margin: 0.3rem 0 0.25rem;
+  font: 800 1.36rem/1.2 var(--font-display);
+  margin: 0.35rem 0 0.35rem;
 }
 .service-detail-title p {
-  color: #718b99;
-  font-size: 0.7rem;
+  color: #536f7d;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  font-weight: 600;
   margin: 0;
 }
 .service-detail-price {
@@ -2597,11 +2600,12 @@ a {
 .service-detail-price strong {
   display: block;
   color: #001625;
-  font: 700 0.86rem var(--font-display);
+  font: 800 1.02rem var(--font-display);
 }
 .service-detail-price span {
-  color: #91a5af;
-  font-size: 0.58rem;
+  color: #7d99a8;
+  font-size: 0.62rem;
+  font-weight: 700;
 }
 .service-expand {
   background: #edf8fb;
@@ -2628,9 +2632,10 @@ a {
   text-transform: uppercase;
 }
 .service-info-block p {
-  color: #638090;
-  font-size: 0.72rem;
+  color: #5d7a8b;
+  font-size: 0.8rem;
   line-height: 1.55;
+  font-weight: 600;
 }
 .service-info-block ul {
   list-style: none;
@@ -2642,9 +2647,10 @@ a {
 .service-info-block li {
   display: flex;
   gap: 0.4rem;
-  color: #4f7081;
-  font-size: 0.68rem;
-  line-height: 1.35;
+  color: #4c6b7d;
+  font-size: 0.74rem;
+  line-height: 1.4;
+  font-weight: 600;
 }
 .service-info-block li svg {
   flex: 0 0 auto;
