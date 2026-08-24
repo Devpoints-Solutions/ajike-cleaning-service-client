@@ -1,6 +1,7 @@
 import { MapPinPen } from "lucide-react";
 import { NY_CITIES, NJ_CITIES } from "@/lib/dummy-data";
 import { useState } from "react";
+import { Link } from "wouter";
 
 const ServiceAreas = () => {
   const [selectedCity, setSelectedCity] = useState("nj");
@@ -137,9 +138,9 @@ const ServiceAreas = () => {
           {/* Bottom Note */}
           <div className="mt-6 text-right">
             <p className="text-sm text-[#001625] opacity-70">
-              Don't see your area?{" "}
+              Your ares is not listed?{" "}
               <span className="text-[#086287] font-semibold cursor-pointer hover:underline">
-                Ask us
+                <Link href="/contact">Let us know</Link>
               </span>
               — we're expanding.
             </p>
