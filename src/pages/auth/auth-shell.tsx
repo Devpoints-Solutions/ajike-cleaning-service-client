@@ -14,6 +14,7 @@ function AuthShell({
 }) {
   return (
     <div className="auth-page">
+      <div className="auth-brand-mobile"><Brand /></div>
       <aside className="auth-side">
         <Brand />
         <div className="auth-quote">
