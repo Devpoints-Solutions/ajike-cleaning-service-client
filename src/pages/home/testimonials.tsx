@@ -70,9 +70,9 @@ const Testimonials = () => {
 
         {/* Testimonial Cards */}
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {testimonials.map((testimonial) => (
+          {testimonials.map((testimonial, index: number) => (
             <article
-              key={testimonial.name}
+              key={index}
               className="flex min-h-[200px] flex-col rounded-[22px] border border-[#dce3e9] bg-white p-7 shadow-[0_8px_25px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(15,23,42,0.1)]"
             >
               {/* Rating */}
@@ -91,7 +91,7 @@ const Testimonials = () => {
                   {/* Avatar */}
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHT9AzDJrgdZBGM9hR4nILN8rWEl8tsnhsV33iNSNK-I8144nGj-QR6dk&s=10"
-                    alt={testimonial.name}
+                    alt="image_of_testonials"
                     className="h-8 w-8 shrink-0 rounded-full object-cover"
                   />
 
