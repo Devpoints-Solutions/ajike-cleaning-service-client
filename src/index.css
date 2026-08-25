@@ -2976,6 +2976,8 @@ a {
 }
 .service-info-block {
   min-width: 0;
+  border-left: 1px solid #d4e6ec;
+  padding-left: 1rem;
 }
 .info-label {
   color: #1288b2;
@@ -3013,8 +3015,7 @@ a {
   color: #1688ae;
 }
 .prep-note {
-  border-left: 2px solid #a8dcea;
-  padding-left: 0.6rem;
+  margin-top: 5px;
 }
 .service-next {
   border-left: 1px solid #d4e6ec;
@@ -3025,6 +3026,7 @@ a {
   font-size: 0.9rem;
   line-height: 1.55;
   color: #5d7a8b;
+  font-weight: 600;
 }
 .service-guidance {
   display: grid;
