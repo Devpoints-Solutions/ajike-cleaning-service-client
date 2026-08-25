@@ -7,6 +7,7 @@ import Process from "./process";
 import ReAssurance from "./re-assurance";
 import FinalCta from "./final-cta";
 import ServiceAreas from "./service-areas";
+import Testimonials from "./testimonials";
 
 function HomePage() {
   return (
@@ -20,6 +21,7 @@ function HomePage() {
         <Process />
         <ServiceAreas />
         <ReAssurance />
+        <Testimonials />
         <FinalCta />
       </main>
     </div>

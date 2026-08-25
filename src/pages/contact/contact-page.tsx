@@ -206,7 +206,7 @@ function ContactPage() {
                 className="primary-button contact-submit"
                 disabled={status === "sending"}
               >
-                {status === "sending" ? "Sending…" : "Send message"}
+                Send Message <ArrowRight size={15} />
               </button>
 
               <p className="contact-legal">

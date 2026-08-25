@@ -29,10 +29,8 @@ const processSteps = [
 ];
 
 const ServiceCoverage = ({ serviceDetails }: { serviceDetails: any }) => {
-  console.log(serviceDetails);
-
   return (
-    <section className="w-full bg-white text-[#001625]">
+    <section className="w-full bg-white text-[#122560]">
       <div className="mx-auto w-full max-w-[1240px] px-5 py-12 sm:px-6 md:py-16 lg:px-8 lg:py-20">
         <div
           className="
@@ -50,7 +48,7 @@ const ServiceCoverage = ({ serviceDetails }: { serviceDetails: any }) => {
             <div>
               <p className="eyebrow mb-3">What's included</p>
 
-              <h2 className="max-w-[700px] text-4xl font-bold leading-[1.08] tracking-[-0.035em] text-[#001625] sm:text-5xl lg:text-[50px]">
+              <h2 className="max-w-[700px] text-4xl font-bold leading-[1.08] tracking-[-0.035em] text-[#122560] sm:text-5xl lg:text-[50px]">
                 {serviceDetails?.name} covers
               </h2>
 
@@ -72,11 +70,11 @@ const ServiceCoverage = ({ serviceDetails }: { serviceDetails: any }) => {
                         hover:shadow-[0_10px_28px_rgba(0,22,37,0.09)]
                       "
                     >
-                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#001625] text-white">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#122560] text-white">
                         <Check size={15} strokeWidth={3} />
                       </span>
 
-                      <span className="text-[15px] font-medium font-semibold leading-6 text-[#001625] sm:text-base">
+                      <span className="text-[15px] font-medium font-semibold leading-6 text-[#122560] sm:text-base">
                         {item}
                       </span>
                     </div>
@@ -89,7 +87,7 @@ const ServiceCoverage = ({ serviceDetails }: { serviceDetails: any }) => {
             <div className="mt-16 sm:mt-20 lg:mt-24">
               <p className="eyebrow mb-3">How it works</p>
 
-              <h2 className="text-4xl font-bold leading-[1.08] tracking-[-0.035em] text-[#001625] sm:text-5xl lg:text-[50px]">
+              <h2 className="text-4xl font-bold leading-[1.08] tracking-[-0.035em] text-[#122560] sm:text-5xl lg:text-[50px]">
                 Simple, documented process
               </h2>
 
@@ -121,7 +119,7 @@ const ServiceCoverage = ({ serviceDetails }: { serviceDetails: any }) => {
                         />
                       </div>
 
-                      <h3 className="text-xl font-bold tracking-[-0.02em] text-[#001625]">
+                      <h3 className="text-xl font-bold tracking-[-0.02em] text-[#122560]">
                         {step.title}
                       </h3>
 
@@ -170,14 +168,14 @@ const ServiceCoverage = ({ serviceDetails }: { serviceDetails: any }) => {
               </p>
 
               <div className="mt-0.5">
-                <span className="text-5xl font-bold tracking-[-0.04em] text-[#001625] sm:text-[52px]">
+                <span className="text-5xl font-bold tracking-[-0.04em] text-[#122560] sm:text-[52px]">
                   {serviceDetails?.price?.split(" ")[1]}
                 </span>
               </div>
 
               {/* Service Information */}
               <div className="mt-6 space-y-4">
-                <div className="flex items-center gap-3 text-[#001625]">
+                <div className="flex items-center gap-3 text-[#122560]">
                   <Clock3
                     size={20}
                     strokeWidth={2}
@@ -188,7 +186,7 @@ const ServiceCoverage = ({ serviceDetails }: { serviceDetails: any }) => {
                   </span>
                 </div>
 
-                <div className="flex items-center gap-3 text-[#001625]">
+                <div className="flex items-center gap-3 text-[#122560]">
                   <MapPin
                     size={20}
                     strokeWidth={2}
@@ -199,7 +197,7 @@ const ServiceCoverage = ({ serviceDetails }: { serviceDetails: any }) => {
                   </span>
                 </div>
 
-                <div className="flex items-center gap-3 text-[#001625]">
+                <div className="flex items-center gap-3 text-[#122560]">
                   <ShieldCheck
                     size={20}
                     strokeWidth={2}
@@ -222,7 +220,7 @@ const ServiceCoverage = ({ serviceDetails }: { serviceDetails: any }) => {
                     items-center
                     justify-center
                     rounded-full
-                    bg-[#001625]
+                    bg-[#122560]
                     px-6
                     py-4
                     text-base

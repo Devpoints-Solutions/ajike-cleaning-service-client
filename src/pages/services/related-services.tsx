@@ -13,7 +13,7 @@ function RelatedServices() {
       <div className="section-heading">
         <div>
           <div className="eyebrow">Related Services</div>
-          <h2 className="mb-3" style={{ color: "#001625" }}>
+          <h2 className="mb-3" style={{ color: "#122560" }}>
             You may all be interest in
           </h2>
           <div className="my-6"></div>

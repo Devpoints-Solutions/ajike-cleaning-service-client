@@ -107,7 +107,7 @@ function Coverage() {
                     flex items-center justify-center
                     w-10 h-10
                     rounded-full
-                    bg-[#001625]
+                    bg-[#122560]
                     border border-white/25
                     backdrop-blur-md
                     transition-all duration-300

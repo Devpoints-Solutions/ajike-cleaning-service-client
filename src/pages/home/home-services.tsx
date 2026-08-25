@@ -15,7 +15,7 @@ function HomeServices() {
           <div className="eyebrow" style={{ fontSize: "0.8rem" }}>
             Pest + clean, under one roof
           </div>
-          <h2 className="mb-3" style={{ color: "#001625" }}>
+          <h2 className="mb-3" style={{ color: "#122560" }}>
             Care that meets the moment.
           </h2>
           <div className="my-6"></div>

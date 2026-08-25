@@ -17,7 +17,7 @@ const ServiceAreas = () => {
           </p>
 
           {/* Main Heading */}
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-[#001625] leading-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-[#122560] leading-tight mb-6">
             Cleaning & pest control <br className="hidden sm:block" /> across NJ
             and NY
           </h1>

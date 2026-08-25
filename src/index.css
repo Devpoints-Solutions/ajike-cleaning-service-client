@@ -129,7 +129,7 @@ a {
 }
 .contact-intro h1 {
   margin: 0.75rem 0 0.9rem;
-  color: #001625;
+  color: #122560;
   font: 700 clamp(2.1rem, 4vw, 3.7rem)/0.98 var(--font-display);
   letter-spacing: -0.06em;
 }
@@ -157,7 +157,7 @@ a {
   border: 1px solid rgba(142, 188, 212, 0.4);
 }
 .contact-highlights strong {
-  color: #001625;
+  color: #122560;
   font: 700 1.05rem var(--font-display);
 }
 .contact-highlights span {
@@ -339,7 +339,7 @@ a {
   /* gap: 0.65rem; */
   font: 900 1rem var(--font-display);
 
-  color: #001625;
+  color: #122560;
   white-space: nowrap;
 }
 
@@ -359,7 +359,7 @@ a {
   width: 20px;
   gap: 5px;
   height: 3px;
-  background-color: #001625;
+  background-color: #122560;
   display: inline-block;
   margin-left: 2px;
 }
@@ -369,7 +369,7 @@ a {
   width: 20px;
   gap: 5px;
   height: 3px;
-  background-color: #001625;
+  background-color: #122560;
   display: inline-block;
   margin-right: 2px;
 }
@@ -383,7 +383,7 @@ a {
   align-items: center;
   gap: 1.55rem;
   margin-left: 2rem;
-  color: #4c6b7e;
+  color: #122560;
   font-size: 0.78rem;
   font-weight: 600;
 }
@@ -455,7 +455,9 @@ a {
 }
 .primary-button,
 .secondary-button,
-.text-button {
+.text-button,
+.service-button,
+.header-primary-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -472,13 +474,28 @@ a {
     box-shadow 0.2s,
     color 0.2s;
 }
+
+.header-primary-button,
+.service-button {
+  background: #122560;
+  color: white;
+  box-shadow: 0 10px 24px rgba(11, 65, 104, 0.18);
+}
+
+.header-primary-button:hover,
+.service-button:hover {
+  background: #1c3963;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(11, 65, 104, 0.25);
+}
+
 .primary-button {
   background: #001625;
   color: white;
   box-shadow: 0 10px 24px rgba(11, 65, 104, 0.18);
 }
 .primary-button:hover {
-  background: #08628f;
+  background: #1c3963;
   transform: translateY(-2px);
   box-shadow: 0 14px 28px rgba(11, 65, 104, 0.25);
 }
@@ -840,7 +857,7 @@ a {
 }
 .service-card h3 {
   margin: 0 0 0.38rem;
-  color: #103d5d;
+  color: #122560;
   font: 700 0.92rem var(--font-display);
   font-size: 1.3rem;
   /* letter-spacing: -0.04em; */
@@ -875,7 +892,7 @@ a {
   border-radius: 999px;
 }
 .mini-arrow {
-  color: #001625;
+  color: #122560;
   transition: transform 0.2s;
 }
 .service-card:hover .mini-arrow {
@@ -986,7 +1003,7 @@ a {
   padding: clamp(1.8rem, 5vw, 4.5rem);
 }
 .featured-copy h2 {
-  color: #001625;
+  color: #122560;
   font: 700 clamp(2rem, 4vw, 4rem)/0.98 var(--font-display);
   /* letter-spacing: -0.1em; */
   max-width: 500px;
@@ -1187,7 +1204,7 @@ a {
   padding: 1.15rem 0;
   border: 0;
   background: none;
-  color: #123f5e;
+  color: #122560;
   text-align: left;
   font: 700 1.12rem var(--font-display);
 }
@@ -1219,7 +1236,7 @@ a {
   margin-bottom: 5.5rem;
 }
 .final-cta h2 {
-  color: #001625;
+  color: #122560;
   font: 700 clamp(1.9rem, 4vw, 3.7rem)/0.98 var(--font-display);
   /* letter-spacing: -0.09em; */
   margin: 0.7rem 0 0;
@@ -1727,10 +1744,10 @@ a {
   border-color: #b9dfeb;
 }
 .plan-card h2 {
-  color: #001625;
+  color: #122560;
 }
 .plan-name {
-  color: #001625;
+  color: #122560;
   font: 700 1.5rem var(--font-display);
   /* letter-spacing: -0.08em; */
   margin: 1.35rem 0 0.4rem;
@@ -2521,7 +2538,7 @@ a {
 .about-manifesto h2,
 .people-section h2,
 .standards-copy h2 {
-  color: #0f2f48;
+  color: #122560;
   font: 800 clamp(2.2rem, 4vw, 4rem)/0.98 var(--font-display);
   margin: 0.7rem 0 1.1rem;
 }
@@ -2722,7 +2739,7 @@ a {
   font: 700 0.65rem var(--font-display);
 }
 .standard-row button strong {
-  color: #153d5c;
+  color: #122560;
   font: 800 0.9rem var(--font-display);
 }
 .standard-row button svg {
@@ -2916,7 +2933,7 @@ a {
   letter-spacing: 0.08em;
 }
 .service-detail-title h2 {
-  color: #103d5d;
+  color: #122560;
   font: 800 1.55rem/1.2 var(--font-display);
   margin: 0.35rem 0 0.35rem;
 }
@@ -2932,7 +2949,7 @@ a {
 }
 .service-detail-price strong {
   display: block;
-  color: #001625;
+  color: #122560;
   font: 800 1.18rem var(--font-display);
 }
 .service-detail-price span {
@@ -3018,7 +3035,7 @@ a {
   background: #dff3fa;
 }
 .service-guidance h2 {
-  color: #001625;
+  color: #122560;
   font: 700 clamp(1.5rem, 3vw, 2.4rem)/1.1 var(--font-display);
   margin: 0.6rem 0 0;
 }
@@ -3103,7 +3120,7 @@ a {
 }
 .pricing-row-name strong {
   display: block;
-  color: #17445f;
+  color: #122560;
   font: 700 1.05rem/1.2 var(--font-display);
 }
 .pricing-row-name span,
@@ -3125,7 +3142,7 @@ a {
 }
 .pricing-row-price strong {
   display: block;
-  color: #001625;
+  color: #122560;
   font: 700 1rem/1.2 var(--font-display);
 }
 .pricing-row-price .text-button {
@@ -3151,7 +3168,7 @@ a {
   color: #148ab2;
 }
 .pricing-note-card h3 {
-  color: #17445f;
+  color: #122560;
   font: 700 1.02rem/1.3 var(--font-display);
   margin: 0 0 0.45rem;
 }
@@ -3174,7 +3191,7 @@ a {
   padding: 2rem;
 }
 .pricing-reassurance h2 {
-  color: #001625;
+  color: #122560;
   font: 700 clamp(1.7rem, 3vw, 2.8rem)/1 var(--font-display);
   /* letter-spacing: -0.09em; */
   margin: 0.65rem 0 0.8rem;

@@ -159,7 +159,7 @@ function Services() {
                       <p>{detail.next}</p>
 
                       <Link
-                        className="primary-button button-small"
+                        className="service-button button-small"
                         data-testid={`button-request-detail-${service.id}`}
                         href={`/services/${service?.slug}`}
                       >
