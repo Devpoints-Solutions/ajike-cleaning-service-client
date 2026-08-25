@@ -1,5 +1,6 @@
 import { Phone, Mail, MapPin, ArrowRight } from "lucide-react";
 import CtaButton from "../common/cta-button";
+import { Link } from "wouter";
 
 const Footer = () => {
   return (
@@ -149,46 +150,52 @@ const Footer = () => {
 
               <ul className="space-y-3 text-sm text-blue-100/70">
                 <li>
-                  <a
-                    href="#pest-control"
+                  <Link
+                    href="/services"
                     className="transition hover:text-white"
                   >
                     Pest Control
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#cleaning" className="transition hover:text-white">
+                  <Link
+                    href="/services"
+                    className="transition hover:text-white"
+                  >
                     Cleaning Services
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#residential-pest"
+                  <Link
+                    href="/services"
                     className="transition hover:text-white"
                   >
                     Residential Pest Control
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#commercial-cleaning"
+                  <Link
+                    href="/services"
                     className="transition hover:text-white"
                   >
                     Commercial Cleaning
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#bed-bug" className="transition hover:text-white">
+                  <Link
+                    href="/services"
+                    className="transition hover:text-white"
+                  >
                     Bed Bug Treatment
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#deep-cleaning"
+                  <Link
+                    href="/services"
                     className="transition hover:text-white"
                   >
                     Deep Cleaning
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -199,33 +206,29 @@ const Footer = () => {
 
               <ul className="space-y-3 text-sm text-blue-100/70">
                 <li>
-                  <a href="#about" className="transition hover:text-white">
+                  <Link href="/about" className="transition hover:text-white">
                     About Us
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#pricing" className="transition hover:text-white">
+                  <Link href="/pricing" className="transition hover:text-white">
                     Pricing
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#service-areas"
+                  <Link
+                    href="/services"
                     className="transition hover:text-white"
                   >
                     Service Areas
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a href="#careers" className="transition hover:text-white">
                     Careers
                   </a>
                 </li>
-                <li>
-                  <a href="#blog" className="transition hover:text-white">
-                    Blog & Resources
-                  </a>
-                </li>
+
                 <li>
                   <a href="#faq" className="transition hover:text-white">
                     FAQ
