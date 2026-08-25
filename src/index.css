@@ -1814,6 +1814,8 @@ a {
   display: grid;
   gap: 0.9rem;
   margin-top: 1.2rem;
+  overflow-y: auto;
+  height: 250px;
 }
 .activity-row {
   display: flex;

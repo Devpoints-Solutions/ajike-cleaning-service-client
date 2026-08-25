@@ -15,6 +15,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { JOBS } from "@/lib/dummy-data";
+import DashboardWrapper from "./dashboard-wrapper";
 
 export function UserScheduleDetails() {
   const { id } = useParams<{ id: string }>();
@@ -42,60 +43,61 @@ export function UserScheduleDetails() {
   }
 
   return (
-    <div className="admin-page">
-      <main className="container admin-wrap">
-        {notify && (
-          <div
-            className="dashboard-banner admin-notice"
-            role="status"
-            data-testid="status-schedule-update"
-          >
-            <span>{notify}</span>
-            <button
-              onClick={() => setNotify("")}
-              data-testid="button-dismiss-schedule-notify"
+    <DashboardWrapper>
+      <div className="admin-page">
+        <main className="container admin-wrap">
+          {notify && (
+            <div
+              className="dashboard-banner admin-notice"
+              role="status"
+              data-testid="status-schedule-update"
             >
-              Dismiss
-            </button>
-          </div>
-        )}
+              <span>{notify}</span>
+              <button
+                onClick={() => setNotify("")}
+                data-testid="button-dismiss-schedule-notify"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
 
-        <div className="flex items-start justify-between">
-          <Link
-            href="/dashboard/schedules"
-            className="text-button"
-            data-testid="button-back-to-dashboard"
-          >
-            <ArrowLeft size={18} /> Back to schedules
-          </Link>
-          <div>
-            <div className="eyebrow">Schedule Management</div>
+          <div className="flex items-start justify-between">
+            <Link
+              href="/dashboard/schedules"
+              className="text-button"
+              data-testid="button-back-to-dashboard"
+            >
+              <ArrowLeft size={18} /> Back to schedules
+            </Link>
+            <div>
+              <div className="eyebrow">Schedule Management</div>
 
-            <div className="quick-actions">
-              <p className="quick-action my-3">
-                Service overview for:
-                <span className="font-bold">{job?.kind}</span>
-              </p>
+              <div className="quick-actions">
+                <p className="quick-action my-3">
+                  Service overview for:
+                  <span className="font-bold">{job?.kind}</span>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="schedule-details-layout">
-          <section className="schedule-details-card">
-            <div className="schedule-details-header-card">
-              <div className="schedule-details-title">
-                <h2>{job?.kind}</h2>
-                <span className="schedule-details-id">#{job.id}</span>
-              </div>
-              <div className="schedule-details-actions">
-                <button
-                  className="icon-button"
-                  //   onClick={() => setShowActions(!showActions)}
-                  data-testid="button-schedule-actions"
-                >
-                  <MoreVertical size={18} />
-                </button>
-                {/* {showActions && (
+          <div className="schedule-details-layout">
+            <section className="schedule-details-card">
+              <div className="schedule-details-header-card">
+                <div className="schedule-details-title">
+                  <h2>{job?.kind}</h2>
+                  <span className="schedule-details-id">#{job.id}</span>
+                </div>
+                <div className="schedule-details-actions">
+                  <button
+                    className="icon-button"
+                    //   onClick={() => setShowActions(!showActions)}
+                    data-testid="button-schedule-actions"
+                  >
+                    <MoreVertical size={18} />
+                  </button>
+                  {/* {showActions && (
                   <div className="schedule-actions-dropdown">
                     <button
                       className="schedule-action-item"
@@ -113,105 +115,105 @@ export function UserScheduleDetails() {
                     </button>
                   </div>
                 )} */}
-              </div>
-            </div>
-
-            <div className="schedule-details-grid">
-              <div className="schedule-detail-item">
-                <div className="schedule-detail-icon">
-                  <Calendar size={18} />
-                </div>
-                <div className="schedule-detail-content">
-                  <span className="schedule-detail-label">Date & Time</span>
-                  <strong>{job.time}</strong>
                 </div>
               </div>
 
-              <div className="schedule-detail-item">
-                <div className="schedule-detail-icon">
-                  <Clock size={18} />
+              <div className="schedule-details-grid">
+                <div className="schedule-detail-item">
+                  <div className="schedule-detail-icon">
+                    <Calendar size={18} />
+                  </div>
+                  <div className="schedule-detail-content">
+                    <span className="schedule-detail-label">Date & Time</span>
+                    <strong>{job.time}</strong>
+                  </div>
                 </div>
-                <div className="schedule-detail-content">
-                  <span className="schedule-detail-label">Service Type</span>
-                  <strong>{job.service}</strong>
+
+                <div className="schedule-detail-item">
+                  <div className="schedule-detail-icon">
+                    <Clock size={18} />
+                  </div>
+                  <div className="schedule-detail-content">
+                    <span className="schedule-detail-label">Service Type</span>
+                    <strong>{job.service}</strong>
+                  </div>
+                </div>
+
+                <div className="schedule-detail-item">
+                  <div className="schedule-detail-icon">
+                    <MapPin size={18} />
+                  </div>
+                  <div className="schedule-detail-content">
+                    <span className="schedule-detail-label">Location</span>
+                    <strong>{job.address}</strong>
+                  </div>
+                </div>
+
+                <div className="schedule-detail-item">
+                  <div className="schedule-detail-icon">
+                    <User size={18} />
+                  </div>
+                  <div className="schedule-detail-content">
+                    <span className="schedule-detail-label">Assigned To</span>
+                    <strong>{job.tech}</strong>
+                  </div>
+                </div>
+
+                <div className="schedule-detail-item full-width">
+                  <div className="schedule-detail-icon">
+                    <Eye size={18} />
+                  </div>
+                  <div className="schedule-detail-content">
+                    <span className="schedule-detail-label">Status</span>
+                    <span
+                      className="schedule-status-badge"
+                      style={{ backgroundColor: getStatusColor(job.status) }}
+                    >
+                      {status || job.status}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="schedule-detail-item full-width">
+                  <div className="schedule-detail-icon">
+                    <AlertTriangle size={18} />
+                  </div>
+                  <div className="schedule-detail-content">
+                    <span className="schedule-detail-label">Job Type</span>
+                    <strong>{job.kind}</strong>
+                  </div>
                 </div>
               </div>
 
-              <div className="schedule-detail-item">
-                <div className="schedule-detail-icon">
-                  <MapPin size={18} />
-                </div>
-                <div className="schedule-detail-content">
-                  <span className="schedule-detail-label">Location</span>
-                  <strong>{job.address}</strong>
-                </div>
+              <div className="schedule-details-description">
+                <h3>Additional Information</h3>
+                <p>
+                  This schedule is for {job.service} service at {job.address}.
+                  Assigned to technician {job.tech}.
+                </p>
               </div>
 
-              <div className="schedule-detail-item">
-                <div className="schedule-detail-icon">
-                  <User size={18} />
-                </div>
-                <div className="schedule-detail-content">
-                  <span className="schedule-detail-label">Assigned To</span>
-                  <strong>{job.tech}</strong>
-                </div>
-              </div>
-
-              <div className="schedule-detail-item full-width">
-                <div className="schedule-detail-icon">
-                  <Eye size={18} />
-                </div>
-                <div className="schedule-detail-content">
-                  <span className="schedule-detail-label">Status</span>
-                  <span
-                    className="schedule-status-badge"
-                    style={{ backgroundColor: getStatusColor(job.status) }}
-                  >
-                    {status || job.status}
-                  </span>
-                </div>
-              </div>
-
-              <div className="schedule-detail-item full-width">
-                <div className="schedule-detail-icon">
-                  <AlertTriangle size={18} />
-                </div>
-                <div className="schedule-detail-content">
-                  <span className="schedule-detail-label">Job Type</span>
-                  <strong>{job.kind}</strong>
-                </div>
-              </div>
-            </div>
-
-            <div className="schedule-details-description">
-              <h3>Additional Information</h3>
-              <p>
-                This schedule is for {job.service} service at {job.address}.
-                Assigned to technician {job.tech}.
-              </p>
-            </div>
-
-            <div className="schedule-details-actions-bottom">
-              <Link
-                href="/dashboard/schedules"
-                className="secondary-button"
-                data-testid="button-cancel"
-              >
-                Go back
-              </Link>
-              {/* <button
+              <div className="schedule-details-actions-bottom">
+                <Link
+                  href="/dashboard/schedules"
+                  className="secondary-button"
+                  data-testid="button-cancel"
+                >
+                  Go back
+                </Link>
+                {/* <button
                 className="primary-button"
                 onClick={() => setShowStatusModal(true)}
                 data-testid="button-update-status-bottom"
               >
                 Update Status
               </button> */}
-            </div>
-          </section>
-        </div>
+              </div>
+            </section>
+          </div>
 
-        {/* Status Update Modal */}
-        {/* {showStatusModal && (
+          {/* Status Update Modal */}
+          {/* {showStatusModal && (
           <div
             className="modal-overlay"
             onClick={() => setShowStatusModal(false)}
@@ -259,8 +261,8 @@ export function UserScheduleDetails() {
           </div>
         )} */}
 
-        {/* Delete Confirmation Modal */}
-        {/* {showDeleteConfirm && (
+          {/* Delete Confirmation Modal */}
+          {/* {showDeleteConfirm && (
           <div
             className="modal-overlay"
             onClick={() => setShowDeleteConfirm(false)}
@@ -301,8 +303,9 @@ export function UserScheduleDetails() {
             </div>
           </div>
         )} */}
-      </main>
-    </div>
+        </main>
+      </div>
+    </DashboardWrapper>
   );
 }
 

@@ -10,6 +10,7 @@ import {
   Eye,
   ChevronRight,
 } from "lucide-react";
+import DashboardWrapper from "./dashboard-wrapper";
 import { JOBS } from "@/lib/dummy-data";
 
 export function UserActiveSchedules() {
@@ -35,7 +36,7 @@ export function UserActiveSchedules() {
   };
 
   return (
-    <div>
+    <DashboardWrapper>
       <main className="container dashboard-wrap">
         {notify && (
           <div
@@ -159,7 +160,7 @@ export function UserActiveSchedules() {
           </div>
         )}
       </main>
-    </div>
+    </DashboardWrapper>
   );
 }
 
