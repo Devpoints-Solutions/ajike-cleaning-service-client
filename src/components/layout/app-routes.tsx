@@ -25,6 +25,7 @@ import ServiceDetails from "@/pages/services/service-details";
 import PaymentHistory from "@/pages/user/payments-history";
 import RequestModal from "../common/request-modal";
 import NewRequestModal from "../common/request-modal/new-request-modal";
+import ScrollToTop from "./scroll-to-top";
 
 function AppRoutes() {
   const [location] = useLocation();
@@ -34,6 +35,7 @@ function AppRoutes() {
 
   return (
     <div className="app-shell">
+      <ScrollToTop />
       <ErrorBoundary resetKey={location}>
         <Switch>
           <Route path="/" component={HomePage} />

@@ -25,20 +25,20 @@ const NavItem = ({
         rounded-xl
         py-3
         text-sm
-        font-medium
         transition-all
         duration-200
+        font-bold
         ${collapsed ? "justify-center px-0" : "gap-3 px-3.5"}
         ${
           active
-            ? "bg-[#001625] text-[#1687b6]"
-            : "text-slate-600 hover:bg-slate-50 hover:text-[#101827]"
+            ? "bg-[#122560] text-[#ffffff]"
+            : "text-slate-600 hover:bg-[#dff3fa] hover:text-[#101827]"
         }
       `}
     >
       {/* Icon */}
       <Icon
-        size={19}
+        size={22}
         strokeWidth={active ? 2.2 : 1.8}
         className={`
           shrink-0

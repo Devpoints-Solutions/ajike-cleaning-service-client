@@ -23,11 +23,13 @@ function Dashboard() {
       <>
         <div>
           {nextVisit ? (
-            <section className="dashboard-card mb-10 visit-card">
+            <section className="dashboard-card mb-5 visit-card">
               <div className="card-kicker">Next visit</div>
 
               <>
-                <h2>We will see you soon.</h2>
+                <h1 className="font-semibold text-[#122560]">
+                  We will see you soon.
+                </h1>
                 <div className="visit-date">
                   <div className="date-block">
                     <strong>
@@ -59,14 +61,16 @@ function Dashboard() {
             <section className="dashboard-card mb-10 h-full">
               <div className="card-kicker">Next visit</div>
               <div className="flex gap-2 items-center h-full justify-start mt-20 flex-col">
-                <div className="flex gap-2 items-center mb-5">
-                  <HeartCrack />
-                  <h1 className="font-semibold">No approved service yet!</h1>
+                <div className="flex gap-2  items-center mb-5">
+                  <HeartCrack color="#122560" />
+                  <h1 className="font-semibold text-[#122560]">
+                    No approved service yet!
+                  </h1>
                 </div>
                 <CtaButton
                   icon={<ArrowRight size={17} />}
                   props={{
-                    className: "primary-button flex items-center",
+                    className: "secondary-button flex items-center",
                   }}
                   text="Request service"
                 />
@@ -116,7 +120,7 @@ function Dashboard() {
               <div className="card-kicker">Active re-occurent plan</div>
               <div className="flex gap-2  items-center justify-center">
                 <HeartCrack />
-                <h1 className="font-semibold">
+                <h1 className="font-semibold text-[#122560]">
                   You do not have an active Re-occurent plan
                 </h1>
               </div>

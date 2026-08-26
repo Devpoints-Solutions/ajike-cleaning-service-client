@@ -183,7 +183,7 @@ const NavContent = ({
             px-3.5
             py-3
             text-sm
-            font-medium
+            font-bold
             text-slate-500
             transition
             hover:bg-red-50

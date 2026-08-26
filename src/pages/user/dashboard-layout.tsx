@@ -55,7 +55,7 @@ const DashboardLayout = ({ children }: React.PropsWithChildren) => {
             </div>
           </div>
           <div className="dashboard-grid">
-            <section className="dashboard-card summary-card grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            <section className="dashboard-card w-full self-start lg:sticky lg:top-[0] lg:self-start summary-card grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               <div>
                 <div className="card-kicker">Your Ajike snapshot</div>
                 <h2>Everything is on track.</h2>
