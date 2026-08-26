@@ -1,6 +1,5 @@
 import Brand from "../brand";
-
-import { Menu, X, Bell } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 function MobileHeader({
   mobileOpen,

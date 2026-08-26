@@ -151,7 +151,7 @@ function WhatAndWhere({
                 </h2>
 
                 <div className="space-y-3">
-                  {SERVICES.map((item, index) => (
+                  {SERVICES.map((item) => (
                     <ServiceSelector
                       key={item.id}
                       item={item}
