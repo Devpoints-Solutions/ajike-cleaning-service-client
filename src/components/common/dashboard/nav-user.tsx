@@ -2,7 +2,7 @@ import { ChevronDown } from "lucide-react";
 import { useAuthContext } from "@/features/contexts/auth-context";
 
 function NavUser({ collapsed }: { collapsed: boolean }) {
-  const { isAuthenticated, currentUser } = useAuthContext();
+  const { currentUser } = useAuthContext();
 
   return (
     <div
