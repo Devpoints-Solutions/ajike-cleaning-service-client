@@ -13,14 +13,23 @@ export function useForm(validatorSchema: Schema) {
   const [isValid, setIsValid] = useState<boolean>(false);
 
   function getFormInput(
-    event: ChangeEvent<
+    event?: ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >,
+    customName?: string,
+    customValue?: string,
   ) {
-    const { name, value } = event.target;
+    if (event) {
+      const { name, value } = event.target;
+      return setData({
+        ...data,
+        [name]: value,
+      });
+    }
+
     return setData({
       ...data,
-      [name]: value,
+      [customName as string]: customValue,
     });
   }
 

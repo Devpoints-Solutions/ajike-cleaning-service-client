@@ -24,12 +24,13 @@ import { useServiceContext } from "@/features/contexts/service-context";
 import ServiceDetails from "@/pages/services/service-details";
 import PaymentHistory from "@/pages/user/payments-history";
 import RequestModal from "../common/request-modal";
+import NewRequestModal from "../common/request-modal/new-request-modal";
 
 function AppRoutes() {
   const [location] = useLocation();
 
   const { isAuthenticated, currentUser } = useAuthContext();
-  const { isOpen } = useServiceContext();
+  const { isOpen, newModalIsOpen } = useServiceContext();
 
   return (
     <div className="app-shell">
@@ -72,6 +73,7 @@ function AppRoutes() {
         <>
           <Chat />
           {isOpen && <RequestModal />}
+          {newModalIsOpen && <NewRequestModal />}
         </>
       )}
     </div>

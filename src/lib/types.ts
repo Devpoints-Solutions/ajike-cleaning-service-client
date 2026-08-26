@@ -92,6 +92,8 @@ export type ServiceStatsType = {
 
 export type ServiceContextType = {
   isOpen: boolean;
+  newModalIsOpen: boolean;
+  toggleNewModal: () => void;
   toggleModal: () => void;
   services: IService[];
   serviceStats: ServiceStatsType;

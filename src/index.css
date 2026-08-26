@@ -1354,7 +1354,7 @@ a {
   font-size: 0.78rem;
 }
 .field textarea {
-  min-height: 84px;
+  min-height: 200px;
   resize: vertical;
 }
 .field input:focus,

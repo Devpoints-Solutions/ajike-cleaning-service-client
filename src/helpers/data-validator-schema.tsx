@@ -68,30 +68,18 @@ export const updatePasswordResetSchema = object({
 });
 
 export const serviceSchema = object({
+  category: string().required("Service category is required"),
   title: string()
     .required("Service title is required")
     .min(3, "Servie title must be at least 3 characters")
     .max(50, "Service title must not exceed 50 characters"),
+  propertyType: string().required("Property type is required"),
+  plan: string().required("Service plan is required"),
+  planInterval: string().optional(),
   description: string()
     .required("Service description is required")
     .min(50, "Servie description must be at least 50 characters")
     .max(1000, "Service description must not exceed 1000 characters"),
-  propertyType: string().required("Property type is required"),
-
-  budget: string()
-    .required("Budget is required")
-    .test("budget-format", "Budget must be a valid number", (value) => {
-      if (!value) return false;
-      return /^\d+$/.test(sanitizeNumericValue(value));
-    })
-    .test(
-      "budget-min",
-      `The minimum allowed budget is $${MIN_SERVICE_PRICE}`,
-      (value) => {
-        if (!value) return false;
-        return Number(sanitizeNumericValue(value)) >= MIN_SERVICE_PRICE;
-      },
-    ),
   preferredDate: string()
     .required("Preferred date is required")
     .test("not-past", "Date cannot be in the past", (value) => {
@@ -129,12 +117,29 @@ export const serviceSchema = object({
       return selected.getDay() !== 0;
     }),
 
-  plan: string().required("Service plan is required"),
-  category: string().required("Service category is required"),
-  address: string().required("Address is required"),
   postcode: string()
     .required("Postcode is required")
     .matches(/^\d{5}(-\d{4})?$/, "Enter a valid US ZIP code"),
+
+  serviceState: string().required("Select a state"),
+  serviceCity: string().required("Select a city"),
+  address: string().required("Address is required"),
+
+  budget: string()
+    .required("Budget is required")
+    .test("budget-format", "Budget must be a valid number", (value) => {
+      if (!value) return false;
+      return /^\d+$/.test(sanitizeNumericValue(value));
+    })
+    .test(
+      "budget-min",
+      `The minimum allowed budget is $${MIN_SERVICE_PRICE}`,
+      (value) => {
+        if (!value) return false;
+        return Number(sanitizeNumericValue(value)) >= MIN_SERVICE_PRICE;
+      },
+    ),
+
   customerFirstName: string()
     .optional()
     .min(3, "Customer firstname is required and must be at least 3 characters")
@@ -150,6 +155,4 @@ export const serviceSchema = object({
       /^(?:\+1\s?)?(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}$/,
       "Please enter a valid US phone number",
     ),
-
-  serviceLocation: string().optional(),
 });

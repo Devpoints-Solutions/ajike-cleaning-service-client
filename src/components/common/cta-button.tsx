@@ -12,11 +12,11 @@ function CtaButton({
   icon: React.ReactNode;
 }) {
   const { isAuthenticated } = useAuthContext();
-  const { toggleModal } = useServiceContext();
+  const { toggleNewModal } = useServiceContext();
   return (
     <>
       {isAuthenticated ? (
-        <button {...props} onClick={toggleModal}>
+        <button {...props} onClick={toggleNewModal}>
           {text}
           {icon}
         </button>
