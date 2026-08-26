@@ -1613,7 +1613,7 @@ a {
   margin-bottom: 2rem;
 }
 .dashboard-top h1 {
-  color: #1687b6;
+  color: #001625;
   font: 700 clamp(1.8rem, 4vw, 3rem)/1 var(--font-display);
   /* letter-spacing: -0.09em; */
   margin: 0.5rem 0;

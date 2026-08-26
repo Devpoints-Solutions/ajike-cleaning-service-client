@@ -15,7 +15,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { JOBS } from "@/lib/dummy-data";
-import DashboardWrapper from "./dashboard-wrapper";
+import DashboardLayout from "./dashboard-layout";
 
 export function UserScheduleDetails() {
   const { id } = useParams<{ id: string }>();
@@ -43,7 +43,7 @@ export function UserScheduleDetails() {
   }
 
   return (
-    <DashboardWrapper>
+    <DashboardLayout>
       <div className="admin-page">
         <main className="container admin-wrap">
           {notify && (
@@ -305,7 +305,7 @@ export function UserScheduleDetails() {
         )} */}
         </main>
       </div>
-    </DashboardWrapper>
+    </DashboardLayout>
   );
 }
 

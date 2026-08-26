@@ -1,18 +1,17 @@
-import AdminTop from "./admin-top";
 import Schedules from "./schedules";
 import Stats from "./Stats";
 import Visualizer from "./visualizer";
+import AdminDashboardLayout from "./admin-dashboard-layout";
 
 function AdminDashboard() {
   return (
-    <div className="admin-page">
-      <main className="container admin-wrap">
-        <AdminTop />
+    <AdminDashboardLayout>
+      <div className="admin-page">
         <Stats />
         <Schedules />
         <Visualizer />
-      </main>
-    </div>
+      </div>
+    </AdminDashboardLayout>
   );
 }
 

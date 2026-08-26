@@ -4,13 +4,7 @@ import { Link, useLocation } from "wouter";
 import { Menu, ArrowRight, LayoutDashboard, LogOutIcon } from "lucide-react";
 import { useAuthContext } from "@/features/contexts/auth-context";
 
-function Header({
-  onRequest,
-  dashboard = false,
-}: {
-  onRequest: () => void;
-  dashboard?: boolean;
-}) {
+function Header({ onRequest }: { onRequest: () => void; dashboard?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [pathname] = useLocation();
 
@@ -59,14 +53,7 @@ function Header({
     { href: "/contact", label: "Contact", testId: "link-nav-contact" },
   ];
 
-  const dashboardNavItems = [
-    { href: "#overview", label: "Overview", testId: "link-nav-overview" },
-    { href: "#activity", label: "Activity", testId: "link-nav-activity" },
-    { href: "#account", label: "Account", testId: "link-nav-account" },
-  ];
-
-  const navItems =
-    isAuthenticated && dashboard ? dashboardNavItems : publicNavItems;
+  const navItems = publicNavItems;
 
   return (
     <header className="site-header">

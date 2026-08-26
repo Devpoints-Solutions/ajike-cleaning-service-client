@@ -14,7 +14,7 @@ import {
 import { useServiceContext } from "@/features/contexts/service-context";
 import { getSpecificDate, getIsoFullDate, getNextVisit } from "@/helpers/time";
 
-import DashboardWrapper from "./dashboard-wrapper";
+import DashboardLayout from "./dashboard-layout";
 
 function Dashboard() {
   const {
@@ -28,7 +28,7 @@ function Dashboard() {
   } = useServiceContext();
 
   return (
-    <DashboardWrapper>
+    <DashboardLayout>
       <>
         <section className="dashboard-card visit-card">
           <div className="card-kicker">Next visit</div>
@@ -202,7 +202,7 @@ function Dashboard() {
           </div>
         </section>
       </>
-    </DashboardWrapper>
+    </DashboardLayout>
   );
 }
 

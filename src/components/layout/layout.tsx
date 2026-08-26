@@ -9,13 +9,8 @@ function Layout() {
 
   return (
     <>
-      {!pathname.startsWith("/auth") && (
-        <Header
-          dashboard={
-            pathname === "/dashboard" || pathname === "/admin/dashboard"
-          }
-          onRequest={() => {}}
-        />
+      {!["auth", "dashboard", "admin"].includes(pathname.split("/")[1]) && (
+        <Header onRequest={() => {}} />
       )}
 
       <AppRoutes />

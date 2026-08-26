@@ -22,6 +22,7 @@ import { RequireAuth } from "@/features/contexts/auth-context";
 import { useAuthContext } from "@/features/contexts/auth-context";
 import { useServiceContext } from "@/features/contexts/service-context";
 import ServiceDetails from "@/pages/services/service-details";
+import PaymentHistory from "@/pages/user/payments-history";
 import RequestModal from "../common/request-modal";
 
 function AppRoutes() {
@@ -48,18 +49,17 @@ function AppRoutes() {
 
           <RequireAuth>
             <Route path="/dashboard" component={Dashboard} />
+            <Route path="/dashboard/services" component={UserActiveSchedules} />
+
+            <Route path="/dashboard/payments" component={PaymentHistory} />
             <Route
-              path="/dashboard/schedules"
-              component={UserActiveSchedules}
-            />
-            <Route
-              path="/dashboard/schedules/:id"
+              path="/dashboard/services/:id"
               component={UserScheduleDetails}
             />
 
             <Route path="/admin/dashboard" component={AdminDashboard} />
 
-            <Route path="/admin/dashboard/chat" component={AdminChatPage} />
+            <Route path="/admin/dashboard/messages" component={AdminChatPage} />
             <Route
               path="/admin/dashboard/schedules/:id"
               component={AdminScheduleDetails}

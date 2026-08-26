@@ -1,7 +1,6 @@
 import { Link } from "wouter";
 import { useState } from "react";
 import {
-  ArrowLeft,
   Calendar,
   Clock,
   MapPin,
@@ -10,7 +9,7 @@ import {
   Eye,
   ChevronRight,
 } from "lucide-react";
-import DashboardWrapper from "./dashboard-wrapper";
+import DashboardLayout from "./dashboard-layout";
 import { JOBS } from "@/lib/dummy-data";
 
 export function UserActiveSchedules() {
@@ -36,7 +35,7 @@ export function UserActiveSchedules() {
   };
 
   return (
-    <DashboardWrapper>
+    <DashboardLayout>
       <main className="container dashboard-wrap">
         {notify && (
           <div
@@ -55,17 +54,11 @@ export function UserActiveSchedules() {
         )}
 
         <div className="active-schedules-header">
-          <Link
-            href="/dashboard"
-            className="text-button"
-            data-testid="button-back-to-dashboard"
-          >
-            <ArrowLeft size={18} /> Back to Dashboard
-          </Link>
           <div>
-            <div className="eyebrow">Your Schedules</div>
-            <h1>Active Schedules</h1>
-            <p>View and manage your active service schedules</p>
+            <div className="eyebrow">Your Services</div>
+            <p className="font-semibold text-[#122560]">
+              View and manage your active service schedules
+            </p>
           </div>
         </div>
 
@@ -160,7 +153,7 @@ export function UserActiveSchedules() {
           </div>
         )}
       </main>
-    </DashboardWrapper>
+    </DashboardLayout>
   );
 }
 
