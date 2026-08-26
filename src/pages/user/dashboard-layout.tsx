@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DashboardNav from "@/components/common/dashboard/dashboard-nav";
 import { CalendarClock, ClockFading, RefreshCw } from "lucide-react";
 import { useAuthContext } from "@/features/contexts/auth-context";
@@ -13,6 +13,52 @@ const DashboardLayout = ({ children }: React.PropsWithChildren) => {
 
   const { serviceStats } = useServiceContext();
 
+  const dashboardTopRef = useRef<HTMLDivElement | null>(null);
+  const [isSticky, setIsSticky] = useState(false);
+  const [stickyStyle, setStickyStyle] = useState<React.CSSProperties | undefined>(undefined);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const el = dashboardTopRef.current;
+      if (!el) return;
+
+      const navbarHeightStr = getComputedStyle(document.documentElement).getPropertyValue('--navbar-height');
+      const navbarHeight = parseInt(navbarHeightStr) || 64;
+
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= navbarHeight + 8) {
+        if (!isSticky) {
+          // compute container position and width to keep layout
+          let container: HTMLElement | null = el.parentElement;
+          while (container && !container.className.includes('mx-auto')) {
+            container = container.parentElement;
+          }
+          const contRect = container ? container.getBoundingClientRect() : el.getBoundingClientRect();
+          setStickyStyle({
+            position: 'fixed',
+            top: `${navbarHeight + 8}px`,
+            left: `${contRect.left}px`,
+            width: `${contRect.width}px`,
+            zIndex: 50,
+            background: getComputedStyle(container || el).backgroundColor || '#f7f9fa',
+          });
+          setIsSticky(true);
+        }
+      } else if (isSticky) {
+        setIsSticky(false);
+        setStickyStyle(undefined);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+    handleScroll();
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [isSticky]);
+
   return (
     <div className="min-h-screen bg-[#f7f9fa]">
       <DashboardNav collapsed={collapsed} setCollapsed={setCollapsed} />
@@ -23,7 +69,7 @@ const DashboardLayout = ({ children }: React.PropsWithChildren) => {
         }`}
       >
         <div className="mx-auto max-w-[1600px] px-5 py-6 sm:px-8 lg:px-10 lg:py-8">
-          <div className="dashboard-top">
+          <div ref={dashboardTopRef} className={`dashboard-top ${isSticky ? "is-sticky" : ""}`} style={stickyStyle}>
             <div>
               <div className="eyebrow">Customer dashboard</div>
               {isAuthenticated && currentUser && (
