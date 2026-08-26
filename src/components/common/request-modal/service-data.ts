@@ -4,7 +4,13 @@ import {
   CalendarCheck2,
   CalendarSync,
   CalendarDays,
+  Landmark,
+  Waves,
+  Mountain,
+  TreePine,
+  Factory,
 } from "lucide-react";
+import type { Service } from "@/lib/types";
 
 export const categories = [
   {
@@ -62,3 +68,159 @@ export const propertyTypes = [
 ];
 
 export const steps = [1, 2, 3, 4, 5, 6];
+
+export const FORM_NY_CITIES = [
+  { name: "New York City", icon: Building2 },
+  { name: "Buffalo", icon: Building2 },
+  { name: "Rochester", icon: Building2 },
+  { name: "Yonkers", icon: Building2 },
+  { name: "Syracuse", icon: Landmark },
+  { name: "Albany", icon: Landmark },
+  { name: "New Rochelle", icon: Building2 },
+  { name: "Mount Vernon", icon: Mountain },
+  { name: "Schenectady", icon: Factory },
+  { name: "Utica", icon: Building2 },
+  { name: "White Plains", icon: Building2 },
+  { name: "Troy", icon: Landmark },
+  { name: "Niagara Falls", icon: Waves },
+  { name: "Binghamton", icon: Building2 },
+  { name: "Rome", icon: Landmark },
+  { name: "Ithaca", icon: TreePine },
+  { name: "Poughkeepsie", icon: Waves },
+  { name: "Watertown", icon: Building2 },
+  { name: "Elmira", icon: TreePine },
+  { name: "Long Beach", icon: Waves },
+  { name: "Saratoga Springs", icon: TreePine },
+  { name: "Kingston", icon: Landmark },
+  { name: "Peekskill", icon: Mountain },
+  { name: "Glens Falls", icon: Waves },
+  { name: "Jamestown", icon: Building2 },
+  { name: "Auburn", icon: Building2 },
+  { name: "Corning", icon: Factory },
+  { name: "Batavia", icon: Building2 },
+  { name: "Oswego", icon: Waves },
+  { name: "Ogdensburg", icon: Waves },
+];
+
+export const FORM_NJ_CITIES = [
+  { name: "Newark", icon: Building2 },
+  { name: "Jersey City", icon: Building2 },
+  { name: "Paterson", icon: Waves },
+  { name: "Elizabeth", icon: Building2 },
+  { name: "Edison", icon: Factory },
+  { name: "Woodbridge Township", icon: Building2 },
+  { name: "Lakewood", icon: TreePine },
+  { name: "Toms River", icon: Waves },
+  { name: "Hamilton Township", icon: Building2 },
+  { name: "Trenton", icon: Landmark },
+  { name: "Clifton", icon: Building2 },
+  { name: "Camden", icon: Building2 },
+  { name: "Brick Township", icon: Waves },
+  { name: "Cherry Hill", icon: TreePine },
+  { name: "Bayonne", icon: Waves },
+  { name: "East Orange", icon: Building2 },
+  { name: "Vineland", icon: TreePine },
+  { name: "Union City", icon: Building2 },
+  { name: "North Bergen", icon: Mountain },
+  { name: "Hoboken", icon: Building2 },
+  { name: "Perth Amboy", icon: Waves },
+  { name: "West New York", icon: Building2 },
+  { name: "Plainfield", icon: Building2 },
+  { name: "Hackensack", icon: Building2 },
+  { name: "Sayreville", icon: Factory },
+  { name: "Kearny", icon: Factory },
+  { name: "Fort Lee", icon: Mountain },
+  { name: "Atlantic City", icon: Waves },
+  { name: "Passaic", icon: Waves },
+  { name: "Garfield", icon: Building2 },
+];
+
+export const SERVICES: Service[] = [
+  {
+    id: "general-pest",
+    slug: "general-pest-control",
+    name: "General pest control",
+    detail:
+      "A practical reset for ants, roaches, spiders, and the small signs you should not ignore.",
+    type: "Residential",
+    icon: "bug",
+    price: "From $89",
+    category: "Pest",
+  },
+  {
+    id: "bed-bug",
+    name: "Bed bug treatment",
+    slug: "bed-bug-treatment",
+    detail:
+      "Careful inspection, targeted treatment, and a clear follow-up plan for peace of mind.",
+    type: "Residential",
+    icon: "shield",
+    price: "From $249",
+    category: "Pest",
+  },
+  {
+    id: "rodent",
+    name: "Rodent control",
+    slug: "rodent-control",
+    detail:
+      "Find the entry points, remove the risk, and keep your home protected after we leave.",
+    type: "Residential",
+    icon: "house",
+    price: "From $139",
+    category: "Pest",
+  },
+  {
+    id: "mosquito",
+    name: "Mosquito control",
+    slug: "mosquito-control",
+    detail: "Seasonal protection that helps your yard feel like yours again.",
+    type: "Residential",
+    icon: "sparkle",
+    price: "From $79",
+    category: "Pest",
+  },
+  {
+    id: "deep-clean",
+    name: "Deep cleaning",
+    slug: "deep-cleaning",
+    detail:
+      "A detailed top-to-bottom clean for the places everyday routines miss.",
+    type: "Residential",
+    icon: "spray",
+    price: "From $180",
+    category: "Cleaning",
+  },
+  {
+    id: "home-clean",
+    name: "Standard home cleaning",
+    slug: "standard-home-cleaning",
+    detail:
+      "Reliable recurring or one-off cleaning for the rooms you live in most.",
+    type: "Residential",
+    icon: "droplets",
+    price: "From $110",
+    category: "Cleaning",
+  },
+  {
+    id: "office-clean",
+    name: "Office cleaning",
+    slug: "office-cleaning",
+    detail:
+      "Professional cleaning for productive, welcoming workspaces and shared areas.",
+    type: "Commercial",
+    icon: "building",
+    price: "From $220",
+    category: "Cleaning",
+  },
+  {
+    id: "move-clean",
+    name: "Move-in / move-out",
+    slug: "movie-in-movie-out",
+    detail:
+      "Start fresh or hand over the keys with a space that is ready for what is next.",
+    type: "Residential",
+    icon: "clipboard",
+    price: "From $210",
+    category: "Cleaning",
+  },
+];

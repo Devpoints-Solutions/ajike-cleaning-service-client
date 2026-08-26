@@ -6,6 +6,7 @@ export type Service = {
   icon: string;
   price: string;
   slug: string;
+  category?: "Pest" | "Cleaning";
 };
 
 export type IconProps = { size?: number; strokeWidth?: number };

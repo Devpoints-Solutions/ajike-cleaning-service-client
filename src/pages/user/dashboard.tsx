@@ -58,7 +58,7 @@ function Dashboard() {
           ) : (
             <section className="dashboard-card mb-10 h-full">
               <div className="card-kicker">Next visit</div>
-              <div className="flex gap-2 items-center h-full justify-center flex-col">
+              <div className="flex gap-2 items-center h-full justify-start mt-20 flex-col">
                 <div className="flex gap-2 items-center mb-5">
                   <HeartCrack />
                   <h1 className="font-semibold">No approved service yet!</h1>

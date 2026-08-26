@@ -2,14 +2,6 @@ import type { Service, ServiceStatus } from "@/lib/types";
 import mosquitoImage from "@/assets/mosquito.png";
 import rodentsImage from "@/assets/rodents.png";
 import pestControl from "@/assets/about.png";
-import {
-  Building2,
-  Landmark,
-  Waves,
-  Mountain,
-  TreePine,
-  Factory,
-} from "lucide-react";
 
 export const SERVICES: Service[] = [
   {
@@ -342,70 +334,4 @@ export const NJ_CITIES = [
   "Atlantic City",
   "Passaic",
   "Garfield",
-];
-
-export const FORM_NY_CITIES = [
-  { name: "New York City", icon: Building2 },
-  { name: "Buffalo", icon: Building2 },
-  { name: "Rochester", icon: Building2 },
-  { name: "Yonkers", icon: Building2 },
-  { name: "Syracuse", icon: Landmark },
-  { name: "Albany", icon: Landmark },
-  { name: "New Rochelle", icon: Building2 },
-  { name: "Mount Vernon", icon: Mountain },
-  { name: "Schenectady", icon: Factory },
-  { name: "Utica", icon: Building2 },
-  { name: "White Plains", icon: Building2 },
-  { name: "Troy", icon: Landmark },
-  { name: "Niagara Falls", icon: Waves },
-  { name: "Binghamton", icon: Building2 },
-  { name: "Rome", icon: Landmark },
-  { name: "Ithaca", icon: TreePine },
-  { name: "Poughkeepsie", icon: Waves },
-  { name: "Watertown", icon: Building2 },
-  { name: "Elmira", icon: TreePine },
-  { name: "Long Beach", icon: Waves },
-  { name: "Saratoga Springs", icon: TreePine },
-  { name: "Kingston", icon: Landmark },
-  { name: "Peekskill", icon: Mountain },
-  { name: "Glens Falls", icon: Waves },
-  { name: "Jamestown", icon: Building2 },
-  { name: "Auburn", icon: Building2 },
-  { name: "Corning", icon: Factory },
-  { name: "Batavia", icon: Building2 },
-  { name: "Oswego", icon: Waves },
-  { name: "Ogdensburg", icon: Waves },
-];
-
-export const FORM_NJ_CITIES = [
-  { name: "Newark", icon: Building2 },
-  { name: "Jersey City", icon: Building2 },
-  { name: "Paterson", icon: Waves },
-  { name: "Elizabeth", icon: Building2 },
-  { name: "Edison", icon: Factory },
-  { name: "Woodbridge Township", icon: Building2 },
-  { name: "Lakewood", icon: TreePine },
-  { name: "Toms River", icon: Waves },
-  { name: "Hamilton Township", icon: Building2 },
-  { name: "Trenton", icon: Landmark },
-  { name: "Clifton", icon: Building2 },
-  { name: "Camden", icon: Building2 },
-  { name: "Brick Township", icon: Waves },
-  { name: "Cherry Hill", icon: TreePine },
-  { name: "Bayonne", icon: Waves },
-  { name: "East Orange", icon: Building2 },
-  { name: "Vineland", icon: TreePine },
-  { name: "Union City", icon: Building2 },
-  { name: "North Bergen", icon: Mountain },
-  { name: "Hoboken", icon: Building2 },
-  { name: "Perth Amboy", icon: Waves },
-  { name: "West New York", icon: Building2 },
-  { name: "Plainfield", icon: Building2 },
-  { name: "Hackensack", icon: Building2 },
-  { name: "Sayreville", icon: Factory },
-  { name: "Kearny", icon: Factory },
-  { name: "Fort Lee", icon: Mountain },
-  { name: "Atlantic City", icon: Waves },
-  { name: "Passaic", icon: Waves },
-  { name: "Garfield", icon: Building2 },
 ];

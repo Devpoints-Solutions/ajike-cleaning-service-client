@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Loader } from "../loader";
-import { SERVICES, FORM_NJ_CITIES, FORM_NY_CITIES } from "@/lib/dummy-data";
+import { FORM_NJ_CITIES, FORM_NY_CITIES } from "./service-data";
+import { SERVICES } from "./service-data";
 import { useForm } from "@/features/hooks/use-form";
 import { useToast } from "@/features/hooks/use-toast";
 import moment from "moment";
@@ -28,6 +29,8 @@ import {
 import ServiceSelector from "./service-selector";
 import ProgressStepper from "./progress-stepper";
 import { getSpecificDate } from "@/helpers/time";
+import type { Service } from "@/lib/types";
+import { Link } from "wouter";
 
 function WhatAndWhere({
   isLoading,
@@ -103,7 +106,7 @@ function WhatAndWhere({
   }, [isSuccess]);
 
   return (
-    <div className="min-h-screen bg-[#fafbfc] text-[#001625]">
+    <div className="min-h-screen  bg-[#fafbfc] text-[#001625]">
       <div className="mx-auto flex min-h-screen w-full max-w-[720px] flex-col">
         {/* Top border */}
         <div className="h-px w-full bg-[#dce5ed]" />
@@ -146,25 +149,44 @@ function WhatAndWhere({
               {/* Service */}
 
               <section>
-                <h2 className="mt-6 text-[14px] font-semibold text-[#001625]">
-                  Service
+                <h2 className="mt-6 mb-3 text-[14px] font-semibold text-[#001625]">
+                  Select a service
                 </h2>
 
                 <div className="space-y-3">
-                  {SERVICES.map((item) => (
-                    <ServiceSelector
-                      key={item.id}
-                      item={item}
-                      selected={data?.title === item.name}
-                      onClick={() => {
-                        getFormInput(undefined, "title", item?.name);
+                  {data?.category && data?.category === "Cleaning"
+                    ? SERVICES.filter(
+                        (service: Service) => service?.category === "Cleaning",
+                      ).map((item) => (
+                        <ServiceSelector
+                          key={item.id}
+                          item={item}
+                          selected={data?.title === item.name}
+                          onClick={() => {
+                            getFormInput(undefined, "title", item?.name);
 
-                        if (data?.category) {
-                          setCanContinue(true);
-                        }
-                      }}
-                    />
-                  ))}
+                            if (data?.category) {
+                              setCanContinue(true);
+                            }
+                          }}
+                        />
+                      ))
+                    : SERVICES.filter(
+                        (service: Service) => service?.category === "Pest",
+                      ).map((item) => (
+                        <ServiceSelector
+                          key={item.id}
+                          item={item}
+                          selected={data?.title === item.name}
+                          onClick={() => {
+                            getFormInput(undefined, "title", item?.name);
+
+                            if (data?.category) {
+                              setCanContinue(true);
+                            }
+                          }}
+                        />
+                      ))}
                 </div>
               </section>
             </>
@@ -677,7 +699,7 @@ function WhatAndWhere({
                 <div className="rounded-xl border border-slate-200 bg-white shadow-[0_3px_10px_rgba(15,23,42,0.08)] overflow-hidden">
                   <div className="px-3 py-3.5">
                     {/* Service type */}
-                    <div className="flex items-start justify-between gap-4 mb-1.5">
+                    <div className="flex items-start justify-between gap-4 mb-4">
                       <span className="text-slate-500">Requested Service</span>
                       <span className="font-semibold text-slate-800 text-right">
                         {data?.title}
@@ -685,7 +707,7 @@ function WhatAndWhere({
                     </div>
 
                     {/* Property */}
-                    <div className="flex items-start justify-between gap-4 mb-1.5">
+                    <div className="flex items-start justify-between gap-4 mb-4">
                       <span className="text-slate-500">Property</span>
                       <span className="font-semibold text-slate-800 text-right">
                         {data?.propertyType}
@@ -693,7 +715,7 @@ function WhatAndWhere({
                     </div>
 
                     {/* Main service */}
-                    <div className="flex items-start justify-between gap-4 mb-1.5">
+                    <div className="flex items-start justify-between gap-4 mb-4">
                       <span className="text-slate-500">Category</span>
                       <span className="font-semibold text-slate-800 text-right">
                         {data?.category}
@@ -701,7 +723,7 @@ function WhatAndWhere({
                     </div>
 
                     {/* Add-ons */}
-                    <div className="flex items-start justify-between gap-4 mb-1.5">
+                    <div className="flex items-start justify-between gap-4 mb-4">
                       <span className="text-slate-500">Add-ons</span>
                       <span className="font-semibold text-slate-800 text-right">
                         None
@@ -709,7 +731,7 @@ function WhatAndWhere({
                     </div>
 
                     {/* When */}
-                    <div className="flex items-start justify-between gap-4 mb-1.5">
+                    <div className="flex items-start justify-between gap-4 mb-4">
                       <span className="text-slate-500">When</span>
                       <span className="font-semibold text-slate-800 text-right">
                         {getSpecificDate(data?.preferredDate).fullDate}
@@ -720,7 +742,7 @@ function WhatAndWhere({
                     <div className="flex items-start justify-between gap-4">
                       <span className="text-slate-500 shrink-0">Location</span>
 
-                      <span className="max-w-[280px] text-right font-semibold leading-[1.15] text-slate-800">
+                      <span className="max-w-[280px] text-right font-semibold leading-[2] text-slate-800">
                         {data?.address}
                       </span>
                     </div>
@@ -753,12 +775,13 @@ function WhatAndWhere({
                   confirm the details and offer a visit window. No payment is
                   needed to request an inspection.
                 </p>
-                <button
-                  className="primary-button"
+                <Link
+                  href="/dashboard"
+                  className="secondary-button"
                   data-testid="button-close-request-success"
                 >
                   Back to dashboard <ArrowRight size={15} />
-                </button>
+                </Link>
               </div>
             </>
           )}
@@ -791,7 +814,7 @@ function WhatAndWhere({
               }}
               disabled={!canContinue || isLoading || isSuccess}
               className={`flex button-small h-[52px] min-w-[158px] items-center justify-center gap-2 rounded-full px-7 text-[15px] font-semibold transition-all duration-200 ${
-                canContinue || isLoading || isSuccess
+                canContinue
                   ? "bg-[#1687b6] text-white shadow-sm hover:bg-[#11749d] active:scale-[0.98]"
                   : "cursor-not-allowed bg-[#1687b6]/50 text-white"
               }`}
