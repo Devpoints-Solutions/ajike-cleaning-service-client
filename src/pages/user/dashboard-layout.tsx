@@ -1,11 +1,21 @@
 import React from "react";
 import DashboardNav from "@/components/common/dashboard/dashboard-nav";
-import { CalendarClock, ClockFading, RefreshCw } from "lucide-react";
+import {
+  CalendarClock,
+  ClockFading,
+  RefreshCw,
+  ClipboardList,
+  CalendarDays,
+  Clock3,
+  CheckCircle2,
+} from "lucide-react";
 import { useAuthContext } from "@/features/contexts/auth-context";
 import { useServiceContext } from "@/features/contexts/service-context";
+
 import { getGreeting } from "@/helpers/time";
 import { useTime } from "@/features/hooks/use-time";
 import { useDashboardContext } from "@/features/contexts/dashboard-context";
+import StatCard from "./stat-card";
 
 const DashboardLayout = ({ children }: React.PropsWithChildren) => {
   const { isAuthenticated, currentUser } = useAuthContext();
@@ -56,44 +66,54 @@ const DashboardLayout = ({ children }: React.PropsWithChildren) => {
               </button>
             </div>
           </div>
-          <section className="dashboard-card w-full self-start lg:sticky lg:top-[0] z-50 lg:self-start summary-card grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            <div>
-              <div className="card-kicker">Your Ajike snapshot</div>
-              <h2>Everything is on track.</h2>
-            </div>
-            <div className="summary-stat">
-              <strong>
-                {serviceStats?.new === 0
-                  ? serviceStats?.new
-                  : String(serviceStats?.new).padStart(2, "0")}
-              </strong>
-              <span>New requests</span>
-            </div>
-            <div className="summary-stat">
-              <strong>
-                {serviceStats?.completed === 0
-                  ? serviceStats?.completed
-                  : String(serviceStats?.completed).padStart(2, "0")}
-              </strong>
-              <span>Completed visits</span>
-            </div>
-            <div className="summary-stat">
-              <strong>
-                {serviceStats?.pending === 0
-                  ? serviceStats?.pending
-                  : String(serviceStats?.pending).padStart(2, "0")}
-              </strong>
-              <span>Active</span>
-            </div>
 
-            <div className="summary-stat">
-              <strong>
-                {serviceStats?.cancelled === 0
+          <section
+            className="mb-6 grid grid-cols-1 w-full self-start lg:sticky lg:top-[0] lg:self-start gap-4 sm:grid-cols-2 xl:grid-cols-4 admin-kpi-grid  bg-[#ffffff] z-50 py-5 px-5 rounded-2xl"
+            style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
+          >
+            <StatCard
+              icon={CalendarDays}
+              label="New request"
+              value={
+                serviceStats?.new === 0
+                  ? serviceStats?.new
+                  : String(serviceStats?.new).padStart(2, "0")
+              }
+              description="Yet to be approved"
+            />
+
+            <StatCard
+              icon={CheckCircle2}
+              label="Completed"
+              value={
+                serviceStats?.completed === 0
+                  ? serviceStats?.completed
+                  : String(serviceStats?.completed).padStart(2, "0")
+              }
+              description="Services completed"
+            />
+
+            <StatCard
+              icon={ClipboardList}
+              label="Active requests"
+              value={
+                serviceStats?.pending === 0
+                  ? serviceStats?.pending
+                  : String(serviceStats?.pending).padStart(2, "0")
+              }
+              description="Currently being processed"
+            />
+
+            <StatCard
+              icon={Clock3}
+              label="Cancelled requests"
+              value={
+                serviceStats?.cancelled === 0
                   ? serviceStats?.cancelled
-                  : String(serviceStats?.cancelled).padStart(2, "0")}
-              </strong>
-              <span>Cancelled Requests</span>
-            </div>
+                  : String(serviceStats?.cancelled).padStart(2, "0")
+              }
+              description="Services cancelled"
+            />
           </section>
           {children}
         </div>

@@ -54,17 +54,11 @@ const userItems = [
     href: "/dashboard/services",
   },
 
-  {
-    label: "Payments",
-    icon: CreditCard,
-    href: "/dashboard/payments",
-  },
-
-  {
-    label: "Request Service",
-    icon: Workflow,
-    href: "/dashboard/payments",
-  },
+  // {
+  //   label: "Payments",
+  //   icon: CreditCard,
+  //   href: "/dashboard/payments",
+  // },
 ];
 
 const bottomItems = [

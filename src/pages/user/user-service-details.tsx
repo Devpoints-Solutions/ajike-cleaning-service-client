@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   ArrowRight,
   Bug,
@@ -11,29 +12,15 @@ import {
   Building2,
   Wallet,
   CircleX,
+  XCircle,
+  TriangleAlert,
 } from "lucide-react";
 import { useParams } from "wouter";
 import DashboardLayout from "./dashboard-layout";
 import { useServiceContext } from "@/features/contexts/service-context";
-
-const formatDate = (date: any) => {
-  return new Intl.DateTimeFormat("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  }).format(new Date(date));
-};
-
-const formatDateTime = (date: any) => {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  }).format(new Date(date));
-};
+import { getIsoFullDate, getSpecificDate } from "@/helpers/time";
+import { useToast } from "@/features/hooks/use-toast";
+import { getStatusColor } from "@/helpers/profile";
 
 const InfoItem = ({ icon: Icon, label, children }: any) => {
   return (
@@ -85,7 +72,9 @@ const StatCard = ({
 };
 
 export default function UserServiceDetails() {
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { services } = useServiceContext();
+  const { toast } = useToast();
 
   const { id } = useParams<{ id: string }>();
 
@@ -184,7 +173,9 @@ export default function UserServiceDetails() {
 
             {/* Status */}
             <InfoItem icon={CheckCircle2} label="Status">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold capitalize text-blue-700">
+              <span
+                className={`inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold capitalize text-[${getStatusColor(service?.status!?.toLowerCase())}]`}
+              >
                 <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
                 {service?.status}
               </span>
@@ -192,12 +183,12 @@ export default function UserServiceDetails() {
 
             {/* Preferred date */}
             <InfoItem icon={CalendarDays} label="Preferred date">
-              {formatDate(service?.preferredDate)}
+              {getSpecificDate(service?.preferredDate!).fullDate}
             </InfoItem>
 
             {/* Created */}
             <InfoItem icon={Clock3} label="Created">
-              {formatDateTime(service?.createdAt)}
+              {getIsoFullDate(service?.createdAt!)}
             </InfoItem>
           </div>
         </div>
@@ -217,7 +208,7 @@ export default function UserServiceDetails() {
                 </p>
 
                 <p className="mt-0.5 text-sm font-semibold text-slate-800">
-                  {formatDate(service?.preferredDate)}
+                  {getSpecificDate(service?.preferredDate!)?.fullDate}
                 </p>
               </div>
             </div>
@@ -229,7 +220,7 @@ export default function UserServiceDetails() {
               </p>
 
               <p className="mt-1 text-sm font-medium text-slate-600">
-                {formatDateTime(service?.updatedAt)}
+                {getIsoFullDate(service?.updatedAt!)}
               </p>
             </div>
 
@@ -238,7 +229,7 @@ export default function UserServiceDetails() {
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                className="group inline-flex h-11 items-center justify-center font-bold gap-2 rounded-xl border border-slate-300 bg-[#122560] px-5 text-sm font-semibold text-[#ffffff] shadow-sm transition-all hover:border-slate-400 hover:bg-[#1687b6] hover:text-white"
+                className="group inline-flex h-11 items-center justify-center font-bold gap-2 rounded-xl border border-slate-300 bg-[#122560] px-5 text-sm  text-[#ffffff] shadow-sm transition-all hover:border-slate-400 hover:bg-[#1687b6] hover:text-white"
               >
                 Update service
                 <ArrowRight
@@ -248,8 +239,25 @@ export default function UserServiceDetails() {
               </button>
 
               <button
+                onClick={() => {
+                  if (
+                    service?.status?.toLowerCase() === "new" ||
+                    service?.plan?.toLowerCase() === "re-occurrent"
+                  ) {
+                    setShowDeleteConfirm(true);
+                  } else {
+                    toast({
+                      title: "Warning",
+                      description: `
+                        Only new and un-approved services can be cancelled!
+                        
+                        If you think this is a mistake, kindly contact support
+                        `,
+                    });
+                  }
+                }}
                 type="button"
-                className="group inline-flex h-11 items-center justify-center font-bold gap-2 rounded-xl border border-slate-300 bg-[#e92323] px-5 text-sm font-semibold text-[#ffffff] shadow-sm transition-all hover:border-slate-400 hover:bg-[#ff6060] hover:text-white"
+                className="group inline-flex h-11 items-center justify-center font-bold gap-2 rounded-xl border border-slate-300 bg-[#b54e4e] px-5 text-sm text-[#ffffff] shadow-sm transition-all hover:border-slate-400 hover:bg-[#ff6060] hover:text-white"
               >
                 Cancel this service
                 <CircleX
@@ -261,6 +269,52 @@ export default function UserServiceDetails() {
           </div>
         </div>
       </article>
+
+      {showDeleteConfirm && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowDeleteConfirm(false)}
+        >
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="flex items-center gap-2">
+                <TriangleAlert size={15} />
+                <h3>Confirm service cancellation</h3>
+              </div>
+              <button
+                className="icon-button"
+                onClick={() => setShowDeleteConfirm(false)}
+                data-testid="button-close-delete-modal"
+              >
+                <XCircle size={18} />
+              </button>
+            </div>
+            <div className="modal-body">
+              <p className="font-semibold mb-2 text-[15px]">
+                Are you sure you want to cancel this service?
+              </p>
+              <p className="text-amber-600 font-semibold">
+                This action cannot be undone.
+              </p>
+              <div className="modal-actions">
+                <button
+                  className="secondary-button"
+                  onClick={() => setShowDeleteConfirm(false)}
+                  data-testid="button-cancel-delete"
+                >
+                  Cancel
+                </button>
+                <button
+                  className="primary-button delete"
+                  data-testid="button-confirm-delete"
+                >
+                  Confirm
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </DashboardLayout>
   );
 }
