@@ -82,7 +82,7 @@ const bottomItems = [
 
 const NavContent = ({}: {}) => {
   const { isAuthenticated, currentUser, signout } = useAuthContext();
-  const { collapsed, activeItem } = useDashboardContext();
+  const { collapsed } = useDashboardContext();
 
   return (
     <nav className="flex h-full flex-col">
@@ -115,9 +115,6 @@ const NavContent = ({}: {}) => {
         </div>
       </div>
 
-      {/* ===================================================
-          SUPPORT
-      =================================================== */}
       <div className="mt-auto">
         {!collapsed && (
           <p className="mb-3 px-3 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
