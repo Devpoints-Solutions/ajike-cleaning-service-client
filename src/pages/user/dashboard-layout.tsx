@@ -56,49 +56,46 @@ const DashboardLayout = ({ children }: React.PropsWithChildren) => {
               </button>
             </div>
           </div>
-          <div className="dashboard-grid">
-            <section className="dashboard-card w-full self-start lg:sticky lg:top-[0] lg:self-start summary-card grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              <div>
-                <div className="card-kicker">Your Ajike snapshot</div>
-                <h2>Everything is on track.</h2>
-              </div>
-              <div className="summary-stat">
-                <strong>
-                  {serviceStats?.new === 0
-                    ? serviceStats?.new
-                    : String(serviceStats?.new).padStart(2, "0")}
-                </strong>
-                <span>New requests</span>
-              </div>
-              <div className="summary-stat">
-                <strong>
-                  {serviceStats?.completed === 0
-                    ? serviceStats?.completed
-                    : String(serviceStats?.completed).padStart(2, "0")}
-                </strong>
-                <span>Completed visits</span>
-              </div>
-              <div className="summary-stat">
-                <strong>
-                  {serviceStats?.pending === 0
-                    ? serviceStats?.pending
-                    : String(serviceStats?.pending).padStart(2, "0")}
-                </strong>
-                <span>Active</span>
-              </div>
+          <section className="dashboard-card w-full self-start lg:sticky lg:top-[0] z-50 lg:self-start summary-card grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            <div>
+              <div className="card-kicker">Your Ajike snapshot</div>
+              <h2>Everything is on track.</h2>
+            </div>
+            <div className="summary-stat">
+              <strong>
+                {serviceStats?.new === 0
+                  ? serviceStats?.new
+                  : String(serviceStats?.new).padStart(2, "0")}
+              </strong>
+              <span>New requests</span>
+            </div>
+            <div className="summary-stat">
+              <strong>
+                {serviceStats?.completed === 0
+                  ? serviceStats?.completed
+                  : String(serviceStats?.completed).padStart(2, "0")}
+              </strong>
+              <span>Completed visits</span>
+            </div>
+            <div className="summary-stat">
+              <strong>
+                {serviceStats?.pending === 0
+                  ? serviceStats?.pending
+                  : String(serviceStats?.pending).padStart(2, "0")}
+              </strong>
+              <span>Active</span>
+            </div>
 
-              <div className="summary-stat">
-                <strong>
-                  {serviceStats?.cancelled === 0
-                    ? serviceStats?.cancelled
-                    : String(serviceStats?.cancelled).padStart(2, "0")}
-                </strong>
-                <span>Cancelled Requests</span>
-              </div>
-            </section>
-
-            {children}
-          </div>
+            <div className="summary-stat">
+              <strong>
+                {serviceStats?.cancelled === 0
+                  ? serviceStats?.cancelled
+                  : String(serviceStats?.cancelled).padStart(2, "0")}
+              </strong>
+              <span>Cancelled Requests</span>
+            </div>
+          </section>
+          {children}
         </div>
       </main>
     </div>

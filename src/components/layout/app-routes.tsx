@@ -10,7 +10,7 @@ import UserActiveSchedules from "@/pages/user/user-active-schedules";
 import AdminDashboard from "@/pages/admin/admin-dashboard";
 import AdminChatPage from "@/pages/admin/chat-page";
 import AdminScheduleDetails from "@/pages/admin/admin-schedule-details";
-import UserScheduleDetails from "@/pages/user/user-schedule-details";
+import UserServiceDetails from "@/pages/user/user-service-details";
 import SignIn from "@/pages/auth/signin";
 import SignUp from "@/pages/auth/signup";
 import Verify from "@/pages/auth/verify";
@@ -23,7 +23,6 @@ import { useAuthContext } from "@/features/contexts/auth-context";
 import { useServiceContext } from "@/features/contexts/service-context";
 import ServiceDetails from "@/pages/services/service-details";
 import PaymentHistory from "@/pages/user/payments-history";
-import RequestModal from "../common/request-modal";
 import NewRequestModal from "../common/request-modal/new-request-modal";
 import { DashboardContextProvider } from "@/features/contexts/dashboard-context";
 import ScrollToTop from "./scroll-to-top";
@@ -32,7 +31,7 @@ function AppRoutes() {
   const [location] = useLocation();
 
   const { isAuthenticated, currentUser } = useAuthContext();
-  const { isOpen, newModalIsOpen } = useServiceContext();
+  const { newModalIsOpen } = useServiceContext();
 
   return (
     <div className="app-shell">
@@ -62,7 +61,7 @@ function AppRoutes() {
               <Route path="/dashboard/payments" component={PaymentHistory} />
               <Route
                 path="/dashboard/services/:id"
-                component={UserScheduleDetails}
+                component={UserServiceDetails}
               />
 
               <Route path="/admin/dashboard" component={AdminDashboard} />
@@ -83,7 +82,7 @@ function AppRoutes() {
       {isAuthenticated && currentUser && currentUser?.role === "user" && (
         <>
           <Chat />
-          {isOpen && <RequestModal />}
+
           {newModalIsOpen && <NewRequestModal />}
         </>
       )}

@@ -1742,7 +1742,7 @@ a {
   background: #25ad76;
 }
 .plan-card {
-  min-height: 245px;
+  min-height: 300px;
   background: #dff3fa;
   border-color: #b9dfeb;
 }
@@ -1792,6 +1792,7 @@ a {
   gap: 0.7rem;
   padding: 0.85rem;
   border: 1px solid #d8e7ed;
+  font-weight: 600;
   border-radius: 0.8rem;
   background: #fbfdfe;
   color: #21536e;
@@ -1811,14 +1812,14 @@ a {
   color: #128dbb;
 }
 .activity-card {
-  min-height: 245px;
+  min-height: 300px;
 }
 .activity-list {
   display: grid;
   gap: 0.9rem;
   margin-top: 1.2rem;
   overflow-y: auto;
-  height: 250px;
+  height: 180px;
 }
 .activity-row {
   display: flex;

@@ -109,7 +109,7 @@ function Schedules() {
               <div className="schedule-job">
                 <strong>{job.client}</strong>
                 <span>
-                  {job.service} \u00b7 {job.address}
+                  {job.service} {job.address}
                 </span>
               </div>
               <div className="tech-badge" title={`Assigned to ${job.tech}`}>
