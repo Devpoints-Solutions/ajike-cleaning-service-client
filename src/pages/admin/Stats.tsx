@@ -12,7 +12,7 @@ function Stats() {
       style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
     >
       <article className="admin-kpi kpi-navy">
-        <span>Today\u2019s visits</span>
+        <span>Today's visits</span>
         <strong>08</strong>
         <small>
           <TrendingUp size={12} /> 2 ahead of yesterday
