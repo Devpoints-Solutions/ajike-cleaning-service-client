@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import DashboardNav from "@/components/common/dashboard/dashboard-nav";
 import { CalendarClock, ClockFading, RefreshCw } from "lucide-react";
 import { useAuthContext } from "@/features/contexts/auth-context";
 import { getGreeting } from "@/helpers/time";
 import { useTime } from "@/features/hooks/use-time";
+import { useDashboardContext } from "@/features/contexts/dashboard-context";
 
 const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
-  const [collapsed, setCollapsed] = useState(false);
   const { isAuthenticated, currentUser } = useAuthContext();
   const { date, seconds, minute, hour, period } = useTime();
 
+  const { collapsed } = useDashboardContext();
+
   return (
     <div className="min-h-screen bg-[#f7f9fa]">
-      <DashboardNav collapsed={collapsed} setCollapsed={setCollapsed} />
+      <DashboardNav />
 
       <main
         className={`min-h-screen transition-all duration-300 ${

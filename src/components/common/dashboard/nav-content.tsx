@@ -11,6 +11,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { useAuthContext } from "@/features/contexts/auth-context";
+import { useDashboardContext } from "@/features/contexts/dashboard-context";
 
 const adminItems = [
   {
@@ -79,16 +80,9 @@ const bottomItems = [
   },
 ];
 
-const NavContent = ({
-  activeItem,
-  onNavigate,
-  collapsed,
-}: {
-  activeItem: string;
-  onNavigate: (label: string) => void;
-  collapsed: boolean;
-}) => {
+const NavContent = ({}: {}) => {
   const { isAuthenticated, currentUser, signout } = useAuthContext();
+  const { collapsed, activeItem } = useDashboardContext();
 
   return (
     <nav className="flex h-full flex-col">
@@ -106,18 +100,8 @@ const NavContent = ({
             currentUser?.role === "admin" &&
             adminItems.map((item) => {
               const Icon = item.icon;
-              const active = activeItem === item.label;
 
-              return (
-                <NavItem
-                  key={item.label}
-                  item={item}
-                  Icon={Icon}
-                  active={active}
-                  collapsed={collapsed}
-                  onNavigate={onNavigate}
-                />
-              );
+              return <NavItem key={item.label} item={item} Icon={Icon} />;
             })}
 
           {isAuthenticated &&
@@ -125,18 +109,8 @@ const NavContent = ({
             currentUser?.role === "user" &&
             userItems.map((item) => {
               const Icon = item.icon;
-              const active = activeItem === item.label;
 
-              return (
-                <NavItem
-                  key={item.label}
-                  item={item}
-                  Icon={Icon}
-                  active={active}
-                  collapsed={collapsed}
-                  onNavigate={onNavigate}
-                />
-              );
+              return <NavItem key={item.label} item={item} Icon={Icon} />;
             })}
         </div>
       </div>
@@ -154,18 +128,8 @@ const NavContent = ({
         <div className="space-y-1">
           {bottomItems.map((item) => {
             const Icon = item.icon;
-            const active = activeItem === item.label;
 
-            return (
-              <NavItem
-                key={item.label}
-                item={item}
-                Icon={Icon}
-                active={active}
-                collapsed={collapsed}
-                onNavigate={onNavigate}
-              />
-            );
+            return <NavItem key={item.label} item={item} Icon={Icon} />;
           })}
         </div>
 

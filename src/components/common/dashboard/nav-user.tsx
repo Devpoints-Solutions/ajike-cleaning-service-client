@@ -1,8 +1,11 @@
 import { ChevronDown } from "lucide-react";
 import { useAuthContext } from "@/features/contexts/auth-context";
+import { useDashboardContext } from "@/features/contexts/dashboard-context";
 
-function NavUser({ collapsed }: { collapsed: boolean }) {
+function NavUser() {
   const { currentUser } = useAuthContext();
+
+  const { collapsed } = useDashboardContext();
 
   return (
     <div

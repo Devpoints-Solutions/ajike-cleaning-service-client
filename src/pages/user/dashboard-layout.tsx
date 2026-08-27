@@ -5,17 +5,19 @@ import { useAuthContext } from "@/features/contexts/auth-context";
 import { useServiceContext } from "@/features/contexts/service-context";
 import { getGreeting } from "@/helpers/time";
 import { useTime } from "@/features/hooks/use-time";
+import { useDashboardContext } from "@/features/contexts/dashboard-context";
 
 const DashboardLayout = ({ children }: React.PropsWithChildren) => {
-  const [collapsed, setCollapsed] = useState(false);
   const { isAuthenticated, currentUser } = useAuthContext();
   const { date, seconds, minute, hour, period } = useTime();
+
+  const { collapsed } = useDashboardContext();
 
   const { serviceStats } = useServiceContext();
 
   return (
     <div className="min-h-screen bg-[#f7f9fa]">
-      <DashboardNav collapsed={collapsed} setCollapsed={setCollapsed} />
+      <DashboardNav />
 
       <main
         className={`min-h-screen transition-all duration-300 ${

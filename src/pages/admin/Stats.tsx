@@ -7,7 +7,10 @@ import {
 
 function Stats() {
   return (
-    <section className="admin-kpi-grid">
+    <section
+      className="admin-kpi-grid w-full self-start lg:sticky lg:top-[0] lg:self-start bg-[#ffffff] z-50 py-5 px-5 rounded-2xl"
+      style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
+    >
       <article className="admin-kpi kpi-navy">
         <span>Today\u2019s visits</span>
         <strong>08</strong>

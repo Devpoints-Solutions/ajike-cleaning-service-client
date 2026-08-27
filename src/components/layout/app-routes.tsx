@@ -25,6 +25,7 @@ import ServiceDetails from "@/pages/services/service-details";
 import PaymentHistory from "@/pages/user/payments-history";
 import RequestModal from "../common/request-modal";
 import NewRequestModal from "../common/request-modal/new-request-modal";
+import { DashboardContextProvider } from "@/features/contexts/dashboard-context";
 import ScrollToTop from "./scroll-to-top";
 
 function AppRoutes() {
@@ -51,22 +52,30 @@ function AppRoutes() {
           <Route path="/auth/reset-password" component={ResetPassword} />
 
           <RequireAuth>
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/dashboard/services" component={UserActiveSchedules} />
+            <DashboardContextProvider>
+              <Route path="/dashboard" component={Dashboard} />
+              <Route
+                path="/dashboard/services"
+                component={UserActiveSchedules}
+              />
 
-            <Route path="/dashboard/payments" component={PaymentHistory} />
-            <Route
-              path="/dashboard/services/:id"
-              component={UserScheduleDetails}
-            />
+              <Route path="/dashboard/payments" component={PaymentHistory} />
+              <Route
+                path="/dashboard/services/:id"
+                component={UserScheduleDetails}
+              />
 
-            <Route path="/admin/dashboard" component={AdminDashboard} />
+              <Route path="/admin/dashboard" component={AdminDashboard} />
 
-            <Route path="/admin/dashboard/messages" component={AdminChatPage} />
-            <Route
-              path="/admin/dashboard/schedules/:id"
-              component={AdminScheduleDetails}
-            />
+              <Route
+                path="/admin/dashboard/messages"
+                component={AdminChatPage}
+              />
+              <Route
+                path="/admin/dashboard/schedules/:id"
+                component={AdminScheduleDetails}
+              />
+            </DashboardContextProvider>
           </RequireAuth>
           <Route component={NotFound} />
         </Switch>

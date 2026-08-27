@@ -1,39 +1,23 @@
-import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import MobileHeader from "./mobile-header";
 import NavUser from "./nav-user";
 import NavContent from "./nav-content";
 import DashboardBrand from "@/components/common/dashboard/dashboard-brand";
+import { useDashboardContext } from "@/features/contexts/dashboard-context";
 
-const DashboardNav = ({
-  collapsed,
-  setCollapsed,
-}: {
-  collapsed: boolean;
-  setCollapsed: (collapsed: boolean) => void;
-}) => {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState("Dashboard");
-
-  const handleNavigation = (label: string) => {
-    setActiveItem(label);
-    setMobileOpen(false);
-  };
+const DashboardNav = ({}: {}) => {
+  const { mobileOpen, setCollapsed, collapsed } = useDashboardContext();
 
   return (
     <>
-      <MobileHeader mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+      <MobileHeader />
 
       <div className="h-[72px] lg:hidden" />
 
       {mobileOpen && (
         <div className="fixed inset-0 z-40 bg-black/20 lg:hidden">
           <aside className="absolute bottom-0 left-0 top-[72px] w-[280px] overflow-y-auto border-r border-slate-200 bg-white px-4 py-6">
-            <NavContent
-              activeItem={activeItem}
-              onNavigate={handleNavigation}
-              collapsed={false}
-            />
+            <NavContent />
           </aside>
         </div>
       )}
@@ -57,14 +41,10 @@ const DashboardNav = ({
           ${collapsed ? "w-[76px]" : "w-[260px]"}
         `}
       >
-        <DashboardBrand collapsed={collapsed} />
+        <DashboardBrand />
 
         <div className="relative flex flex-1 flex-col px-3 py-6">
-          <NavContent
-            activeItem={activeItem}
-            onNavigate={handleNavigation}
-            collapsed={collapsed}
-          />
+          <NavContent />
 
           <button
             type="button"
@@ -95,7 +75,7 @@ const DashboardNav = ({
           </button>
         </div>
 
-        <NavUser collapsed={collapsed} />
+        <NavUser />
       </aside>
     </>
   );

@@ -1,22 +1,15 @@
 import { Link } from "wouter";
+import { useDashboardContext } from "@/features/contexts/dashboard-context";
 
-const NavItem = ({
-  item,
-  Icon,
-  active,
-  collapsed,
-  onNavigate,
-}: {
-  item: any;
-  Icon: any;
-  active: any;
-  collapsed: boolean;
-  onNavigate: (label: string) => void;
-}) => {
+const NavItem = ({ item, Icon }: { item: any; Icon: any }) => {
+  const { handleNavigation, activeItem, collapsed } = useDashboardContext();
+
+  const active = activeItem === item.label;
+
   return (
     <Link
       href={item.href}
-      onClick={() => onNavigate(item.label)}
+      onClick={() => handleNavigation(item.label)}
       title={collapsed ? item.label : undefined}
       className={`
         group

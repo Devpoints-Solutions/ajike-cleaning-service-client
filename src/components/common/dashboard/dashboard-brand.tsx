@@ -1,7 +1,10 @@
 import { Link } from "wouter";
 import logo from "@/assets/logo.png";
+import { useDashboardContext } from "@/features/contexts/dashboard-context";
 
-function DashboardBrand({ collapsed }: { collapsed: boolean }) {
+function DashboardBrand() {
+  const { collapsed } = useDashboardContext();
+
   return (
     <div
       className={`
