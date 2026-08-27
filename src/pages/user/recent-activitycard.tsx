@@ -1,29 +1,11 @@
 import {
-  ClipboardList,
+  //   ClipboardList,
   ListTodo,
   ShieldOff,
   CircleCheckBig,
 } from "lucide-react";
 import { useServiceContext } from "@/features/contexts/service-context";
 import { getIsoFullDate } from "@/helpers/time";
-
-const activities = [
-  {
-    title: "General pest control",
-    date: "Wednesday, August 26, 2026",
-    status: "Service is booked and waiting approval",
-  },
-  {
-    title: "General pest control",
-    date: "Wednesday, August 26, 2026",
-    status: "Service is booked and waiting approval",
-  },
-  {
-    title: "General pest control",
-    date: "Wednesday, August 26, 2026",
-    status: "Service is booked and waiting approval",
-  },
-];
 
 function RecentActivity() {
   const { services } = useServiceContext();

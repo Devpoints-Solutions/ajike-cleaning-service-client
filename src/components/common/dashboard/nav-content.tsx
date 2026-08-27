@@ -1,7 +1,7 @@
 import NavItem from "./nav-item";
 import {
   LayoutDashboard,
-  Workflow,
+  // Workflow,
   ClipboardList,
   Users,
   MessageSquare,

@@ -4,10 +4,8 @@ import {
   CalendarDays,
   Repeat2,
   Wallet,
-  Clock3,
   Eye,
   MoreVertical,
-  Trash2,
 } from "lucide-react";
 import { Link } from "wouter";
 import { getSpecificDate } from "@/helpers/time";
