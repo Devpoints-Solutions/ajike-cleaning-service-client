@@ -1,4 +1,4 @@
-import Schedules from "./schedules";
+import AdminServices from "./admin-services";
 import Stats from "./Stats";
 import Visualizer from "./visualizer";
 import AdminDashboardLayout from "./admin-dashboard-layout";
@@ -8,7 +8,7 @@ function AdminDashboard() {
     <AdminDashboardLayout>
       <div className="admin-page">
         <Stats />
-        <Schedules />
+        <AdminServices />
         <Visualizer />
       </div>
     </AdminDashboardLayout>

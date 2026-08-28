@@ -75,7 +75,7 @@ export type CityType =
   | "Clifton"
   | "Camden";
 
-export interface IService extends Document {
+export interface IService {
   _id: string;
   title: string;
   description: string;
@@ -106,16 +106,19 @@ export type ServiceStatsType = {
 };
 
 export type ServiceContextType = {
-  isOpen: boolean;
   newModalIsOpen: boolean;
   toggleNewModal: () => void;
-  toggleModal: () => void;
   services: IService[];
   serviceStats: ServiceStatsType;
   nextVisit: IService | null;
   reOccurrentPlan: IService | null;
   showChat: boolean;
   toggleChat: () => void;
+};
+
+export type AdminServiceContextType = {
+  services: IService[];
+  users: IUser[];
 };
 
 export type ErrorType = {

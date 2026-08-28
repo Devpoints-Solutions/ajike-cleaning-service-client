@@ -457,7 +457,8 @@ a {
 .secondary-button,
 .text-button,
 .service-button,
-.header-primary-button {
+.header-primary-button,
+.new-secondary-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;

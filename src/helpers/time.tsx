@@ -78,3 +78,7 @@ export function extractPrice(budget: string, planPeriod: string) {
     ) * Number(planPeriod)
   );
 }
+
+export function getTime(isoDate: string) {
+  return moment(isoDate).format("HH:mm");
+}

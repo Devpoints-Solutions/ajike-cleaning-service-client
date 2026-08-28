@@ -8,8 +8,6 @@ import { useGetServicesByUserMutation } from "../apis/service-apis";
 import { useAuthContext } from "./auth-context";
 
 const ServiceContext = createContext<ServiceContextType>({
-  isOpen: false,
-  toggleModal: () => {},
   services: [],
   serviceStats: {
     new: 0,
@@ -28,7 +26,6 @@ const ServiceContext = createContext<ServiceContextType>({
 let tempServices: IService[] = [];
 
 export function ServiceContextProvider({ children }: React.PropsWithChildren) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [newModalIsOpen, setNewModalIsOpen] = useState<boolean>(false);
   const [services, setServices] = useState<IService[]>([]);
   const [showChat, setShowChat] = useState<boolean>(false);
@@ -176,10 +173,6 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
     setReoccurentPlan(result.reClosest);
   }, [services]);
 
-  function toggleModal() {
-    return setIsOpen(!isOpen);
-  }
-
   function toggleChat() {
     return setShowChat(!showChat);
   }
@@ -189,8 +182,6 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
   }
 
   const value = {
-    isOpen,
-    toggleModal,
     services,
     serviceStats,
     nextVisit,

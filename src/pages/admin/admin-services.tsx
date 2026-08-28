@@ -1,7 +1,6 @@
 import { Link } from "wouter";
 import { useState } from "react";
 import type { ServiceStatus } from "@/lib/types";
-
 import {
   CheckCircle2,
   AlertTriangle,
@@ -19,9 +18,10 @@ import {
   UserRound,
 } from "lucide-react";
 import { getStatusColor } from "@/helpers/profile";
-import { JOBS } from "@/lib/dummy-data";
+import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
+import { getTime } from "@/helpers/time";
 
-function Schedules() {
+function AdminServices() {
   const [filter, setFilter] = useState<"All" | ServiceStatus>("All");
   const [serviceFilter, setServiceFilter] = useState<
     "All" | "Pest" | "Cleaning"
@@ -31,10 +31,14 @@ function Schedules() {
     {},
   );
 
-  const shownJobs = JOBS.filter(
+  const { services } = useAdminServiceContext();
+
+  const shownJobs = services.filter(
     (job) =>
-      (filter === "All" || job.status === filter) &&
-      (serviceFilter === "All" || job.kind === serviceFilter),
+      (filter === "All" ||
+        job?.status?.toLowerCase() === filter?.toLowerCase()) &&
+      (serviceFilter === "All" ||
+        job?.category?.toLowerCase() === serviceFilter?.toLowerCase()),
   );
   const statusClass = (status: ServiceStatus) => status.toLowerCase();
 
@@ -51,7 +55,7 @@ function Schedules() {
         <div className="admin-panel-head">
           <div>
             <span className="panel-label">Live schedule</span>
-            <h2>Today route board</h2>
+            <h2>Recent services</h2>
           </div>
           <button
             className="icon-button"
@@ -92,64 +96,62 @@ function Schedules() {
           {shownJobs.map((job) => (
             <div
               className="schedule-row"
-              key={job.id}
-              data-testid={`row-admin-job-${job.id}`}
+              key={job._id}
+              data-testid={`row-admin-job-${job._id}`}
             >
               <div className="schedule-time">
-                <strong>{job.time}</strong>
-                <span>{job.id}</span>
+                <strong>{getTime(job?.createdAt)}</strong>
+                <span>{job?.serviceState}</span>
               </div>
               <div className="schedule-job-icon">
-                {job.kind === "Pest" ? (
+                {job?.category === "Pest" ? (
                   <Bug size={16} />
                 ) : (
                   <SprayCan size={16} />
                 )}
               </div>
               <div className="schedule-job">
-                <strong>{job.client}</strong>
-                <span>
-                  {job.service} {job.address}
-                </span>
+                <strong>{job?.title}</strong>
+                <span>{job?.address}</span>
               </div>
-              <div className="tech-badge" title={`Assigned to ${job.tech}`}>
+              {/* <div className="tech-badge" title={`Assigned to ${job.tech}`}>
                 {job.tech}
-              </div>
+              </div> */}
               <span
-                className={`admin-status ${statusClass(job.status)}`}
-                style={{ color: getStatusColor(job.status) }}
+                className={`admin-status ${statusClass(job?.status)}`}
+                style={{ color: getStatusColor(job?.status?.toLowerCase()) }}
               >
                 {job.status}
               </span>
               <div className="schedule-row-actions">
                 <button
                   className="icon-button"
-                  onClick={() => toggleActions(job.id)}
-                  aria-label={`Actions for ${job.id}`}
-                  data-testid={`button-schedule-actions-${job.id}`}
+                  onClick={() => toggleActions(job._id)}
+                  aria-label={`Actions for ${job._id}`}
+                  data-testid={`button-schedule-actions-${job._id}`}
                 >
                   <MoreVertical size={16} />
                 </button>
-                {showActions[job.id] && (
+                {showActions[job._id] && (
                   <div className="schedule-actions-dropdown">
                     <Link
-                      href={`/admin/dashboard/schedules/${job.id}`}
+                      href={`/admin/dashboard/schedules/${job._id}`}
                       className="schedule-action-item"
-                      data-testid={`button-view-details-${job.id}`}
+                      data-testid={`button-view-details-${job._id}`}
                     >
                       <Eye size={14} /> View Details
                     </Link>
                     <Link
-                      href={`/admin/dashbaord/schedules/${job.id}`}
+                      href={`/admin/dashbaord/schedules/${job._id}`}
                       className="schedule-action-item"
-                      data-testid={`button-update-status-${job.id}`}
+                      data-testid={`button-update-status-${job._id}`}
                     >
                       <Clock3 size={14} /> Update Status
                     </Link>
                     <button
                       className="schedule-action-item delete"
                       //   onClick={() => handleDelete(job.id)}
-                      data-testid={`button-delete-schedule-${job.id}`}
+                      data-testid={`button-delete-schedule-${job._id}`}
                     >
                       <Trash2 size={14} /> Delete
                     </button>
@@ -270,4 +272,4 @@ function Schedules() {
   );
 }
 
-export default Schedules;
+export default AdminServices;
