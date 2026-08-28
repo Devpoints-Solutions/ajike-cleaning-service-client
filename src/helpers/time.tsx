@@ -65,3 +65,15 @@ export function getNextVisit(date: string, plan: PlanIntervalType) {
     nextVisit: nextVisit.format("dddd, MMMM DD, YYYY"),
   };
 }
+
+export function extractPrice(budget: string, planPeriod: string) {
+  return (
+    Number(
+      budget
+        ?.split(" ")[1]
+        ?.split("")
+        ?.filter((s: string) => s !== "$")
+        ?.join(""),
+    ) * Number(planPeriod)
+  );
+}

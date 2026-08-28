@@ -1,11 +1,8 @@
 import { useState, type ChangeEvent, useEffect } from "react";
+import type { ErrorType } from "@/lib/types";
 import { Schema } from "yup";
 
 type FormDataType = Record<string, any>;
-type ErrorType = {
-  field: string;
-  message: string;
-};
 
 export function useForm(validatorSchema: Schema) {
   const [data, setData] = useState<FormDataType>({});

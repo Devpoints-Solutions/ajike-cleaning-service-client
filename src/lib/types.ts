@@ -103,3 +103,8 @@ export type ServiceContextType = {
   showChat: boolean;
   toggleChat: () => void;
 };
+
+export type ErrorType = {
+  field: string;
+  message: string;
+};
