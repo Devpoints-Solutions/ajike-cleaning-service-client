@@ -14,6 +14,7 @@ import {
   CircleX,
   XCircle,
   TriangleAlert,
+  CalendarArrowUp,
 } from "lucide-react";
 import { useParams } from "wouter";
 import DashboardLayout from "./dashboard-layout";
@@ -211,23 +212,28 @@ export default function UserServiceDetails() {
                   {getSpecificDate(service?.preferredDate!)?.fullDate}
                 </p>
               </div>
-            </div>
 
-            {/* Updated */}
-            <div className="hidden sm:block">
-              <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
-                Last updated
-              </p>
+              {/* Updated */}
+              <div className="hidden sm:flex items-center gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                  <CalendarArrowUp size={20} />
+                </div>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
+                    Last updated
+                  </p>
 
-              <p className="mt-1 text-sm font-medium text-slate-600">
-                {getIsoFullDate(service?.updatedAt!)}
-              </p>
+                  <p className="mt-1 text-sm font-medium text-slate-600">
+                    {getIsoFullDate(service?.updatedAt!)}
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* Button */}
 
             <div className="flex items-center gap-3">
-              <button
+              {/* <button
                 type="button"
                 className="group inline-flex h-11 items-center justify-center font-bold gap-2 rounded-xl border border-slate-300 bg-[#122560] px-5 text-sm  text-[#ffffff] shadow-sm transition-all hover:border-slate-400 hover:bg-[#1687b6] hover:text-white"
               >
@@ -236,7 +242,7 @@ export default function UserServiceDetails() {
                   size={17}
                   className="transition-transform duration-200 group-hover:translate-x-1"
                 />
-              </button>
+              </button> */}
 
               <button
                 onClick={() => {

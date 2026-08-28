@@ -35,27 +35,25 @@ function NextVisitCard() {
 }
 
 function UpcomingService({ service }: { service: IService }) {
+  const month = getSpecificDate(service?.preferredDate!).monthName;
+  const fullDate = getSpecificDate(service?.preferredDate!).fullDate;
+  const day = getSpecificDate(service?.preferredDate!).dayDate;
   return (
     <div className="mt-6">
       {/* Date */}
       <div className="flex items-center gap-4 rounded-2xl bg-[#eaf7fb] p-4">
         <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-xl bg-white shadow-sm">
           <span className="text-[10px] font-bold uppercase text-[#1687b6]">
-            {getSpecificDate(service?.preferredDate!).monthName}
+            {month?.length > 3 ? month?.slice(0, 3) : month}
           </span>
 
-          <span className="text-xl font-bold leading-none">
-            {" "}
-            {getSpecificDate(service?.preferredDate!).dayDate}
-          </span>
+          <span className="text-xl font-bold leading-none">{day}</span>
         </div>
 
         <div>
           <p className="text-sm font-bold">{service?.title}</p>
 
-          <p className="mt-1 text-xs text-slate-500">
-            {getSpecificDate(service?.preferredDate!)?.fullDate}
-          </p>
+          <p className="mt-1 text-xs text-slate-500">{fullDate}</p>
 
           <div className="mt-1.5 flex items-center gap-1.5 text-xs text-slate-500">
             <Clock3 size={13} />

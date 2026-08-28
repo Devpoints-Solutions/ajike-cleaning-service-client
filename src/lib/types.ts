@@ -84,6 +84,7 @@ export interface IService extends Document {
   address: string;
   plan: ServiceType;
   planInterval: PlanIntervalType;
+  planPeriod: string;
   status: ServiceStatus;
   category: CategoryType;
   preferredDate: string;
@@ -92,6 +93,7 @@ export interface IService extends Document {
   serviceState: StateType;
   serviceCity: CityType;
   postcode: string;
+  visitCompleted: string;
 }
 
 export type ServiceStatsType = {

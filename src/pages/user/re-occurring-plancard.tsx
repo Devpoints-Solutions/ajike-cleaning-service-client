@@ -12,6 +12,21 @@ import type { IService } from "@/lib/types";
 import { getNextVisit } from "@/helpers/time";
 
 function ActiveRecurringPlan({ service }: { service: IService }) {
+  const intervalDays = getNextVisit(
+    service?.preferredDate,
+    service?.planInterval,
+  ).intervalDays;
+
+  const nextVisit = getNextVisit(
+    service?.preferredDate,
+    service?.planInterval,
+  ).nextVisit;
+
+  const percentageProgress =
+    (Number(service?.visitCompleted || 0) / Number(service?.planPeriod)) * 100;
+
+  console.log(percentageProgress);
+
   return (
     <div className="mt-6 rounded-2xl border border-white/70 bg-white/70 p-4 sm:p-5">
       {/* Plan header */}
@@ -39,21 +54,9 @@ function ActiveRecurringPlan({ service }: { service: IService }) {
 
       {/* Plan details */}
       <div className="mt-5 grid grid-cols-2 gap-3">
-        <PlanDetail
-          label="Frequency"
-          value={`Every ${
-            getNextVisit(service?.preferredDate, service?.planInterval)
-              .intervalDays
-          } days`}
-        />
+        <PlanDetail label="Frequency" value={`Every ${intervalDays} days`} />
 
-        <PlanDetail
-          label="Next service"
-          value={
-            getNextVisit(service?.preferredDate, service?.planInterval)
-              .nextVisit
-          }
-        />
+        <PlanDetail label="Next service" value={nextVisit} />
       </div>
 
       {/* Progress */}
@@ -61,11 +64,19 @@ function ActiveRecurringPlan({ service }: { service: IService }) {
         <div className="mb-2 flex items-center justify-between text-xs">
           <span className="font-medium text-slate-500">Current cycle</span>
 
-          <span className="font-semibold text-[#001625]">10% complete</span>
+          <span className="font-semibold text-[#001625]">
+            {percentageProgress}% complete
+          </span>
         </div>
 
         <div className="h-2 overflow-hidden rounded-full bg-slate-200">
-          <div className="h-full w-[10%] rounded-full bg-[#1687b6]" />
+          {percentageProgress > 0 ? (
+            <div
+              className={`h-full w-[${percentageProgress}%] rounded-full bg-[#1687b6]`}
+            />
+          ) : (
+            <div className={`h-full w-[0%] rounded-full bg-[#1687b6]`} />
+          )}
         </div>
       </div>
 

@@ -31,13 +31,14 @@ export function getIsoFullDate(isoDate: string) {
 export function getNextVisit(date: string, plan: PlanIntervalType) {
   const currentDate = moment(date, "YYYY-MM-DD", true);
 
+  const newPlan = plan?.toLowerCase();
   if (!currentDate.isValid()) {
     throw new Error("Invalid date. Expected YYYY-MM-DD");
   }
 
   let nextVisit = currentDate.clone();
 
-  switch (plan) {
+  switch (newPlan) {
     case "weekly":
       nextVisit.add(7, "days");
       break;

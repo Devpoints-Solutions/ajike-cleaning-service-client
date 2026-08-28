@@ -77,23 +77,32 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
   }, [data, isSuccess]);
 
   useEffect(() => {
+    const initialStats = {
+      new: 0,
+      completed: 0,
+      pending: 0,
+      cancelled: 0,
+    };
+
     if (!services?.length) {
-      setServiceStats({
-        new: 0,
-        completed: 0,
-        pending: 0,
-        cancelled: 0,
-      });
+      setServiceStats(initialStats);
       setNextVisit(null);
+      setReoccurentPlan(null);
       return;
     }
 
-    const today = new Date().getTime();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     const result = services.reduce(
       (acc, service: IService) => {
+        const status = service.status?.toLowerCase();
+        const plan = service.plan?.toLowerCase();
+
+        // ---------------------------
         // Calculate status statistics
-        switch (service.status) {
+        // ---------------------------
+        switch (status) {
           case "new":
             acc.stats.new++;
             break;
@@ -104,33 +113,44 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
 
           case "pending":
             acc.stats.pending++;
-
-            // Find closest pending visit
-            if (service.preferredDate) {
-              const date = new Date(service.preferredDate).getTime();
-              const diff = Math.abs(date - today);
-
-              if (!acc.closest || diff < acc.closestDiff) {
-                acc.closest = service;
-                acc.closestDiff = diff;
-              }
-            }
-
-            if (service?.plan === "re-occurrent" && service?.preferredDate) {
-              const date = new Date(service.preferredDate).getTime();
-              const diff = Math.abs(date - today);
-
-              if (!acc.reClosest || diff < acc.reClosestDiff) {
-                acc.reClosest = service;
-                acc.reClosestDiff = diff;
-              }
-            }
-
             break;
 
           case "cancelled":
             acc.stats.cancelled++;
             break;
+        }
+
+        // Only pending services with a preferred date
+        if (status !== "pending" || !service.preferredDate) {
+          return acc;
+        }
+
+        const visitDate = new Date(service.preferredDate);
+        visitDate.setHours(0, 0, 0, 0);
+
+        // Ignore dates that have already passed
+        if (visitDate < today) {
+          return acc;
+        }
+
+        const diff = visitDate.getTime() - today.getTime();
+
+        // ---------------------------
+        // Find closest pending visit
+        // ---------------------------
+        if (!acc.closest || diff < acc.closestDiff) {
+          acc.closest = service;
+          acc.closestDiff = diff;
+        }
+
+        // ---------------------------
+        // Find closest recurring visit
+        // ---------------------------
+        if (plan === "re-occurrent") {
+          if (!acc.reClosest || diff < acc.reClosestDiff) {
+            acc.reClosest = service;
+            acc.reClosestDiff = diff;
+          }
         }
 
         return acc;
@@ -142,16 +162,18 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
           pending: 0,
           cancelled: 0,
         },
+
         closest: null as IService | null,
+        closestDiff: Infinity,
+
         reClosest: null as IService | null,
         reClosestDiff: Infinity,
-        closestDiff: Infinity,
       },
     );
 
     setServiceStats(result.stats);
     setNextVisit(result.closest);
-    setReoccurentPlan(result?.reClosest);
+    setReoccurentPlan(result.reClosest);
   }, [services]);
 
   function toggleModal() {
