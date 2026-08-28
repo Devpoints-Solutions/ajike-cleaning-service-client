@@ -33,11 +33,27 @@ export const step1Schema = object({
     ),
 });
 
+const optionalString = () =>
+  string()
+    .transform((value) => (value === "" ? undefined : value))
+    .optional();
+
 export const step2Schema = object({
   propertyType: string().required("Service property type is required"),
+
   plan: string().required("Service plan is required"),
-  planInterval: string().optional(),
-  planPeriod: string().optional(),
+
+  planInterval: optionalString(),
+
+  planPeriod: string()
+    .transform((value) => (value === "" ? undefined : value))
+    .optional()
+    .matches(/^\d+$/, "Plan period must be a valid number")
+    .test(
+      "positive-number",
+      "Plan period must be greater than 0",
+      (value) => value === undefined || Number(value) > 0,
+    ),
 });
 
 export const step3Schema = object({
@@ -90,10 +106,14 @@ export const step3Schema = object({
 export const step4Schema = object({
   description: string()
     .required("Service description is required")
-    .min(50, "Servie description must be at least 50 characters")
+    .min(50, "Service description must be at least 50 characters")
     .max(1000, "Service description must not exceed 1000 characters"),
-  customerFirstName: string().optional(),
-  customerLastName: string().optional(),
-  customerEmail: string().optional().email("Enter a valid email address"),
-  customerPhoneNumber: string().optional(),
+
+  customerFirstName: optionalString(),
+
+  customerLastName: optionalString(),
+
+  customerEmail: optionalString().email("Enter a valid email address"),
+
+  customerPhoneNumber: optionalString(),
 });
