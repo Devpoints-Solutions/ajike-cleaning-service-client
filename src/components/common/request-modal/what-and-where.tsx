@@ -82,6 +82,12 @@ function WhatAndWhere({
     }
   }, [step, stepsData]);
 
+  useEffect(() => {
+    if (isSuccess) {
+      setStep(step + 1);
+    }
+  }, [isSuccess]);
+
   return (
     <div className="min-h-screen  bg-[#fafbfc] text-[#001625]">
       <div className="mx-auto flex min-h-screen w-full max-w-[720px] flex-col">
@@ -139,7 +145,7 @@ function WhatAndWhere({
 
           {step === 5 && !isSuccess && <Step5 data={stepsData} step={step} />}
 
-          {isSuccess && <Step6 step={6} />}
+          {step === 6 && isSuccess && <Step6 step={step} />}
         </main>
 
         {/* Bottom action */}

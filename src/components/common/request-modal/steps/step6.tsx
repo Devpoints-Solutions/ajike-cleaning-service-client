@@ -1,8 +1,8 @@
 import { CheckCircle2, ArrowRight } from "lucide-react";
-
-import { Link } from "wouter";
+import { useServiceContext } from "@/features/contexts/service-context";
 
 export function Step6({ step }: { step: number }) {
+  const { toggleNewModal } = useServiceContext();
   return (
     <>
       {step === 6 && (
@@ -17,13 +17,17 @@ export function Step6({ step }: { step: number }) {
               confirm the details and offer a visit window. No payment is needed
               to request an inspection.
             </p>
-            <Link
-              href="/dashboard"
+
+            <button
               className="secondary-button"
               data-testid="button-close-request-success"
+              onClick={() => {
+                toggleNewModal();
+                window.location.reload();
+              }}
             >
               Back to dashboard <ArrowRight size={15} />
-            </Link>
+            </button>
           </div>
         </>
       )}
