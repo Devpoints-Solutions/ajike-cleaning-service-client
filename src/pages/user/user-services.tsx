@@ -34,7 +34,7 @@ export function UserServices() {
 
         <div className="admin-filter-row">
           <div className="admin-filter-tabs">
-            {(["All", "New", "Active", "Completed", "Cancelled"] as const).map(
+            {(["All", "New", "Pending", "Completed", "Cancelled"] as const).map(
               (item) => (
                 <button
                   className={filter === item ? "active" : ""}

@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  ArrowRight,
   Bug,
   CalendarDays,
   CheckCircle2,
@@ -21,7 +20,11 @@ import DashboardLayout from "./dashboard-layout";
 import { useServiceContext } from "@/features/contexts/service-context";
 import { getIsoFullDate, getSpecificDate } from "@/helpers/time";
 import { useToast } from "@/features/hooks/use-toast";
+import { Loader } from "@/components/common/loader";
 import { getStatusColor } from "@/helpers/profile";
+import { useUpdateServiceMutation } from "@/features/apis/service-apis";
+import { formatError } from "@/helpers/format-error";
+import SuccessModal from "@/components/common/success-modal";
 
 const InfoItem = ({ icon: Icon, label, children }: any) => {
   return (
@@ -75,12 +78,30 @@ const StatCard = ({
 export default function UserServiceDetails() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { services } = useServiceContext();
-  const { toast } = useToast();
-
   const { id } = useParams<{ id: string }>();
+
+  const { toast } = useToast();
 
   const service = services?.find((service) => service?._id === id);
 
+  const [updateService, { isSuccess, isError, isLoading, error }] =
+    useUpdateServiceMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      setShowDeleteConfirm(false);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError && error) {
+      toast({
+        title: "Service cancellation failed!",
+        description: formatError(error),
+        variant: "default",
+      });
+    }
+  }, [isError, error]);
   return (
     <DashboardLayout>
       <article className="w-full overflow-hidden  mt-5 rounded-[28px] border border-slate-200 bg-white shadow-[0_12px_40px_rgba(15,23,42,0.06)]">
@@ -244,33 +265,22 @@ export default function UserServiceDetails() {
                 />
               </button> */}
 
-              <button
-                onClick={() => {
-                  if (
-                    service?.status?.toLowerCase() === "new" ||
-                    service?.plan?.toLowerCase() === "re-occurrent"
-                  ) {
-                    setShowDeleteConfirm(true);
-                  } else {
-                    toast({
-                      title: "Warning",
-                      description: `
-                        Only new and un-approved services can be cancelled!
-                        
-                        If you think this is a mistake, kindly contact support
-                        `,
-                    });
-                  }
-                }}
-                type="button"
-                className="group inline-flex h-11 items-center justify-center font-bold gap-2 rounded-xl border border-slate-300 bg-[#b54e4e] px-5 text-sm text-[#ffffff] shadow-sm transition-all hover:border-slate-400 hover:bg-[#ff6060] hover:text-white"
-              >
-                Cancel this service
-                <CircleX
-                  size={17}
-                  className="transition-transform duration-200 group-hover:translate-x-1"
-                />
-              </button>
+              {(service?.status?.toLowerCase() === "new" ||
+                (service?.plan?.toLowerCase() === "re-occurrent" &&
+                  service?.status?.toLowerCase() !== "cancelled" &&
+                  service?.status?.toLowerCase() !== "completed")) && (
+                <button
+                  onClick={() => setShowDeleteConfirm(true)}
+                  type="button"
+                  className="group inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-[#b54e4e] px-5 text-sm font-bold text-white shadow-sm transition-all hover:border-slate-400 hover:bg-[#ff6060] hover:text-white"
+                >
+                  Cancel this service
+                  <CircleX
+                    size={17}
+                    className="transition-transform duration-200 group-hover:translate-x-1"
+                  />
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -304,16 +314,23 @@ export default function UserServiceDetails() {
               </p>
               <div className="modal-actions">
                 <button
-                  className="secondary-button"
                   onClick={() => setShowDeleteConfirm(false)}
+                  className="secondary-button"
                   data-testid="button-cancel-delete"
                 >
                   Cancel
                 </button>
                 <button
+                  onClick={() => {
+                    updateService({
+                      serviceId: id,
+                      serviceData: { ...service, status: "cancelled" },
+                    });
+                  }}
                   className="primary-button delete"
                   data-testid="button-confirm-delete"
                 >
+                  {isLoading && <Loader />}
                   Confirm
                 </button>
               </div>
@@ -321,6 +338,13 @@ export default function UserServiceDetails() {
           </div>
         </div>
       )}
+
+      <SuccessModal
+        isOpen={isSuccess}
+        onViewService={() => {
+          window.location.href = "/dashboard/services";
+        }}
+      />
     </DashboardLayout>
   );
 }

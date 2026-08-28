@@ -22,12 +22,12 @@ const adminItems = [
   {
     label: "Services",
     icon: ClipboardList,
-    href: "/dashboard/services",
+    href: "/admin/dashboard/services",
   },
   {
     label: "Customers",
     icon: Users,
-    href: "/dashboard/customers",
+    href: "/admin/dashboard/customers",
   },
   {
     label: "Messages",
@@ -38,7 +38,7 @@ const adminItems = [
   {
     label: "Payments",
     icon: CreditCard,
-    href: "/dashboard/payments",
+    href: "/admin/dashboard/payments",
   },
 ];
 
@@ -74,7 +74,7 @@ const bottomItems = [
   },
 ];
 
-const NavContent = ({}: {}) => {
+const NavContent = () => {
   const { isAuthenticated, currentUser, signout } = useAuthContext();
   const { collapsed } = useDashboardContext();
 

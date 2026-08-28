@@ -28,6 +28,8 @@ export type UserServiceStatus =
   | "Cancelled"
   | "new"
   | "completed"
+  | "pending"
+  | "Pending"
   | "active"
   | "cancelled";
 
