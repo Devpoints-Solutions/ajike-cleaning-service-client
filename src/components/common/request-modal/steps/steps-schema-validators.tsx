@@ -1,4 +1,4 @@
-import { object, string, ref } from "yup";
+import { object, string } from "yup";
 import { SERVICES } from "@/lib/dummy-data";
 
 // compute minimum numeric price from SERVICES array (prices are like "From $89")
@@ -11,15 +11,13 @@ const MIN_SERVICE_PRICE = parsedPrices.length ? Math.min(...parsedPrices) : 100;
 const sanitizeNumericValue = (value: unknown) =>
   String(value ?? "").replace(/[^0-9]/g, "");
 
-
-
 export const step1Schema = object({
   category: string().required("Service category is required"),
   title: string()
     .required("Service title is required")
     .min(3, "Servie title must be at least 3 characters")
     .max(50, "Service title must not exceed 50 characters"),
-    budget: string()
+  budget: string()
     .required("Budget is required")
     .test("budget-format", "Budget must be a valid number", (value) => {
       if (!value) return false;
@@ -33,20 +31,16 @@ export const step1Schema = object({
         return Number(sanitizeNumericValue(value)) >= MIN_SERVICE_PRICE;
       },
     ),
-
 });
 
-
 export const step2Schema = object({
-    propertyType: string().required("Service property type is required"),
-    plan: string().required("Service plan is required"),
-    planInterval: string().optional(),
-    planPeriod: string().optional(),
-})
-
+  propertyType: string().required("Service property type is required"),
+  plan: string().required("Service plan is required"),
+  planInterval: string().optional(),
+  planPeriod: string().optional(),
+});
 
 export const step3Schema = object({
-
   preferredDate: string()
     .required("Preferred date is required")
     .test("not-past", "Date cannot be in the past", (value) => {
@@ -91,23 +85,15 @@ export const step3Schema = object({
   serviceState: string().required("Select a state"),
   serviceCity: string().required("Select a city"),
   address: string().required("Address is required"),
-
 });
 
-
-
 export const step4Schema = object({
- 
   description: string()
     .required("Service description is required")
     .min(50, "Servie description must be at least 50 characters")
     .max(1000, "Service description must not exceed 1000 characters"),
-  customerFirstName: string()
-    .optional(),
-  customerLastName: string()
-    .optional(),
+  customerFirstName: string().optional(),
+  customerLastName: string().optional(),
   customerEmail: string().optional().email("Enter a valid email address"),
-  customerPhoneNumber: string()
-    .optional()
-   
+  customerPhoneNumber: string().optional(),
 });
