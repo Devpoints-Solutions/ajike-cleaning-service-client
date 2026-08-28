@@ -3353,7 +3353,7 @@ a {
   padding: 0.45rem 0.55rem;
   background: transparent;
   color: #7794a1;
-  font: 700 0.58rem var(--font-display);
+  font: 700 0.8rem var(--font-display);
 }
 .admin-filter-tabs button.active {
   background: #dceff5;

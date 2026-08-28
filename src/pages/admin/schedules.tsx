@@ -51,7 +51,7 @@ function Schedules() {
         <div className="admin-panel-head">
           <div>
             <span className="panel-label">Live schedule</span>
-            <h2>Today\u2019s route board</h2>
+            <h2>Today route board</h2>
           </div>
           <button
             className="icon-button"

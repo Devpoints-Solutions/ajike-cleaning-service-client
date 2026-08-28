@@ -21,6 +21,16 @@ export type ServiceStatus =
   | "pending"
   | "cancelled";
 
+export type UserServiceStatus =
+  | "New"
+  | "Completed"
+  | "Active"
+  | "Cancelled"
+  | "new"
+  | "completed"
+  | "active"
+  | "cancelled";
+
 export interface IUser {
   firstName: string;
   lastName: string;
@@ -38,7 +48,7 @@ export type AuthContextType = {
 };
 
 export type ServiceType = "re-occurrent" | "one-time";
-export type CategoryType = "Pest | Cleaning" | "Both";
+export type CategoryType = "Pest" | "Cleaning";
 export type PlanIntervalType = "weekly" | "monthly" | "quarterly" | "yearly";
 export type StateType = "New York" | "New Jersey";
 export type CityType =

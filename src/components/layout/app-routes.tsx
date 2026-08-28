@@ -6,7 +6,7 @@ import About from "@/pages/about/about-page";
 import Services from "@/pages/services/services";
 import Pricing from "@/pages/pricing/pricing-page";
 import Dashboard from "@/pages/user/dashboard";
-import UserActiveSchedules from "@/pages/user/user-active-schedules";
+import UserServices from "@/pages/user/user-services";
 import AdminDashboard from "@/pages/admin/admin-dashboard";
 import AdminChatPage from "@/pages/admin/chat-page";
 import AdminScheduleDetails from "@/pages/admin/admin-schedule-details";
@@ -53,10 +53,7 @@ function AppRoutes() {
           <RequireAuth>
             <DashboardContextProvider>
               <Route path="/dashboard" component={Dashboard} />
-              <Route
-                path="/dashboard/services"
-                component={UserActiveSchedules}
-              />
+              <Route path="/dashboard/services" component={UserServices} />
 
               <Route path="/dashboard/payments" component={PaymentHistory} />
               <Route
