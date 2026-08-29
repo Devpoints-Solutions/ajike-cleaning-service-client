@@ -8,3 +8,14 @@ export function getStatusColor(status: string) {
 
   return colors[status] ?? "#7897a3";
 }
+
+export function getModalMessage(action: string) {
+  const serviceUpdateOptions: Record<string, string> = {
+    approve: "Service is approved",
+    "update-progress": "Service progress is updated",
+    cancelled: "Service is cancelled",
+    "mark-as-completed": "Service is marked as completed",
+  };
+
+  return serviceUpdateOptions[action];
+}

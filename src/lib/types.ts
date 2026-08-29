@@ -87,6 +87,7 @@ export interface IService {
   plan: ServiceType;
   planInterval: PlanIntervalType;
   planPeriod: string;
+  periodCovered: string;
   status: ServiceStatus;
   category: CategoryType;
   preferredDate: string;
@@ -119,6 +120,7 @@ export type ServiceContextType = {
 export type AdminServiceContextType = {
   services: IService[];
   users: IUser[];
+  recentServices: IService[];
 };
 
 export type ErrorType = {

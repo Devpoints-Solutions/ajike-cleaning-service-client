@@ -23,7 +23,8 @@ function ActiveRecurringPlan({ service }: { service: IService }) {
   ).nextVisit;
 
   const percentageProgress =
-    (Number(service?.visitCompleted || 0) / Number(service?.planPeriod)) * 100;
+    (Number(service?.periodCovered || 0) / Number(service?.planPeriod)) * 100 +
+    "%";
 
   console.log(percentageProgress);
 
@@ -65,18 +66,14 @@ function ActiveRecurringPlan({ service }: { service: IService }) {
           <span className="font-medium text-slate-500">Current cycle</span>
 
           <span className="font-semibold text-[#001625]">
-            {percentageProgress}% complete
+            {percentageProgress} complete
           </span>
         </div>
 
         <div className="h-2 overflow-hidden rounded-full bg-slate-200">
-          {percentageProgress > 0 ? (
-            <div
-              className={`h-full w-[${percentageProgress}%] rounded-full bg-[#1687b6]`}
-            />
-          ) : (
-            <div className={`h-full w-[0%] rounded-full bg-[#1687b6]`} />
-          )}
+          <div
+            className={`h-full w-[${percentageProgress}] rounded-full bg-[#1687b6]`}
+          />
         </div>
       </div>
 

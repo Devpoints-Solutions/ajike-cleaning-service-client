@@ -13,10 +13,12 @@ import { useGetAllServicesMutation } from "../apis/service-apis";
 const AdminServiceContext = createContext<AdminServiceContextType>({
   services: [],
   users: [],
+  recentServices: [],
 });
 
 export function AdminContextProvider({ children }: { children: ReactNode }) {
   const [services, setServices] = useState<IService[]>([]);
+  const [recentServices, setRecentServices] = useState<IService[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
 
   const { currentUser, isAuthenticated } = useAuthContext();
@@ -43,6 +45,10 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (serviceSuccess && serviceData) {
+      if (recentServices?.length === 0) {
+        setRecentServices(serviceData?.data?.services);
+      }
+
       setServices((prev) => [...prev, ...serviceData?.data?.services]);
     }
 
@@ -54,6 +60,7 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
   const value = {
     services,
     users,
+    recentServices,
   };
 
   return (

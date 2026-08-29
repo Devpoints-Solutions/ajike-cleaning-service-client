@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "wouter";
 import {
   Bug,
   CalendarDays,
@@ -11,20 +12,22 @@ import {
   Building2,
   Wallet,
   CircleX,
-  XCircle,
-  TriangleAlert,
   CalendarArrowUp,
+  MoreVertical,
+  CircleCheckBig,
+  CalendarRange,
 } from "lucide-react";
-import { useParams } from "wouter";
-import DashboardLayout from "./dashboard-layout";
-import { useServiceContext } from "@/features/contexts/service-context";
-import { getIsoFullDate, getSpecificDate } from "@/helpers/time";
+import ServiceConfirmationModal from "./service-confirmation-modal";
+import { getModalMessage } from "@/helpers/profile";
+import AdminDashboardLayout from "./admin-dashboard-layout";
+import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
+import { getIsoFullDate, getNextVisit, getSpecificDate } from "@/helpers/time";
 import { useToast } from "@/features/hooks/use-toast";
-import { Loader } from "@/components/common/loader";
 import { getStatusColor } from "@/helpers/profile";
 import { useUpdateServiceMutation } from "@/features/apis/service-apis";
 import { formatError } from "@/helpers/format-error";
-import SuccessModal from "@/components/common/success-modal";
+import AdminSuccessModal from "@/components/common/admin-success-modal";
+import type { ServiceStatus } from "@/lib/types";
 
 const InfoItem = ({ icon: Icon, label, children }: any) => {
   return (
@@ -75,9 +78,15 @@ const StatCard = ({
   );
 };
 
-export default function UserServiceDetails() {
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const { services } = useServiceContext();
+export default function AdminServiceDetails() {
+  const [modalAction, setModalAction] = useState<{
+    action: string;
+    updateType: ServiceStatus;
+  } | null>(null);
+  const [showActions, setShowActions] = useState<boolean>(false);
+  const [actionMessage, setActionMessage] = useState("");
+
+  const { services } = useAdminServiceContext();
   const { id } = useParams<{ id: string }>();
 
   const { toast } = useToast();
@@ -89,21 +98,23 @@ export default function UserServiceDetails() {
 
   useEffect(() => {
     if (isSuccess) {
-      setShowDeleteConfirm(false);
+      setActionMessage(getModalMessage(modalAction?.action!));
+      setModalAction(null);
     }
   }, [isSuccess]);
 
   useEffect(() => {
     if (isError && error) {
       toast({
-        title: "Service cancellation failed!",
+        title: "Service update failed!",
         description: formatError(error),
         variant: "default",
       });
     }
   }, [isError, error]);
+
   return (
-    <DashboardLayout>
+    <AdminDashboardLayout>
       <article className="w-full overflow-hidden  mt-5 rounded-[28px] border border-slate-200 bg-white shadow-[0_12px_40px_rgba(15,23,42,0.06)]">
         {/* Header */}
         <div className="relative overflow-hidden border-b border-slate-100 bg-gradient-to-br from-slate-50 via-white to-blue-50/40 px-6 py-7 sm:px-8 sm:py-8">
@@ -114,10 +125,103 @@ export default function UserServiceDetails() {
           <div className="relative">
             {/* Top row */}
             <div className="flex flex-wrap items-start justify-between gap-4">
+              {/* Status */}
+              {/* <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-2 text-xs font-semibold text-emerald-700">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+                New request
+              </div> */}
+
               {/* Category */}
               <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3.5 py-2 text-xs font-semibold text-violet-700">
                 <Bug size={15} />
                 {service?.category}
+              </div>
+
+              <div className="schedule-row-actions">
+                {service && (
+                  <button
+                    className="icon-button"
+                    onClick={() => setShowActions(!showActions)}
+                    aria-label={`Actions for ${service._id}`}
+                    data-testid={`button-schedule-actions-${service._id}`}
+                  >
+                    <MoreVertical size={16} />
+                  </button>
+                )}
+                {service && showActions && (
+                  <div className="schedule-actions-dropdown">
+                    {service?.status?.toLowerCase() === "new" && (
+                      <button
+                        className="schedule-action-item"
+                        data-testid={`button-view-details-${service._id}`}
+                        onClick={() =>
+                          setModalAction({
+                            action: "approve",
+                            updateType: "pending",
+                          })
+                        }
+                      >
+                        <CircleCheckBig size={14} />
+                        Approve
+                      </button>
+                    )}
+
+                    {service?.plan?.toLowerCase() === "one time" &&
+                      service?.status?.toLowerCase() === "pending" && (
+                        <>
+                          <button
+                            className="schedule-action-item"
+                            data-testid={`button-view-details-${service._id}`}
+                            onClick={() =>
+                              setModalAction({
+                                action: "mark-as-completed",
+                                updateType: "completed",
+                              })
+                            }
+                          >
+                            <CircleCheckBig size={14} />
+                            Mark as completed
+                          </button>
+                        </>
+                      )}
+
+                    {service?.plan?.toLowerCase() === "re-occurrent" &&
+                      service?.status?.toLowerCase() === "pending" &&
+                      (Number(service?.planPeriod) >
+                      Number(service?.periodCovered) ? (
+                        <button
+                          className="schedule-action-item"
+                          data-testid={`button-view-details-${service._id}`}
+                          onClick={() =>
+                            setModalAction({
+                              action: "update-progress",
+                              updateType: "pending",
+                            })
+                          }
+                        >
+                          <CircleCheckBig size={14} />
+                          Update progress
+                        </button>
+                      ) : (
+                        <button
+                          className="schedule-action-item"
+                          data-testid={`button-view-details-${service._id}`}
+                          onClick={() =>
+                            setModalAction({
+                              action: "mark-as-completed",
+                              updateType: "completed",
+                            })
+                          }
+                        >
+                          <CircleCheckBig size={14} />
+                          Mark as completed
+                        </button>
+                      ))}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -155,12 +259,14 @@ export default function UserServiceDetails() {
                 iconClass="bg-violet-50 text-violet-600"
               />
 
-              <StatCard
-                icon={CalendarDays}
-                label="Interval"
-                value={service?.planInterval}
-                iconClass="bg-amber-50 text-amber-600"
-              />
+              {service?.plan?.toLowerCase() === "re-occurrent" && (
+                <StatCard
+                  icon={CalendarDays}
+                  label="Interval"
+                  value={service?.planInterval}
+                  iconClass="bg-amber-50 text-amber-600"
+                />
+              )}
             </div>
           </div>
         </div>
@@ -195,9 +301,21 @@ export default function UserServiceDetails() {
             </InfoItem>
 
             {/* Preferred date */}
-            <InfoItem icon={CalendarDays} label="Preferred date">
-              {getSpecificDate(service?.preferredDate!).fullDate}
-            </InfoItem>
+
+            {service?.plan?.toLowerCase() === "re-occurrent" ? (
+              <InfoItem icon={CalendarDays} label="Plan interval">
+                Every{" "}
+                {
+                  getNextVisit(service?.preferredDate, service?.planInterval)
+                    .intervalDays
+                }{" "}
+                Days
+              </InfoItem>
+            ) : (
+              <InfoItem icon={CalendarDays} label="Preferred date">
+                {getSpecificDate(service?.preferredDate!).fullDate}
+              </InfoItem>
+            )}
 
             {/* Created */}
             <InfoItem icon={Clock3} label="Created">
@@ -216,13 +334,32 @@ export default function UserServiceDetails() {
               </div>
 
               <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
-                  Preferred visit
-                </p>
+                {service?.plan?.toLowerCase() === "re-occurrent" ? (
+                  <>
+                    <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
+                      Next visit date
+                    </p>
 
-                <p className="mt-0.5 text-sm font-semibold text-slate-800">
-                  {getSpecificDate(service?.preferredDate!)?.fullDate}
-                </p>
+                    <p className="mt-0.5 text-sm font-semibold text-slate-800">
+                      {
+                        getNextVisit(
+                          service?.preferredDate,
+                          service?.planInterval,
+                        ).nextVisit
+                      }
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
+                      Preferred visit date
+                    </p>
+                    <p className="mt-0.5 text-sm font-semibold text-slate-800">
+                      {getSpecificDate(service?.preferredDate!)?.fullDate}
+                    </p>
+                  </>
+                )}
               </div>
 
               {/* Updated */}
@@ -240,6 +377,23 @@ export default function UserServiceDetails() {
                   </p>
                 </div>
               </div>
+
+              {service?.plan?.toLowerCase() === "re-occurrent" && (
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                    <CalendarRange size={20} />
+                  </div>
+                  <div>
+                    <p className="text-[12px] md:text-xs font-medium uppercase tracking-wider text-slate-400">
+                      Period Covered
+                    </p>
+
+                    <p className="mt-1 text-sm font-medium text-slate-600">
+                      {service?.periodCovered} / {service?.planPeriod}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Button */}
@@ -261,7 +415,7 @@ export default function UserServiceDetails() {
                   service?.status?.toLowerCase() !== "cancelled" &&
                   service?.status?.toLowerCase() !== "completed")) && (
                 <button
-                  onClick={() => setShowDeleteConfirm(true)}
+                  onClick={() => setModalAction(null)}
                   type="button"
                   className="group inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-[#b54e4e] px-5 text-sm font-bold text-white shadow-sm transition-all hover:border-slate-400 hover:bg-[#ff6060] hover:text-white"
                 >
@@ -277,65 +431,35 @@ export default function UserServiceDetails() {
         </div>
       </article>
 
-      {showDeleteConfirm && (
-        <div
-          className="modal-overlay"
-          onClick={() => setShowDeleteConfirm(false)}
-        >
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <div className="flex items-center gap-2">
-                <TriangleAlert size={15} />
-                <h3>Confirm service cancellation</h3>
-              </div>
-              <button
-                className="icon-button"
-                onClick={() => setShowDeleteConfirm(false)}
-                data-testid="button-close-delete-modal"
-              >
-                <XCircle size={18} />
-              </button>
-            </div>
-            <div className="modal-body">
-              <p className="font-semibold mb-2 text-[15px]">
-                Are you sure you want to cancel this service?
-              </p>
-              <p className="text-amber-600 font-semibold">
-                This action cannot be undone.
-              </p>
-              <div className="modal-actions">
-                <button
-                  onClick={() => setShowDeleteConfirm(false)}
-                  className="secondary-button"
-                  data-testid="button-cancel-delete"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => {
-                    updateService({
-                      serviceId: id,
-                      serviceData: { ...service, status: "cancelled" },
-                    });
-                  }}
-                  className="primary-button delete"
-                  data-testid="button-confirm-delete"
-                >
-                  {isLoading && <Loader />}
-                  Confirm
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      {modalAction && modalAction?.updateType && service && (
+        <ServiceConfirmationModal
+          onCloseModal={() => setModalAction(null)}
+          isLoading={isLoading}
+          onConfirm={() =>
+            updateService({
+              serviceData: {
+                ...service,
+                status: modalAction?.updateType,
+                periodCovered:
+                  modalAction?.action === "update-progress"
+                    ? Number(service?.periodCovered) + 1
+                    : "0",
+              },
+              serviceId: service?._id,
+            })
+          }
+        />
       )}
 
-      <SuccessModal
-        isOpen={isSuccess}
-        onViewService={() => {
-          window.location.href = "/dashboard/services";
-        }}
-      />
-    </DashboardLayout>
+      {isSuccess && (
+        <AdminSuccessModal
+          isOpen={isSuccess}
+          message={actionMessage}
+          onViewService={() => {
+            window.location.href = "/admin/dashboard";
+          }}
+        />
+      )}
+    </AdminDashboardLayout>
   );
 }

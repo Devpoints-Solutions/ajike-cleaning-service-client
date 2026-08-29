@@ -5,6 +5,7 @@ import { useAuthContext } from "@/features/contexts/auth-context";
 import { getGreeting } from "@/helpers/time";
 import { useTime } from "@/features/hooks/use-time";
 import { useDashboardContext } from "@/features/contexts/dashboard-context";
+import Stats from "./Stats";
 
 const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
   const { isAuthenticated, currentUser } = useAuthContext();
@@ -53,6 +54,7 @@ const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
               </button>
             </div>
           </div>
+          <Stats />
           {children}
         </div>
       </main>

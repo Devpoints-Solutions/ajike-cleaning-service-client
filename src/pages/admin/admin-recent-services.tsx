@@ -14,14 +14,14 @@ import {
   MoreVertical,
   Search,
   SprayCan,
-  Trash2,
+  // Trash2,
   UserRound,
 } from "lucide-react";
 import { getStatusColor } from "@/helpers/profile";
 import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
 import { getTime } from "@/helpers/time";
 
-function AdminServices() {
+function AdminRecentServices() {
   const [filter, setFilter] = useState<"All" | ServiceStatus>("All");
   const [serviceFilter, setServiceFilter] = useState<
     "All" | "Pest" | "Cleaning"
@@ -31,9 +31,9 @@ function AdminServices() {
     {},
   );
 
-  const { services } = useAdminServiceContext();
+  const { recentServices } = useAdminServiceContext();
 
-  const shownJobs = services.filter(
+  const shownJobs = recentServices.filter(
     (job) =>
       (filter === "All" ||
         job?.status?.toLowerCase() === filter?.toLowerCase()) &&
@@ -92,7 +92,7 @@ function AdminServices() {
             <option>Cleaning</option>
           </select>
         </div>
-        <div className="schedule-list">
+        <div className="schedule-list overflow-y-auto max-h-[500px]">
           {shownJobs.map((job) => (
             <div
               className="schedule-row"
@@ -114,8 +114,8 @@ function AdminServices() {
                 <strong>{job?.title}</strong>
                 <span>{job?.address}</span>
               </div>
-              {/* <div className="tech-badge" title={`Assigned to ${job.tech}`}>
-                {job.tech}
+              {/* <div className="tech-badge" title={`Assigned to`}>
+                Hello
               </div> */}
               <span
                 className={`admin-status ${statusClass(job?.status)}`}
@@ -135,13 +135,13 @@ function AdminServices() {
                 {showActions[job._id] && (
                   <div className="schedule-actions-dropdown">
                     <Link
-                      href={`/admin/dashboard/schedules/${job._id}`}
+                      href={`/admin/dashboard/services/${job._id}`}
                       className="schedule-action-item"
                       data-testid={`button-view-details-${job._id}`}
                     >
                       <Eye size={14} /> View Details
                     </Link>
-                    <Link
+                    {/* <Link
                       href={`/admin/dashbaord/schedules/${job._id}`}
                       className="schedule-action-item"
                       data-testid={`button-update-status-${job._id}`}
@@ -154,7 +154,7 @@ function AdminServices() {
                       data-testid={`button-delete-schedule-${job._id}`}
                     >
                       <Trash2 size={14} /> Delete
-                    </button>
+                    </button> */}
                   </div>
                 )}
               </div>
@@ -272,4 +272,4 @@ function AdminServices() {
   );
 }
 
-export default AdminServices;
+export default AdminRecentServices;
