@@ -29,11 +29,12 @@ export function getIsoFullDate(isoDate: string) {
 }
 
 export function getNextVisit(date: string, plan: PlanIntervalType) {
-  const currentDate = moment(date, "YYYY-MM-DD", true);
+  const currentDate = moment(date, ["YYYY-MM-DD", moment.ISO_8601], true);
 
   const newPlan = plan?.toLowerCase();
+
   if (!currentDate.isValid()) {
-    throw new Error("Invalid date. Expected YYYY-MM-DD");
+    throw new Error("Invalid date. Expected YYYY-MM-DD or a valid ISO date");
   }
 
   let nextVisit = currentDate.clone();

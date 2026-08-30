@@ -18,7 +18,7 @@ import {
 import { useParams } from "wouter";
 import DashboardLayout from "./dashboard-layout";
 import { useServiceContext } from "@/features/contexts/service-context";
-import { getIsoFullDate, getSpecificDate } from "@/helpers/time";
+import { getIsoFullDate, getSpecificDate, getNextVisit } from "@/helpers/time";
 import { useToast } from "@/features/hooks/use-toast";
 import { Loader } from "@/components/common/loader";
 import { getStatusColor } from "@/helpers/profile";
@@ -155,12 +155,14 @@ export default function UserServiceDetails() {
                 iconClass="bg-violet-50 text-violet-600"
               />
 
-              <StatCard
-                icon={CalendarDays}
-                label="Interval"
-                value={service?.planInterval}
-                iconClass="bg-amber-50 text-amber-600"
-              />
+              {service?.planInterval && (
+                <StatCard
+                  icon={CalendarDays}
+                  label="Interval"
+                  value={service?.planInterval}
+                  iconClass="bg-amber-50 text-amber-600"
+                />
+              )}
             </div>
           </div>
         </div>
@@ -216,13 +218,30 @@ export default function UserServiceDetails() {
               </div>
 
               <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
-                  Preferred visit
-                </p>
+                {service?.plan?.toLowerCase() === "re-occurrent" ? (
+                  <>
+                    <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
+                      Next visit date
+                    </p>
 
-                <p className="mt-0.5 text-sm font-semibold text-slate-800">
-                  {getSpecificDate(service?.preferredDate!)?.fullDate}
-                </p>
+                    <p className="mt-0.5 text-sm font-semibold text-slate-800">
+                      {
+                        getNextVisit(service?.updatedAt, service?.planInterval)
+                          .nextVisit
+                      }
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
+                      Preferred visit date
+                    </p>
+                    <p className="mt-0.5 text-sm font-semibold text-slate-800">
+                      {getSpecificDate(service?.preferredDate!)?.fullDate}
+                    </p>
+                  </>
+                )}
               </div>
 
               {/* Updated */}

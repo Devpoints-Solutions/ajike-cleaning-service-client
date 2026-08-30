@@ -17,8 +17,6 @@ function CustomersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState<"All" | "user" | "admin">("All");
 
-  console.log(services);
-
   const filteredUsers = useMemo(() => {
     const value = searchTerm.trim().toLowerCase();
 

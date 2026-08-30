@@ -342,10 +342,8 @@ export default function AdminServiceDetails() {
 
                     <p className="mt-0.5 text-sm font-semibold text-slate-800">
                       {
-                        getNextVisit(
-                          service?.preferredDate,
-                          service?.planInterval,
-                        ).nextVisit
+                        getNextVisit(service?.updatedAt, service?.planInterval)
+                          .nextVisit
                       }
                     </p>
                   </>
