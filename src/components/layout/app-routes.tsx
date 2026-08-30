@@ -24,6 +24,7 @@ import { useServiceContext } from "@/features/contexts/service-context";
 import ServiceDetails from "@/pages/services/service-details";
 import PaymentHistory from "@/pages/user/payments-history";
 import NewRequestModal from "../common/request-modal/new-request-modal";
+import AdminServices from "@/pages/admin/admin-services";
 import { DashboardContextProvider } from "@/features/contexts/dashboard-context";
 import ScrollToTop from "./scroll-to-top";
 
@@ -66,6 +67,10 @@ function AppRoutes() {
               <Route
                 path="/admin/dashboard/messages"
                 component={AdminChatPage}
+              />
+              <Route
+                path="/admin/dashboard/services"
+                component={AdminServices}
               />
               <Route
                 path="/admin/dashboard/services/:id"
