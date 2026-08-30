@@ -15,9 +15,9 @@ import AdminDashboardLayout from "./admin-dashboard-layout";
 function CustomersPage() {
   const { users, services } = useAdminServiceContext();
   const [searchTerm, setSearchTerm] = useState("");
-  const [roleFilter, setRoleFilter] = useState<"All" | "user" | "admin">(
-    "All",
-  );
+  const [roleFilter, setRoleFilter] = useState<"All" | "user" | "admin">("All");
+
+  console.log(services);
 
   const filteredUsers = useMemo(() => {
     const value = searchTerm.trim().toLowerCase();
@@ -35,10 +35,12 @@ function CustomersPage() {
     });
   }, [roleFilter, searchTerm, users]);
 
-  const totalAdmins = users.filter((user) => (user.role || "user") === "admin")
-    .length;
-  const totalCustomers = users.filter((user) => (user.role || "user") !== "admin")
-    .length;
+  const totalAdmins = users.filter(
+    (user) => (user.role || "user") === "admin",
+  ).length;
+  const totalCustomers = users.filter(
+    (user) => (user.role || "user") !== "admin",
+  ).length;
   const totalServiceRequests = services.length;
 
   const getInitials = (firstName: string, lastName: string) =>
@@ -71,7 +73,9 @@ function CustomersPage() {
             <h3 className="mt-4 text-3xl font-extrabold text-[#001625]">
               {users.length}
             </h3>
-            <p className="mt-1 text-sm text-[#587285]">All registered accounts</p>
+            <p className="mt-1 text-sm text-[#587285]">
+              All registered accounts
+            </p>
           </article>
 
           <article className="admin-panel rounded-2xl p-5">
@@ -82,7 +86,9 @@ function CustomersPage() {
             <h3 className="mt-4 text-3xl font-extrabold text-[#001625]">
               {totalCustomers}
             </h3>
-            <p className="mt-1 text-sm text-[#587285]">Standard customer accounts</p>
+            <p className="mt-1 text-sm text-[#587285]">
+              Standard customer accounts
+            </p>
           </article>
 
           <article className="admin-panel rounded-2xl p-5">
@@ -93,7 +99,9 @@ function CustomersPage() {
             <h3 className="mt-4 text-3xl font-extrabold text-[#001625]">
               {totalAdmins}
             </h3>
-            <p className="mt-1 text-sm text-[#587285]">Account administrators</p>
+            <p className="mt-1 text-sm text-[#587285]">
+              Account administrators
+            </p>
           </article>
 
           <article className="admin-panel rounded-2xl p-5">
@@ -214,7 +222,11 @@ function CustomersPage() {
                                 : "bg-[#edf9f0] text-[#206c4d]"
                             }`}
                           >
-                            {role === "admin" ? <ShieldCheck size={12} /> : <UserRound size={12} />}
+                            {role === "admin" ? (
+                              <ShieldCheck size={12} />
+                            ) : (
+                              <UserRound size={12} />
+                            )}
                             {role}
                           </span>
                         </td>

@@ -1,5 +1,6 @@
 import React from "react";
 import DashboardNav from "@/components/common/dashboard/dashboard-nav";
+import { useLocation } from "wouter";
 import { CalendarClock, ClockFading, RefreshCw } from "lucide-react";
 import { useAuthContext } from "@/features/contexts/auth-context";
 import { getGreeting } from "@/helpers/time";
@@ -11,6 +12,7 @@ const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
   const { isAuthenticated, currentUser } = useAuthContext();
   const { date, seconds, minute, hour, period } = useTime();
 
+  const [pathname] = useLocation();
   const { collapsed } = useDashboardContext();
 
   return (
@@ -54,7 +56,8 @@ const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
               </button>
             </div>
           </div>
-          <Stats />
+          {pathname !== "/admin/dashboard/customers" &&
+            pathname !== "/admin/dashboard/messages" && <Stats />}
           {children}
         </div>
       </main>
