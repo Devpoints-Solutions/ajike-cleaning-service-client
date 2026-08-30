@@ -13,11 +13,18 @@ export function AdminServices() {
     "All" | "Pest" | "Cleaning"
   >("All");
 
+  const [planFilter, setPlanFilter] = useState<
+    "All" | "One time" | "Re-occurrent"
+  >("All");
+
   const shownServices = services.filter(
     (job) =>
-      (filter === "All" || job.status.toLowerCase() === filter.toLowerCase()) &&
-      (serviceFilter === "All" ||
-        job.category.toLowerCase() === serviceFilter.toLowerCase()),
+      ((filter === "All" ||
+        job.status.toLowerCase() === filter.toLowerCase()) &&
+        (serviceFilter === "All" ||
+          job.category.toLowerCase() === serviceFilter.toLowerCase()) &&
+        planFilter === "All") ||
+      job?.plan?.toLowerCase() === planFilter?.toLowerCase(),
   );
 
   return (
@@ -47,17 +54,30 @@ export function AdminServices() {
               ),
             )}
           </div>
-          <select
-            value={serviceFilter}
-            onChange={(event) =>
-              setServiceFilter(event.target.value as typeof serviceFilter)
-            }
-            data-testid="select-admin-service-filter"
-          >
-            <option>All</option>
-            <option>Pest</option>
-            <option>Cleaning</option>
-          </select>
+          <div className="flex gap-2 items-center">
+            <select
+              value={planFilter}
+              onChange={(event) =>
+                setPlanFilter(event.target.value as typeof planFilter)
+              }
+              data-testid="select-admin-service-filter"
+            >
+              <option>All</option>
+              <option>One time</option>
+              <option>Re-occurrent</option>
+            </select>
+            <select
+              value={serviceFilter}
+              onChange={(event) =>
+                setServiceFilter(event.target.value as typeof serviceFilter)
+              }
+              data-testid="select-admin-service-filter"
+            >
+              <option>All</option>
+              <option>Pest</option>
+              <option>Cleaning</option>
+            </select>
+          </div>
         </div>
 
         {shownServices.length === 0 ? (

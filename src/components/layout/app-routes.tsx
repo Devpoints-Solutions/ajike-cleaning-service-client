@@ -26,6 +26,7 @@ import PaymentHistory from "@/pages/user/payments-history";
 import NewRequestModal from "../common/request-modal/new-request-modal";
 import AdminServices from "@/pages/admin/admin-services";
 import { DashboardContextProvider } from "@/features/contexts/dashboard-context";
+import CustomersPage from "@/pages/admin/customers-page";
 import ScrollToTop from "./scroll-to-top";
 
 function AppRoutes() {
@@ -72,9 +73,15 @@ function AppRoutes() {
                 path="/admin/dashboard/services"
                 component={AdminServices}
               />
+
               <Route
                 path="/admin/dashboard/services/:id"
                 component={AdminServiceDetails}
+              />
+
+              <Route
+                path="/admin/dashboard/customers"
+                component={CustomersPage}
               />
             </DashboardContextProvider>
           </RequireAuth>
