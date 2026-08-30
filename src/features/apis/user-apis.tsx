@@ -10,8 +10,8 @@ export const userApis = createApi({
 
   endpoints: (builder) => ({
     getAllRegisteredUsers: builder.mutation({
-      query: () => ({
-        url: "/users",
+      query: (payload) => ({
+        url: `/users?page=${payload}`,
         method: "GET",
         credentials: "include",
       }),

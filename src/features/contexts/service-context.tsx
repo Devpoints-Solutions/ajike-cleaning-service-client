@@ -117,7 +117,7 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
 
   function onGetNewServices() {
     if (page > totalPage) return setHasMore(false);
-    getNewServicesByUser({ page, limit: 1 });
+    getNewServicesByUser({ page });
     setPage((prev) => prev + 1);
   }
 

@@ -34,8 +34,8 @@ export const serviceApis = createApi({
     }),
 
     getNewServicesByUser: builder.mutation({
-      query: ({ page, limit }) => ({
-        url: `/services/user?page=${page}&limit=${limit}`,
+      query: ({ page }) => ({
+        url: `/services/user?page=${page}`,
         method: "GET",
         credentials: "include",
       }),

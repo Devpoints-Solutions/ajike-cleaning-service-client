@@ -125,6 +125,16 @@ export type AdminServiceContextType = {
   services: IService[];
   users: IUser[];
   recentServices: IService[];
+  statistics: {
+    totalAdmins: number;
+    totalCustomers: number;
+    totalRegisteredUsers: number;
+    totalRequests: number;
+  };
+
+  onGetMoreUsers: () => void;
+  hasMoreUsers: boolean;
+  isLoadingNewUsers: boolean;
 };
 
 export type ErrorType = {

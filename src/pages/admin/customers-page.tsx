@@ -10,10 +10,18 @@ import {
   Users,
 } from "lucide-react";
 import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
+import { Loader } from "@/components/common/loader";
 import AdminDashboardLayout from "./admin-dashboard-layout";
 
 function CustomersPage() {
-  const { users, services } = useAdminServiceContext();
+  const {
+    users,
+    services,
+    statistics,
+    onGetMoreUsers,
+    hasMoreUsers,
+    isLoadingNewUsers,
+  } = useAdminServiceContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState<"All" | "user" | "admin">("All");
 
@@ -32,14 +40,6 @@ function CustomersPage() {
       return matchesRole && matchesSearch;
     });
   }, [roleFilter, searchTerm, users]);
-
-  const totalAdmins = users.filter(
-    (user) => (user.role || "user") === "admin",
-  ).length;
-  const totalCustomers = users.filter(
-    (user) => (user.role || "user") !== "admin",
-  ).length;
-  const totalServiceRequests = services.length;
 
   const getInitials = (firstName: string, lastName: string) =>
     `${firstName?.charAt(0) || ""}${lastName?.charAt(0) || ""}`.toUpperCase();
@@ -62,14 +62,17 @@ function CustomersPage() {
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div
+          className="grid w-full self-start lg:sticky lg:top-0 lg:self-start  gap-4 md:grid-cols-2 xl:grid-cols-4 bg-[#ffffff] z-50 py-5 px-5 rounded-2xl"
+          style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
+        >
           <article className="admin-panel rounded-2xl p-5">
             <div className="flex items-center justify-between">
               <span className="panel-label">Total users</span>
               <Users size={16} className="text-[#1687b6]" />
             </div>
             <h3 className="mt-4 text-3xl font-extrabold text-[#001625]">
-              {users.length}
+              {statistics?.totalRegisteredUsers}
             </h3>
             <p className="mt-1 text-sm text-[#587285]">
               All registered accounts
@@ -82,7 +85,7 @@ function CustomersPage() {
               <UserRound size={16} className="text-[#1687b6]" />
             </div>
             <h3 className="mt-4 text-3xl font-extrabold text-[#001625]">
-              {totalCustomers}
+              {statistics?.totalCustomers}
             </h3>
             <p className="mt-1 text-sm text-[#587285]">
               Standard customer accounts
@@ -95,7 +98,7 @@ function CustomersPage() {
               <ShieldCheck size={16} className="text-[#1687b6]" />
             </div>
             <h3 className="mt-4 text-3xl font-extrabold text-[#001625]">
-              {totalAdmins}
+              {statistics?.totalAdmins}
             </h3>
             <p className="mt-1 text-sm text-[#587285]">
               Account administrators
@@ -108,7 +111,7 @@ function CustomersPage() {
               <ArrowUpRight size={16} className="text-[#1687b6]" />
             </div>
             <h3 className="mt-4 text-3xl font-extrabold text-[#001625]">
-              {totalServiceRequests}
+              {statistics?.totalRequests}
             </h3>
             <p className="mt-1 text-sm text-[#587285]">Across all users</p>
           </article>
@@ -253,6 +256,18 @@ function CustomersPage() {
             </div>
           )}
         </section>
+
+        {hasMoreUsers && (
+          <div
+            className="flex mt-10 items-center justify-center"
+            onClick={onGetMoreUsers}
+          >
+            <button type="button" className="secondary-button button-small">
+              {isLoadingNewUsers && <Loader />}
+              Load more
+            </button>
+          </div>
+        )}
       </main>
     </AdminDashboardLayout>
   );
