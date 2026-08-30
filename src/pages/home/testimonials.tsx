@@ -23,7 +23,7 @@ const testimonials = [
     location: "Newark, NJ",
     rating: 5,
     image: "https://i.pravatar.cc/100?img=32",
-    text: "Our restaurant passed inspection with zero issues after switching to Helena. Their preventive schedule is reliable and discreet.",
+    text: "Our restaurant passed inspection with zero issues after switching to Ajike. Their preventive schedule is reliable and discreet.",
   },
   {
     name: "Aaron W.",

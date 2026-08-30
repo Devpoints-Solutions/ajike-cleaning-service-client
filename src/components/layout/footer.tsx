@@ -18,7 +18,7 @@ const Footer = () => {
 
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-gray-200 sm:text-base">
             Join homes and businesses across New Jersey and New York that trust
-            Helena for pest control and cleaning.
+            Ajike for pest control and cleaning.
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -255,7 +255,7 @@ const Footer = () => {
                 <li className="flex items-center gap-3">
                   <Mail size={16} className="shrink-0 text-[#1687b6]" />
                   <a
-                    href="mailto:support@helenapc.com"
+                    href="mailto:support@ajikepestcontrol.com"
                     className="text-blue-100/90 transition hover:text-white"
                   >
                     support@ajikepestcontrol.com

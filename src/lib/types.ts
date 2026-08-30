@@ -135,6 +135,28 @@ export type AdminServiceContextType = {
   onGetMoreUsers: () => void;
   hasMoreUsers: boolean;
   isLoadingNewUsers: boolean;
+  onGetMoreServices: () => void;
+  isLoadingNewServices: boolean;
+  hasMoreServices: boolean;
+
+  servicesStats: {
+    totalCompletedServices: number;
+    totalCompletedValue: number;
+    totalNewServices: number;
+    totalNewValue: number;
+    totalPendingServices: number;
+    totalPendingValue: number;
+    totalServices: number;
+    totalValue: number;
+    totalWeeklyCompletedServices: number;
+    totalWeeklyCompletedValue: number;
+    totalWeeklyNewServices: number;
+    totalWeeklyNewValue: number;
+    totalWeeklyPendingServices: number;
+    totalWeeklyPendingValue: number;
+    totalWeeklyServices: number;
+    totalWeeklyValue: number;
+  };
 };
 
 export type ErrorType = {

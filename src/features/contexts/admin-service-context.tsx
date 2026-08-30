@@ -23,6 +23,27 @@ const AdminServiceContext = createContext<AdminServiceContextType>({
   onGetMoreUsers: () => {},
   hasMoreUsers: true,
   isLoadingNewUsers: false,
+  onGetMoreServices: () => {},
+  isLoadingNewServices: false,
+  hasMoreServices: true,
+  servicesStats: {
+    totalCompletedServices: 0,
+    totalCompletedValue: 0,
+    totalNewServices: 0,
+    totalNewValue: 0,
+    totalPendingServices: 0,
+    totalPendingValue: 0,
+    totalServices: 0,
+    totalValue: 0,
+    totalWeeklyCompletedServices: 0,
+    totalWeeklyCompletedValue: 0,
+    totalWeeklyNewServices: 0,
+    totalWeeklyNewValue: 0,
+    totalWeeklyPendingServices: 0,
+    totalWeeklyPendingValue: 0,
+    totalWeeklyServices: 0,
+    totalWeeklyValue: 0,
+  },
 });
 
 export function AdminContextProvider({ children }: { children: ReactNode }) {
@@ -30,9 +51,14 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
   const [recentServices, setRecentServices] = useState<IService[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [totalUserPage, setTotalUserPage] = useState<number>(1);
+  const [totalServicesPage, setTotalServicesPage] = useState<number>(1);
   const [hasMoreUsers, setHasMoreUsers] = useState<boolean>(true);
+  const [hasMoreServices, setHasMoreServices] = useState<boolean>(true);
   const [userPage, setUserPage] = useState<number>(2);
+  const [servicesPage, setServicesPage] = useState<number>(2);
   const [firstRequest, setFirstRequest] = useState<boolean>(true);
+  const [firstServiceRequest, setFirstServicesRequest] =
+    useState<boolean>(true);
   const [statistics, setStatistics] = useState<{
     totalAdmins: number;
     totalCustomers: number;
@@ -45,6 +71,41 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
     totalRequests: 0,
   });
 
+  const [servicesStats, setServicesStats] = useState<{
+    totalCompletedServices: number;
+    totalCompletedValue: number;
+    totalNewServices: number;
+    totalNewValue: number;
+    totalPendingServices: number;
+    totalPendingValue: number;
+    totalServices: number;
+    totalValue: number;
+    totalWeeklyCompletedServices: number;
+    totalWeeklyCompletedValue: number;
+    totalWeeklyNewServices: number;
+    totalWeeklyNewValue: number;
+    totalWeeklyPendingServices: number;
+    totalWeeklyPendingValue: number;
+    totalWeeklyServices: number;
+    totalWeeklyValue: number;
+  }>({
+    totalCompletedServices: 0,
+    totalCompletedValue: 0,
+    totalNewServices: 0,
+    totalNewValue: 0,
+    totalPendingServices: 0,
+    totalPendingValue: 0,
+    totalServices: 0,
+    totalValue: 0,
+    totalWeeklyCompletedServices: 0,
+    totalWeeklyCompletedValue: 0,
+    totalWeeklyNewServices: 0,
+    totalWeeklyNewValue: 0,
+    totalWeeklyPendingServices: 0,
+    totalWeeklyPendingValue: 0,
+    totalWeeklyServices: 0,
+    totalWeeklyValue: 0,
+  });
   const { currentUser, isAuthenticated } = useAuthContext();
 
   const [
@@ -54,13 +115,18 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
 
   const [
     getAllServices,
-    { data: serviceData, isSuccess: serviceSuccess, error },
+    {
+      data: serviceData,
+      isSuccess: serviceSuccess,
+      error,
+      isLoading: servicesLoading,
+    },
   ] = useGetAllServicesMutation();
 
   useEffect(() => {
     if (isAuthenticated && currentUser && currentUser?.role === "admin") {
       getAllRegisteredUsers(1);
-      getAllServices(null);
+      getAllServices(1);
     }
   }, [currentUser, isAuthenticated]);
 
@@ -78,12 +144,25 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
   }, [usersData, userSuccess]);
 
   useEffect(() => {
-    if (serviceSuccess && serviceData) {
+    if (serviceSuccess && serviceData && firstServiceRequest) {
+      // console.log(serviceData);
       if (recentServices?.length === 0) {
         setRecentServices(serviceData?.data?.services);
       }
 
       setServices((prev) => [...prev, ...serviceData?.data?.services]);
+      setTotalServicesPage(serviceData?.data?.pagination?.totalPages);
+      setServicesStats(serviceData?.data?.statistics);
+      setFirstServicesRequest(false);
+    }
+
+    if (serviceSuccess && serviceData && !firstServiceRequest) {
+      console.log(serviceData?.data?.services);
+      // if (recentServices?.length === 0) {
+      //   setRecentServices([]);
+      // }
+
+      // setServices((prev) => [...prev, ...serviceData?.data?.services]);
     }
 
     if (error) {
@@ -97,6 +176,13 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
     setUserPage((prev) => prev + 1);
   }
 
+  function onGetMoreServices() {
+    if (servicesPage > totalServicesPage) return setHasMoreServices(false);
+
+    getAllServices(servicesPage);
+    setServicesPage((prev) => prev + 1);
+  }
+
   const value = {
     services,
     users,
@@ -105,6 +191,10 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
     onGetMoreUsers,
     hasMoreUsers,
     isLoadingNewUsers: usersLoading,
+    isLoadingNewServices: servicesLoading,
+    onGetMoreServices,
+    hasMoreServices,
+    servicesStats,
   };
 
   return (

@@ -26,16 +26,16 @@ export const serviceApis = createApi({
     }),
 
     getServicesByUser: builder.mutation({
-      query: () => ({
-        url: "/services/user",
+      query: (payload) => ({
+        url: `/services/user?page=${payload}`,
         method: "GET",
         credentials: "include",
       }),
     }),
 
     getNewServicesByUser: builder.mutation({
-      query: ({ page }) => ({
-        url: `/services/user?page=${page}`,
+      query: (payload) => ({
+        url: `/services/user?page=${payload}`,
         method: "GET",
         credentials: "include",
       }),
