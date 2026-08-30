@@ -27,8 +27,6 @@ function ActiveRecurringPlan({ service }: { service: IService }) {
     service?.planInterval,
   ).nextVisit;
 
-  console.log(service);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       const percentageProgress =

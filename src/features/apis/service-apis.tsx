@@ -33,6 +33,14 @@ export const serviceApis = createApi({
       }),
     }),
 
+    getNewServicesByUser: builder.mutation({
+      query: ({ page, limit }) => ({
+        url: `/services/user?page=${page}&limit=${limit}`,
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
+
     sendFeedback: builder.mutation({
       query: (payload) => ({
         url: `/services/${payload?.serviceId}/feeback`,
@@ -67,4 +75,5 @@ export const {
   useSendFeedbackMutation,
   useGetAllFeebackMutation,
   useUpdateServiceMutation,
+  useGetNewServicesByUserMutation,
 } = serviceApis;

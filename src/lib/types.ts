@@ -115,6 +115,10 @@ export type ServiceContextType = {
   reOccurrentPlan: IService | null;
   showChat: boolean;
   toggleChat: () => void;
+  onGetNewServices: () => void;
+  isLoadingFirstData: boolean;
+  isLoadingNewData: boolean;
+  hasMore: boolean;
 };
 
 export type AdminServiceContextType = {

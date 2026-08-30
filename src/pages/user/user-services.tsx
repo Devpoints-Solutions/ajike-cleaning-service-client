@@ -2,11 +2,18 @@ import { useState } from "react";
 import { Calendar } from "lucide-react";
 import DashboardLayout from "./dashboard-layout";
 import ServiceCard from "./service-card";
+import { Loader } from "@/components/common/loader";
 import type { UserServiceStatus } from "@/lib/types";
 import { useServiceContext } from "@/features/contexts/service-context";
 
 export function UserServices() {
-  const { services, toggleNewModal } = useServiceContext();
+  const {
+    services,
+    toggleNewModal,
+    onGetNewServices,
+    isLoadingNewData,
+    hasMore,
+  } = useServiceContext();
 
   const [filter, setFilter] = useState<"All" | UserServiceStatus>("All");
   const [serviceFilter, setServiceFilter] = useState<
@@ -74,11 +81,25 @@ export function UserServices() {
             </button>
           </div>
         ) : (
-          <div className="grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
-            {shownServices.map((service) => (
-              <ServiceCard key={service._id} service={service} />
-            ))}
-          </div>
+          <>
+            <div className="grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
+              {shownServices.map((service) => (
+                <ServiceCard key={service._id} service={service} />
+              ))}
+            </div>
+
+            {hasMore && (
+              <div
+                className="flex mt-10 items-center justify-center"
+                onClick={onGetNewServices}
+              >
+                <button type="button" className="secondary-button button-small">
+                  {isLoadingNewData && <Loader />}
+                  Load more
+                </button>
+              </div>
+            )}
+          </>
         )}
       </main>
     </DashboardLayout>

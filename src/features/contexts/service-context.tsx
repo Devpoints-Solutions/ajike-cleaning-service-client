@@ -4,7 +4,10 @@ import type {
   IService,
   ServiceStatsType,
 } from "@/lib/types";
-import { useGetServicesByUserMutation } from "../apis/service-apis";
+import {
+  useGetNewServicesByUserMutation,
+  useGetServicesByUserMutation,
+} from "../apis/service-apis";
 import { useAuthContext } from "./auth-context";
 
 const ServiceContext = createContext<ServiceContextType>({
@@ -21,6 +24,10 @@ const ServiceContext = createContext<ServiceContextType>({
   reOccurrentPlan: null,
   newModalIsOpen: false,
   toggleNewModal: () => {},
+  onGetNewServices: () => {},
+  isLoadingFirstData: false,
+  isLoadingNewData: false,
+  hasMore: true,
 });
 
 let tempServices: IService[] = [];
@@ -36,11 +43,23 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
     cancelled: 0,
   });
   const [nextVisit, setNextVisit] = useState<IService | null>(null);
+  const [totalPage, setTotalPage] = useState<number>(1);
+  const [page, setPage] = useState(2);
+  const [hasMore, setHasMore] = useState<boolean>(true);
   const [reOccurrentPlan, setReoccurentPlan] = useState<IService | null>(null);
   const { isAuthenticated, currentUser } = useAuthContext();
 
-  const [getServicesByUser, { data, isSuccess }] =
+  const [getServicesByUser, { data, isSuccess, isLoading }] =
     useGetServicesByUserMutation();
+
+  const [
+    getNewServicesByUser,
+    {
+      data: newServiceData,
+      isSuccess: newServiceSuccess,
+      isLoading: isLoadingNewServicesData,
+    },
+  ] = useGetNewServicesByUserMutation();
 
   useEffect(() => {
     if (
@@ -73,8 +92,20 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
       setServiceStats(data?.data?.serviceStats);
       setNextVisit(data?.data?.nextVisit);
       setReoccurentPlan(data?.data?.recurringService);
+      setTotalPage(data?.data?.pagination?.totalPages);
     }
   }, [data, isSuccess]);
+
+  useEffect(() => {
+    if (newServiceSuccess && newServiceData) {
+      const srv = [...newServiceData?.data]?.sort(
+        (a: IService, b: IService) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      );
+      tempServices = [...tempServices, ...srv];
+      setServices((prev) => [...prev, ...srv]);
+    }
+  }, [newServiceData, newServiceSuccess]);
 
   function toggleChat() {
     return setShowChat(!showChat);
@@ -82,6 +113,12 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
 
   function toggleNewModal() {
     return setNewModalIsOpen(!newModalIsOpen);
+  }
+
+  function onGetNewServices() {
+    if (page > totalPage) return setHasMore(false);
+    getNewServicesByUser({ page, limit: 1 });
+    setPage((prev) => prev + 1);
   }
 
   const value = {
@@ -93,6 +130,10 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
     reOccurrentPlan,
     toggleNewModal,
     newModalIsOpen,
+    onGetNewServices,
+    isLoadingFirstData: isLoading,
+    isLoadingNewData: isLoadingNewServicesData,
+    hasMore,
   };
 
   return (
