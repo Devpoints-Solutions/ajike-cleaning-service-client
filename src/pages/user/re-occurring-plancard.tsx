@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   ArrowRight,
   Heart,
@@ -6,12 +7,16 @@ import {
   Repeat2,
   ChevronRight,
 } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 import { Link } from "wouter";
 import { useServiceContext } from "@/features/contexts/service-context";
 import type { IService } from "@/lib/types";
 import { getNextVisit } from "@/helpers/time";
 
 function ActiveRecurringPlan({ service }: { service: IService }) {
+  const [progress, setProgress] = useState(0);
+  const [progressShade, setProgressShade] = useState(10);
+
   const intervalDays = getNextVisit(
     service?.preferredDate,
     service?.planInterval,
@@ -22,11 +27,18 @@ function ActiveRecurringPlan({ service }: { service: IService }) {
     service?.planInterval,
   ).nextVisit;
 
-  const percentageProgress =
-    (Number(service?.periodCovered || 0) / Number(service?.planPeriod)) * 100 +
-    "%";
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const percentageProgress =
+        (Number(service?.periodCovered || 0) / Number(service?.planPeriod)) *
+        100;
 
-  console.log(percentageProgress);
+      setProgress(percentageProgress);
+
+      setProgressShade((prev) => prev + 20);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="mt-6 rounded-2xl border border-white/70 bg-white/70 p-4 sm:p-5">
@@ -66,14 +78,12 @@ function ActiveRecurringPlan({ service }: { service: IService }) {
           <span className="font-medium text-slate-500">Current cycle</span>
 
           <span className="font-semibold text-[#001625]">
-            {percentageProgress} complete
+            {progress}% complete
           </span>
         </div>
 
         <div className="h-2 overflow-hidden rounded-full bg-slate-200">
-          <div
-            className={`h-full w-[${percentageProgress}] rounded-full bg-[#1687b6]`}
-          />
+          <Progress value={progress} className={`w-[${progressShade}%]`} />
         </div>
       </div>
 

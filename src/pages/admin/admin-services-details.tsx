@@ -443,7 +443,7 @@ export default function AdminServiceDetails() {
                 periodCovered:
                   modalAction?.action === "update-progress"
                     ? Number(service?.periodCovered) + 1
-                    : "0",
+                    : service?.periodCovered,
               },
               serviceId: service?._id,
             })
