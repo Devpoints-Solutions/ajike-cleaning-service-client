@@ -27,24 +27,24 @@ function Stats() {
         </strong>
         <div className="flex items-center gap-3">
           <small>
-            <CircleCheckBig size={12} />{" "}
+            <CircleCheckBig size={15} />{" "}
             {servicesStats?.totalWeeklyCompletedServices} completed
           </small>
 
           <small>
-            <BadgeDollarSign size={12} /> $
+            <BadgeDollarSign size={15} /> $
             {servicesStats?.totalWeeklyCompletedValue}
           </small>
         </div>
 
         <div className="flex items-center gap-3">
           <small>
-            <CircleCheckBig size={12} /> {servicesStats?.totalWeeklyNewServices}{" "}
+            <CircleCheckBig size={15} /> {servicesStats?.totalWeeklyNewServices}{" "}
             New
           </small>
 
           <small>
-            <BadgeDollarSign size={12} /> ${servicesStats?.totalWeeklyNewValue}
+            <BadgeDollarSign size={15} /> ${servicesStats?.totalWeeklyNewValue}
           </small>
         </div>
       </article>
@@ -60,7 +60,7 @@ function Stats() {
               )}
         </strong>
         <small>
-          <Activity size={12} /> {servicesStats?.totalWeeklyNewServices} need a
+          <Activity size={15} /> {servicesStats?.totalWeeklyNewServices} need a
           response
         </small>
       </article>
@@ -68,17 +68,26 @@ function Stats() {
         <span>Quote value</span>
         <strong>${servicesStats?.totalWeeklyValue}</strong>
         <small>
-          <CircleDollarSign size={12} /> $
+          <CircleDollarSign size={15} /> $
           {servicesStats?.totalWeeklyPendingValue +
             servicesStats?.totalWeeklyNewValue}{" "}
           yet to be claimed
         </small>
       </article>
       <article className="admin-kpi kpi-sky">
-        <span>Coverage today</span>
-        <strong>92%</strong>
+        <span>Coverage this week</span>
+        <strong>
+          {servicesStats?.totalWeeklyServices
+            ? (servicesStats.totalWeeklyCompletedServices /
+                servicesStats.totalWeeklyServices) *
+              100
+            : 0}
+          %
+        </strong>
         <small>
-          <UserCheck size={12} /> 11 of 12 routes staffed
+          <CircleCheckBig size={15} />{" "}
+          {servicesStats?.totalWeeklyCompletedServices} of{" "}
+          {servicesStats?.totalWeeklyServices} is completed
         </small>
       </article>
     </section>
