@@ -3,7 +3,6 @@ import { useState } from "react";
 import type { ServiceStatus } from "@/lib/types";
 import {
   CheckCircle2,
-  AlertTriangle,
   ArrowRight,
   Bug,
   ChevronRight,
@@ -19,6 +18,7 @@ import {
 } from "lucide-react";
 import { getStatusColor } from "@/helpers/profile";
 import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
+import { CircularProgress } from "./circular-progress";
 import { getTime } from "@/helpers/time";
 
 function AdminRecentServices() {
@@ -31,7 +31,7 @@ function AdminRecentServices() {
     {},
   );
 
-  const { recentServices } = useAdminServiceContext();
+  const { recentServices, topUsers, statistics } = useAdminServiceContext();
 
   const shownJobs = recentServices.filter(
     (job) =>
@@ -173,55 +173,54 @@ function AdminRecentServices() {
         <section className="admin-panel coverage-panel">
           <div className="admin-panel-head">
             <div>
-              <span className="panel-label">People on route</span>
-              <h2>Coverage check</h2>
+              <span className="panel-label">Customers in focus</span>
+              <h2>Top customers</h2>
             </div>
-            <span className="live-dot">LIVE</span>
+            <span className="live-dot">Active</span>
           </div>
           <div className="coverage-meter">
             <div>
-              <strong>11 / 12</strong>
-              <span>routes staffed</span>
+              <strong>
+                {topUsers && topUsers?.length} / {statistics?.totalCustomers}
+              </strong>
             </div>
-            <div className="meter-ring">
-              <span>92%</span>
-            </div>
+
+            {topUsers && topUsers?.length > 0 && (
+              <CircularProgress
+                value={(topUsers?.length / statistics?.totalCustomers) * 100}
+                size={65}
+                strokeWidth={7}
+              />
+            )}
           </div>
           <div className="crew-list">
-            <div>
-              <span className="crew-avatar navy">JR</span>
-              <span>
-                <strong>Jalen R.</strong>
-                <small>North + central \u00b7 3 jobs</small>
-              </span>
-              <CheckCircle2 size={14} />
-            </div>
-            <div>
-              <span className="crew-avatar sky">TN</span>
-              <span>
-                <strong>Tessa N.</strong>
-                <small>Cleaning route 2 jobs</small>
-              </span>
-              <CheckCircle2 size={14} />
-            </div>
-            <div>
-              <span className="crew-avatar pale">SK</span>
-              <span>
-                <strong>Sofia K.</strong>
-                <small>South route 2 jobs</small>
-              </span>
-              <AlertTriangle size={14} />
-            </div>
+            {topUsers &&
+              topUsers?.length > 0 &&
+              topUsers.map((user) => (
+                <div>
+                  <span className="crew-avatar navy">
+                    {user?.firstName[0]} {user?.lastName[0]}
+                  </span>
+                  <span>
+                    <strong>
+                      {user?.firstName} {user?.lastName[0]?.toUpperCase()}
+                    </strong>
+                    <small>{user?.serviceCount} services</small>
+                  </span>
+                  <CheckCircle2 size={14} />
+                </div>
+              ))}
           </div>
-          <button
+          <Link
+            href="/admin/dashboard/customers"
             className="text-button"
             // onClick={() =>
             //   notify("Coverage view shared with the field team.")
             // }
             data-testid="button-share-coverage"
           >
-            Share coverage note <ArrowRight size={14} />
-          </button>
+            Explore customers <ArrowRight size={14} />
+          </Link>
         </section>
         <section className="admin-panel alert-panel">
           <div className="admin-panel-head">

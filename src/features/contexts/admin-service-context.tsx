@@ -44,6 +44,7 @@ const AdminServiceContext = createContext<AdminServiceContextType>({
     totalWeeklyServices: 0,
     totalWeeklyValue: 0,
   },
+  topUsers: null,
 });
 
 export function AdminContextProvider({ children }: { children: ReactNode }) {
@@ -70,6 +71,7 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
     totalRegisteredUsers: 0,
     totalRequests: 0,
   });
+  const [topUsers, setTopUsers] = useState<IUser[] | null>(null);
 
   const [servicesStats, setServicesStats] = useState<{
     totalCompletedServices: number;
@@ -132,6 +134,8 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (userSuccess && usersData && firstRequest) {
+      console.log(usersData);
+      setTopUsers(usersData?.data?.topUsers);
       setUsers(usersData?.data?.users);
       setStatistics(usersData?.data?.statistics);
       setTotalUserPage(usersData?.data?.pagination?.totalPages);
@@ -145,7 +149,6 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (serviceSuccess && serviceData && firstServiceRequest) {
-      // console.log(serviceData);
       if (recentServices?.length === 0) {
         setRecentServices(serviceData?.data?.services);
       }
@@ -190,6 +193,7 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
     onGetMoreServices,
     hasMoreServices,
     servicesStats,
+    topUsers,
   };
 
   return (

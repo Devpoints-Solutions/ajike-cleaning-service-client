@@ -9,8 +9,6 @@ import { useAdminServiceContext } from "@/features/contexts/admin-service-contex
 function Stats() {
   const { servicesStats } = useAdminServiceContext();
 
-  console.log(servicesStats);
-
   return (
     <section
       className="admin-kpi-grid w-full self-start lg:sticky lg:top-[0] lg:self-start bg-[#ffffff] z-50 py-5 px-5 rounded-2xl"

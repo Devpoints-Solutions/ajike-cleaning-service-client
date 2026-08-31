@@ -40,6 +40,7 @@ export interface IUser {
   phoneNumber: string;
   role?: "user" | "admin";
   picture?: string;
+  serviceCount?: number;
 }
 
 export type AuthContextType = {
@@ -157,6 +158,8 @@ export type AdminServiceContextType = {
     totalWeeklyServices: number;
     totalWeeklyValue: number;
   };
+
+  topUsers: IUser[] | null;
 };
 
 export type ErrorType = {
