@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { ServiceStatus } from "@/lib/types";
 import {
   CheckCircle2,
@@ -41,6 +41,62 @@ function AdminRecentServices() {
         job?.category?.toLowerCase() === serviceFilter?.toLowerCase()),
   );
   const statusClass = (status: ServiceStatus) => status.toLowerCase();
+
+  const alertItems = useMemo(() => {
+    const pendingJobs = recentServices.filter(
+      (job) => job?.status?.toLowerCase() === "pending",
+    );
+    const newJobs = recentServices.filter(
+      (job) => job?.status?.toLowerCase() === "new",
+    );
+    const cleaningJobs = recentServices.filter(
+      (job) => job?.category?.toLowerCase() === "cleaning",
+    );
+    const followUpJob =
+      pendingJobs[0] ??
+      newJobs[0] ??
+      recentServices[0] ??
+      null;
+
+    const fullName = followUpJob
+      ? [followUpJob?.customer?.firstName, followUpJob?.customer?.lastName]
+          .filter(Boolean)
+          .join(" ") ||
+        [followUpJob?.user?.firstName, followUpJob?.user?.lastName]
+          .filter(Boolean)
+          .join(" ")
+      : "Northline + Harbor Studio";
+
+    const address = followUpJob?.address?.split(",")[0] || "property visit";
+
+    return [
+      {
+        key: "follow-up",
+        icon: Clock3,
+        label: `${pendingJobs.length || 2} follow-ups due`,
+        detail: fullName || "Northline + Harbor Studio",
+        meta: address,
+      },
+      {
+        key: "supply",
+        icon: Droplets,
+        label: `${cleaningJobs.length ? "Supply watch" : "Low supply note"}`,
+        detail: cleaningJobs.length
+          ? `${cleaningJobs.length} cleaning jobs need product check`
+          : "Blue-safe cleaner · van 03",
+        meta: "field stock",
+      },
+      {
+        key: "unassigned",
+        icon: UserRound,
+        label: `${newJobs.length || 1} request${newJobs.length === 1 ? "" : "s"} unassigned`,
+        detail: newJobs.length
+          ? `${newJobs[0]?.title || "New service"}`
+          : "Move-out clean · due today",
+        meta: "pending assignment",
+      },
+    ];
+  }, [recentServices]);
 
   const toggleActions = (id: string) => {
     setShowActions((prev) => ({
@@ -228,42 +284,26 @@ function AdminRecentServices() {
               <span className="panel-label">Needs a look</span>
               <h2>Alerts</h2>
             </div>
-            <span className="alert-count">03</span>
+            <span className="alert-count">
+              {String(alertItems.length).padStart(2, "0")}
+            </span>
           </div>
           <div className="alert-list">
-            <button
-              //   onClick={() => notify("Follow-up queue opened.")}
-              data-testid="button-alert-followup"
-            >
-              <Clock3 size={15} />
-              <span>
-                <strong>2 follow-ups due</strong>
-                <small>Northline + Harbor Studio</small>
-              </span>
-              <ChevronRight size={14} />
-            </button>
-            <button
-              //   onClick={() => notify("Supply reminder marked for review.")}
-              data-testid="button-alert-supply"
-            >
-              <Droplets size={15} />
-              <span>
-                <strong>Low supply note</strong>
-                <small>Blue-safe cleaner \u00b7 van 03</small>
-              </span>
-              <ChevronRight size={14} />
-            </button>
-            <button
-              //   onClick={() => notify("Unassigned request queue opened.")}
-              data-testid="button-alert-unassigned"
-            >
-              <UserRound size={15} />
-              <span>
-                <strong>1 request unassigned</strong>
-                <small>Move-out clean \u00b7 due today</small>
-              </span>
-              <ChevronRight size={14} />
-            </button>
+            {alertItems.map((alert) => (
+              <button
+                key={alert.key}
+                data-testid={`button-alert-${alert.key}`}
+              >
+                <alert.icon size={15} />
+                <span>
+                  <strong>{alert.label}</strong>
+                  <small>
+                    {alert.detail} {alert.meta ? `· ${alert.meta}` : ""}
+                  </small>
+                </span>
+                <ChevronRight size={14} />
+              </button>
+            ))}
           </div>
         </section>
       </aside>

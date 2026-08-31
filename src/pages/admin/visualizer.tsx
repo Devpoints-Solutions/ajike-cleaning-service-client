@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   ArrowRight,
   BarChart3,
@@ -10,8 +11,83 @@ import { useDashboardContext } from "@/features/contexts/dashboard-context";
 import { Link } from "wouter";
 
 function Visualizer() {
-  const { servicesStats } = useAdminServiceContext();
+  const { services, servicesStats } = useAdminServiceContext();
   const { handleNavigation } = useDashboardContext();
+
+  const serviceMix = useMemo(() => {
+    const totals = new Map<string, number>();
+
+    services.forEach((service) => {
+      const key =
+        service?.category === "Pest"
+          ? "Pest control"
+          : service?.category === "Cleaning"
+            ? "Home cleaning"
+            : service?.propertyType === "Commercial"
+              ? "Commercial"
+              : "Service visit";
+
+      totals.set(key, (totals.get(key) ?? 0) + 1);
+    });
+
+    const total = [...totals.values()].reduce((sum, value) => sum + value, 0) || 1;
+
+    return [...totals.entries()]
+      .map(([label, count]) => ({
+        label,
+        count,
+        value: Math.max(8, Math.round((count / total) * 100)),
+      }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 3);
+  }, [services]);
+
+  const fallbackMix = [
+    { label: "Pest control", count: 2, value: 58 },
+    { label: "Home cleaning", count: 1, value: 27 },
+    { label: "Commercial", count: 1, value: 15 },
+  ];
+
+  const mixData = serviceMix.length > 0 ? serviceMix : fallbackMix;
+  const completedCount =
+    services.filter((job) => job?.status?.toLowerCase() === "completed").length ||
+    servicesStats?.totalCompletedServices ||
+    42;
+
+  const baselineCompleted =
+    servicesStats?.totalWeeklyCompletedServices || Math.max(completedCount - 4, 1);
+  const monthDelta = Math.round(
+    ((completedCount - baselineCompleted) / Math.max(baselineCompleted, 1)) * 100,
+  );
+
+  const latestProof = useMemo(() => {
+    const sortedServices = [...services].sort(
+      (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+    );
+
+    return (
+      sortedServices.find((job) => job?.status?.toLowerCase() === "completed") ??
+      sortedServices[0] ??
+      null
+    );
+  }, [services]);
+
+  const customerName = latestProof
+    ? [latestProof?.customer?.firstName, latestProof?.customer?.lastName]
+        .filter(Boolean)
+        .join(" ") ||
+      [latestProof?.user?.firstName, latestProof?.user?.lastName]
+        .filter(Boolean)
+        .join(" ") ||
+      "Customer record"
+    : "Juniper Facilities";
+
+  const proofTitle = latestProof?.title || "Kitchen perimeter";
+  const proofCode = latestProof?._id?.slice(-5)?.toUpperCase() || "AJ-2041";
+  const proofStatus =
+    latestProof?.status?.toLowerCase() === "completed"
+      ? "Client-ready record"
+      : "Awaiting approval";
 
   return (
     <div className="admin-lower-grid">
@@ -24,31 +100,21 @@ function Visualizer() {
           <BarChart3 size={18} />
         </div>
         <div className="mix-bars">
-          <div>
-            <span>
-              <strong>Pest control</strong>
-              <em>58%</em>
-            </span>
-            <i style={{ width: "58%" }} />
-          </div>
-          <div>
-            <span>
-              <strong>Home cleaning</strong>
-              <em>27%</em>
-            </span>
-            <i style={{ width: "27%" }} />
-          </div>
-          <div>
-            <span>
-              <strong>Commercial</strong>
-              <em>15%</em>
-            </span>
-            <i style={{ width: "15%" }} />
-          </div>
+          {mixData.map((item) => (
+            <div key={item.label}>
+              <span>
+                <strong>{item.label}</strong>
+                <em>{item.value}%</em>
+              </span>
+              <i style={{ width: `${item.value}%` }} />
+            </div>
+          ))}
         </div>
         <div className="mix-foot">
-          <span>42 completed jobs</span>
-          <span>\u2191 8.4% vs May</span>
+          <span>{completedCount} completed jobs</span>
+          <span>
+            {monthDelta >= 0 ? "↑" : "↓"} {Math.abs(monthDelta)}% vs last month
+          </span>
         </div>
       </section>
       <section className="admin-panel revenue-panel">
@@ -60,19 +126,21 @@ function Visualizer() {
           <HandCoins size={18} />
         </div>
         <div className="revenue-number">
-          {/* {String(servicesStats?.totalValue).padStart(2, "0")} */}$
-          {servicesStats?.totalCompletedValue?.toLocaleString()}{" "}
+          ${servicesStats?.totalCompletedValue?.toLocaleString() || "0"}
           <span>earned till date</span>
         </div>
         <div className="revenue-line">
           <span>
             Expected Earning{" "}
-            <b>${servicesStats?.totalValue?.toLocaleString()}</b>
+            <b>${servicesStats?.totalValue?.toLocaleString() || "0"}</b>
           </span>
           <span>
             Unclaimed{" "}
             <b>
-              ${servicesStats?.totalPendingValue + servicesStats?.totalNewValue}
+              ${
+                (servicesStats?.totalPendingValue ?? 0) +
+                (servicesStats?.totalNewValue ?? 0)
+              }
             </b>
           </span>
         </div>
@@ -102,10 +170,12 @@ function Visualizer() {
             <span>AFTER</span>
           </div>
           <div>
-            <strong>Kitchen perimeter</strong>
-            <small>AJ-2041 \u00b7 Juniper Facilities</small>
+            <strong>{proofTitle}</strong>
+            <small>
+              {proofCode} · {customerName}
+            </small>
             <span className="proof-approved">
-              <CheckCheck size={12} /> Client-ready record
+              <CheckCheck size={12} /> {proofStatus}
             </span>
           </div>
         </div>
