@@ -33,20 +33,24 @@ export function ChatInput() {
 
   const handleSend = () => {
     if (input.trim() && !isTyping) {
+      const createdAt = Date.now();
+
       sendMessage({
-        id: Date.now().toString(),
+        id: createdAt.toString(),
         sender: currentUser?.email!,
         room: currentUser?.email!,
         text: input,
         isSender: true,
+        createdAt,
       });
 
       const userMessage = {
-        id: Date.now().toString(),
+        id: createdAt.toString(),
         sender: currentUser?.email!,
         room: currentUser?.email!,
         text: input,
         isSender: true,
+        createdAt,
       };
 
       setSocketMessage(userMessage);

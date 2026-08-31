@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import moment from "moment";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bot } from "lucide-react";
 import { MarkdownRenderer } from "./markdown-renderer";
@@ -12,21 +13,29 @@ export function ChatMessages() {
 
   const { currentUser } = useAuthContext();
 
+  const orderedMessages = [...(socketMessages ?? [])].sort(
+    (a, b) => (a.createdAt ?? 0) - (b.createdAt ?? 0),
+  );
+
   const handleSend = (content: string) => {
+    const createdAt = Date.now();
+
     sendMessage({
-      id: Date.now().toString(),
+      id: createdAt.toString(),
       sender: currentUser?.email!,
       room: currentUser?.email!,
       text: content,
       isSender: true,
+      createdAt,
     });
 
     const userMessage = {
-      id: Date.now().toString(),
+      id: createdAt.toString(),
       sender: currentUser?.email!,
       room: currentUser?.email!,
       text: content,
       isSender: true,
+      createdAt,
     };
 
     setSocketMessage(userMessage);
@@ -36,7 +45,7 @@ export function ChatMessages() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [socketMessages]);
 
-  if ([socketMessages].length === 0) {
+  if (!orderedMessages.length) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
         <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-6 shadow-sm">
@@ -104,47 +113,53 @@ export function ChatMessages() {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
-      <div className="max-w-3xl mx-auto space-y-8 pb-12">
+      <div className="max-w-3xl mx-auto h-full flex flex-col justify-end space-y-8 pb-12">
         <AnimatePresence initial={false}>
-          {socketMessages?.map((message, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={`flex gap-2  ${message?.isSender ? "flex-row-reverse" : "flex-row"}`}
-            >
-              <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                  message?.isSender
-                    ? "bg-primary/20 text-primary font-medium text-sm"
-                    : "bg-primary text-primary-foreground"
-                }`}
-              >
-                {message?.isSender ? (
-                  `${currentUser?.firstName[0].toUpperCase()} ${currentUser?.lastName[0].toUpperCase()}`
-                ) : (
-                  <Bot size={18} />
-                )}
-              </div>
+          {orderedMessages.map((message, index) => {
+            const senderInitials =
+              currentUser?.firstName && currentUser?.lastName
+                ? `${currentUser.firstName[0].toUpperCase()}${currentUser.lastName[0].toUpperCase()}`
+                : currentUser?.email?.slice(0, 2).toUpperCase() ?? "U";
 
-              <div
-                className={`flex flex-col ${message?.isSender ? "items-end" : "items-start"} max-w-[85%]`}
+            return (
+              <motion.div
+                key={`${message.id}-${index}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`flex gap-2 ${message?.isSender ? "flex-row-reverse" : "flex-row"}`}
               >
-                <div className="font-medium text-xs text-muted-foreground mb-1 px-1">
-                  {!message?.isSender && "Assistant"}
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
+                    message?.isSender
+                      ? "bg-primary/20 text-primary font-medium text-xs"
+                      : "bg-primary text-primary-foreground"
+                  }`}
+                >
+                  {message?.isSender ? senderInitials : <Bot size={18} />}
                 </div>
-                {message?.isSender ? (
-                  <div className="bg-muted px-4 py-3 rounded-2xl rounded-tr-sm text-sm whitespace-pre-wrap leading-relaxed shadow-sm">
-                    {message?.text}
+
+                <div
+                  className={`flex flex-col ${message?.isSender ? "items-end" : "items-start"} max-w-[85%]`}
+                >
+                  <div className="font-medium text-xs text-muted-foreground mb-1 px-1">
+                    {!message?.isSender && "Assistant"}
                   </div>
-                ) : (
-                  <div className="w-full text-sm">
-                    <MarkdownRenderer content={message?.text} />
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          ))}
+                  {message?.isSender ? (
+                    <div className="bg-muted px-4 py-3 rounded-2xl rounded-tr-sm text-sm whitespace-pre-wrap leading-relaxed shadow-sm">
+                      {message?.text}
+                    </div>
+                  ) : (
+                    <div className="w-full text-sm">
+                      <MarkdownRenderer content={message?.text} />
+                    </div>
+                  )}
+                  <span className="mt-1 px-1 text-[10px] text-muted-foreground/80">
+                    {moment(message.createdAt ?? Date.now()).fromNow()}
+                  </span>
+                </div>
+              </motion.div>
+            );
+          })}
         </AnimatePresence>
 
         <div ref={bottomRef} />

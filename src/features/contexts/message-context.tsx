@@ -7,6 +7,8 @@ export type IMessage = {
   sender: string;
   room: string;
   isSender: boolean;
+  createdAt?: number;
+  isStreaming?: boolean;
 };
 
 type MessageContextType = {
@@ -69,6 +71,7 @@ export const MessageProvider = ({ children }: React.PropsWithChildren<any>) => {
       }
 
       const messageId = crypto.randomUUID();
+      const createdAt = msg.createdAt ?? Date.now();
 
       // Insert an empty AI message
       setSocketMessages((prev) => [
@@ -77,6 +80,7 @@ export const MessageProvider = ({ children }: React.PropsWithChildren<any>) => {
           ...msg,
           id: messageId,
           text: "",
+          createdAt,
           isStreaming: true,
         },
       ]);
@@ -95,6 +99,7 @@ export const MessageProvider = ({ children }: React.PropsWithChildren<any>) => {
               ? {
                   ...m,
                   text: revealed,
+                  createdAt: m.createdAt ?? Date.now(),
                   isStreaming: !done,
                 }
               : m,
@@ -125,7 +130,13 @@ export const MessageProvider = ({ children }: React.PropsWithChildren<any>) => {
     joinRoom,
     isTyping,
     setSocketMessage: (messageData: IMessage) =>
-      setSocketMessages((socketMessage) => [...socketMessage, messageData]),
+      setSocketMessages((socketMessage) => [
+        ...socketMessage,
+        {
+          ...messageData,
+          createdAt: messageData.createdAt ?? Date.now(),
+        },
+      ]),
   };
 
   return (
