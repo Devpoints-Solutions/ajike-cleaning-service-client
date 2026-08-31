@@ -36,41 +36,39 @@ export function ChatMessages() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [socketMessages]);
 
-  if ([socketMessages].length === 0) {
+  if (!socketMessages || socketMessages.length === 0) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-        <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+      <div className="flex flex-1 flex-col items-center justify-center p-8 text-center">
+        <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary shadow-sm ring-1 ring-primary/10">
           <Bot size={32} className="stroke-[1.5]" />
         </div>
-        <h2 className="text-2xl font-medium mb-2">
+        <h2 className="mb-2 text-2xl font-semibold tracking-[-0.04em] text-foreground">
           What can I help you with today?
         </h2>
-        <p className="text-muted-foreground mb-8 max-w-md">
+        <p className="mb-8 max-w-md text-sm text-muted-foreground">
           I can explain complex topics, write code, or help you brainstorm
           ideas.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl">
+        <div className="grid w-full max-w-2xl grid-cols-1 gap-3 md:grid-cols-2">
           <button
             onClick={() =>
               handleSend?.("Explain quantum computing in simple terms")
             }
-            className="text-left p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors flex flex-col"
+            className="flex flex-col rounded-xl border border-border bg-card p-4 text-left transition-colors hover:bg-muted"
           >
-            <span className="font-medium text-sm mb-1">
+            <span className="mb-1 text-sm font-medium text-foreground">
               Explain quantum computing
             </span>
-            <span className="text-xs text-muted-foreground">
-              in simple terms
-            </span>
+            <span className="text-xs text-muted-foreground">in simple terms</span>
           </button>
           <button
             onClick={() =>
               handleSend?.("Write a Python script to scrape a website")
             }
-            className="text-left p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors flex flex-col"
+            className="flex flex-col rounded-xl border border-border bg-card p-4 text-left transition-colors hover:bg-muted"
           >
-            <span className="font-medium text-sm mb-1">
+            <span className="mb-1 text-sm font-medium text-foreground">
               Write a Python script
             </span>
             <span className="text-xs text-muted-foreground">
@@ -81,18 +79,22 @@ export function ChatMessages() {
             onClick={() =>
               handleSend?.("Draft an email to decline a meeting politely")
             }
-            className="text-left p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors flex flex-col"
+            className="flex flex-col rounded-xl border border-border bg-card p-4 text-left transition-colors hover:bg-muted"
           >
-            <span className="font-medium text-sm mb-1">Draft an email</span>
+            <span className="mb-1 text-sm font-medium text-foreground">
+              Draft an email
+            </span>
             <span className="text-xs text-muted-foreground">
               to decline a meeting politely
             </span>
           </button>
           <button
             onClick={() => handleSend?.("Help me debug a React useEffect loop")}
-            className="text-left p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors flex flex-col"
+            className="flex flex-col rounded-xl border border-border bg-card p-4 text-left transition-colors hover:bg-muted"
           >
-            <span className="font-medium text-sm mb-1">Help me debug</span>
+            <span className="mb-1 text-sm font-medium text-foreground">
+              Help me debug
+            </span>
             <span className="text-xs text-muted-foreground">
               a React useEffect loop
             </span>
@@ -104,41 +106,41 @@ export function ChatMessages() {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
-      <div className="max-w-3xl mx-auto space-y-8 pb-12">
+      <div className="mx-auto max-w-3xl space-y-8 pb-12">
         <AnimatePresence initial={false}>
           {socketMessages?.map((message, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`flex gap-2  ${message?.isSender ? "flex-row-reverse" : "flex-row"}`}
+              className={`flex gap-3 ${message?.isSender ? "flex-row-reverse" : "flex-row"}`}
             >
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
+                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold ${
                   message?.isSender
-                    ? "bg-primary/20 text-primary font-medium text-sm"
-                    : "bg-primary text-primary-foreground"
+                    ? "bg-primary/10 text-primary ring-1 ring-primary/15"
+                    : "bg-primary text-primary-foreground shadow-sm"
                 }`}
               >
                 {message?.isSender ? (
-                  `${currentUser?.firstName[0].toUpperCase()} ${currentUser?.lastName[0].toUpperCase()}`
+                  `${currentUser?.firstName?.[0]?.toUpperCase() ?? "U"}${currentUser?.lastName?.[0]?.toUpperCase() ?? "S"}`
                 ) : (
                   <Bot size={18} />
                 )}
               </div>
 
               <div
-                className={`flex flex-col ${message?.isSender ? "items-end" : "items-start"} max-w-[85%]`}
+                className={`flex max-w-[85%] flex-col ${message?.isSender ? "items-end" : "items-start"}`}
               >
-                <div className="font-medium text-xs text-muted-foreground mb-1 px-1">
+                <div className="mb-1 px-1 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
                   {!message?.isSender && "Assistant"}
                 </div>
                 {message?.isSender ? (
-                  <div className="bg-muted px-4 py-3 rounded-2xl rounded-tr-sm text-sm whitespace-pre-wrap leading-relaxed shadow-sm">
+                  <div className="whitespace-pre-wrap rounded-2xl rounded-tr-sm bg-primary px-4 py-3 text-sm leading-relaxed text-primary-foreground shadow-[0_12px_28px_rgba(18,37,96,0.12)]">
                     {message?.text}
                   </div>
                 ) : (
-                  <div className="w-full text-sm">
+                  <div className="w-full rounded-2xl rounded-tl-sm border border-border bg-card px-4 py-3 text-sm text-foreground shadow-[0_12px_28px_rgba(18,37,96,0.06)]">
                     <MarkdownRenderer content={message?.text} />
                   </div>
                 )}

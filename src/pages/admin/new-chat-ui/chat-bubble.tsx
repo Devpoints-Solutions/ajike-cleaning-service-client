@@ -6,18 +6,19 @@ export default function ChatBubble() {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex gap-4 flex-row"
+      className="flex flex-row items-start gap-3"
     >
-      <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm ring-4 ring-primary/10">
         <Bot size={18} />
       </div>
+
       <div className="flex flex-col items-start">
-        <div className="font-medium text-xs text-muted-foreground mb-1 px-1">
+        <div className="mb-1 px-1 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
           Assistant
         </div>
-        <div className="bg-muted/50 px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-1">
+        <div className="flex items-center gap-1.5 rounded-2xl rounded-tl-sm border border-border bg-card px-4 py-3 shadow-[0_10px_25px_rgba(18,37,96,0.06)]">
           <motion.div
-            className="w-2 h-2 bg-primary/40 rounded-full"
+            className="h-2.5 w-2.5 rounded-full bg-primary/45"
             animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{
               duration: 1.4,
@@ -26,7 +27,7 @@ export default function ChatBubble() {
             }}
           />
           <motion.div
-            className="w-2 h-2 bg-primary/60 rounded-full"
+            className="h-2.5 w-2.5 rounded-full bg-primary/70"
             animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{
               duration: 1.4,
@@ -36,7 +37,7 @@ export default function ChatBubble() {
             }}
           />
           <motion.div
-            className="w-2 h-2 bg-primary rounded-full"
+            className="h-2.5 w-2.5 rounded-full bg-primary"
             animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{
               duration: 1.4,

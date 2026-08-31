@@ -59,20 +59,20 @@ export function ChatInput() {
   };
 
   return (
-    <div className="p-4 bg-background">
-      {true && (
-        <div className="max-w-3xl mx-auto mb-5">
+    <div className="bg-background p-4">
+      {isTyping && (
+        <div className="mx-auto mb-5 max-w-3xl">
           <ChatBubble />
         </div>
       )}
-      <div className="max-w-3xl mx-auto relative flex items-end shadow-sm border border-border bg-card rounded-2xl p-2 transition-shadow focus-within:ring-1 focus-within:ring-ring focus-within:border-ring">
+      <div className="relative mx-auto flex max-w-3xl items-end rounded-2xl border border-border bg-card p-2 shadow-[0_12px_28px_rgba(18,37,96,0.05)] transition-shadow focus-within:border-ring focus-within:ring-1 focus-within:ring-ring">
         <textarea
           ref={textareaRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Message Assistant..."
-          className="flex-1 max-h-[200px] min-h-[40px] resize-none bg-transparent px-3 py-2.5 text-sm focus:outline-none custom-scrollbar m-0 placeholder:text-muted-foreground/60"
+          className="m-0 max-h-[200px] min-h-[40px] flex-1 resize-none bg-transparent px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-none custom-scrollbar"
           rows={1}
           disabled={isTyping}
         />
@@ -81,14 +81,14 @@ export function ChatInput() {
           onClick={handleSend}
           disabled={isTyping || !input.trim()}
           size="icon"
-          className="shrink-0 h-10 w-10 rounded-xl transition-all"
+          className="h-10 w-10 shrink-0 rounded-xl transition-all"
           variant={input.trim() ? "default" : "secondary"}
         >
           <Send size={18} className={input.trim() ? "translate-x-0.5" : ""} />
         </Button>
       </div>
-      <div className="text-center mt-2">
-        <span className="text-[10px] text-muted-foreground/60 font-sans">
+      <div className="mt-2 text-center">
+        <span className="font-sans text-[10px] text-muted-foreground/70">
           Assistant can make mistakes. Consider verifying important information.
         </span>
       </div>

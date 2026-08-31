@@ -1,6 +1,6 @@
 import React from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 export const transform = (
   node: HTMLElement,
@@ -17,26 +17,27 @@ export const transform = (
     return undefined;
   }
 
-  const className = codeElement.getAttribute("class") ?? "";
-
-  // textContent preserves spaces, indentation and line breaks.
   const code = codeElement.textContent ?? "";
 
   return (
     <SyntaxHighlighter
-      style={oneDark}
-      //   showLineNumbers
+      style={oneLight}
       wrapLongLines
       PreTag="div"
       customStyle={{
         margin: 0,
-        borderRadius: "0.5rem",
-        fontSize: "0.9rem",
+        borderRadius: "0.75rem",
+        border: "1px solid hsl(var(--border))",
+        background: "hsl(var(--card))",
+        fontSize: "0.85rem",
+        lineHeight: "1.6",
+        boxShadow: "0 12px 24px rgba(18, 37, 96, 0.04)",
       }}
       codeTagProps={{
         style: {
           fontFamily:
             '"Fira Code", "Cascadia Code", Consolas, Monaco, monospace',
+          color: "hsl(var(--foreground))",
         },
       }}
     >
