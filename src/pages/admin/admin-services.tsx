@@ -21,12 +21,12 @@ export function AdminServices() {
 
   const shownServices = services.filter(
     (job) =>
-      ((filter === "All" ||
-        job.status.toLowerCase() === filter.toLowerCase()) &&
-        (serviceFilter === "All" ||
-          job.category.toLowerCase() === serviceFilter.toLowerCase()) &&
-        planFilter === "All") ||
-      job?.plan?.toLowerCase() === planFilter?.toLowerCase(),
+      (filter === "All" ||
+        job.status?.toLowerCase() === filter.toLowerCase()) &&
+      (serviceFilter === "All" ||
+        job.category?.toLowerCase() === serviceFilter.toLowerCase()) &&
+      (planFilter === "All" ||
+        job.plan?.toLowerCase() === planFilter.toLowerCase()),
   );
 
   return (
@@ -92,8 +92,8 @@ export function AdminServices() {
           </div>
         ) : (
           <div className="grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
-            {shownServices.map((service) => (
-              <AdminServiceCard key={service._id} service={service} />
+            {shownServices.map((service, index) => (
+              <AdminServiceCard key={index} service={service} />
             ))}
           </div>
         )}

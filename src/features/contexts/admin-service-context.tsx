@@ -134,7 +134,6 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (userSuccess && usersData && firstRequest) {
-      console.log(usersData);
       setTopUsers(usersData?.data?.topUsers);
       setUsers(usersData?.data?.users);
       setStatistics(usersData?.data?.statistics);
@@ -153,7 +152,7 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
         setRecentServices(serviceData?.data?.services);
       }
 
-      setServices((prev) => [...prev, ...serviceData?.data?.services]);
+      setServices(serviceData?.data?.services);
       setTotalServicesPage(serviceData?.data?.pagination?.totalPages);
       setServicesStats(serviceData?.data?.statistics);
       setFirstServicesRequest(false);

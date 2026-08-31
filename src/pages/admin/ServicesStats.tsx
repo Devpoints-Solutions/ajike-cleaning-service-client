@@ -9,15 +9,13 @@ import { useAdminServiceContext } from "@/features/contexts/admin-service-contex
 function ServicesStats() {
   const { servicesStats } = useAdminServiceContext();
 
-  console.log(servicesStats);
-
   return (
     <section
       className="admin-kpi-grid w-full self-start lg:sticky lg:top-[0] lg:self-start bg-[#ffffff] z-50 py-5 px-5 rounded-2xl"
       style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
     >
       <article className="admin-kpi kpi-navy">
-        <span>This week's services</span>
+        <span>Overall services</span>
         <strong>
           {servicesStats?.totalServices === 0
             ? servicesStats?.totalServices

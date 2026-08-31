@@ -8,7 +8,7 @@ import Pricing from "@/pages/pricing/pricing-page";
 import Dashboard from "@/pages/user/dashboard";
 import UserServices from "@/pages/user/user-services";
 import AdminDashboard from "@/pages/admin/admin-dashboard";
-import AdminChatPage from "@/pages/admin/chat-page";
+// import AdminChatPage from "@/pages/admin/chat-page";
 import AdminServiceDetails from "@/pages/admin/admin-services-details";
 import UserServiceDetails from "@/pages/user/user-service-details";
 import SignIn from "@/pages/auth/signin";
@@ -27,6 +27,7 @@ import NewRequestModal from "../common/request-modal/new-request-modal";
 import AdminServices from "@/pages/admin/admin-services";
 import { DashboardContextProvider } from "@/features/contexts/dashboard-context";
 import CustomersPage from "@/pages/admin/customers-page";
+import NewChatUI from "@/pages/admin/new-chat-ui/new-chat-ui";
 import ScrollToTop from "./scroll-to-top";
 
 function AppRoutes() {
@@ -65,10 +66,7 @@ function AppRoutes() {
 
               <Route path="/admin/dashboard" component={AdminDashboard} />
 
-              <Route
-                path="/admin/dashboard/messages"
-                component={AdminChatPage}
-              />
+              <Route path="/admin/dashboard/messages" component={NewChatUI} />
               <Route
                 path="/admin/dashboard/services"
                 component={AdminServices}

@@ -5,7 +5,7 @@ import {
   ClipboardList,
   Users,
   MessageSquare,
-  CreditCard,
+  // CreditCard,
   Settings,
   HelpCircle,
   LogOut,
@@ -35,11 +35,11 @@ const adminItems = [
     href: "/admin/dashboard/messages",
     badge: 3,
   },
-  {
-    label: "Payments",
-    icon: CreditCard,
-    href: "/admin/dashboard/payments",
-  },
+  // {
+  //   label: "Payments",
+  //   icon: CreditCard,
+  //   href: "/admin/dashboard/payments",
+  // },
 ];
 
 const userItems = [

@@ -1,56 +1,138 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { useRef, useState, useEffect, createContext, useContext } from "react";
+import { io } from "socket.io-client";
 
-export type Message = {
-  id: string;
+export type IMessage = {
   text: string;
-  sender: "user" | "admin" | "bot";
-  timestamp: Date;
-  userId?: string;
-  userName?: string;
+  id: string;
+  sender: string;
+  room: string;
+  isSender: boolean;
 };
 
 type MessageContextType = {
-  messages: Message[];
-  addMessage: (message: Omit<Message, "id" | "timestamp">) => void;
-  clearMessages: () => void;
+  socketMessages: IMessage[];
+  sendMessage: (messageData: IMessage) => void;
+  joinRoom: (userData: any, room: string) => void;
+  leaveRoom?: (userData: any, room: string) => void;
+  setSocketMessage: (messageData: IMessage) => void;
+  isTyping: boolean;
 };
 
-const MessageContext = createContext<MessageContextType | undefined>(undefined);
+export const MessageContext = createContext<MessageContextType>({
+  socketMessages: [],
+  sendMessage: () => {},
+  joinRoom: () => {},
+  leaveRoom: () => {},
+  isTyping: false,
+  setSocketMessage: () => {},
+});
 
-export function MessageProvider({ children }: { children: ReactNode }) {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      text: "Hi, I'm Mina from Ajike. Tell me what is happening in your space and I will help you find the right next step.",
-      sender: "bot",
-      timestamp: new Date(),
-    },
-  ]);
+const API_URL = import.meta.env.VITE_SERVER_SOCKET_URL;
 
-  const addMessage = (message: Omit<Message, "id" | "timestamp">) => {
-    const newMessage: Message = {
-      ...message,
-      id: Date.now().toString(),
-      timestamp: new Date(),
+export const MessageProvider = ({ children }: React.PropsWithChildren<any>) => {
+  const streamIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [socketMessages, setSocketMessages] = useState<IMessage[]>([]);
+
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+
+  const socket = useRef(io(API_URL));
+
+  function joinRoom(userData: any, room: string) {
+    socket?.current?.emit("joinRoom", { ...userData, room });
+  }
+
+  useEffect(() => {
+    socket?.current?.on("typing", () => {
+      setIsTyping(true);
+    });
+
+    socket?.current?.on("stopTyping", () => {
+      setIsTyping(false);
+    });
+
+    return () => {
+      socket?.current?.off("typing");
+      socket?.current?.off("stopTyping");
     };
-    setMessages((prev) => [...prev, newMessage]);
-  };
+  }, [socket]);
 
-  const clearMessages = () => {
-    setMessages([]);
+  function sendMessage(messageData: IMessage) {
+    socket?.current?.emit("chatMessage", messageData);
+  }
+
+  useEffect(() => {
+    const handleMessage = (msg: IMessage) => {
+      // Stop previous stream
+      if (streamIntervalRef.current) {
+        clearInterval(streamIntervalRef.current);
+        streamIntervalRef.current = null;
+      }
+
+      const messageId = crypto.randomUUID();
+
+      // Insert an empty AI message
+      setSocketMessages((prev) => [
+        ...prev,
+        {
+          ...msg,
+          id: messageId,
+          text: "",
+          isStreaming: true,
+        },
+      ]);
+
+      let charIndex = 0;
+
+      streamIntervalRef.current = window.setInterval(() => {
+        charIndex += 3;
+
+        const revealed = msg.text.slice(0, charIndex);
+        const done = charIndex >= msg.text.length;
+
+        setSocketMessages((prev) =>
+          prev.map((m) =>
+            m.id === messageId
+              ? {
+                  ...m,
+                  text: revealed,
+                  isStreaming: !done,
+                }
+              : m,
+          ),
+        );
+
+        if (done && streamIntervalRef.current) {
+          clearInterval(streamIntervalRef.current);
+          streamIntervalRef.current = null;
+        }
+      }, 1);
+    };
+
+    socket.current?.on("message", handleMessage);
+
+    return () => {
+      socket.current?.off("message", handleMessage);
+
+      if (streamIntervalRef.current) {
+        clearInterval(streamIntervalRef.current);
+      }
+    };
+  }, []);
+
+  const value = {
+    sendMessage,
+    socketMessages,
+    joinRoom,
+    isTyping,
+    setSocketMessage: (messageData: IMessage) =>
+      setSocketMessages((socketMessage) => [...socketMessage, messageData]),
   };
 
   return (
-    <MessageContext.Provider value={{ messages, addMessage, clearMessages }}>
-      {children}
-    </MessageContext.Provider>
+    <MessageContext.Provider value={value}>{children}</MessageContext.Provider>
   );
-}
+};
 
 export function useMessages() {
-  const context = useContext(MessageContext);
-  if (!context) {
-    throw new Error("useMessages must be used within a MessageProvider");
-  }
-  return context;
+  return useContext(MessageContext);
 }

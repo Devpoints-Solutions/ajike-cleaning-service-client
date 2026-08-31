@@ -1,11 +1,5 @@
 import { useMemo } from "react";
-import {
-  ArrowRight,
-  BarChart3,
-  Camera,
-  CheckCheck,
-  HandCoins,
-} from "lucide-react";
+import { ArrowRight, BarChart3, CheckCheck, HandCoins } from "lucide-react";
 import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
 import { useDashboardContext } from "@/features/contexts/dashboard-context";
 import { Link } from "wouter";
@@ -30,7 +24,8 @@ function Visualizer() {
       totals.set(key, (totals.get(key) ?? 0) + 1);
     });
 
-    const total = [...totals.values()].reduce((sum, value) => sum + value, 0) || 1;
+    const total =
+      [...totals.values()].reduce((sum, value) => sum + value, 0) || 1;
 
     return [...totals.entries()]
       .map(([label, count]) => ({
@@ -50,23 +45,29 @@ function Visualizer() {
 
   const mixData = serviceMix.length > 0 ? serviceMix : fallbackMix;
   const completedCount =
-    services.filter((job) => job?.status?.toLowerCase() === "completed").length ||
+    services.filter((job) => job?.status?.toLowerCase() === "completed")
+      .length ||
     servicesStats?.totalCompletedServices ||
     42;
 
   const baselineCompleted =
-    servicesStats?.totalWeeklyCompletedServices || Math.max(completedCount - 4, 1);
+    servicesStats?.totalWeeklyCompletedServices ||
+    Math.max(completedCount - 4, 1);
   const monthDelta = Math.round(
-    ((completedCount - baselineCompleted) / Math.max(baselineCompleted, 1)) * 100,
+    ((completedCount - baselineCompleted) / Math.max(baselineCompleted, 1)) *
+      100,
   );
 
   const latestProof = useMemo(() => {
     const sortedServices = [...services].sort(
-      (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+      (a, b) =>
+        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
     );
 
     return (
-      sortedServices.find((job) => job?.status?.toLowerCase() === "completed") ??
+      sortedServices.find(
+        (job) => job?.status?.toLowerCase() === "completed",
+      ) ??
       sortedServices[0] ??
       null
     );
@@ -94,14 +95,13 @@ function Visualizer() {
       <section className="admin-panel mix-panel">
         <div className="admin-panel-head">
           <div>
-            <span className="panel-label">Service mix / month to date</span>
             <h2>Where the work is</h2>
           </div>
           <BarChart3 size={18} />
         </div>
         <div className="mix-bars">
-          {mixData.map((item) => (
-            <div key={item.label}>
+          {mixData.map((item, index) => (
+            <div key={index} className="mb-2">
               <span>
                 <strong>{item.label}</strong>
                 <em>{item.value}%</em>
@@ -120,8 +120,7 @@ function Visualizer() {
       <section className="admin-panel revenue-panel">
         <div className="admin-panel-head">
           <div>
-            <span className="panel-label">Revenue / quote snapshot</span>
-            <h2>Healthy pipeline</h2>
+            <h2>Revenue / quote snapshot</h2>
           </div>
           <HandCoins size={18} />
         </div>
@@ -137,10 +136,9 @@ function Visualizer() {
           <span>
             Unclaimed{" "}
             <b>
-              ${
-                (servicesStats?.totalPendingValue ?? 0) +
-                (servicesStats?.totalNewValue ?? 0)
-              }
+              $
+              {(servicesStats?.totalPendingValue ?? 0) +
+                (servicesStats?.totalNewValue ?? 0)}
             </b>
           </span>
         </div>
@@ -159,10 +157,8 @@ function Visualizer() {
       <section className="admin-panel proof-panel" id="activity">
         <div className="admin-panel-head">
           <div>
-            <span className="panel-label">Latest proof of work</span>
-            <h2>Records worth sending</h2>
+            <h2>Recent service</h2>
           </div>
-          <Camera size={18} />
         </div>
         <div className="proof-record">
           <div className="proof-mini-image">
@@ -179,9 +175,13 @@ function Visualizer() {
             </span>
           </div>
         </div>
-        <button className="text-button" data-testid="button-review-proof">
-          Review proof record <ArrowRight size={14} />
-        </button>
+        <Link
+          href="/admin/dashboard/services"
+          className="text-button"
+          data-testid="button-review-proof"
+        >
+          View service <ArrowRight size={14} />
+        </Link>
       </section>
     </div>
   );

@@ -53,10 +53,7 @@ function AdminRecentServices() {
       (job) => job?.category?.toLowerCase() === "cleaning",
     );
     const followUpJob =
-      pendingJobs[0] ??
-      newJobs[0] ??
-      recentServices[0] ??
-      null;
+      pendingJobs[0] ?? newJobs[0] ?? recentServices[0] ?? null;
 
     const fullName = followUpJob
       ? [followUpJob?.customer?.firstName, followUpJob?.customer?.lastName]
@@ -149,10 +146,10 @@ function AdminRecentServices() {
           </select>
         </div>
         <div className="schedule-list overflow-y-auto max-h-[500px]">
-          {shownJobs.map((job) => (
+          {shownJobs.map((job, index) => (
             <div
               className="schedule-row"
-              key={job._id}
+              key={index}
               data-testid={`row-admin-job-${job._id}`}
             >
               <div className="schedule-time">
@@ -252,8 +249,8 @@ function AdminRecentServices() {
           <div className="crew-list">
             {topUsers &&
               topUsers?.length > 0 &&
-              topUsers.map((user) => (
-                <div>
+              topUsers.map((user, index) => (
+                <div key={index}>
                   <span className="crew-avatar navy">
                     {user?.firstName[0]} {user?.lastName[0]}
                   </span>
@@ -290,10 +287,7 @@ function AdminRecentServices() {
           </div>
           <div className="alert-list">
             {alertItems.map((alert) => (
-              <button
-                key={alert.key}
-                data-testid={`button-alert-${alert.key}`}
-              >
+              <button key={alert.key} data-testid={`button-alert-${alert.key}`}>
                 <alert.icon size={15} />
                 <span>
                   <strong>{alert.label}</strong>

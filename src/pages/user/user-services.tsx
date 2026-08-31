@@ -83,8 +83,8 @@ export function UserServices() {
         ) : (
           <>
             <div className="grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
-              {shownServices.map((service) => (
-                <ServiceCard key={service._id} service={service} />
+              {shownServices.map((service, index) => (
+                <ServiceCard key={index} service={service} />
               ))}
             </div>
 
