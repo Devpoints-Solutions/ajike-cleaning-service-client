@@ -28,38 +28,44 @@ const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
           collapsed ? "lg:ml-[76px]" : "lg:ml-[260px]"
         }`}
       >
-        <div className="mx-auto max-w-[1600px] px-5 py-6 sm:px-8 lg:px-10 lg:py-8">
-          <div className="dashboard-top">
-            <div>
-              <div className="eyebrow">Admin dashboard</div>
-              {isAuthenticated && currentUser && (
-                <h1>
-                  {getGreeting()}, {currentUser?.firstName}
-                </h1>
-              )}
-              <p>Manage all activities in one place</p>
+        <div
+          className={`mx-auto max-w-[1600px] ${!pathname?.split("/")?.includes("messages") && "px-5 py-6 sm:px-8 lg:px-10 lg:py-8"}`}
+        >
+          {!pathname?.split("/")?.includes("messages") && (
+            <div className="dashboard-top">
+              <div>
+                <div className="eyebrow">Admin dashboard</div>
+                {isAuthenticated && currentUser && (
+                  <h1>
+                    {getGreeting()}, {currentUser?.firstName}
+                  </h1>
+                )}
+                <p>Manage all activities in one place</p>
 
-              <div className="quick-actions grid-cols-2 mt-5">
-                <button className="quick-action">
-                  <CalendarClock size={16} />
-                  <p className="font-bold">{date}</p>
-                </button>
+                <div className="quick-actions grid-cols-2 mt-5">
+                  <button className="quick-action">
+                    <CalendarClock size={16} />
+                    <p className="font-bold">{date}</p>
+                  </button>
 
-                <button className="quick-action">
-                  <ClockFading size={16} />{" "}
-                  <p className="font-bold">{`${hour}:${minute}:${seconds}${period}`}</p>
-                </button>
+                  <button className="quick-action">
+                    <ClockFading size={16} />{" "}
+                    <p className="font-bold">{`${hour}:${minute}:${seconds}${period}`}</p>
+                  </button>
+                </div>
               </div>
+              {!pathname?.split("/")?.includes("messages") && (
+                <div className="dashboard-top-actions">
+                  <button
+                    className="secondary-button button-small"
+                    data-testid="button-refresh-admin"
+                  >
+                    <RefreshCw size={14} /> Refresh board
+                  </button>
+                </div>
+              )}
             </div>
-            <div className="dashboard-top-actions">
-              <button
-                className="secondary-button button-small"
-                data-testid="button-refresh-admin"
-              >
-                <RefreshCw size={14} /> Refresh board
-              </button>
-            </div>
-          </div>
+          )}
           {pathname == "/admin/dashboard" && <Stats />}
           {pathname == "/admin/dashboard/services" && <ServicesStats />}
           {children}

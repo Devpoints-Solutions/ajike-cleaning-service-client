@@ -65,7 +65,7 @@ export function ChatInput() {
           <ChatBubble />
         </div>
       )}
-      <div className="relative mx-auto flex max-w-3xl items-end rounded-2xl border border-border bg-card p-2 shadow-[0_12px_28px_rgba(18,37,96,0.05)] transition-shadow focus-within:border-ring focus-within:ring-1 focus-within:ring-ring">
+      <div className="relative mx-auto flex max-w-full items-end rounded-2xl border border-border bg-card p-2 shadow-[0_12px_28px_rgba(18,37,96,0.05)] transition-shadow focus-within:border-ring focus-within:ring-1 focus-within:ring-ring">
         <textarea
           ref={textareaRef}
           value={input}
@@ -86,11 +86,6 @@ export function ChatInput() {
         >
           <Send size={18} className={input.trim() ? "translate-x-0.5" : ""} />
         </Button>
-      </div>
-      <div className="mt-2 text-center">
-        <span className="font-sans text-[10px] text-muted-foreground/70">
-          Assistant can make mistakes. Consider verifying important information.
-        </span>
       </div>
     </div>
   );

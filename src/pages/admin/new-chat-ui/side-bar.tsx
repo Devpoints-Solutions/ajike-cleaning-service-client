@@ -1,6 +1,5 @@
-import { motion, AnimatePresence } from "framer-motion";
-
-import { Plus, PanelLeftClose, Bot, LogOut } from "lucide-react";
+import { motion } from "framer-motion";
+import { PanelLeftClose, HatGlasses } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface SidebarProps {
@@ -31,61 +30,34 @@ export function Sidebar({
 
   return (
     <>
-      {/* Mobile backdrop */}
-      <AnimatePresence>
-        {isMobile && isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
-            onClick={onToggle}
-          />
-        )}
-      </AnimatePresence>
-
       <motion.div
         variants={sidebarVariants}
         initial={isMobile ? "closed" : "open"}
         animate={isOpen ? "open" : "closed"}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed z-50 h-[100dvh] shrink-0 overflow-hidden border-r border-border bg-card/90 backdrop-blur-sm md:relative"
+        className={`fixed md:relative z-50 h-[100dvh] bg-[#ffffff] flex flex-col bg-sidebar border-r border-sidebar-border overflow-hidden shrink-0`}
       >
-        <div className="flex items-center justify-between p-3 pb-2">
+        <div className="p-3 pb-2 flex items-center justify-between">
           <Button
             variant="outline"
             onClick={onNewChat}
-            className="h-10 flex-1 cursor-pointer justify-start gap-2 rounded-lg border-border bg-card px-3 text-foreground hover:bg-muted"
+            className="flex-1 cursor-pointer justify-start gap-2 h-10 px-3 bg-sidebar border-sidebar-border hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-lg no-default-hover-elevate"
           >
-            <Bot size={18} className="text-primary" />
-            <span className="text-sm font-medium">New Chat</span>
-            <Plus size={16} className="ml-auto text-muted-foreground" />
+            <span className="font-medium text-sm">Active messages</span>
+            <HatGlasses size={16} className="ml-auto text-muted-foreground" />
           </Button>
 
-          {isMobile && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onToggle}
-              className="ml-2 h-10 w-10 text-muted-foreground hover:bg-muted hover:text-foreground"
-            >
-              <PanelLeftClose size={18} />
-            </Button>
-          )}
-        </div>
-
-        <div className="custom-scrollbar flex-1 overflow-y-auto overflow-x-hidden p-3 pt-4"></div>
-
-        <div className="space-y-1 border-t border-border p-3">
           <Button
             variant="ghost"
-            // onClick={logout}
-            className="h-10 w-full cursor-pointer justify-start gap-3 rounded-lg px-3 text-foreground hover:bg-muted"
+            size="icon"
+            onClick={onToggle}
+            className="ml-2 h-10 w-10"
           >
-            <LogOut size={16} />
-            <span className="text-sm">Logout</span>
+            <PanelLeftClose size={18} />
           </Button>
         </div>
+
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 pt-4 custom-scrollbar"></div>
       </motion.div>
     </>
   );

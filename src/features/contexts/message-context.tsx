@@ -27,7 +27,7 @@ export const MessageContext = createContext<MessageContextType>({
   setSocketMessage: () => {},
 });
 
-const API_URL = import.meta.env.VITE_SERVER_SOCKET_URL;
+const API_URL = import.meta.env.VITE_APP_SOCKET_URL;
 
 export const MessageProvider = ({ children }: React.PropsWithChildren<any>) => {
   const streamIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);

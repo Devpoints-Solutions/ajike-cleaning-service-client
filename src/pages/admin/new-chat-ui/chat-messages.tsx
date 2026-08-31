@@ -43,63 +43,11 @@ export function ChatMessages() {
           <Bot size={32} className="stroke-[1.5]" />
         </div>
         <h2 className="mb-2 text-2xl font-semibold tracking-[-0.04em] text-foreground">
-          What can I help you with today?
+          No active message
         </h2>
         <p className="mb-8 max-w-md text-sm text-muted-foreground">
-          I can explain complex topics, write code, or help you brainstorm
-          ideas.
+          Select from the list of active messages to reach out to your customers
         </p>
-
-        <div className="grid w-full max-w-2xl grid-cols-1 gap-3 md:grid-cols-2">
-          <button
-            onClick={() =>
-              handleSend?.("Explain quantum computing in simple terms")
-            }
-            className="flex flex-col rounded-xl border border-border bg-card p-4 text-left transition-colors hover:bg-muted"
-          >
-            <span className="mb-1 text-sm font-medium text-foreground">
-              Explain quantum computing
-            </span>
-            <span className="text-xs text-muted-foreground">in simple terms</span>
-          </button>
-          <button
-            onClick={() =>
-              handleSend?.("Write a Python script to scrape a website")
-            }
-            className="flex flex-col rounded-xl border border-border bg-card p-4 text-left transition-colors hover:bg-muted"
-          >
-            <span className="mb-1 text-sm font-medium text-foreground">
-              Write a Python script
-            </span>
-            <span className="text-xs text-muted-foreground">
-              to scrape a website
-            </span>
-          </button>
-          <button
-            onClick={() =>
-              handleSend?.("Draft an email to decline a meeting politely")
-            }
-            className="flex flex-col rounded-xl border border-border bg-card p-4 text-left transition-colors hover:bg-muted"
-          >
-            <span className="mb-1 text-sm font-medium text-foreground">
-              Draft an email
-            </span>
-            <span className="text-xs text-muted-foreground">
-              to decline a meeting politely
-            </span>
-          </button>
-          <button
-            onClick={() => handleSend?.("Help me debug a React useEffect loop")}
-            className="flex flex-col rounded-xl border border-border bg-card p-4 text-left transition-colors hover:bg-muted"
-          >
-            <span className="mb-1 text-sm font-medium text-foreground">
-              Help me debug
-            </span>
-            <span className="text-xs text-muted-foreground">
-              a React useEffect loop
-            </span>
-          </button>
-        </div>
       </div>
     );
   }

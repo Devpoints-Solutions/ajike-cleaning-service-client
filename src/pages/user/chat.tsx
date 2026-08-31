@@ -5,7 +5,7 @@ import { useServiceContext } from "@/features/contexts/service-context";
 
 function Chat() {
   const [message, setMessage] = useState("");
-  const { messages, addMessage } = useMessages();
+  const { socketMessages, sendMessage } = useMessages();
 
   const { toggleChat, showChat } = useServiceContext();
 
@@ -38,8 +38,8 @@ function Chat() {
     const reply =
       starter?.[1] ||
       "I can help you get oriented. You can ask about an inspection, pest identification, cleaning, recurring maintenance, pricing, or service areas.";
-    addMessage({ text, sender: "user", userName: "User" });
-    addMessage({ text: reply, sender: "bot", userName: "Mina" });
+    // sendMessage({ text, sender: "user", isSender: true });
+    // sendMessagee({ text: reply, sender: "bot", userName: "Mina" });
     setMessage("");
   };
 
@@ -76,7 +76,7 @@ function Chat() {
         </button>
       </div>
       <div className="chat-messages">
-        {messages.map((item, index) => (
+        {socketMessages.map((item, index) => (
           <div
             className={`chat-message ${item.sender === "user" ? "user" : ""}`}
             key={`${item.id}-${index}`}
