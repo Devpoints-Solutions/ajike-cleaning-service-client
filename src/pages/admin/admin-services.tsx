@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Calendar } from "lucide-react";
 import AdminDashboardLayout from "./admin-dashboard-layout";
+import { Loader } from "@/components/common/loader";
 import AdminServiceCard from "./admin-service-card";
 import type { UserServiceStatus } from "@/lib/types";
 import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
 
 export function AdminServices() {
-  const { services } = useAdminServiceContext();
+  const { services, onGetMoreServices, hasMoreServices, isLoadingNewServices } =
+    useAdminServiceContext();
 
   const [filter, setFilter] = useState<"All" | UserServiceStatus>("All");
   const [serviceFilter, setServiceFilter] = useState<
@@ -93,6 +95,18 @@ export function AdminServices() {
             {shownServices.map((service) => (
               <AdminServiceCard key={service._id} service={service} />
             ))}
+          </div>
+        )}
+
+        {hasMoreServices && (
+          <div
+            className="flex mt-10 items-center justify-center"
+            onClick={onGetMoreServices}
+          >
+            <button type="button" className="secondary-button button-small">
+              {isLoadingNewServices && <Loader />}
+              Load more
+            </button>
           </div>
         )}
       </main>

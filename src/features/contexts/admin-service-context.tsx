@@ -157,12 +157,7 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
     }
 
     if (serviceSuccess && serviceData && !firstServiceRequest) {
-      console.log(serviceData?.data?.services);
-      // if (recentServices?.length === 0) {
-      //   setRecentServices([]);
-      // }
-
-      // setServices((prev) => [...prev, ...serviceData?.data?.services]);
+      setServices((prev) => [...prev, ...serviceData?.data?.services]);
     }
 
     if (error) {
