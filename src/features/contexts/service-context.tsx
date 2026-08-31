@@ -82,7 +82,7 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
   }, [isAuthenticated, currentUser]);
 
   useEffect(() => {
-    if (isSuccess && data) {
+    if (isSuccess && data && data?.data?.services?.length > 0) {
       const srv = [...data?.data?.services]?.sort(
         (a: IService, b: IService) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),

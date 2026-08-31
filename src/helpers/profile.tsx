@@ -19,3 +19,31 @@ export function getModalMessage(action: string) {
 
   return serviceUpdateOptions[action];
 }
+
+export function getCurrentPathForAdmin(path: string) {
+  const splittedPath = path?.split("/");
+
+  if (splittedPath?.includes("services") && splittedPath[3] === "services") {
+    return "Services";
+  }
+
+  if (splittedPath?.includes("customers") && splittedPath[3] === "customers") {
+    return "Customers";
+  }
+
+  if (splittedPath?.includes("messages") && splittedPath[3] === "messages") {
+    return "Messages";
+  }
+
+  return "Dashboard";
+}
+
+export function getCurrentPathForUser(path: string) {
+  const splittedPath = path?.split("/");
+
+  if (splittedPath?.includes("services") && splittedPath[2] === "services") {
+    return "Services";
+  }
+
+  return "Dashboard";
+}

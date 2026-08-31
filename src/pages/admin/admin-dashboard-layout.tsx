@@ -6,14 +6,18 @@ import { useAuthContext } from "@/features/contexts/auth-context";
 import { getGreeting } from "@/helpers/time";
 import { useTime } from "@/features/hooks/use-time";
 import { useDashboardContext } from "@/features/contexts/dashboard-context";
+import { getCurrentPathForAdmin } from "@/helpers/profile";
 import Stats from "./Stats";
+import ServicesStats from "./ServicesStats";
 
 const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
   const { isAuthenticated, currentUser } = useAuthContext();
   const { date, seconds, minute, hour, period } = useTime();
 
   const [pathname] = useLocation();
-  const { collapsed } = useDashboardContext();
+  const { collapsed, handleNavigation } = useDashboardContext();
+
+  handleNavigation(getCurrentPathForAdmin(pathname));
 
   return (
     <div className="min-h-screen bg-[#f7f9fa]">
@@ -56,8 +60,8 @@ const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
               </button>
             </div>
           </div>
-          {pathname !== "/admin/dashboard/customers" &&
-            pathname !== "/admin/dashboard/messages" && <Stats />}
+          {pathname == "/admin/dashboard" && <Stats />}
+          {pathname == "/admin/dashboard/services" && <ServicesStats />}
           {children}
         </div>
       </main>

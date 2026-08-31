@@ -164,7 +164,7 @@ function AdminRecentServices() {
         {shownJobs.length === 0 && (
           <div className="admin-empty">
             <Search size={19} />
-            <strong>No jobs match those filters.</strong>
+            <strong>No service match those filters.</strong>
             <span>Try another status or service mix.</span>
           </div>
         )}
@@ -200,7 +200,7 @@ function AdminRecentServices() {
               <span className="crew-avatar sky">TN</span>
               <span>
                 <strong>Tessa N.</strong>
-                <small>Cleaning route \u00b7 2 jobs</small>
+                <small>Cleaning route 2 jobs</small>
               </span>
               <CheckCircle2 size={14} />
             </div>
@@ -208,7 +208,7 @@ function AdminRecentServices() {
               <span className="crew-avatar pale">SK</span>
               <span>
                 <strong>Sofia K.</strong>
-                <small>South route \u00b7 2 jobs</small>
+                <small>South route 2 jobs</small>
               </span>
               <AlertTriangle size={14} />
             </div>

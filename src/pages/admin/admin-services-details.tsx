@@ -85,9 +85,9 @@ export default function AdminServiceDetails() {
   } | null>(null);
   const [showActions, setShowActions] = useState<boolean>(false);
   const [actionMessage, setActionMessage] = useState("");
+  const { id } = useParams<{ id: string }>();
 
   const { services } = useAdminServiceContext();
-  const { id } = useParams<{ id: string }>();
 
   const { toast } = useToast();
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "wouter";
 import DashboardNav from "@/components/common/dashboard/dashboard-nav";
 import {
   CalendarClock,
@@ -11,19 +12,22 @@ import {
 } from "lucide-react";
 import { useAuthContext } from "@/features/contexts/auth-context";
 import { useServiceContext } from "@/features/contexts/service-context";
-
 import { getGreeting } from "@/helpers/time";
 import { useTime } from "@/features/hooks/use-time";
+import { getCurrentPathForUser } from "@/helpers/profile";
 import { useDashboardContext } from "@/features/contexts/dashboard-context";
 import StatCard from "./stat-card";
 
 const DashboardLayout = ({ children }: React.PropsWithChildren) => {
+  const [pathname] = useLocation();
   const { isAuthenticated, currentUser } = useAuthContext();
   const { date, seconds, minute, hour, period } = useTime();
 
-  const { collapsed } = useDashboardContext();
+  const { collapsed, handleNavigation } = useDashboardContext();
 
   const { serviceStats } = useServiceContext();
+
+  handleNavigation(getCurrentPathForUser(pathname));
 
   return (
     <div className="min-h-screen bg-[#f7f9fa]">

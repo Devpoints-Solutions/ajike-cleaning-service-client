@@ -1,9 +1,7 @@
 import {
   Activity,
   CircleDollarSign,
-  UserCheck,
   CircleCheckBig,
-  FilePlusCorner,
   BadgeDollarSign,
 } from "lucide-react";
 import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
@@ -22,7 +20,7 @@ function Stats() {
         <span>This week's services</span>
         <strong>
           {servicesStats?.totalWeeklyServices === 0
-            ? servicesStats?.totalWeeklyNewServices
+            ? servicesStats?.totalWeeklyServices
             : String(servicesStats?.totalWeeklyServices).padStart(2, "0")}
         </strong>
         <div className="flex items-center gap-3">
@@ -33,7 +31,7 @@ function Stats() {
 
           <small>
             <BadgeDollarSign size={15} /> $
-            {servicesStats?.totalWeeklyCompletedValue}
+            {servicesStats?.totalWeeklyCompletedValue?.toLocaleString()}
           </small>
         </div>
 
@@ -44,7 +42,8 @@ function Stats() {
           </small>
 
           <small>
-            <BadgeDollarSign size={15} /> ${servicesStats?.totalWeeklyNewValue}
+            <BadgeDollarSign size={15} /> $
+            {servicesStats?.totalWeeklyNewValue?.toLocaleString()}
           </small>
         </div>
       </article>
@@ -66,7 +65,7 @@ function Stats() {
       </article>
       <article className="admin-kpi">
         <span>Quote value</span>
-        <strong>${servicesStats?.totalWeeklyValue}</strong>
+        <strong>${servicesStats?.totalWeeklyValue?.toLocaleString()}</strong>
         <small>
           <CircleDollarSign size={15} /> $
           {servicesStats?.totalWeeklyPendingValue +

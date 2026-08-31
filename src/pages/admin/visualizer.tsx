@@ -5,8 +5,14 @@ import {
   CheckCheck,
   HandCoins,
 } from "lucide-react";
+import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
+import { useDashboardContext } from "@/features/contexts/dashboard-context";
+import { Link } from "wouter";
 
 function Visualizer() {
+  const { servicesStats } = useAdminServiceContext();
+  const { handleNavigation } = useDashboardContext();
+
   return (
     <div className="admin-lower-grid">
       <section className="admin-panel mix-panel">
@@ -54,22 +60,33 @@ function Visualizer() {
           <HandCoins size={18} />
         </div>
         <div className="revenue-number">
-          $12,640 <span>month to date</span>
+          {/* {String(servicesStats?.totalValue).padStart(2, "0")} */}$
+          {servicesStats?.totalCompletedValue?.toLocaleString()}{" "}
+          <span>earned till date</span>
         </div>
         <div className="revenue-line">
           <span>
-            Booked <b>$9,880</b>
+            Expected Earning{" "}
+            <b>${servicesStats?.totalValue?.toLocaleString()}</b>
           </span>
           <span>
-            Quoted <b>$2,760</b>
+            Unclaimed{" "}
+            <b>
+              ${servicesStats?.totalPendingValue + servicesStats?.totalNewValue}
+            </b>
           </span>
         </div>
         <div className="revenue-progress">
           <span />
         </div>
-        <button className="text-button" data-testid="button-review-quotes">
-          Review quote queue <ArrowRight size={14} />
-        </button>
+        <Link
+          href="/admin/dashboard/services"
+          onClick={() => handleNavigation("Services")}
+          className="text-button"
+          data-testid="button-review-quotes"
+        >
+          Review service to increase earning <ArrowRight size={14} />
+        </Link>
       </section>
       <section className="admin-panel proof-panel" id="activity">
         <div className="admin-panel-head">
