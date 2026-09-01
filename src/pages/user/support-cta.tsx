@@ -1,8 +1,8 @@
 import { ArrowRight, Wrench } from "lucide-react";
-import { useServiceContext } from "@/features/contexts/service-context";
+import { useMessages } from "@/features/contexts/message-context";
 
 function SupportCta() {
-  const { toggleChat, showChat } = useServiceContext();
+  const { toggleUserChat, showUserChat } = useMessages();
 
   return (
     <section className="mt-5 overflow-hidden rounded-2xl bg-[#122560] px-6 py-7 text-white sm:px-8">
@@ -27,7 +27,7 @@ function SupportCta() {
         </div>
 
         <button
-          onClick={() => !showChat && toggleChat()}
+          onClick={() => !showUserChat && toggleUserChat()}
           className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-[#001625] transition hover:bg-[#eaf7fb]"
         >
           Message the care team

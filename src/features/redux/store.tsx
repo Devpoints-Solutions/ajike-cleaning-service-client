@@ -3,12 +3,14 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { authApis } from "@/features/apis/auth-apis";
 import { userApis } from "@/features/apis/user-apis";
 import { serviceApis } from "@/features/apis/service-apis";
+import { messageApis } from "../apis/message-apis";
 
 export const store = configureStore({
   reducer: {
     [authApis.reducerPath]: authApis.reducer,
     [userApis.reducerPath]: userApis.reducer,
     [serviceApis.reducerPath]: serviceApis.reducer,
+    [messageApis.reducerPath]: messageApis.reducer,
   },
 
   devTools: import.meta.env.NODE_ENV !== "production",
@@ -18,6 +20,7 @@ export const store = configureStore({
       authApis.middleware,
       userApis.middleware,
       serviceApis.middleware,
+      messageApis.middleware,
     ),
 });
 

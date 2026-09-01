@@ -83,3 +83,7 @@ export function extractPrice(budget: string, planPeriod: string) {
 export function getTime(isoDate: string) {
   return moment(isoDate).format("HH:mm");
 }
+
+export function getChatTime(isoDate: string) {
+  return moment(isoDate).fromNow();
+}

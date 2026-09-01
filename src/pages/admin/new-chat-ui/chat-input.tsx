@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import { useLocation } from "wouter";
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMessages } from "@/features/contexts/message-context";
@@ -8,6 +9,8 @@ import ChatBubble from "./chat-bubble";
 export function ChatInput() {
   const [input, setInput] = React.useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const [pathname] = useLocation();
 
   const { currentUser } = useAuthContext();
   const { isTyping, sendMessage, setSocketMessage } = useMessages();
@@ -34,22 +37,19 @@ export function ChatInput() {
   const handleSend = () => {
     if (input.trim() && !isTyping) {
       sendMessage({
-        id: Date.now().toString(),
-        sender: currentUser?.email!,
-        room: currentUser?.email!,
+        sender: currentUser?._id!,
+        room: pathname.split("/")[4],
         text: input,
-        isSender: true,
       });
 
       const userMessage = {
-        id: Date.now().toString(),
-        sender: currentUser?.email!,
-        room: currentUser?.email!,
+        _id: Date.now().toString(),
+        sender: currentUser?._id!,
+        room: pathname.split("/")[4],
         text: input,
-        isSender: true,
       };
 
-      setSocketMessage(userMessage);
+      setSocketMessage({ ...userMessage, sender: currentUser! });
 
       setInput("");
       if (textareaRef.current) {

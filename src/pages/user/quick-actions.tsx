@@ -6,6 +6,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useServiceContext } from "@/features/contexts/service-context";
+import { useMessages } from "@/features/contexts/message-context";
 import { Link } from "wouter";
 
 const quickActions = [
@@ -27,7 +28,8 @@ const quickActions = [
 ];
 
 function QuickActions() {
-  const { showChat, toggleChat, toggleNewModal } = useServiceContext();
+  const { toggleNewModal } = useServiceContext();
+  const { showUserChat, toggleUserChat } = useMessages();
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_2px_10px_rgba(0,22,37,0.03)] sm:p-6">
       <div className="mb-5 flex items-start justify-between">
@@ -53,8 +55,8 @@ function QuickActions() {
               <button
                 key={action.title}
                 onClick={() => {
-                  if (showChat) return;
-                  toggleChat();
+                  if (showUserChat) return;
+                  toggleUserChat();
                 }}
                 className="group flex w-full items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 text-left transition-all duration-200 hover:-translate-y-[1px] hover:border-[#1687b6]/40 hover:bg-[#f8fcfd] hover:shadow-sm"
               >

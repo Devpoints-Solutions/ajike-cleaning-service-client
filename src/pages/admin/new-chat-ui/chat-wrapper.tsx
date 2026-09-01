@@ -1,31 +1,18 @@
-import { useState, useEffect } from "react";
-import { Sidebar } from "./side-bar";
-import { ChatMessages } from "./chat-messages";
-import { ChatInput } from "./chat-input";
+import { useState, type ReactNode } from "react";
 import { PanelLeftOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { useMessages } from "@/features/contexts/message-context";
-import { useAuthContext } from "@/features/contexts/auth-context";
 import AdminDashboardLayout from "../admin-dashboard-layout";
+import SideBar from "./side-bar";
 
-export default function NewChatUI() {
+export default function ChatWrapper({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile] = useState(false);
-
-  const { joinRoom } = useMessages();
-  const { currentUser, isAuthenticated } = useAuthContext();
-
-  useEffect(() => {
-    if (isAuthenticated && currentUser) {
-      joinRoom(currentUser, currentUser.email);
-    }
-  }, [currentUser, isAuthenticated]);
 
   return (
     <AdminDashboardLayout>
       <div className="flex h-[100dvh] w-full bg-background overflow-hidden">
-        <Sidebar
+        <SideBar
           isOpen={sidebarOpen}
           onToggle={() => setSidebarOpen(!sidebarOpen)}
           isMobile={isMobile}
@@ -55,11 +42,7 @@ export default function NewChatUI() {
             </div>
           </header>
 
-          <ChatMessages />
-
-          <div className="bg-gradient-to-t from-background via-background/95 to-transparent pt-6">
-            <ChatInput />
-          </div>
+          {children}
         </main>
       </div>
     </AdminDashboardLayout>

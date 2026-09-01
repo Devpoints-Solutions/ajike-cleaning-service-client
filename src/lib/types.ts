@@ -34,6 +34,7 @@ export type UserServiceStatus =
   | "cancelled";
 
 export interface IUser {
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -114,8 +115,6 @@ export type ServiceContextType = {
   serviceStats: ServiceStatsType;
   nextVisit: IService | null;
   reOccurrentPlan: IService | null;
-  showChat: boolean;
-  toggleChat: () => void;
   onGetNewServices: () => void;
   isLoadingFirstData: boolean;
   isLoadingNewData: boolean;

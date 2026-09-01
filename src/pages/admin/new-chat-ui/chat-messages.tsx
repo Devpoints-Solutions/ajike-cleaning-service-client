@@ -1,104 +1,93 @@
 import { useEffect, useRef } from "react";
+import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bot } from "lucide-react";
 import { MarkdownRenderer } from "./markdown-renderer";
 import { useMessages } from "@/features/contexts/message-context";
 import { useAuthContext } from "@/features/contexts/auth-context";
+import { ChatInput } from "./chat-input";
+import ChatWrapper from "./chat-wrapper";
 
 export function ChatMessages() {
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  const { socketMessages, sendMessage, setSocketMessage } = useMessages();
+  const [pathname] = useLocation();
 
-  const { currentUser } = useAuthContext();
+  const { socketMessages, joinRoom, onGetMessagesByRoom } = useMessages();
 
-  const handleSend = (content: string) => {
-    sendMessage({
-      id: Date.now().toString(),
-      sender: currentUser?.email!,
-      room: currentUser?.email!,
-      text: content,
-      isSender: true,
-    });
+  const { currentUser, isAuthenticated } = useAuthContext();
 
-    const userMessage = {
-      id: Date.now().toString(),
-      sender: currentUser?.email!,
-      room: currentUser?.email!,
-      text: content,
-      isSender: true,
-    };
-
-    setSocketMessage(userMessage);
-  };
+  useEffect(() => {
+    if (isAuthenticated && currentUser && pathname.split("/")[4]) {
+      joinRoom({ user: currentUser?._id, room: pathname.split("/")[4] });
+    }
+  }, [currentUser, isAuthenticated, pathname]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [socketMessages]);
 
-  if (!socketMessages || socketMessages.length === 0) {
-    return (
-      <div className="flex flex-1 flex-col items-center justify-center p-8 text-center">
-        <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary shadow-sm ring-1 ring-primary/10">
-          <Bot size={32} className="stroke-[1.5]" />
-        </div>
-        <h2 className="mb-2 text-2xl font-semibold tracking-[-0.04em] text-foreground">
-          No active message
-        </h2>
-        <p className="mb-8 max-w-md text-sm text-muted-foreground">
-          Select from the list of active messages to reach out to your customers
-        </p>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (pathname.split("/")[4]) {
+      onGetMessagesByRoom(pathname.split("/")[4]);
+    }
+  }, [pathname]);
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
-      <div className="mx-auto max-w-3xl space-y-8 pb-12">
-        <AnimatePresence initial={false}>
-          {socketMessages?.map((message, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={`flex gap-3 ${message?.isSender ? "flex-row-reverse" : "flex-row"}`}
-            >
-              <div
-                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold ${
-                  message?.isSender
-                    ? "bg-primary/10 text-primary ring-1 ring-primary/15"
-                    : "bg-primary text-primary-foreground shadow-sm"
-                }`}
+    <ChatWrapper>
+      <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
+        <div className="mx-auto max-w-full space-y-8 pb-12">
+          <AnimatePresence initial={false}>
+            {socketMessages?.map((message, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`flex gap-3 ${message?.sender?._id === currentUser?._id ? "flex-row-reverse" : "flex-row"}`}
               >
-                {message?.isSender ? (
-                  `${currentUser?.firstName?.[0]?.toUpperCase() ?? "U"}${currentUser?.lastName?.[0]?.toUpperCase() ?? "S"}`
-                ) : (
-                  <Bot size={18} />
-                )}
-              </div>
-
-              <div
-                className={`flex max-w-[85%] flex-col ${message?.isSender ? "items-end" : "items-start"}`}
-              >
-                <div className="mb-1 px-1 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
-                  {!message?.isSender && "Assistant"}
+                <div
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold ${
+                    message?.sender?._id === currentUser?._id
+                      ? "bg-primary/10 text-primary ring-1 ring-primary/15"
+                      : "bg-primary text-primary-foreground shadow-sm"
+                  }`}
+                >
+                  {message?.sender?._id === currentUser?._id ? (
+                    `${currentUser?.firstName?.[0]?.toUpperCase() ?? "U"}${currentUser?.lastName?.[0]?.toUpperCase() ?? "S"}`
+                  ) : (
+                    <Bot size={18} />
+                  )}
                 </div>
-                {message?.isSender ? (
-                  <div className="whitespace-pre-wrap rounded-2xl rounded-tr-sm bg-primary px-4 py-3 text-sm leading-relaxed text-primary-foreground shadow-[0_12px_28px_rgba(18,37,96,0.12)]">
-                    {message?.text}
-                  </div>
-                ) : (
-                  <div className="w-full rounded-2xl rounded-tl-sm border border-border bg-card px-4 py-3 text-sm text-foreground shadow-[0_12px_28px_rgba(18,37,96,0.06)]">
-                    <MarkdownRenderer content={message?.text} />
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
 
-        <div ref={bottomRef} />
+                <div
+                  className={`flex max-w-[85%] flex-col ${message?.sender?._id === currentUser?._id ? "items-end" : "items-start"}`}
+                >
+                  <div className="mb-1 px-1 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+                    {message?.sender?._id &&
+                    message?.sender?._id !== currentUser?._id
+                      ? `${message?.sender?.firstName} ${message?.sender?.lastName}`
+                      : ""}
+                  </div>
+                  {message?.sender?._id === currentUser?._id ? (
+                    <div className="whitespace-pre-wrap rounded-2xl rounded-tr-sm bg-primary px-4 py-3 text-sm leading-relaxed text-primary-foreground shadow-[0_12px_28px_rgba(18,37,96,0.12)]">
+                      {message?.text}
+                    </div>
+                  ) : (
+                    <div className="w-full rounded-2xl rounded-tl-sm border border-border bg-card px-4 py-3 text-sm text-foreground shadow-[0_12px_28px_rgba(18,37,96,0.06)]">
+                      <MarkdownRenderer content={message?.text} />
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+
+          <div ref={bottomRef} />
+        </div>
       </div>
-    </div>
+      <div className="bg-gradient-to-t from-background via-background/95 to-transparent pt-6">
+        <ChatInput />
+      </div>
+    </ChatWrapper>
   );
 }

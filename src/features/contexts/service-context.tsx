@@ -19,8 +19,6 @@ const ServiceContext = createContext<ServiceContextType>({
     cancelled: 0,
   },
   nextVisit: null,
-  showChat: false,
-  toggleChat: () => {},
   reOccurrentPlan: null,
   newModalIsOpen: false,
   toggleNewModal: () => {},
@@ -35,7 +33,6 @@ let tempServices: IService[] = [];
 export function ServiceContextProvider({ children }: React.PropsWithChildren) {
   const [newModalIsOpen, setNewModalIsOpen] = useState<boolean>(false);
   const [services, setServices] = useState<IService[]>([]);
-  const [showChat, setShowChat] = useState<boolean>(false);
   const [serviceStats, setServiceStats] = useState<ServiceStatsType>({
     new: 0,
     pending: 0,
@@ -107,10 +104,6 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
     }
   }, [newServiceData, newServiceSuccess]);
 
-  function toggleChat() {
-    return setShowChat(!showChat);
-  }
-
   function toggleNewModal() {
     return setNewModalIsOpen(!newModalIsOpen);
   }
@@ -125,8 +118,7 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
     services,
     serviceStats,
     nextVisit,
-    showChat,
-    toggleChat,
+
     reOccurrentPlan,
     toggleNewModal,
     newModalIsOpen,
