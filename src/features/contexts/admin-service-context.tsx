@@ -159,7 +159,7 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
     }
 
     if (serviceSuccess && serviceData && !firstServiceRequest) {
-      setServices((prev) => [...prev, ...serviceData?.data?.services]);
+      setServices((prev) => [...prev, ...serviceData?.data]);
     }
 
     if (error) {

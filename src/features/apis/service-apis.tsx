@@ -18,8 +18,8 @@ export const serviceApis = createApi({
       }),
     }),
     getAllServices: builder.mutation({
-      query: () => ({
-        url: "/services/admin",
+      query: (payload) => ({
+        url: `/services/admin?page=${payload}`,
         method: "GET",
         credentials: "include",
       }),

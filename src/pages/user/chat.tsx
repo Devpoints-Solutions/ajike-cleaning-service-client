@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
 import { useMessages } from "@/features/contexts/message-context";
 import { useAuthContext } from "@/features/contexts/auth-context";
@@ -12,6 +12,8 @@ function Chat() {
     toggleUserChat,
     setSocketMessage,
   } = useMessages();
+
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   const { currentUser } = useAuthContext();
 
@@ -56,6 +58,10 @@ function Chat() {
 
     setMessage("");
   };
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [socketMessages]);
 
   if (!showUserChat)
     return (
@@ -115,7 +121,9 @@ function Chat() {
               ))}
             </div>
           ))}
+        <div ref={bottomRef} />
       </div>
+
       <form
         className="chat-form"
         onSubmit={(event) => {
