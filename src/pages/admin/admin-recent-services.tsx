@@ -7,14 +7,13 @@ import {
   Bug,
   ChevronRight,
   Clock3,
-  Droplets,
   Eye,
   Filter,
+  ListTodo,
   MoreVertical,
   Search,
   SprayCan,
   // Trash2,
-  UserRound,
 } from "lucide-react";
 import { getStatusColor } from "@/helpers/profile";
 import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
@@ -43,56 +42,32 @@ function AdminRecentServices() {
   const statusClass = (status: ServiceStatus) => status.toLowerCase();
 
   const alertItems = useMemo(() => {
-    const pendingJobs = recentServices.filter(
-      (job) => job?.status?.toLowerCase() === "pending",
-    );
-    const newJobs = recentServices.filter(
-      (job) => job?.status?.toLowerCase() === "new",
-    );
-    const cleaningJobs = recentServices.filter(
-      (job) => job?.category?.toLowerCase() === "cleaning",
-    );
-    const followUpJob =
-      pendingJobs[0] ?? newJobs[0] ?? recentServices[0] ?? null;
-
-    const fullName = followUpJob
-      ? [followUpJob?.customer?.firstName, followUpJob?.customer?.lastName]
+    return recentServices
+      .filter((service) => {
+        const status = service?.status?.toLowerCase();
+        return status === "new" || status === "pending";
+      })
+      .map((service) => {
+        const status = service.status.toLowerCase();
+        const customerName = [
+          service?.customer?.firstName,
+          service?.customer?.lastName,
+        ]
           .filter(Boolean)
-          .join(" ") ||
-        [followUpJob?.user?.firstName, followUpJob?.user?.lastName]
-          .filter(Boolean)
-          .join(" ")
-      : "Northline + Harbor Studio";
+          .join(" ");
 
-    const address = followUpJob?.address?.split(",")[0] || "property visit";
-
-    return [
-      {
-        key: "follow-up",
-        icon: Clock3,
-        label: `${pendingJobs.length || 2} follow-ups due`,
-        detail: fullName || "Northline + Harbor Studio",
-        meta: address,
-      },
-      {
-        key: "supply",
-        icon: Droplets,
-        label: `${cleaningJobs.length ? "Supply watch" : "Low supply note"}`,
-        detail: cleaningJobs.length
-          ? `${cleaningJobs.length} cleaning jobs need product check`
-          : "Blue-safe cleaner · van 03",
-        meta: "field stock",
-      },
-      {
-        key: "unassigned",
-        icon: UserRound,
-        label: `${newJobs.length || 1} request${newJobs.length === 1 ? "" : "s"} unassigned`,
-        detail: newJobs.length
-          ? `${newJobs[0]?.title || "New service"}`
-          : "Move-out clean · due today",
-        meta: "pending assignment",
-      },
-    ];
+        return {
+          key: service._id,
+          icon: status === "new" ? ListTodo : Clock3,
+          label:
+            status === "new"
+              ? "Service is booked and waiting approval"
+              : "Service is pending assignment",
+          detail: service.title,
+          meta:
+            customerName || service?.address?.split(",")[0] || "property visit",
+        };
+      });
   }, [recentServices]);
 
   const toggleActions = (id: string) => {
