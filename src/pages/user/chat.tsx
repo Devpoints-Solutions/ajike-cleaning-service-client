@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { MessageCircle, Send, X } from "lucide-react";
+import { Bot, Headphones, MessageCircle, Send, X } from "lucide-react";
 import { useMessages } from "@/features/contexts/message-context";
 import { useAuthContext } from "@/features/contexts/auth-context";
 import { MarkdownRenderer } from "@/pages/admin/new-chat-ui/markdown-renderer";
 
 function Chat() {
   const [message, setMessage] = useState("");
+  const [supportMode, setSupportMode] = useState<"ai" | "human">("ai");
+  const messageIdRef = useRef(0);
   const {
     socketMessages,
     sendMessage,
@@ -29,31 +31,36 @@ function Chat() {
     "I'd like to request a quote",
   ];
   const send = (text = message) => {
-    if (!text.trim()) return;
+    if (!text.trim() || !currentUser) return;
     const starter = starters.find((label) => label === text);
+    const event = supportMode === "ai" ? "ai-message" : "chatMessage";
+    messageIdRef.current += 1;
+    const room = `${currentUser._id.slice(0, 6)}${currentUser._id.slice(-6)}`;
 
     if (starter) {
       const userMessage = {
-        _id: Date.now().toString(),
-        sender: currentUser?._id!,
-        room: currentUser?._id!?.slice(0, 6) + currentUser?._id!?.slice(-6),
+        _id: `local-${messageIdRef.current}`,
+        sender: currentUser._id,
+        room,
         text: starter,
       };
 
-      sendMessage("ai-message", userMessage);
-      return setSocketMessage({ ...userMessage, sender: currentUser! });
+      sendMessage(event, userMessage);
+      setSocketMessage({ ...userMessage, sender: currentUser });
+      setMessage("");
+      return;
     }
 
     const userMessage = {
-      _id: Date.now().toString(),
-      sender: currentUser?._id!,
-      room: currentUser?._id!?.slice(0, 6) + currentUser?._id!?.slice(-6),
+      _id: `local-${messageIdRef.current}`,
+      sender: currentUser._id,
+      room,
       text: text,
     };
 
-    sendMessage("ai-message", userMessage);
+    sendMessage(event, userMessage);
 
-    setSocketMessage({ ...userMessage, sender: currentUser! });
+    setSocketMessage({ ...userMessage, sender: currentUser });
 
     setMessage("");
   };
@@ -82,8 +89,12 @@ function Chat() {
     >
       <div className="chat-head">
         <div>
-          <strong>Ask Mina</strong>
-          <span>Ajike pest control concierge usually replies fast</span>
+          <strong>{supportMode === "ai" ? "Ask Mina" : "Talk to a human"}</strong>
+          <span>
+            {supportMode === "ai"
+              ? "AI concierge · instant answers"
+              : "Ajike support team · replies during business hours"}
+          </span>
         </div>
         <button
           className="icon-button"
@@ -94,9 +105,45 @@ function Chat() {
           <X size={17} />
         </button>
       </div>
+      <div
+        className="flex items-center gap-1 border-b border-[#d3e7ee] bg-white px-3 py-2"
+        role="tablist"
+        aria-label="Choose your support"
+      >
+        <button
+          type="button"
+          role="tab"
+          aria-selected={supportMode === "ai"}
+          onClick={() => setSupportMode("ai")}
+          data-testid="button-chat-ai-mode"
+          className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg px-2 py-1.5 text-[0.65rem] font-bold transition ${
+            supportMode === "ai"
+              ? "bg-[#e3f6fc] text-[#135578] shadow-sm"
+              : "text-[#6d8999] hover:bg-[#f2f9fb]"
+          }`}
+        >
+          <Bot size={14} />
+          Mina AI
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={supportMode === "human"}
+          onClick={() => setSupportMode("human")}
+          data-testid="button-chat-human-mode"
+          className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg px-2 py-1.5 text-[0.65rem] font-bold transition ${
+            supportMode === "human"
+              ? "bg-[#fff0dc] text-[#8a4b17] shadow-sm"
+              : "text-[#6d8999] hover:bg-[#f2f9fb]"
+          }`}
+        >
+          <Headphones size={14} />
+          Human support
+        </button>
+      </div>
       <div className="chat-messages">
         {socketMessages.map((item, index) => (
-          <>
+          <div key={`${item._id}-${index}`}>
             {item.sender &&
               typeof item?.sender === "string" &&
               item.sender === "Ajike AI" && (
@@ -107,16 +154,21 @@ function Chat() {
 
             {item.sender &&
               typeof item?.sender !== "string" &&
-              item.sender?._id === currentUser?._id && (
+              (item.sender?._id === currentUser?._id ||
+                item.sender?.role === "admin") && (
                 <div
                   className={`chat-message ${item?.sender?._id === currentUser?._id ? "user" : ""}`}
-                  key={`${item._id}-${index}`}
                   data-testid={`chat-message-${index}`}
                 >
-                  {item.text}
+                  {item.sender?._id !== currentUser?._id && (
+                    <span className="mb-1 block text-[0.6rem] font-bold text-[#8a6a4b]">
+                      Ajike support
+                    </span>
+                  )}
+                  <MarkdownRenderer content={item.text} />
                 </div>
               )}
-          </>
+          </div>
         ))}
         {!socketMessages ||
           (socketMessages?.length <= 0 && (
@@ -147,7 +199,11 @@ function Chat() {
         <input
           value={message}
           onChange={(event) => setMessage(event.target.value)}
-          placeholder="Ask about your space..."
+          placeholder={
+            supportMode === "ai"
+              ? "Ask Mina about your space..."
+              : "Message the Ajike support team..."
+          }
           aria-label="Chat message"
           data-testid="input-chat-message"
         />
