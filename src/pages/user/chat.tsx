@@ -40,7 +40,7 @@ function Chat() {
         text: starter,
       };
 
-      sendMessage("ai-message", userMessage);
+      sendMessage("chatMessage", userMessage);
       return setSocketMessage({ ...userMessage, sender: currentUser! });
     }
 
@@ -51,7 +51,7 @@ function Chat() {
       text: text,
     };
 
-    sendMessage("ai-message", userMessage);
+    sendMessage("chatMessage", userMessage);
 
     setSocketMessage({ ...userMessage, sender: currentUser! });
 
@@ -73,6 +73,8 @@ function Chat() {
         <MessageCircle size={22} />
       </button>
     );
+
+  console.log("socketMessages", socketMessages);
 
   return (
     <section
