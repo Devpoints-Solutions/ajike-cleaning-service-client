@@ -37,11 +37,7 @@ function Visualizer() {
       .slice(0, 3);
   }, [services]);
 
-  const fallbackMix = [
-    { label: "Pest control", count: 2, value: 58 },
-    { label: "Home cleaning", count: 1, value: 27 },
-    { label: "Commercial", count: 1, value: 15 },
-  ];
+  const fallbackMix = [{}];
 
   const mixData = serviceMix.length > 0 ? serviceMix : fallbackMix;
   const completedCount =
@@ -83,8 +79,8 @@ function Visualizer() {
       "Customer record"
     : "Juniper Facilities";
 
-  const proofTitle = latestProof?.title || "Kitchen perimeter";
-  const proofCode = latestProof?._id?.slice(-5)?.toUpperCase() || "AJ-2041";
+  const proofTitle = latestProof?.title;
+  const proofCode = latestProof?._id?.slice(-5)?.toUpperCase();
   const proofStatus =
     latestProof?.status?.toLowerCase() === "completed"
       ? "Client-ready record"
@@ -100,15 +96,21 @@ function Visualizer() {
           <BarChart3 size={18} />
         </div>
         <div className="mix-bars">
-          {mixData.map((item, index) => (
-            <div key={index} className="mb-2">
-              <span>
-                <strong>{item.label}</strong>
-                <em>{item.value}%</em>
-              </span>
-              <i style={{ width: `${item.value}%` }} />
-            </div>
-          ))}
+          {mixData &&
+            mixData.map((item, index) => (
+              <div key={index} className="mb-2">
+                <span>
+                  {/* @ts-ignore */}
+                  <strong>{item?.label}</strong>
+                  {/* @ts-ignore */}
+
+                  <em>{item?.value}%</em>
+                </span>
+                {/* @ts-ignore */}
+
+                <i style={{ width: `${item?.value}%` }} />
+              </div>
+            ))}
         </div>
         <div className="mix-foot">
           <span>{completedCount} completed jobs</span>
@@ -160,21 +162,23 @@ function Visualizer() {
             <h2>Recent service</h2>
           </div>
         </div>
-        <div className="proof-record">
-          <div className="proof-mini-image">
-            <span>BEFORE</span>
-            <span>AFTER</span>
+        {proofTitle && (
+          <div className="proof-record">
+            <div className="proof-mini-image">
+              <span>BEFORE</span>
+              <span>AFTER</span>
+            </div>
+            <div>
+              <strong>{proofTitle}</strong>
+              <small>
+                {proofCode} · {customerName}
+              </small>
+              <span className="proof-approved">
+                <CheckCheck size={12} /> {proofStatus}
+              </span>
+            </div>
           </div>
-          <div>
-            <strong>{proofTitle}</strong>
-            <small>
-              {proofCode} · {customerName}
-            </small>
-            <span className="proof-approved">
-              <CheckCheck size={12} /> {proofStatus}
-            </span>
-          </div>
-        </div>
+        )}
         <Link
           href="/admin/dashboard/services"
           className="text-button"
