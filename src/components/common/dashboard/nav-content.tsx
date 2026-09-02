@@ -33,7 +33,6 @@ const adminItems = [
     label: "Messages",
     icon: MessageSquare,
     href: "/admin/dashboard/messages",
-    badge: 3,
   },
   // {
   //   label: "Payments",

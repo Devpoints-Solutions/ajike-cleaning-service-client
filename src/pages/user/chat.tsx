@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
 import { useMessages } from "@/features/contexts/message-context";
 import { useAuthContext } from "@/features/contexts/auth-context";
+import { MarkdownRenderer } from "@/pages/admin/new-chat-ui/markdown-renderer";
 
 function Chat() {
   const [message, setMessage] = useState("");
@@ -18,17 +19,15 @@ function Chat() {
   const { currentUser } = useAuthContext();
 
   const starters = [
-    "Book an inspection",
-
-    "Help identify a pest",
-
-    "Ask about cleaning",
-
-    "Set up recurring care",
-
-    "What areas do you serve?",
+    "I need help with a pest problem",
+    "What cleaning services can I book?",
+    "Can someone inspect my property?",
+    "How much will the service cost?",
+    "Do you offer recurring services?",
+    "Which areas do you serve?",
+    "What service is right for my property?",
+    "I'd like to request a quote",
   ];
-
   const send = (text = message) => {
     if (!text.trim()) return;
     const starter = starters.find((label) => label === text);
@@ -41,7 +40,7 @@ function Chat() {
         text: starter,
       };
 
-      sendMessage(userMessage);
+      sendMessage("ai-message", userMessage);
       return setSocketMessage({ ...userMessage, sender: currentUser! });
     }
 
@@ -52,7 +51,7 @@ function Chat() {
       text: text,
     };
 
-    sendMessage(userMessage);
+    sendMessage("ai-message", userMessage);
 
     setSocketMessage({ ...userMessage, sender: currentUser! });
 
@@ -97,13 +96,27 @@ function Chat() {
       </div>
       <div className="chat-messages">
         {socketMessages.map((item, index) => (
-          <div
-            className={`chat-message ${item?.sender?._id === currentUser?._id ? "user" : ""}`}
-            key={`${item._id}-${index}`}
-            data-testid={`chat-message-${index}`}
-          >
-            {item.text}
-          </div>
+          <>
+            {item.sender &&
+              typeof item?.sender === "string" &&
+              item.sender === "Ajike AI" && (
+                <div className="w-full rounded-2xl rounded-tl-sm border border-border bg-card px-4 py-3 text-sm text-foreground shadow-[0_12px_28px_rgba(18,37,96,0.06)]">
+                  <MarkdownRenderer content={item?.text} />
+                </div>
+              )}
+
+            {item.sender &&
+              typeof item?.sender !== "string" &&
+              item.sender?._id === currentUser?._id && (
+                <div
+                  className={`chat-message ${item?.sender?._id === currentUser?._id ? "user" : ""}`}
+                  key={`${item._id}-${index}`}
+                  data-testid={`chat-message-${index}`}
+                >
+                  {item.text}
+                </div>
+              )}
+          </>
         ))}
         {!socketMessages ||
           (socketMessages?.length <= 0 && (

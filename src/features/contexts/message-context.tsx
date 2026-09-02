@@ -25,11 +25,14 @@ export type IRoom = {
 
 type MessageContextType = {
   socketMessages: IMessage[];
-  sendMessage: (messageData: {
-    sender: string;
-    room: string;
-    text: string;
-  }) => void;
+  sendMessage: (
+    event: "chatMessage" | "ai-message",
+    messageData: {
+      sender: string;
+      room: string;
+      text: string;
+    },
+  ) => void;
   joinRoom: (userData: { room: string; user: string }) => void;
   leaveRoom?: (userData: any, room: string) => void;
   setSocketMessage: (messageData: IMessage) => void;
@@ -56,7 +59,7 @@ export const MessageContext = createContext<MessageContextType>({
 const API_URL = import.meta.env.VITE_APP_SOCKET_URL;
 
 export const MessageProvider = ({ children }: React.PropsWithChildren<any>) => {
-  // const streamIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const streamIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [socketMessages, setSocketMessages] = useState<IMessage[]>([]);
   const [rooms, setRooms] = useState<IRoom[]>([]);
   const [showUserChat, setShowUserChat] = useState<boolean>(false);
@@ -91,72 +94,68 @@ export const MessageProvider = ({ children }: React.PropsWithChildren<any>) => {
     };
   }, [socket]);
 
-  function sendMessage(messageData: {
-    sender: string;
-    room: string;
-    text: string;
-  }) {
-    socket?.current?.emit("chatMessage", messageData);
+  function sendMessage(
+    event: string,
+    messageData: {
+      sender: string;
+      room: string;
+      text: string;
+    },
+  ) {
+    socket?.current?.emit(event, messageData);
   }
 
-  // useEffect(() => {
-  //   const handleMessage = (msg: IMessage) => {
-  //     // Stop previous stream
-  //     if (streamIntervalRef.current) {
-  //       clearInterval(streamIntervalRef.current);
-  //       streamIntervalRef.current = null;
-  //     }
+  useEffect(() => {
+    const handleMessage = (msg: IMessage) => {
+      // Stop previous stream
+      if (streamIntervalRef.current) {
+        clearInterval(streamIntervalRef.current);
+        streamIntervalRef.current = null;
+      }
+      const messageId = crypto.randomUUID();
+      // Insert an empty AI message
+      setSocketMessages((prev) => [
+        ...prev,
+        {
+          ...msg,
+          _id: messageId,
+          text: "",
+          isStreaming: true,
+        },
+      ]);
+      let charIndex = 0;
+      streamIntervalRef.current = window.setInterval(() => {
+        charIndex += 3;
+        const revealed = msg.text.slice(0, charIndex);
+        const done = charIndex >= msg.text.length;
+        setSocketMessages((prev) =>
+          prev.map((m) =>
+            m._id === messageId
+              ? {
+                  ...m,
+                  text: revealed,
+                  isStreaming: !done,
+                }
+              : m,
+          ),
+        );
+        if (done && streamIntervalRef.current) {
+          clearInterval(streamIntervalRef.current);
+          streamIntervalRef.current = null;
+        }
+      }, 1);
+    };
 
-  //     const messageId = crypto.randomUUID();
+    socket.current?.on("ai-message", handleMessage);
 
-  //     // Insert an empty AI message
-  //     setSocketMessages((prev) => [
-  //       ...prev,
-  //       {
-  //         ...msg,
-  //         id: messageId,
-  //         text: "",
-  //         isStreaming: true,
-  //       },
-  //     ]);
+    return () => {
+      socket.current?.off("ai-message", handleMessage);
 
-  //     let charIndex = 0;
-
-  //     streamIntervalRef.current = window.setInterval(() => {
-  //       charIndex += 3;
-
-  //       const revealed = msg.text.slice(0, charIndex);
-  //       const done = charIndex >= msg.text.length;
-
-  //       setSocketMessages((prev) =>
-  //         prev.map((m) =>
-  //           m.id === messageId
-  //             ? {
-  //                 ...m,
-  //                 text: revealed,
-  //                 isStreaming: !done,
-  //               }
-  //             : m,
-  //         ),
-  //       );
-
-  //       if (done && streamIntervalRef.current) {
-  //         clearInterval(streamIntervalRef.current);
-  //         streamIntervalRef.current = null;
-  //       }
-  //     }, 1);
-  //   };
-
-  //   socket.current?.on("ai-message", handleMessage);
-
-  //   return () => {
-  //     socket.current?.off("ai-message", handleMessage);
-
-  //     if (streamIntervalRef.current) {
-  //       clearInterval(streamIntervalRef.current);
-  //     }
-  //   };
-  // }, []);
+      if (streamIntervalRef.current) {
+        clearInterval(streamIntervalRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const currentSocket = socket?.current;
@@ -205,7 +204,7 @@ export const MessageProvider = ({ children }: React.PropsWithChildren<any>) => {
     setSocketMessages(
       roomData.data.messages
         ?.map((msg: any) => ({
-          id: msg._id,
+          _id: msg._id,
           text: msg.text,
           sender: msg.sender,
           isSender: msg.sender?._id === currentUser?._id,

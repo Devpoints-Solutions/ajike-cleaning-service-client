@@ -36,7 +36,7 @@ export function ChatInput() {
 
   const handleSend = () => {
     if (input.trim() && !isTyping) {
-      sendMessage({
+      sendMessage("chatMessage", {
         sender: currentUser?._id!,
         room: pathname.split("/")[4],
         text: input,

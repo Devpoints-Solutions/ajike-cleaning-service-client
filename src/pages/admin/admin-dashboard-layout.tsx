@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DashboardNav from "@/components/common/dashboard/dashboard-nav";
 import { useLocation } from "wouter";
 import { CalendarClock, ClockFading, RefreshCw } from "lucide-react";
@@ -17,7 +17,9 @@ const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
   const [pathname] = useLocation();
   const { collapsed, handleNavigation } = useDashboardContext();
 
-  handleNavigation(getCurrentPathForAdmin(pathname));
+  useEffect(() => {
+    handleNavigation(getCurrentPathForAdmin(pathname));
+  }, [pathname]);
 
   return (
     <div className="min-h-screen bg-[#f7f9fa]">

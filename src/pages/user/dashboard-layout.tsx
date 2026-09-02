@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "wouter";
 import DashboardNav from "@/components/common/dashboard/dashboard-nav";
 import {
@@ -27,7 +27,9 @@ const DashboardLayout = ({ children }: React.PropsWithChildren) => {
 
   const { serviceStats } = useServiceContext();
 
-  handleNavigation(getCurrentPathForUser(pathname));
+  useEffect(() => {
+    handleNavigation(getCurrentPathForUser(pathname));
+  }, [pathname]);
 
   return (
     <div className="min-h-screen bg-[#f7f9fa]">
