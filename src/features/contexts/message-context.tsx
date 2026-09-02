@@ -214,6 +214,21 @@ export const MessageProvider = ({ children }: React.PropsWithChildren<any>) => {
     );
   }, [roomData, roomSuccess]);
 
+  useEffect(() => {
+    socket?.current?.on("typing", () => {
+      setIsTyping(true);
+    });
+
+    socket?.current?.on("stopTyping", () => {
+      setIsTyping(false);
+    });
+
+    return () => {
+      socket?.current?.off("typing");
+      socket?.current?.off("stopTyping");
+    };
+  }, [socket]);
+
   function toggleUserChat() {
     if (!showUserChat) {
       setShowUserChat(true);
