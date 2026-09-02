@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Bot, Headphones, MessageCircle, Send, X } from "lucide-react";
 import { useMessages } from "@/features/contexts/message-context";
 import { useAuthContext } from "@/features/contexts/auth-context";
+import ChatBubble from "@/components/common/chat-bubble";
 import { MarkdownRenderer } from "@/pages/admin/new-chat-ui/markdown-renderer";
 
 function Chat() {
@@ -14,6 +15,7 @@ function Chat() {
     showUserChat,
     toggleUserChat,
     setSocketMessage,
+    isTyping,
   } = useMessages();
 
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -81,7 +83,6 @@ function Chat() {
       </button>
     );
 
-  console.log("socket messgaes: ", socketMessages);
   return (
     <section
       className="chat-window"
@@ -91,7 +92,7 @@ function Chat() {
       <div className="chat-head">
         <div>
           <strong>
-            {supportMode === "ai" ? "Ask Mina" : "Talk to a human"}
+            {supportMode === "ai" ? "Ask Ajike AI" : "Talk to a human"}
           </strong>
           <span>
             {supportMode === "ai"
@@ -126,7 +127,7 @@ function Chat() {
           }`}
         >
           <Bot size={14} />
-          Mina AI
+          Ajike AI
         </button>
         <button
           type="button"
@@ -145,34 +146,43 @@ function Chat() {
         </button>
       </div>
       <div className="chat-messages">
-        {socketMessages.map((item, index) => (
-          <div key={`${item._id}-${index}`}>
-            {item.sender &&
-              typeof item?.sender === "string" &&
-              item.sender === "Ajike AI" && (
-                <div className="w-full rounded-2xl rounded-tl-sm border border-border bg-card px-4 py-3 text-sm text-foreground shadow-[0_12px_28px_rgba(18,37,96,0.06)]">
-                  <MarkdownRenderer content={item?.text} />
-                </div>
-              )}
+        {socketMessages.map((item, index) => {
+          const isSender =
+            item.sender &&
+            typeof item.sender !== "string" &&
+            String(item.sender._id) === String(currentUser?._id);
 
-            {item.sender &&
-              typeof item?.sender !== "string" &&
-              (item.sender?._id === currentUser?._id ||
-                item.sender?.role === "admin") && (
+          return (
+            <div key={`${item._id}-${index}`}>
+              {item.sender &&
+                typeof item?.sender === "string" &&
+                item.sender === "Ajike AI" && (
+                  <div className="w-full rounded-2xl rounded-tl-sm border border-border bg-card px-4 py-3 text-sm text-foreground shadow-[0_12px_28px_rgba(18,37,96,0.06)]">
+                    <MarkdownRenderer content={item?.text} />
+                  </div>
+                )}
+
+              {item.sender &&
+                typeof item?.sender === "string" &&
+                item.sender !== currentUser?._id && (
+                  <div className="w-full rounded-2xl rounded-tl-sm border border-border bg-card px-4 py-3 text-sm text-foreground shadow-[0_12px_28px_rgba(18,37,96,0.06)]">
+                    <MarkdownRenderer content={item?.text} />
+                  </div>
+                )}
+
+              {isSender && (
                 <div
-                  className={`chat-message ${item?.sender?._id === currentUser?._id ? "user" : ""}`}
+                  className={`chat-message user w-full rounded-2xl ml-auto rounded-tl-sm border border-border px-4 py-3 text-sm shadow-[0_12px_28px_rgba(18,37,96,0.06)]`}
                   data-testid={`chat-message-${index}`}
                 >
-                  {item.sender?._id !== currentUser?._id && (
-                    <span className="mb-1 block text-[0.6rem] font-bold text-[#8a6a4b]">
-                      Ajike support
-                    </span>
-                  )}
-                  {item?.text}
+                  <span className="mb-1 block text-[0.9rem] font-bold text-[#122560]">
+                    {item?.text}
+                  </span>
                 </div>
               )}
-          </div>
-        ))}
+            </div>
+          );
+        })}
 
         {!socketMessages ||
           (socketMessages?.length <= 0 && (
@@ -193,6 +203,11 @@ function Chat() {
         <div ref={bottomRef} />
       </div>
 
+      {isTyping && (
+        <div className="mr-auto mb-2 max-w-2xl pl-2">
+          <ChatBubble />
+        </div>
+      )}
       <form
         className="chat-form"
         onSubmit={(event) => {
@@ -205,7 +220,7 @@ function Chat() {
           onChange={(event) => setMessage(event.target.value)}
           placeholder={
             supportMode === "ai"
-              ? "Ask Mina about your space..."
+              ? "Ask Ajike AI about your space..."
               : "Message the Ajike support team..."
           }
           aria-label="Chat message"

@@ -4,7 +4,7 @@ import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMessages } from "@/features/contexts/message-context";
 import { useAuthContext } from "@/features/contexts/auth-context";
-import ChatBubble from "./chat-bubble";
+import ChatBubble from "@/components/common/chat-bubble";
 
 export function ChatInput() {
   const [input, setInput] = React.useState("");
