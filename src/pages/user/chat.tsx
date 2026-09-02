@@ -47,15 +47,10 @@ function Chat() {
         text: starter,
       };
 
-<<<<<<< HEAD
-      sendMessage("chatMessage", userMessage);
-      return setSocketMessage({ ...userMessage, sender: currentUser! });
-=======
       sendMessage(event, userMessage);
       setSocketMessage({ ...userMessage, sender: currentUser });
       setMessage("");
       return;
->>>>>>> agents/user-chat-interface-toggle-ai-human
     }
 
     const userMessage = {
@@ -65,11 +60,7 @@ function Chat() {
       text: text,
     };
 
-<<<<<<< HEAD
-    sendMessage("chatMessage", userMessage);
-=======
     sendMessage(event, userMessage);
->>>>>>> agents/user-chat-interface-toggle-ai-human
 
     setSocketMessage({ ...userMessage, sender: currentUser });
 
@@ -91,8 +82,6 @@ function Chat() {
         <MessageCircle size={22} />
       </button>
     );
-
-  console.log("socketMessages", socketMessages);
 
   return (
     <section
