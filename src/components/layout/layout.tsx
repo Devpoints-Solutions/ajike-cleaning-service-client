@@ -3,9 +3,6 @@ import AppRoutes from "./app-routes";
 import Header from "./header";
 import Footer from "@/components/layout/footer";
 import { Toaster } from "@/components/ui/toaster";
-<<<<<<< HEAD
-import { PageMetadata } from "../common/page-meta-data";
-=======
 import PageMetadata from "@/components/common/page-metadata";
 
 const pageMetadata: Record<string, { title: string; description: string }> = {
@@ -75,7 +72,8 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
   },
   "/admin/dashboard": {
     title: "Ajike | Admin Dashboard",
-    description: "Manage Ajike services, customers, and operations from one dashboard.",
+    description:
+      "Manage Ajike services, customers, and operations from one dashboard.",
   },
   "/admin/dashboard/messages": {
     title: "Ajike | Messages",
@@ -114,7 +112,8 @@ function getPageMetadata(pathname: string) {
   if (normalizedPath.startsWith("/dashboard/services/")) {
     return {
       title: "Ajike | Service Details",
-      description: "Review the details and status of your Ajike service request.",
+      description:
+        "Review the details and status of your Ajike service request.",
     };
   }
 
@@ -138,7 +137,6 @@ function getPageMetadata(pathname: string) {
       "The Ajike page you are looking for could not be found. Return home to explore our services.",
   };
 }
->>>>>>> agents/dynamic-page-metadata-update
 
 function Layout() {
   const [pathname] = useLocation();
@@ -146,11 +144,7 @@ function Layout() {
 
   return (
     <>
-<<<<<<< HEAD
-      <PageMetadata />
-=======
       <PageMetadata {...metadata} />
->>>>>>> agents/dynamic-page-metadata-update
       {!["auth", "dashboard", "admin"].includes(pathname.split("/")[1]) && (
         <Header onRequest={() => {}} />
       )}
