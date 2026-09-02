@@ -41,6 +41,8 @@ type MessageContextType = {
   showUserChat: boolean;
   toggleUserChat: () => void;
   onGetMessagesByRoom: (room: string) => void;
+  emitIsTyping: (room: string) => void;
+  emitStopTyping: (room: string) => void;
 };
 
 export const MessageContext = createContext<MessageContextType>({
@@ -54,6 +56,8 @@ export const MessageContext = createContext<MessageContextType>({
   showUserChat: false,
   toggleUserChat: () => {},
   onGetMessagesByRoom: () => {},
+  emitIsTyping: () => {},
+  emitStopTyping: () => {},
 });
 
 const API_URL = import.meta.env.VITE_APP_SOCKET_URL;
@@ -103,6 +107,14 @@ export const MessageProvider = ({ children }: React.PropsWithChildren<any>) => {
     },
   ) {
     socket?.current?.emit(event, messageData);
+  }
+
+  function emitIsTyping(room: string) {
+    socket?.current?.emit("userIsTyping", room);
+  }
+
+  function emitStopTyping(room: string) {
+    socket?.current?.emit("userStopsTyping", room);
   }
 
   useEffect(() => {
@@ -255,6 +267,8 @@ export const MessageProvider = ({ children }: React.PropsWithChildren<any>) => {
     showUserChat,
     toggleUserChat,
     onGetMessagesByRoom,
+    emitIsTyping,
+    emitStopTyping,
   };
 
   return (

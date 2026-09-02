@@ -16,6 +16,8 @@ function Chat() {
     toggleUserChat,
     setSocketMessage,
     isTyping,
+    emitIsTyping,
+    emitStopTyping,
   } = useMessages();
 
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -32,12 +34,16 @@ function Chat() {
     "What service is right for my property?",
     "I'd like to request a quote",
   ];
+
+  const room =
+    currentUser && `${currentUser._id.slice(0, 6)}${currentUser._id.slice(-6)}`;
+
   const send = (text = message) => {
+    if (!room) return;
     if (!text.trim() || !currentUser) return;
     const starter = starters.find((label) => label === text);
     const event = supportMode === "ai" ? "ai-message" : "chatMessage";
     messageIdRef.current += 1;
-    const room = `${currentUser._id.slice(0, 6)}${currentUser._id.slice(-6)}`;
 
     if (starter) {
       const userMessage = {
@@ -70,6 +76,18 @@ function Chat() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [socketMessages]);
+
+  useEffect(() => {
+    if (!room) return;
+    const timer = setTimeout(() => {
+      emitStopTyping(room);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+      emitIsTyping(room);
+    };
+  }, [message]);
 
   if (!showUserChat)
     return (

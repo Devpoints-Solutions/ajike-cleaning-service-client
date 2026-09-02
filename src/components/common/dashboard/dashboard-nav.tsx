@@ -8,8 +8,6 @@ import { useDashboardContext } from "@/features/contexts/dashboard-context";
 const DashboardNav = ({}: {}) => {
   const { mobileOpen, setCollapsed, collapsed } = useDashboardContext();
 
-  // console.log(mobileOpen);
-
   return (
     <>
       <MobileHeader />

@@ -13,7 +13,13 @@ export function ChatInput() {
   const [pathname] = useLocation();
 
   const { currentUser } = useAuthContext();
-  const { isTyping, sendMessage, setSocketMessage } = useMessages();
+  const {
+    isTyping,
+    emitStopTyping,
+    sendMessage,
+    setSocketMessage,
+    emitIsTyping,
+  } = useMessages();
 
   const adjustHeight = () => {
     const textarea = textareaRef.current;
@@ -57,6 +63,17 @@ export function ChatInput() {
       }
     }
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      emitStopTyping(pathname.split("/")[4]);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+      emitIsTyping(pathname.split("/")[4]);
+    };
+  }, [input]);
 
   return (
     <div className="bg-background p-4">
