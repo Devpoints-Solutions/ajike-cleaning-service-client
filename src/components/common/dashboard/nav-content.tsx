@@ -61,15 +61,15 @@ const userItems = [
 ];
 
 const bottomItems = [
-  {
-    label: "Settings",
-    icon: Settings,
-    href: "/dashboard/settings",
-  },
+  // {
+  //   label: "Settings",
+  //   icon: Settings,
+  //   href: "/dashboard/settings",
+  // },
   {
     label: "Help & Support",
     icon: HelpCircle,
-    href: "/dashboard/help",
+    href: "#",
   },
 ];
 
