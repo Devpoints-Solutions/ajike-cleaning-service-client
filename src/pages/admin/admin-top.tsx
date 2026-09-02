@@ -7,11 +7,13 @@ import {
 import { useTime } from "@/features/hooks/use-time";
 import { getGreeting } from "@/helpers/time";
 import { useAuthContext } from "@/features/contexts/auth-context";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 function AdminTop() {
   const { isAuthenticated, currentUser } = useAuthContext();
   const { date, seconds, minute, hour, period } = useTime();
+
+  const [pathname] = useLocation();
 
   return (
     <div className="admin-top">
@@ -40,7 +42,7 @@ function AdminTop() {
       <div className="admin-top-actions">
         <button
           className="secondary-button button-small"
-          //   onClick={handleRefresh}
+          onClick={() => (window.location.href = pathname)}
           data-testid="button-refresh-admin"
         >
           <RefreshCw size={14} /> Refresh board

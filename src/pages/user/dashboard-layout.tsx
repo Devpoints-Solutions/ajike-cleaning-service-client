@@ -65,6 +65,7 @@ const DashboardLayout = ({ children }: React.PropsWithChildren) => {
             </div>
             <div className="dashboard-top-actions">
               <button
+                onClick={() => (window.location.href = pathname)}
                 className="secondary-button button-small"
                 data-testid="button-refresh-admin"
               >

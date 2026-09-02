@@ -59,6 +59,7 @@ const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
               {!pathname?.split("/")?.includes("messages") && (
                 <div className="dashboard-top-actions">
                   <button
+                    onClick={() => (window.location.href = pathname)}
                     className="secondary-button button-small"
                     data-testid="button-refresh-admin"
                   >
