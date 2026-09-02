@@ -6,7 +6,7 @@ import {
   Users,
   MessageSquare,
   // CreditCard,
-  Settings,
+  // Settings,
   HelpCircle,
   LogOut,
 } from "lucide-react";
