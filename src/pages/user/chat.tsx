@@ -81,6 +81,7 @@ function Chat() {
       </button>
     );
 
+  console.log("socket messgaes: ", socketMessages);
   return (
     <section
       className="chat-window"
@@ -89,7 +90,9 @@ function Chat() {
     >
       <div className="chat-head">
         <div>
-          <strong>{supportMode === "ai" ? "Ask Mina" : "Talk to a human"}</strong>
+          <strong>
+            {supportMode === "ai" ? "Ask Mina" : "Talk to a human"}
+          </strong>
           <span>
             {supportMode === "ai"
               ? "AI concierge · instant answers"
@@ -165,11 +168,12 @@ function Chat() {
                       Ajike support
                     </span>
                   )}
-                  <MarkdownRenderer content={item.text} />
+                  {item?.text}
                 </div>
               )}
           </div>
         ))}
+
         {!socketMessages ||
           (socketMessages?.length <= 0 && (
             <div className="chat-suggestions">
