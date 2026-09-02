@@ -31,6 +31,16 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
     description:
       "Get in touch with the Ajike team to discuss pest control, cleaning, and the right care for your space.",
   },
+  "/terms": {
+    title: "Ajike | Terms and Conditions",
+    description:
+      "Read the terms that apply when you use Ajike Pest Control and Cleaning Services.",
+  },
+  "/privacy-policy": {
+    title: "Ajike | Privacy Policy",
+    description:
+      "Learn how Ajike collects, uses, and protects information for your account and services.",
+  },
   "/auth/sign-in": {
     title: "Ajike | Sign In",
     description:
@@ -156,6 +166,8 @@ function Layout() {
       pathname === "/pricing" ||
       pathname === "/about" ||
       pathname === "/contact" ||
+      pathname === "/terms" ||
+      pathname === "/privacy-policy" ||
       pathname === `/services/${pathname.split("/")[2]}` ? (
         <Footer />
       ) : null}

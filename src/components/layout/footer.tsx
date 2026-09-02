@@ -286,13 +286,13 @@ const Footer = () => {
             </p>
 
             <div className="flex flex-wrap gap-5">
-              <a href="#privacy" className="transition hover:text-white">
+              <Link href="/privacy-policy" className="transition hover:text-white">
                 Privacy
-              </a>
+              </Link>
 
-              <a href="#terms" className="transition hover:text-white">
+              <Link href="/terms" className="transition hover:text-white">
                 Terms
-              </a>
+              </Link>
 
               <a href="#trust-safety" className="transition hover:text-white">
                 Trust & Safety

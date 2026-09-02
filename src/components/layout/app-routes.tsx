@@ -29,6 +29,8 @@ import CustomersPage from "@/pages/admin/customers-page";
 import { ChatMessages } from "@/pages/admin/new-chat-ui/chat-messages";
 import EmptyChatScreen from "@/pages/admin/new-chat-ui/empty-chat-screen";
 import ScrollToTop from "./scroll-to-top";
+import TermsAndConditions from "@/pages/legal/terms-and-conditions";
+import PrivacyPolicy from "@/pages/legal/privacy-policy";
 
 function AppRoutes() {
   const [location] = useLocation();
@@ -47,6 +49,8 @@ function AppRoutes() {
           <Route path="services/:title" component={ServiceDetails} />
           <Route path="/pricing" component={Pricing} />
           <Route path="/contact" component={ContactPage} />
+          <Route path="/terms" component={TermsAndConditions} />
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/auth/sign-in" component={SignIn} />
           <Route path="/auth/sign-up" component={SignUp} />
           <Route path="/auth/verify" component={Verify} />
