@@ -30,6 +30,9 @@ const ReviewContext = createContext<ReviewContextType>({
     totalTwoStars: 0,
     completedServices: 0,
   },
+  onFetchMoreFeedback: () => {},
+  feedbackIsLoading: false,
+  hasMore: true,
 });
 
 export function ReviewContextProvider({ children }: { children: ReactNode }) {
@@ -48,14 +51,17 @@ export function ReviewContextProvider({ children }: { children: ReactNode }) {
     completedServices: 0,
   });
 
+  const [reviewPage, setReviewPage] = useState<number>(1);
+  const [firstRequest, setFirstRuest] = useState<boolean>(true);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+
   const { isAuthenticated, currentUser } = useAuthContext();
 
   const [
     getCompletedServicesByUser,
     {
       data: completedData,
-      isLoading: completedIsLoading,
-      error: completedError,
+      isLoading: _completedIsLoading,
       isSuccess: completedSuccess,
     },
   ] = useGetCompletedServicesByUserMutation();
@@ -64,7 +70,6 @@ export function ReviewContextProvider({ children }: { children: ReactNode }) {
     {
       data: feebackData,
       isLoading: feebackLoading,
-      error: feebackError,
       isSuccess: feedbackSuccess,
     },
   ] = useGetAllFeebackMutation();
@@ -77,7 +82,7 @@ export function ReviewContextProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (isAuthenticated && currentUser && currentUser?.role === "admin") {
-      getAllFeebacks(1);
+      getAllFeebacks(reviewPage);
     }
   }, [isAuthenticated, currentUser]);
 
@@ -88,16 +93,39 @@ export function ReviewContextProvider({ children }: { children: ReactNode }) {
   }, [completedData, completedSuccess]);
 
   useEffect(() => {
-    if (feedbackSuccess && feebackData) {
+    if (feedbackSuccess && feebackData && firstRequest) {
       setCustomersReviews(feebackData?.data[0]?.feedbacks);
       setReviewStats({
         ...feebackData?.data[0]?.ratingStatistics[0],
         completedServices: feebackData?.data?.completedServices,
       });
+
+      setFirstRuest(false);
+      setReviewPage((prev) => prev + 1);
     }
   }, [feedbackSuccess, feebackData]);
 
-  const value = { completedServices, customersReviews, reviewStats };
+  useEffect(() => {
+    if (feedbackSuccess && feebackData && !firstRequest) {
+      setCustomersReviews((prev) => [...prev, ...feebackData?.data]);
+    }
+  }, [feedbackSuccess, feebackData]);
+
+  function onFetchMoreFeedback() {
+    if (customersReviews?.length === reviewStats?.totalFeedbacks)
+      return setHasMore(false);
+    getAllFeebacks(reviewPage);
+    setReviewPage((prev) => prev + 1);
+  }
+
+  const value = {
+    completedServices,
+    customersReviews,
+    reviewStats,
+    onFetchMoreFeedback,
+    feedbackIsLoading: feebackLoading,
+    hasMore,
+  };
 
   return (
     <ReviewContext.Provider value={value}>{children}</ReviewContext.Provider>

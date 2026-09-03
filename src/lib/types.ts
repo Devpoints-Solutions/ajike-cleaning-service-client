@@ -190,4 +190,7 @@ export type ReviewContextType = {
   completedServices: IService[];
   customersReviews: ICustomerReview[];
   reviewStats: ReviewStatsType;
+  onFetchMoreFeedback: () => void;
+  feedbackIsLoading: boolean;
+  hasMore: boolean;
 };

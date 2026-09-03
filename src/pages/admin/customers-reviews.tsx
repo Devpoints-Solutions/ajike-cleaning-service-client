@@ -13,12 +13,19 @@ import AdminDashboardLayout from "./admin-dashboard-layout";
 import { useReviewContext } from "@/features/contexts/review-context";
 import { getIsoFullDate } from "@/helpers/time";
 import { Metrics, RatingBar } from "./review-components";
+import { Loader } from "@/components/common/loader";
 
 function CustomersReviews() {
   const [ratingFilter, setRatingFilter] = useState<"All" | number>("All");
   const [search, setSearch] = useState("");
 
-  const { customersReviews, reviewStats } = useReviewContext();
+  const {
+    customersReviews,
+    reviewStats,
+    hasMore,
+    onFetchMoreFeedback,
+    feedbackIsLoading,
+  } = useReviewContext();
 
   const shownReviews = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -31,7 +38,7 @@ function CustomersReviews() {
             .toLowerCase()
             .includes(query)),
     );
-  }, [ratingFilter, search]);
+  }, [ratingFilter, search, customersReviews]);
 
   return (
     <AdminDashboardLayout>
@@ -288,6 +295,18 @@ function CustomersReviews() {
               </div>
             )}
           </div>
+
+          {hasMore && (
+            <div
+              className="flex mt-10 items-center justify-center"
+              onClick={onFetchMoreFeedback}
+            >
+              <button type="button" className="secondary-button button-small">
+                {feedbackIsLoading && <Loader />}
+                Load more
+              </button>
+            </div>
+          )}
         </section>
       </main>
     </AdminDashboardLayout>

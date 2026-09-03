@@ -97,6 +97,18 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
     title: "Ajike | Customers",
     description: "View and manage Ajike customers and their service activity.",
   },
+
+  "/admin/dashboard/reviews": {
+    title: "Ajike | Customer Reviews",
+    description:
+      "View all what customers are saying about Ajike cleaning service",
+  },
+
+  "/dashboard/pending-reviews": {
+    title: "Ajike | Pending Reviews",
+    description:
+      "Give your honest feedback on your overall experience with Aike pest control and cleaning service",
+  },
 };
 
 function getPageMetadata(pathname: string) {
