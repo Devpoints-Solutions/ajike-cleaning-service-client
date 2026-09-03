@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { Redirect, useLocation } from "wouter";
+import { Redirect } from "wouter";
 import type { AuthContextType, IUser } from "@/lib/types";
 import { useGetProfileMutation } from "../apis/user-apis";
 import { useLogoutAccountMutation } from "../apis/auth-apis";
@@ -19,8 +19,6 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     useGetProfileMutation();
 
   const [logoutAccount] = useLogoutAccountMutation();
-
-  const [, navigate] = useLocation();
 
   useEffect(() => {
     if (localStorage.getItem("isAuth")) {
@@ -50,7 +48,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     localStorage.removeItem("isAuth");
     setIsAuthenticated(false);
     setCurrentUser(null);
-    navigate("/");
+    window.location.href = "/";
   }
 
   const value = {

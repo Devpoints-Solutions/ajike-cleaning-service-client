@@ -7,6 +7,7 @@ import {
   MessageSquare,
   // CreditCard,
   // Settings,
+  UserStar,
   HelpCircle,
   LogOut,
 } from "lucide-react";
@@ -34,6 +35,12 @@ const adminItems = [
     icon: MessageSquare,
     href: "/admin/dashboard/messages",
   },
+
+  {
+    label: "Customers Reviews",
+    icon: UserStar,
+    href: "/admin/dashboard/reviews",
+  },
   // {
   //   label: "Payments",
   //   icon: CreditCard,
@@ -53,11 +60,11 @@ const userItems = [
     href: "/dashboard/services",
   },
 
-  // {
-  //   label: "Payments",
-  //   icon: CreditCard,
-  //   href: "/dashboard/payments",
-  // },
+  {
+    label: "Pending reviews",
+    icon: UserStar,
+    href: "/dashboard/pending-reviews",
+  },
 ];
 
 const bottomItems = [

@@ -23,12 +23,18 @@ export function getModalMessage(action: string) {
 export function getCurrentPathForAdmin(path: string) {
   const splittedPath = path?.split("/");
 
+  console.log(splittedPath);
+
   if (splittedPath?.includes("services") && splittedPath[3] === "services") {
     return "Services";
   }
 
   if (splittedPath?.includes("customers") && splittedPath[3] === "customers") {
     return "Customers";
+  }
+
+  if (splittedPath?.includes("reviews") && splittedPath[3] === "reviews") {
+    return "Customers Reviews";
   }
 
   if (splittedPath?.includes("messages") && splittedPath[3] === "messages") {
@@ -43,6 +49,13 @@ export function getCurrentPathForUser(path: string) {
 
   if (splittedPath?.includes("services") && splittedPath[2] === "services") {
     return "Services";
+  }
+
+  if (
+    splittedPath?.includes("pending-reviews") &&
+    splittedPath[2] === "pending-reviews"
+  ) {
+    return "Pending reviews";
   }
 
   return "Dashboard";
