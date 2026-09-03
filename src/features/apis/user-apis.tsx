@@ -23,8 +23,19 @@ export const userApis = createApi({
         credentials: "include",
       }),
     }),
+    updateProfile: builder.mutation({
+      query: (payload) => ({
+        url: "/users/profile",
+        method: "PUT",
+        body: payload,
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
-export const { useGetProfileMutation, useGetAllRegisteredUsersMutation } =
-  userApis;
+export const {
+  useGetProfileMutation,
+  useGetAllRegisteredUsersMutation,
+  useUpdateProfileMutation,
+} = userApis;

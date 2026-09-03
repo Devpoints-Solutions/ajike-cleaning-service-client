@@ -8,6 +8,7 @@ import {
   // CreditCard,
   Settings,
   UserStar,
+  UserRound,
   HelpCircle,
   LogOut,
 } from "lucide-react";
@@ -64,6 +65,11 @@ const userItems = [
     label: "Pending reviews",
     icon: UserStar,
     href: "/dashboard/pending-reviews",
+  },
+  {
+    label: "Profile",
+    icon: UserRound,
+    href: "/dashboard/profile",
   },
 ];
 
