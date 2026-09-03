@@ -54,7 +54,7 @@ const userItems = [
     href: "/dashboard/services",
   },
   {
-    label: "Reviews",
+    label: "Pending Reviews",
     icon: Star,
     href: "/dashboard/pending-reviews",
   },

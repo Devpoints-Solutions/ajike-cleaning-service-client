@@ -1,5 +1,11 @@
 import { useMemo, useState } from "react";
-import { CalendarDays, CheckCircle2, MapPin, MessageCircle, Star } from "lucide-react";
+import {
+  CalendarDays,
+  CheckCircle2,
+  MapPin,
+  MessageCircle,
+  Star,
+} from "lucide-react";
 import DashboardLayout from "./dashboard-layout";
 import { useServiceContext } from "@/features/contexts/service-context";
 import type { IService } from "@/lib/types";
@@ -124,7 +130,9 @@ function PendingReviews() {
                 <div className="mt-5 grid grid-cols-2 gap-3 border-t border-slate-100 pt-4">
                   <div className="flex items-center gap-2 text-xs text-slate-500">
                     <CalendarDays size={15} className="text-slate-400" />
-                    <span>{service.visitCompleted || service.preferredDate}</span>
+                    <span>
+                      {service.visitCompleted || service.preferredDate}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-slate-500">
                     <MapPin size={15} className="text-slate-400" />
@@ -153,7 +161,7 @@ function PendingReviews() {
         open={selectedService !== null}
         onOpenChange={(open) => !open && closeReview()}
       >
-        <DialogContent className="max-w-md rounded-3xl border-0 p-0">
+        <DialogContent className="max-w-lg rounded-3xl border-0 p-0">
           <div className="bg-[#122560] px-6 py-7 text-white sm:px-8">
             <DialogHeader className="text-left">
               <p className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">
@@ -197,7 +205,10 @@ function PendingReviews() {
                       onClick={() => setRating(valueString)}
                       data-testid={`button-rating-${value}`}
                     >
-                      <Star size={24} fill={isSelected ? "currentColor" : "none"} />
+                      <Star
+                        size={24}
+                        fill={isSelected ? "currentColor" : "none"}
+                      />
                     </button>
                   );
                 })}
@@ -227,7 +238,11 @@ function PendingReviews() {
           </div>
 
           <DialogFooter className="gap-2 border-t border-slate-100 px-6 py-5 sm:px-8">
-            <button type="button" className="secondary-button" onClick={closeReview}>
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={closeReview}
+            >
               Cancel
             </button>
             <button
