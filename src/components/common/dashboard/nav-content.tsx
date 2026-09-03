@@ -5,6 +5,7 @@ import {
   ClipboardList,
   Users,
   MessageSquare,
+  Star,
   // CreditCard,
   // Settings,
   HelpCircle,
@@ -51,6 +52,11 @@ const userItems = [
     label: "Services",
     icon: ClipboardList,
     href: "/dashboard/services",
+  },
+  {
+    label: "Reviews",
+    icon: Star,
+    href: "/dashboard/pending-reviews",
   },
 
   // {

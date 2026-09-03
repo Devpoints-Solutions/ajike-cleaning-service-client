@@ -31,6 +31,7 @@ import EmptyChatScreen from "@/pages/admin/new-chat-ui/empty-chat-screen";
 import ScrollToTop from "./scroll-to-top";
 import TermsAndConditions from "@/pages/legal/terms-and-conditions";
 import PrivacyPolicy from "@/pages/legal/privacy-policy";
+import PendingReviews from "@/pages/user/pending-reviews";
 
 function AppRoutes() {
   const [location] = useLocation();
@@ -61,6 +62,7 @@ function AppRoutes() {
             <DashboardContextProvider>
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/dashboard/services" component={UserServices} />
+              <Route path="/dashboard/pending-reviews" component={PendingReviews} />
 
               <Route path="/dashboard/payments" component={PaymentHistory} />
               <Route
