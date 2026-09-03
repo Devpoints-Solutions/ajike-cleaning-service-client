@@ -5,6 +5,7 @@ import { useAuthContext } from "@/features/contexts/auth-context";
 import { useToast } from "@/features/hooks/use-toast";
 import type { IUser } from "@/lib/types";
 import DashboardLayout from "./dashboard-layout";
+import { formatError } from "@/helpers/format-error";
 
 type ProfileField = "firstName" | "lastName" | "email" | "phoneNumber" | "role";
 
@@ -83,11 +84,8 @@ function UserProfilePage() {
     } catch (error) {
       toast({
         title: "Unable to update profile",
-        description:
-          error instanceof Error
-            ? error.message
-            : "Please check your details and try again.",
-        variant: "destructive",
+        description: formatError(error),
+        variant: "default",
       });
     }
   };
@@ -155,19 +153,21 @@ function UserProfilePage() {
                         : "border-[#d7ebf5] bg-[#f8fbfd]"
                     }`}
                   />
-                  <button
-                    type="button"
-                    onClick={() => toggleEditing(field.key)}
-                    className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-[#1687b6] transition hover:text-[#122560]"
-                    aria-label={`${editing[field.key] ? "Stop editing" : "Edit"} ${field.label}`}
-                  >
-                    {editing[field.key] ? (
-                      <Check size={13} />
-                    ) : (
-                      <Pencil size={13} />
-                    )}
-                    {editing[field.key] ? "Done" : "Edit"}
-                  </button>
+                  {field?.key !== "email" && (
+                    <button
+                      type="button"
+                      onClick={() => toggleEditing(field.key)}
+                      className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-[#1687b6] transition hover:text-[#122560]"
+                      aria-label={`${editing[field.key] ? "Stop editing" : "Edit"} ${field.label}`}
+                    >
+                      {editing[field.key] ? (
+                        <Check size={13} />
+                      ) : (
+                        <Pencil size={13} />
+                      )}
+                      {editing[field.key] ? "Done" : "Edit"}
+                    </button>
+                  )}
                 </div>
               ))}
             </div>

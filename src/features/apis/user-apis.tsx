@@ -25,7 +25,7 @@ export const userApis = createApi({
     }),
     updateProfile: builder.mutation({
       query: (payload) => ({
-        url: "/users/profile",
+        url: "/users/profile/update",
         method: "PUT",
         body: payload,
         credentials: "include",
