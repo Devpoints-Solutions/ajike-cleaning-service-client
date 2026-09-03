@@ -35,14 +35,6 @@ const AdminServiceContext = createContext<AdminServiceContextType>({
     totalPendingValue: 0,
     totalServices: 0,
     totalValue: 0,
-    totalWeeklyCompletedServices: 0,
-    totalWeeklyCompletedValue: 0,
-    totalWeeklyNewServices: 0,
-    totalWeeklyNewValue: 0,
-    totalWeeklyPendingServices: 0,
-    totalWeeklyPendingValue: 0,
-    totalWeeklyServices: 0,
-    totalWeeklyValue: 0,
   },
   topUsers: null,
 });
@@ -82,14 +74,6 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
     totalPendingValue: number;
     totalServices: number;
     totalValue: number;
-    totalWeeklyCompletedServices: number;
-    totalWeeklyCompletedValue: number;
-    totalWeeklyNewServices: number;
-    totalWeeklyNewValue: number;
-    totalWeeklyPendingServices: number;
-    totalWeeklyPendingValue: number;
-    totalWeeklyServices: number;
-    totalWeeklyValue: number;
   }>({
     totalCompletedServices: 0,
     totalCompletedValue: 0,
@@ -99,14 +83,6 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
     totalPendingValue: 0,
     totalServices: 0,
     totalValue: 0,
-    totalWeeklyCompletedServices: 0,
-    totalWeeklyCompletedValue: 0,
-    totalWeeklyNewServices: 0,
-    totalWeeklyNewValue: 0,
-    totalWeeklyPendingServices: 0,
-    totalWeeklyPendingValue: 0,
-    totalWeeklyServices: 0,
-    totalWeeklyValue: 0,
   });
   const { currentUser, isAuthenticated } = useAuthContext();
 

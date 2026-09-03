@@ -27,6 +27,8 @@ function CustomersReviews() {
     feedbackIsLoading,
   } = useReviewContext();
 
+  console.log(reviewStats);
+
   const shownReviews = useMemo(() => {
     const query = search.trim().toLowerCase();
     return customersReviews.filter(
@@ -165,10 +167,13 @@ function CustomersReviews() {
           <Metrics
             label="Response rate"
             value={
-              Math.ceil(
-                (reviewStats?.totalFeedbacks / reviewStats?.completedServices) *
-                  100,
-              ) + "%"
+              reviewStats?.completedServices > 0
+                ? Math.ceil(
+                    (reviewStats?.totalFeedbacks /
+                      reviewStats?.completedServices) *
+                      100,
+                  ) + "%"
+                : "0%"
             }
             Icon={CheckCircle2}
             color="bg-[#e3f3eb] text-[#14745e]"
@@ -176,10 +181,15 @@ function CustomersReviews() {
           <Metrics
             label="This month"
             value={
-              "+" +
-              (reviewStats?.totalFeedbacks / reviewStats?.completedServices) *
-                100 +
-              "%"
+              reviewStats?.completedServices > 0
+                ? "+" +
+                  Math.ceil(
+                    (reviewStats?.totalFeedbacks /
+                      reviewStats?.completedServices) *
+                      100,
+                  ) +
+                  "%"
+                : "+0%"
             }
             Icon={Sparkles}
             color="bg-[#eee8fa] text-[#665099]"

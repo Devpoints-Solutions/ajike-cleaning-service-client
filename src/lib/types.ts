@@ -148,14 +148,6 @@ export type AdminServiceContextType = {
     totalPendingValue: number;
     totalServices: number;
     totalValue: number;
-    totalWeeklyCompletedServices: number;
-    totalWeeklyCompletedValue: number;
-    totalWeeklyNewServices: number;
-    totalWeeklyNewValue: number;
-    totalWeeklyPendingServices: number;
-    totalWeeklyPendingValue: number;
-    totalWeeklyServices: number;
-    totalWeeklyValue: number;
   };
 
   topUsers: IUser[] | null;

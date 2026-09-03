@@ -1,8 +1,6 @@
 import { getSpecificDate, extractPrice } from "@/helpers/time";
 
 export function Step5({ step, data }: { step: number; data: any }) {
-
-  
   return (
     <>
       {step === 5 && (

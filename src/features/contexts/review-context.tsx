@@ -93,7 +93,12 @@ export function ReviewContextProvider({ children }: { children: ReactNode }) {
   }, [completedData, completedSuccess]);
 
   useEffect(() => {
-    if (feedbackSuccess && feebackData && firstRequest) {
+    if (
+      feedbackSuccess &&
+      feebackData &&
+      feebackData?.data[0]?.feedbacks?.length > 0 &&
+      firstRequest
+    ) {
       setCustomersReviews(feebackData?.data[0]?.feedbacks);
       setReviewStats({
         ...feebackData?.data[0]?.ratingStatistics[0],

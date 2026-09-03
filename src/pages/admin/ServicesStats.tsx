@@ -45,12 +45,19 @@ function ServicesStats() {
       </article>
       <article className="admin-kpi">
         <span>Pending services</span>
+
         <strong>
-          {" "}
           {servicesStats?.totalPendingServices === 0
             ? servicesStats?.totalPendingServices
             : String(servicesStats?.totalPendingServices).padStart(2, "0")}
         </strong>
+
+        <div className="flex items-center gap-3">
+          <small>
+            Valued at <BadgeDollarSign size={15} /> $
+            {servicesStats?.totalPendingValue}
+          </small>
+        </div>
         <small>
           <Activity size={15} /> {servicesStats?.totalNewServices} need a
           response
@@ -69,9 +76,11 @@ function ServicesStats() {
         <span>Overall coverage</span>
         <strong>
           {servicesStats?.totalServices
-            ? (servicesStats.totalCompletedServices /
-                servicesStats.totalServices) *
-              100
+            ? Math.round(
+                (servicesStats.totalCompletedServices /
+                  servicesStats.totalServices) *
+                  100,
+              )
             : 0}
           %
         </strong>

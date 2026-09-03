@@ -47,8 +47,7 @@ function Visualizer() {
     42;
 
   const baselineCompleted =
-    servicesStats?.totalWeeklyCompletedServices ||
-    Math.max(completedCount - 4, 1);
+    servicesStats?.totalCompletedServices || Math.max(completedCount - 4, 1);
   const monthDelta = Math.round(
     ((completedCount - baselineCompleted) / Math.max(baselineCompleted, 1)) *
       100,
@@ -115,7 +114,8 @@ function Visualizer() {
         <div className="mix-foot">
           <span>{completedCount} completed jobs</span>
           <span>
-            {monthDelta >= 0 ? "↑" : "↓"} {Math.abs(monthDelta)}% vs last month
+            {monthDelta >= 0 ? "↑" : "↓"} {Math.abs(monthDelta)}% vs total
+            services
           </span>
         </div>
       </section>

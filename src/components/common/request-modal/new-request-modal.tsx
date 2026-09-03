@@ -55,7 +55,12 @@ function NewRequestModal() {
         </div>
 
         <WhatAndWhere
-          onSubmitRequest={(data: any) => requestNewService(data)}
+          onSubmitRequest={(data: any) =>
+            requestNewService({
+              ...data,
+              budget: data?.budget?.split(" ")[1]?.slice(1),
+            })
+          }
           isSuccess={isSuccess}
           isLoading={isLoading}
         />

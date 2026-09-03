@@ -16,10 +16,17 @@ export function RatingBar({
         <Star size={11} className="text-[#f0b341]" fill="currentColor" />
       </span>
       <div className="h-2 flex-1 overflow-hidden rounded-full bg-[#e6f0f3]">
-        <div
-          className="h-full rounded-full bg-[#51bfd0]"
-          style={{ width: `${(count / totalReviews) * 100}%` }}
-        />
+        {count > 0 ? (
+          <div
+            className="h-full rounded-full bg-[#51bfd0]"
+            style={{ width: `${(count / totalReviews) * 100}%` }}
+          />
+        ) : (
+          <div
+            className="h-full rounded-full bg-[#51bfd0]"
+            style={{ width: "0%" }}
+          />
+        )}
       </div>
       <span className="w-5 text-right font-bold text-[#123f5d]">{count}</span>
     </div>

@@ -7,7 +7,6 @@ import { getGreeting } from "@/helpers/time";
 import { useTime } from "@/features/hooks/use-time";
 import { useDashboardContext } from "@/features/contexts/dashboard-context";
 import { getCurrentPathForAdmin } from "@/helpers/profile";
-import Stats from "./Stats";
 import ServicesStats from "./ServicesStats";
 
 const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
@@ -69,7 +68,9 @@ const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
               )}
             </div>
           )}
-          {pathname == "/admin/dashboard" && <Stats />}
+
+          {pathname == "/admin/dashboard" && <ServicesStats />}
+
           {pathname == "/admin/dashboard/services" && <ServicesStats />}
           {children}
         </div>
