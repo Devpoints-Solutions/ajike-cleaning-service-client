@@ -6,7 +6,7 @@ import {
   Users,
   MessageSquare,
   // CreditCard,
-  // Settings,
+  Settings,
   UserStar,
   HelpCircle,
   LogOut,
@@ -67,12 +67,25 @@ const userItems = [
   },
 ];
 
-const bottomItems = [
-  // {
-  //   label: "Settings",
-  //   icon: Settings,
-  //   href: "/dashboard/settings",
-  // },
+const userBottomItems = [
+  {
+    label: "Settings",
+    icon: Settings,
+    href: "/dashboard/profile",
+  },
+  {
+    label: "Help & Support",
+    icon: HelpCircle,
+    href: "#",
+  },
+];
+
+const adminBottomItems = [
+  {
+    label: "Settings",
+    icon: Settings,
+    href: "/admin/dashboard/profile",
+  },
   {
     label: "Help & Support",
     icon: HelpCircle,
@@ -123,11 +136,23 @@ const NavContent = () => {
         )}
 
         <div className="space-y-1">
-          {bottomItems.map((item) => {
-            const Icon = item.icon;
+          {isAuthenticated &&
+            currentUser &&
+            currentUser?.role === "user" &&
+            userBottomItems.map((item) => {
+              const Icon = item.icon;
 
-            return <NavItem key={item.label} item={item} Icon={Icon} />;
-          })}
+              return <NavItem key={item.label} item={item} Icon={Icon} />;
+            })}
+
+          {isAuthenticated &&
+            currentUser &&
+            currentUser?.role === "admin" &&
+            adminBottomItems.map((item) => {
+              const Icon = item.icon;
+
+              return <NavItem key={item.label} item={item} Icon={Icon} />;
+            })}
         </div>
 
         {/* Logout */}

@@ -33,6 +33,8 @@ import ScrollToTop from "./scroll-to-top";
 import TermsAndConditions from "@/pages/legal/terms-and-conditions";
 import PrivacyPolicy from "@/pages/legal/privacy-policy";
 import PendingReviews from "@/pages/user/pending-reviews";
+import AdminProfilePage from "@/pages/admin/admin-profile-page";
+import ProfilePage from "@/pages/user/profile-page";
 
 function AppRoutes() {
   const [location] = useLocation();
@@ -74,6 +76,8 @@ function AppRoutes() {
                 component={UserServiceDetails}
               />
 
+              <Route path="/dashboard/profile" component={ProfilePage} />
+
               <Route path="/admin/dashboard" component={AdminDashboard} />
 
               <Route
@@ -83,6 +87,10 @@ function AppRoutes() {
               <Route
                 path="/admin/dashboard/reviews"
                 component={CustomersReviews}
+              />
+              <Route
+                path="/admin/dashboard/profile"
+                component={AdminProfilePage}
               />
               <Route
                 path="/admin/dashboard/messages/:room"

@@ -35,6 +35,10 @@ export function getCurrentPathForAdmin(path: string) {
     return "Customers Reviews";
   }
 
+  if (splittedPath?.includes("profile") && splittedPath[3] === "profile") {
+    return "Settings";
+  }
+
   if (splittedPath?.includes("messages") && splittedPath[3] === "messages") {
     return "Messages";
   }
@@ -47,6 +51,10 @@ export function getCurrentPathForUser(path: string) {
 
   if (splittedPath?.includes("services") && splittedPath[2] === "services") {
     return "Services";
+  }
+
+  if (splittedPath?.includes("profile") && splittedPath[2] === "profile") {
+    return "Settings";
   }
 
   if (
