@@ -32,10 +32,6 @@ import ScrollToTop from "./scroll-to-top";
 import TermsAndConditions from "@/pages/legal/terms-and-conditions";
 import PrivacyPolicy from "@/pages/legal/privacy-policy";
 import PendingReviews from "@/pages/user/pending-reviews";
-<<<<<<< HEAD
-import CustomersReviews from "@/pages/admin/customers-reviews";
-=======
->>>>>>> agents/pending-reviews-ui-update-with-modal
 
 function AppRoutes() {
   const [location] = useLocation();
@@ -66,13 +62,12 @@ function AppRoutes() {
             <DashboardContextProvider>
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/dashboard/services" component={UserServices} />
-              <Route path="/dashboard/pending-reviews" component={PendingReviews} />
-
-              <Route path="/dashboard/payments" component={PaymentHistory} />
               <Route
                 path="/dashboard/pending-reviews"
                 component={PendingReviews}
               />
+
+              <Route path="/dashboard/payments" component={PaymentHistory} />
               <Route
                 path="/dashboard/services/:id"
                 component={UserServiceDetails}
@@ -93,10 +88,6 @@ function AppRoutes() {
                 component={AdminServices}
               />
 
-              <Route
-                path="/admin/dashboard/reviews"
-                component={CustomersReviews}
-              />
               <Route
                 path="/admin/dashboard/services/:id"
                 component={AdminServiceDetails}
