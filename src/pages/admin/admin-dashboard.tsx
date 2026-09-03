@@ -5,7 +5,7 @@ import AdminDashboardLayout from "./admin-dashboard-layout";
 function AdminDashboard() {
   return (
     <AdminDashboardLayout>
-      <div className="admin-page">
+      <div data-tour="admin-overview" className="admin-page">
         <AdminRecentServices />
         <Visualizer />
       </div>

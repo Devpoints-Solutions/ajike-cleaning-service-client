@@ -16,13 +16,14 @@ const DashboardNav = ({}: {}) => {
 
       {mobileOpen && (
         <div className="fixed inset-0 z-40 bg-black/20 lg:hidden">
-          <aside className="absolute bottom-0 left-0 top-[72px] w-[280px] overflow-y-auto border-r border-slate-200 bg-white px-4 py-6">
+          <aside data-tour="sidebar" className="absolute bottom-0 left-0 top-[72px] w-[280px] overflow-y-auto border-r border-slate-200 bg-white px-4 py-6">
             <NavContent />
           </aside>
         </div>
       )}
 
       <aside
+      data-tour="sidebar"
         className={`
           fixed
           bottom-0

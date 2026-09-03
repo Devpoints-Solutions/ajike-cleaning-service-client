@@ -10,6 +10,19 @@ const NavItem = ({ item, Icon }: { item: any; Icon: any }) => {
     <Link
       href={item.href}
       onClick={() => handleNavigation(item.label)}
+      data-tour={
+        item.label === "Services"
+          ? "services-nav"
+          : item.label === "Customers"
+            ? "customers-nav"
+            : item.label === "Messages"
+              ? "messages-nav"
+              : item.label === "Pending reviews"
+                ? "reviews-nav"
+                : item.label === "Settings"
+                  ? "settings-nav"
+                  : undefined
+      }
       title={collapsed ? item.label : undefined}
       className={`
         group

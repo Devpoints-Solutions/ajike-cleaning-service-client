@@ -17,6 +17,7 @@ import { useTime } from "@/features/hooks/use-time";
 import { getCurrentPathForUser } from "@/helpers/profile";
 import { useDashboardContext } from "@/features/contexts/dashboard-context";
 import StatCard from "./stat-card";
+import ProductTour from "@/components/common/dashboard/product-tour";
 
 const DashboardLayout = ({ children }: React.PropsWithChildren) => {
   const [pathname] = useLocation();
@@ -125,6 +126,9 @@ const DashboardLayout = ({ children }: React.PropsWithChildren) => {
           {children}
         </div>
       </main>
+      {pathname === "/dashboard" && currentUser?.role === "user" && (
+        <ProductTour role="user" />
+      )}
     </div>
   );
 };

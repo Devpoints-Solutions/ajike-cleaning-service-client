@@ -8,6 +8,7 @@ import { useTime } from "@/features/hooks/use-time";
 import { useDashboardContext } from "@/features/contexts/dashboard-context";
 import { getCurrentPathForAdmin } from "@/helpers/profile";
 import ServicesStats from "./ServicesStats";
+import ProductTour from "@/components/common/dashboard/product-tour";
 
 const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
   const { isAuthenticated, currentUser } = useAuthContext();
@@ -75,6 +76,9 @@ const AdminDashboardLayout = ({ children }: React.PropsWithChildren) => {
           {children}
         </div>
       </main>
+      {pathname === "/admin/dashboard" && currentUser?.role === "admin" && (
+        <ProductTour role="admin" />
+      )}
     </div>
   );
 };

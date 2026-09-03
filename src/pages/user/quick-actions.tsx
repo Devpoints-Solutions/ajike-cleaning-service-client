@@ -31,7 +31,7 @@ function QuickActions() {
   const { toggleNewModal } = useServiceContext();
   const { showUserChat, toggleUserChat } = useMessages();
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_2px_10px_rgba(0,22,37,0.03)] sm:p-6">
+    <div data-tour="quick-actions" className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_2px_10px_rgba(0,22,37,0.03)] sm:p-6">
       <div className="mb-5 flex items-start justify-between">
         <div>
           <p className="text-[11px] font-bold uppercase tracking-[0.13em] text-[#1687b6]">
