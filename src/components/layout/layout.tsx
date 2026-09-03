@@ -89,6 +89,10 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
     description:
       "Manage Ajike services, customers, and operations from one dashboard.",
   },
+  "/admin/dashboard/profile": {
+    title: "Ajike | Admin Profile",
+    description: "Profile details of admin user.",
+  },
   "/admin/dashboard/messages": {
     title: "Ajike | Messages",
     description: "Manage customer conversations and support messages in Ajike.",
