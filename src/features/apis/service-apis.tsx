@@ -43,7 +43,7 @@ export const serviceApis = createApi({
 
     sendFeedback: builder.mutation({
       query: (payload) => ({
-        url: `/services/${payload?.serviceId}/feeback`,
+        url: `/services/${payload?.serviceId}/feedback`,
         method: "POST",
         body: payload?.serviceData,
         credentials: "include",
@@ -54,6 +54,7 @@ export const serviceApis = createApi({
       query: (payload) => ({
         url: `/services/feedback?page=${payload}`,
         method: "GET",
+        credentials: "include",
       }),
     }),
 

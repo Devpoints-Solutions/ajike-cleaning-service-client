@@ -1,4 +1,3 @@
-import { memo } from "react";
 import { Check } from "lucide-react";
 
 const AdminSuccessModal = ({
@@ -62,4 +61,4 @@ const AdminSuccessModal = ({
   );
 };
 
-export default memo(AdminSuccessModal);
+export default AdminSuccessModal;

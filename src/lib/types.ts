@@ -167,13 +167,27 @@ export type ErrorType = {
 };
 
 export interface ICustomerReview {
+  _id: string;
   text: string;
   rating: number;
   service: IService;
   user: IUser;
+  updatedAt: string;
 }
+
+export type ReviewStatsType = {
+  averageRating: number;
+  totalFeedbacks: number;
+  totalFiveStars: number;
+  totalFourStars: number;
+  totalOneStar: number;
+  totalThreeStars: number;
+  totalTwoStars: number;
+  completedServices: number;
+};
 
 export type ReviewContextType = {
   completedServices: IService[];
   customersReviews: ICustomerReview[];
+  reviewStats: ReviewStatsType;
 };

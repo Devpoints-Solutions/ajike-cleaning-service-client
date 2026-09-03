@@ -2,11 +2,9 @@ import { Check } from "lucide-react";
 
 const SuccessModal = ({
   isOpen,
-
   onViewService,
 }: {
   isOpen: boolean;
-
   onViewService: () => void;
 }) => {
   if (!isOpen) return null;

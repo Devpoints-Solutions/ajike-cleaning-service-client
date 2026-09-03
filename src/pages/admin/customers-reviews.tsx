@@ -8,135 +8,26 @@ import {
   Star,
   ThumbsUp,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { Link } from "wouter";
 import AdminDashboardLayout from "./admin-dashboard-layout";
-
-type Review = {
-  id: number;
-  customer: string;
-  initials: string;
-  service: string;
-  rating: number;
-  date: string;
-  comment: string;
-  responded: boolean;
-  accent: string;
-};
-
-const reviews: Review[] = [
-  {
-    id: 1,
-    customer: "Amelia Hart",
-    initials: "AH",
-    service: "Deep home cleaning",
-    rating: 5,
-    date: "Aug 28, 2025",
-    comment:
-      "The team was thoughtful, thorough, and left every room feeling brand new. I especially appreciated the care around the small details.",
-    responded: true,
-    accent: "bg-[#d9f2ed] text-[#14745e]",
-  },
-  {
-    id: 2,
-    customer: "Marcus Okafor",
-    initials: "MO",
-    service: "Pest control visit",
-    rating: 5,
-    date: "Aug 24, 2025",
-    comment:
-      "Super clear communication from booking to completion. The technician arrived on time and explained what had been done before leaving.",
-    responded: true,
-    accent: "bg-[#dcecf8] text-[#14638a]",
-  },
-  {
-    id: 3,
-    customer: "Sofia Bennett",
-    initials: "SB",
-    service: "Move-out cleaning",
-    rating: 4,
-    date: "Aug 19, 2025",
-    comment:
-      "Really happy with the result and the friendly service. A couple of spots needed a second look, but the team resolved it quickly.",
-    responded: true,
-    accent: "bg-[#fff0d8] text-[#9b6414]",
-  },
-  {
-    id: 4,
-    customer: "Daniel Reed",
-    initials: "DR",
-    service: "Recurring home cleaning",
-    rating: 5,
-    date: "Aug 14, 2025",
-    comment:
-      "Our weekly visits have made such a difference. The quality is consistent and the whole experience feels wonderfully effortless.",
-    responded: false,
-    accent: "bg-[#e7e0f7] text-[#665099]",
-  },
-  {
-    id: 5,
-    customer: "Priya Shah",
-    initials: "PS",
-    service: "Kitchen deep clean",
-    rating: 3,
-    date: "Aug 08, 2025",
-    comment:
-      "The main areas looked good. I would have liked a little more detail in the corners and around the appliances.",
-    responded: false,
-    accent: "bg-[#f8dfe4] text-[#a64c63]",
-  },
-];
-
-const ratingDistribution = [5, 4, 3, 2, 1].map((rating) => ({
-  rating,
-  count: reviews.filter((review) => review.rating === rating).length,
-}));
-
-const metricCards: {
-  label: string;
-  value: string | number;
-  icon: LucideIcon;
-  color: string;
-}[] = [
-  {
-    label: "Total reviews",
-    value: reviews.length,
-    icon: MessageCircle,
-    color: "bg-[#e3f5f8] text-[#1687b6]",
-  },
-  {
-    label: "5-star moments",
-    value: ratingDistribution[0].count,
-    icon: Star,
-    color: "bg-[#fff2d9] text-[#b77a19]",
-  },
-  {
-    label: "Response rate",
-    value: `${(reviews.filter((review) => review.responded).length / reviews.length) * 100}%`,
-    icon: CheckCircle2,
-    color: "bg-[#e3f3eb] text-[#14745e]",
-  },
-  {
-    label: "This month",
-    value: "+18%",
-    icon: Sparkles,
-    color: "bg-[#eee8fa] text-[#665099]",
-  },
-];
+import { useReviewContext } from "@/features/contexts/review-context";
+import { getIsoFullDate } from "@/helpers/time";
+import { Metrics, RatingBar } from "./review-components";
 
 function CustomersReviews() {
   const [ratingFilter, setRatingFilter] = useState<"All" | number>("All");
   const [search, setSearch] = useState("");
 
-  const averageRating =
-    reviews.reduce((total, review) => total + review.rating, 0) /
-    reviews.length;
+  const { customersReviews, reviewStats } = useReviewContext();
+
   const shownReviews = useMemo(() => {
     const query = search.trim().toLowerCase();
-    return reviews.filter(
+    return customersReviews.filter(
       (review) =>
-        (ratingFilter === "All" || review.rating === ratingFilter) &&
+        (ratingFilter === "All" ||
+          review.rating?.toString() === ratingFilter.toString()) &&
         (!query ||
-          `${review.customer} ${review.service} ${review.comment}`
+          `${review.user} ${review.service} ${review.text}`
             .toLowerCase()
             .includes(query)),
     );
@@ -147,7 +38,6 @@ function CustomersReviews() {
       <main className="dashboard-wrap">
         <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <div className="eyebrow">Customer voice</div>
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-[#122560]">
               Customers reviews
             </h2>
@@ -170,16 +60,21 @@ function CustomersReviews() {
                 </span>
                 <div className="mt-2 flex items-end gap-3">
                   <strong className="text-5xl font-bold tracking-tight">
-                    {averageRating.toFixed(1)}
+                    {reviewStats?.averageRating?.toFixed(1)}
                   </strong>
-                  <span className="mb-2 text-sm text-[#b8dfeb]">out of 5</span>
+                  <span className="mb-2 text-sm text-[#b8dfeb]">
+                    out of {reviewStats?.totalFeedbacks}
+                  </span>
                 </div>
                 <div className="mt-3 flex items-center gap-1 text-[#ffd36a]">
-                  {Array.from({ length: 5 }, (_, index) => (
-                    <Star key={index} size={16} fill="currentColor" />
-                  ))}
+                  {Array.from(
+                    { length: Math.ceil(reviewStats?.averageRating) },
+                    (_, index) => (
+                      <Star key={index} size={16} fill="currentColor" />
+                    ),
+                  )}
                   <span className="ml-2 text-xs text-[#b8dfeb]">
-                    {reviews.length} verified reviews
+                    {reviewStats?.totalFeedbacks} verified reviews
                   </span>
                 </div>
               </div>
@@ -187,7 +82,7 @@ function CustomersReviews() {
                 <div
                   className="absolute inset-2 rounded-full"
                   style={{
-                    background: `conic-gradient(#52c7d8 ${averageRating * 20}%, #315187 0)`,
+                    background: `conic-gradient(#52c7d8 ${Math.ceil(reviewStats?.averageRating) * 20}%, #315187 0)`,
                   }}
                 />
                 <div className="relative flex h-20 w-20 flex-col items-center justify-center rounded-full bg-[#122560]">
@@ -211,50 +106,77 @@ function CustomersReviews() {
               <Star size={18} className="text-[#f0b341]" fill="currentColor" />
             </div>
             <div className="space-y-2">
-              {ratingDistribution.map(({ rating, count }) => (
-                <div key={rating} className="flex items-center gap-2 text-xs">
-                  <span className="flex w-7 items-center gap-1 font-bold text-[#678391]">
-                    {rating}{" "}
-                    <Star
-                      size={11}
-                      className="text-[#f0b341]"
-                      fill="currentColor"
-                    />
-                  </span>
-                  <div className="h-2 flex-1 overflow-hidden rounded-full bg-[#e6f0f3]">
-                    <div
-                      className="h-full rounded-full bg-[#51bfd0]"
-                      style={{ width: `${(count / reviews.length) * 100}%` }}
-                    />
-                  </div>
-                  <span className="w-5 text-right font-bold text-[#123f5d]">
-                    {count}
-                  </span>
-                </div>
-              ))}
+              <RatingBar
+                rating={5}
+                count={reviewStats?.totalFiveStars}
+                totalReviews={reviewStats?.totalFeedbacks}
+              />
+
+              <RatingBar
+                rating={4}
+                count={reviewStats?.totalFourStars}
+                totalReviews={reviewStats?.totalFeedbacks}
+              />
+
+              <RatingBar
+                rating={3}
+                count={reviewStats?.totalThreeStars}
+                totalReviews={reviewStats?.totalFeedbacks}
+              />
+
+              <RatingBar
+                rating={2}
+                count={reviewStats?.totalTwoStars}
+                totalReviews={reviewStats?.totalFeedbacks}
+              />
+
+              <RatingBar
+                rating={1}
+                count={reviewStats?.totalOneStar}
+                totalReviews={reviewStats?.totalFeedbacks}
+              />
             </div>
           </article>
         </section>
 
-        <section className="mb-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {metricCards.map(({ label, value, icon: Icon, color }) => (
-            <article
-              key={String(label)}
-              className="rounded-2xl border border-[#cce2e9] bg-white p-4 shadow-sm"
-            >
-              <div
-                className={`mb-3 flex h-9 w-9 items-center justify-center rounded-xl ${color}`}
-              >
-                <Icon size={17} />
-              </div>
-              <strong className="block text-xl font-bold text-[#123f5d]">
-                {value}
-              </strong>
-              <span className="mt-1 block text-[0.65rem] font-bold uppercase tracking-wide text-[#7893a0]">
-                {label}
-              </span>
-            </article>
-          ))}
+        <section
+          className="mb-5 grid grid-cols-2 gap-3 sm:grid-cols-4 dmin-kpi-grid w-full self-start lg:sticky lg:top-[0] lg:self-start bg-[#ffffff] z-50 py-5 px-5 rounded-2xl"
+          style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
+        >
+          <Metrics
+            label="total reviews"
+            value={reviewStats?.totalFeedbacks}
+            Icon={MessageCircle}
+            color="bg-[#e3f5f8] text-[#1687b6]"
+          />
+          <Metrics
+            label="5-star moments"
+            value={reviewStats?.totalFiveStars}
+            Icon={Star}
+            color="bg-[#fff2d9] text-[#b77a19]"
+          />
+          <Metrics
+            label="Response rate"
+            value={
+              Math.ceil(
+                (reviewStats?.totalFeedbacks / reviewStats?.completedServices) *
+                  100,
+              ) + "%"
+            }
+            Icon={CheckCircle2}
+            color="bg-[#e3f3eb] text-[#14745e]"
+          />
+          <Metrics
+            label="This month"
+            value={
+              "+" +
+              (reviewStats?.totalFeedbacks / reviewStats?.completedServices) *
+                100 +
+              "%"
+            }
+            Icon={Sparkles}
+            color="bg-[#eee8fa] text-[#665099]"
+          />
         </section>
 
         <section className="admin-panel">
@@ -268,7 +190,7 @@ function CustomersReviews() {
 
           <div className="admin-filter-row flex-col items-stretch sm:flex-row">
             <div className="admin-filter-tabs">
-              {(["All", 5, 4, 3] as const).map((item) => (
+              {(["All", 5, 4, 3, 2, 1] as const).map((item) => (
                 <button
                   key={item}
                   className={ratingFilter === item ? "active" : ""}
@@ -295,60 +217,66 @@ function CustomersReviews() {
           <div className="grid gap-3 pt-3">
             {shownReviews.map((review) => (
               <article
-                key={review.id}
+                key={review._id}
                 className="rounded-xl border border-[#dcebef] bg-white p-4 transition-shadow hover:shadow-sm sm:p-5"
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div className="flex gap-3">
                     <div
-                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xs font-bold ${review.accent}`}
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xs font-bold bg-[#d9f2ed] text-[#14745e]"`}
                     >
-                      {review.initials}
+                      {review?.user?.firstName[0]}
+                      {review?.user?.lastName[0]}
                     </div>
                     <div>
                       <h3 className="text-sm font-bold text-[#123f5d]">
-                        {review.customer}
+                        {review?.user?.firstName} {review?.user?.lastName}
                       </h3>
                       <p className="mt-1 text-xs text-[#7893a0]">
-                        {review.service}
+                        {review?.service?.title}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 sm:text-right">
                     <div className="flex gap-0.5 text-[#f0b341]">
-                      {Array.from({ length: 5 }, (_, index) => (
-                        <Star
-                          key={index}
-                          size={14}
-                          fill={index < review.rating ? "currentColor" : "none"}
-                          className={
-                            index < review.rating ? "" : "text-[#c9dce2]"
-                          }
-                        />
-                      ))}
+                      {Array.from(
+                        { length: Number(review?.rating) },
+                        (_, index) => (
+                          <Star
+                            key={index}
+                            size={14}
+                            fill={
+                              index < review.rating ? "currentColor" : "none"
+                            }
+                            className={
+                              index < review.rating ? "" : "text-[#c9dce2]"
+                            }
+                          />
+                        ),
+                      )}
                     </div>
                     <span className="flex items-center gap-1 text-[0.65rem] text-[#7893a0]">
-                      <CalendarDays size={12} /> {review.date}
+                      <CalendarDays size={12} />{" "}
+                      {getIsoFullDate(review?.updatedAt)}
                     </span>
                   </div>
                 </div>
                 <p className="mt-4 text-sm leading-6 text-[#4d6d7d]">
-                  &ldquo;{review.comment}&rdquo;
+                  &ldquo;{review?.text}&rdquo;
                 </p>
                 <div className="mt-4 flex items-center justify-between border-t border-[#edf3f5] pt-3">
                   <span
-                    className={`flex items-center gap-1 text-[0.65rem] font-bold ${review.responded ? "text-[#168d68]" : "text-[#a16b1d]"}`}
+                    className={`flex items-center gap-1 text-[0.65rem] font-bold ${review?.user?.serviceCount ? "text-[#168d68]" : "text-[#a16b1d]"}`}
                   >
-                    {review.responded ? (
-                      <CheckCircle2 size={13} />
-                    ) : (
-                      <MessageCircle size={13} />
-                    )}
-                    {review.responded ? "Responded" : "Needs a response"}
+                    <CheckCircle2 size={13} />
+                    {review?.user?.serviceCount} Completed services
                   </span>
-                  <button className="text-button text-xs">
-                    View conversation
-                  </button>
+                  <Link
+                    href={`/admin/dashboard/services/${review?.service?._id}`}
+                    className="text-button text-xs"
+                  >
+                    View service
+                  </Link>
                 </div>
               </article>
             ))}
