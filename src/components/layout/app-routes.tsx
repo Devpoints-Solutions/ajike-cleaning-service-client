@@ -28,6 +28,7 @@ import { DashboardContextProvider } from "@/features/contexts/dashboard-context"
 import CustomersPage from "@/pages/admin/customers-page";
 import { ChatMessages } from "@/pages/admin/new-chat-ui/chat-messages";
 import EmptyChatScreen from "@/pages/admin/new-chat-ui/empty-chat-screen";
+import CustomersReviews from "@/pages/admin/customers-reviews";
 import ScrollToTop from "./scroll-to-top";
 import TermsAndConditions from "@/pages/legal/terms-and-conditions";
 import PrivacyPolicy from "@/pages/legal/privacy-policy";
@@ -78,6 +79,10 @@ function AppRoutes() {
               <Route
                 path="/admin/dashboard/messages"
                 component={EmptyChatScreen}
+              />
+              <Route
+                path="/admin/dashboard/reviews"
+                component={CustomersReviews}
               />
               <Route
                 path="/admin/dashboard/messages/:room"
