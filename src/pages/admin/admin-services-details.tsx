@@ -280,9 +280,19 @@ export default function AdminServiceDetails() {
             </InfoItem>
 
             {/* Requested by */}
-            <InfoItem icon={User} label="Requested by">
-              <span className="break-all">User ID: {service?._id}</span>
-            </InfoItem>
+            {service?.customer && service?.customer?.email ? (
+              <InfoItem icon={User} label="Requested for">
+                <span className="break-all whitespace-pre-line">
+                  {`Fullname: ${service?.customer?.firstName} ${service?.customer?.lastName}
+                  Phone Number: ${service?.customer?.phoneNumber}
+                  Email: ${service?.customer?.email}`}
+                </span>
+              </InfoItem>
+            ) : (
+              <InfoItem icon={User} label="Requested by">
+                <span className="break-all">User ID: {service?.user?._id}</span>
+              </InfoItem>
+            )}
 
             {/* Service location */}
             <InfoItem icon={Globe2} label="Service location">
