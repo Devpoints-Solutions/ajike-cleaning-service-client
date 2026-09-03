@@ -51,8 +51,8 @@ export const serviceApis = createApi({
     }),
 
     getAllFeeback: builder.mutation({
-      query: () => ({
-        url: "/services/feedback",
+      query: (payload) => ({
+        url: `/services/feedback?page=${payload}`,
         method: "GET",
       }),
     }),
@@ -62,6 +62,14 @@ export const serviceApis = createApi({
         url: `/services/${payload?.serviceId}`,
         method: "PUT",
         body: payload?.serviceData,
+        credentials: "include",
+      }),
+    }),
+
+    getCompletedServicesByUser: builder.mutation({
+      query: () => ({
+        url: "/services/user/completed-services",
+        method: "GET",
         credentials: "include",
       }),
     }),
@@ -76,4 +84,5 @@ export const {
   useGetAllFeebackMutation,
   useUpdateServiceMutation,
   useGetNewServicesByUserMutation,
+  useGetCompletedServicesByUserMutation,
 } = serviceApis;

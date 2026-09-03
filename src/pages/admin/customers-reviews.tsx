@@ -97,15 +97,30 @@ const metricCards: {
   icon: LucideIcon;
   color: string;
 }[] = [
-  { label: "Total reviews", value: reviews.length, icon: MessageCircle, color: "bg-[#e3f5f8] text-[#1687b6]" },
-  { label: "5-star moments", value: ratingDistribution[0].count, icon: Star, color: "bg-[#fff2d9] text-[#b77a19]" },
+  {
+    label: "Total reviews",
+    value: reviews.length,
+    icon: MessageCircle,
+    color: "bg-[#e3f5f8] text-[#1687b6]",
+  },
+  {
+    label: "5-star moments",
+    value: ratingDistribution[0].count,
+    icon: Star,
+    color: "bg-[#fff2d9] text-[#b77a19]",
+  },
   {
     label: "Response rate",
     value: `${(reviews.filter((review) => review.responded).length / reviews.length) * 100}%`,
     icon: CheckCircle2,
     color: "bg-[#e3f3eb] text-[#14745e]",
   },
-  { label: "This month", value: "+18%", icon: Sparkles, color: "bg-[#eee8fa] text-[#665099]" },
+  {
+    label: "This month",
+    value: "+18%",
+    icon: Sparkles,
+    color: "bg-[#eee8fa] text-[#665099]",
+  },
 ];
 
 function CustomersReviews() {
@@ -113,7 +128,8 @@ function CustomersReviews() {
   const [search, setSearch] = useState("");
 
   const averageRating =
-    reviews.reduce((total, review) => total + review.rating, 0) / reviews.length;
+    reviews.reduce((total, review) => total + review.rating, 0) /
+    reviews.length;
   const shownReviews = useMemo(() => {
     const query = search.trim().toLowerCase();
     return reviews.filter(
@@ -198,7 +214,12 @@ function CustomersReviews() {
               {ratingDistribution.map(({ rating, count }) => (
                 <div key={rating} className="flex items-center gap-2 text-xs">
                   <span className="flex w-7 items-center gap-1 font-bold text-[#678391]">
-                    {rating} <Star size={11} className="text-[#f0b341]" fill="currentColor" />
+                    {rating}{" "}
+                    <Star
+                      size={11}
+                      className="text-[#f0b341]"
+                      fill="currentColor"
+                    />
                   </span>
                   <div className="h-2 flex-1 overflow-hidden rounded-full bg-[#e6f0f3]">
                     <div
@@ -206,7 +227,9 @@ function CustomersReviews() {
                       style={{ width: `${(count / reviews.length) * 100}%` }}
                     />
                   </div>
-                  <span className="w-5 text-right font-bold text-[#123f5d]">{count}</span>
+                  <span className="w-5 text-right font-bold text-[#123f5d]">
+                    {count}
+                  </span>
                 </div>
               ))}
             </div>
@@ -215,11 +238,18 @@ function CustomersReviews() {
 
         <section className="mb-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {metricCards.map(({ label, value, icon: Icon, color }) => (
-            <article key={String(label)} className="rounded-2xl border border-[#cce2e9] bg-white p-4 shadow-sm">
-              <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-xl ${color}`}>
+            <article
+              key={String(label)}
+              className="rounded-2xl border border-[#cce2e9] bg-white p-4 shadow-sm"
+            >
+              <div
+                className={`mb-3 flex h-9 w-9 items-center justify-center rounded-xl ${color}`}
+              >
                 <Icon size={17} />
               </div>
-              <strong className="block text-xl font-bold text-[#123f5d]">{value}</strong>
+              <strong className="block text-xl font-bold text-[#123f5d]">
+                {value}
+              </strong>
               <span className="mt-1 block text-[0.65rem] font-bold uppercase tracking-wide text-[#7893a0]">
                 {label}
               </span>
@@ -249,7 +279,10 @@ function CustomersReviews() {
               ))}
             </div>
             <label className="relative block sm:w-56">
-              <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7893a0]" />
+              <Search
+                size={15}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7893a0]"
+              />
               <input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
@@ -261,21 +294,37 @@ function CustomersReviews() {
 
           <div className="grid gap-3 pt-3">
             {shownReviews.map((review) => (
-              <article key={review.id} className="rounded-xl border border-[#dcebef] bg-white p-4 transition-shadow hover:shadow-sm sm:p-5">
+              <article
+                key={review.id}
+                className="rounded-xl border border-[#dcebef] bg-white p-4 transition-shadow hover:shadow-sm sm:p-5"
+              >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div className="flex gap-3">
-                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xs font-bold ${review.accent}`}>
+                    <div
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xs font-bold ${review.accent}`}
+                    >
                       {review.initials}
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold text-[#123f5d]">{review.customer}</h3>
-                      <p className="mt-1 text-xs text-[#7893a0]">{review.service}</p>
+                      <h3 className="text-sm font-bold text-[#123f5d]">
+                        {review.customer}
+                      </h3>
+                      <p className="mt-1 text-xs text-[#7893a0]">
+                        {review.service}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 sm:text-right">
                     <div className="flex gap-0.5 text-[#f0b341]">
                       {Array.from({ length: 5 }, (_, index) => (
-                        <Star key={index} size={14} fill={index < review.rating ? "currentColor" : "none"} className={index < review.rating ? "" : "text-[#c9dce2]"} />
+                        <Star
+                          key={index}
+                          size={14}
+                          fill={index < review.rating ? "currentColor" : "none"}
+                          className={
+                            index < review.rating ? "" : "text-[#c9dce2]"
+                          }
+                        />
                       ))}
                     </div>
                     <span className="flex items-center gap-1 text-[0.65rem] text-[#7893a0]">
@@ -283,13 +332,23 @@ function CustomersReviews() {
                     </span>
                   </div>
                 </div>
-                <p className="mt-4 text-sm leading-6 text-[#4d6d7d]">&ldquo;{review.comment}&rdquo;</p>
+                <p className="mt-4 text-sm leading-6 text-[#4d6d7d]">
+                  &ldquo;{review.comment}&rdquo;
+                </p>
                 <div className="mt-4 flex items-center justify-between border-t border-[#edf3f5] pt-3">
-                  <span className={`flex items-center gap-1 text-[0.65rem] font-bold ${review.responded ? "text-[#168d68]" : "text-[#a16b1d]"}`}>
-                    {review.responded ? <CheckCircle2 size={13} /> : <MessageCircle size={13} />}
+                  <span
+                    className={`flex items-center gap-1 text-[0.65rem] font-bold ${review.responded ? "text-[#168d68]" : "text-[#a16b1d]"}`}
+                  >
+                    {review.responded ? (
+                      <CheckCircle2 size={13} />
+                    ) : (
+                      <MessageCircle size={13} />
+                    )}
                     {review.responded ? "Responded" : "Needs a response"}
                   </span>
-                  <button className="text-button text-xs">View conversation</button>
+                  <button className="text-button text-xs">
+                    View conversation
+                  </button>
                 </div>
               </article>
             ))}

@@ -165,3 +165,15 @@ export type ErrorType = {
   field: string;
   message: string;
 };
+
+export interface ICustomerReview {
+  text: string;
+  rating: number;
+  service: IService;
+  user: IUser;
+}
+
+export type ReviewContextType = {
+  completedServices: IService[];
+  customersReviews: ICustomerReview[];
+};

@@ -9,6 +9,7 @@ import { AuthContextProvider } from "@/features/contexts/auth-context.tsx";
 import { ServiceContextProvider } from "./features/contexts/service-context.tsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { AdminContextProvider } from "./features/contexts/admin-service-context.tsx";
+import { ReviewContextProvider } from "./features/contexts/review-context.tsx";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
 
@@ -18,17 +19,19 @@ createRoot(document.getElementById("root")!).render(
       <AuthContextProvider>
         <AdminContextProvider>
           <ServiceContextProvider>
-            <TooltipProvider>
-              <GoogleOAuthProvider
-                clientId={import.meta.env.VITE_APP_GOOGLE_OAUTH_CLIENT_ID!}
-              >
-                <WouterRouter
-                  base={import.meta.env.BASE_URL.replace(/\/$/, "")}
+            <ReviewContextProvider>
+              <TooltipProvider>
+                <GoogleOAuthProvider
+                  clientId={import.meta.env.VITE_APP_GOOGLE_OAUTH_CLIENT_ID!}
                 >
-                  <App />
-                </WouterRouter>
-              </GoogleOAuthProvider>
-            </TooltipProvider>
+                  <WouterRouter
+                    base={import.meta.env.BASE_URL.replace(/\/$/, "")}
+                  >
+                    <App />
+                  </WouterRouter>
+                </GoogleOAuthProvider>
+              </TooltipProvider>
+            </ReviewContextProvider>
           </ServiceContextProvider>
         </AdminContextProvider>
       </AuthContextProvider>

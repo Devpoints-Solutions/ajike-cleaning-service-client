@@ -23,8 +23,6 @@ export function getModalMessage(action: string) {
 export function getCurrentPathForAdmin(path: string) {
   const splittedPath = path?.split("/");
 
-  console.log(splittedPath);
-
   if (splittedPath?.includes("services") && splittedPath[3] === "services") {
     return "Services";
   }
