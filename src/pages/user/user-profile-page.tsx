@@ -22,7 +22,6 @@ const fields: Array<{
   { key: "lastName", label: "Last name", type: "text" },
   { key: "email", label: "Email address", type: "email" },
   { key: "phoneNumber", label: "Phone number", type: "tel" },
-  { key: "role", label: "Role", type: "text" },
 ];
 
 function getProfileValues(user: IUser): ProfileValues {
@@ -42,21 +41,25 @@ function UserProfilePage() {
   const [values, setValues] = useState<ProfileValues | null>(
     currentUser ? getProfileValues(currentUser) : null,
   );
-  const [editing, setEditing] = useState<Partial<Record<ProfileField, boolean>>>(
-    {},
-  );
+  const [editing, setEditing] = useState<
+    Partial<Record<ProfileField, boolean>>
+  >({});
 
   const hasChanges =
     currentUser &&
     values &&
-    fields.some((field) => values[field.key] !== getProfileValues(currentUser)[field.key]);
+    fields.some(
+      (field) => values[field.key] !== getProfileValues(currentUser)[field.key],
+    );
 
   const toggleEditing = (field: ProfileField) => {
     setEditing((current) => ({ ...current, [field]: !current[field] }));
   };
 
   const updateField = (field: ProfileField, value: string) => {
-    setValues((current) => (current ? { ...current, [field]: value } : current));
+    setValues((current) =>
+      current ? { ...current, [field]: value } : current,
+    );
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -142,7 +145,9 @@ function UserProfilePage() {
                     id={`profile-${field.key}`}
                     type={field.type}
                     value={values[field.key] ?? ""}
-                    onChange={(event) => updateField(field.key, event.target.value)}
+                    onChange={(event) =>
+                      updateField(field.key, event.target.value)
+                    }
                     readOnly={!editing[field.key]}
                     className={`h-11 w-full rounded-xl border px-4 text-sm font-semibold text-[#173f5b] outline-none transition ${
                       editing[field.key]
@@ -156,7 +161,11 @@ function UserProfilePage() {
                     className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-[#1687b6] transition hover:text-[#122560]"
                     aria-label={`${editing[field.key] ? "Stop editing" : "Edit"} ${field.label}`}
                   >
-                    {editing[field.key] ? <Check size={13} /> : <Pencil size={13} />}
+                    {editing[field.key] ? (
+                      <Check size={13} />
+                    ) : (
+                      <Pencil size={13} />
+                    )}
                     {editing[field.key] ? "Done" : "Edit"}
                   </button>
                 </div>
