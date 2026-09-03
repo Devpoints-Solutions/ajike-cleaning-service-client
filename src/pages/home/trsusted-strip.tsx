@@ -11,7 +11,7 @@ function TrustedStrip() {
         <BadgeCheck size={30} /> Verified professionals
       </div>
       <div className="trust-item">
-        <ShieldCheck size={30} /> Licensed & insured
+        <ShieldCheck size={30} /> Trusted & Reliable
       </div>
       <div className="trust-item">
         <Camera size={30} /> Before / after proof
