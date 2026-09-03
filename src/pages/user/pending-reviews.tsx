@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import DashboardLayout from "./dashboard-layout";
-
-function PendingReviews() {
-  return (
-    <DashboardLayout>
-      <h1>Pending Reviews</h1>
-=======
 import { useMemo, useState } from "react";
 import {
   CalendarDays,
@@ -265,7 +257,6 @@ function PendingReviews() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
->>>>>>> agents/pending-reviews-ui-update-with-modal
     </DashboardLayout>
   );
 }
