@@ -71,6 +71,10 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
     description:
       "Manage your Ajike service requests, upcoming visits, and service history.",
   },
+  "/dashboard/profile": {
+    title: "Ajike | Profile",
+    description: "Review and update your Ajike account details.",
+  },
   "/dashboard/services": {
     title: "Ajike | My Services",
     description:

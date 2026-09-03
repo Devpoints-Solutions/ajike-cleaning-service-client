@@ -45,6 +45,10 @@ export function getCurrentPathForAdmin(path: string) {
 export function getCurrentPathForUser(path: string) {
   const splittedPath = path?.split("/");
 
+  if (splittedPath?.includes("profile") && splittedPath[2] === "profile") {
+    return "Profile";
+  }
+
   if (splittedPath?.includes("services") && splittedPath[2] === "services") {
     return "Services";
   }

@@ -33,6 +33,7 @@ import ScrollToTop from "./scroll-to-top";
 import TermsAndConditions from "@/pages/legal/terms-and-conditions";
 import PrivacyPolicy from "@/pages/legal/privacy-policy";
 import PendingReviews from "@/pages/user/pending-reviews";
+import UserProfilePage from "@/pages/user/user-profile-page";
 
 function AppRoutes() {
   const [location] = useLocation();
@@ -62,6 +63,7 @@ function AppRoutes() {
           <RequireAuth>
             <DashboardContextProvider>
               <Route path="/dashboard" component={Dashboard} />
+              <Route path="/dashboard/profile" component={UserProfilePage} />
               <Route path="/dashboard/services" component={UserServices} />
               <Route
                 path="/dashboard/pending-reviews"
