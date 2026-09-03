@@ -33,12 +33,8 @@ import ScrollToTop from "./scroll-to-top";
 import TermsAndConditions from "@/pages/legal/terms-and-conditions";
 import PrivacyPolicy from "@/pages/legal/privacy-policy";
 import PendingReviews from "@/pages/user/pending-reviews";
-<<<<<<< HEAD
 import AdminProfilePage from "@/pages/admin/admin-profile-page";
-import ProfilePage from "@/pages/user/profile-page";
-=======
 import UserProfilePage from "@/pages/user/user-profile-page";
->>>>>>> agents/update-user-profile-editable-fields
 
 function AppRoutes() {
   const [location] = useLocation();
@@ -80,8 +76,6 @@ function AppRoutes() {
                 path="/dashboard/services/:id"
                 component={UserServiceDetails}
               />
-
-              <Route path="/dashboard/profile" component={ProfilePage} />
 
               <Route path="/admin/dashboard" component={AdminDashboard} />
 
