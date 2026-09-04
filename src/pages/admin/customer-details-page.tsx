@@ -2,9 +2,8 @@ import { useMemo } from "react";
 import { useParams } from "wouter";
 import AdminDashboardLayout from "./admin-dashboard-layout";
 import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
-// import { Badge } from "lucide-react";
 import { useState } from "react";
-import { Check, Pencil, Save, UserRound } from "lucide-react";
+import { BadgeCheck, Check, Pencil, Save, UserRound } from "lucide-react";
 import { useUpdateUserProfileMutation } from "@/features/apis/user-apis";
 import { useToast } from "@/features/hooks/use-toast";
 import type { IUser } from "@/lib/types";
@@ -109,16 +108,24 @@ function CustomerDetailsPage() {
         <section className="admin-panel overflow-hidden rounded-2xl">
           <div className="border-b border-[#d7ebf5] bg-gradient-to-br from-[#f2fbff] to-white px-6 py-8 sm:px-10">
             <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
-              <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-[#dff3fa] text-[#1687b6] ring-4 ring-white shadow-lg">
-                {customer.picture ? (
-                  <img
-                    src={customer?.picture}
-                    alt={`${customer?.firstName} ${customer?.lastName}`}
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <UserRound size={38} />
-                )}
+              <div className="relative">
+                <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-[#dff3fa] text-[#1687b6] ring-4 ring-white shadow-lg">
+                  {customer.picture ? (
+                    <img
+                      src={customer.picture}
+                      alt={`${customer.firstName} ${customer.lastName}`}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <UserRound size={38} />
+                  )}
+                </div>
+                <BadgeCheck
+                  aria-label="Verified profile"
+                  className="absolute -bottom-1 -right-1 rounded-full bg-white text-[#1687b6]"
+                  size={25}
+                  strokeWidth={2.5}
+                />
               </div>
 
               <div>

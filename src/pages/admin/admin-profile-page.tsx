@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, Pencil, Save, UserRound } from "lucide-react";
+import { BadgeCheck, Check, Pencil, Save, UserRound } from "lucide-react";
 import { useUpdateProfileMutation } from "@/features/apis/user-apis";
 import { useAuthContext } from "@/features/contexts/auth-context";
 import { useToast } from "@/features/hooks/use-toast";
@@ -112,16 +112,24 @@ function AdminProfilePage() {
         <section className="admin-panel overflow-hidden rounded-2xl">
           <div className="border-b border-[#d7ebf5] bg-gradient-to-br from-[#f2fbff] to-white px-6 py-8 sm:px-10">
             <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
-              <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-[#dff3fa] text-[#1687b6] ring-4 ring-white shadow-lg">
-                {currentUser.picture ? (
-                  <img
-                    src={currentUser.picture}
-                    alt={`${currentUser.firstName} ${currentUser.lastName}`}
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <UserRound size={38} />
-                )}
+              <div className="relative">
+                <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-[#dff3fa] text-[#1687b6] ring-4 ring-white shadow-lg">
+                  {currentUser.picture ? (
+                    <img
+                      src={currentUser.picture}
+                      alt={`${currentUser.firstName} ${currentUser.lastName}`}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <UserRound size={38} />
+                  )}
+                </div>
+                <BadgeCheck
+                  aria-label="Verified profile"
+                  className="absolute -bottom-1 -right-1 rounded-full bg-white text-[#1687b6]"
+                  size={25}
+                  strokeWidth={2.5}
+                />
               </div>
               <div>
                 <p className="eyebrow">Account settings</p>
