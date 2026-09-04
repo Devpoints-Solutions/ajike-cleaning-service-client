@@ -131,10 +131,7 @@ function CustomerDetailsPage() {
               <div>
                 <p className="eyebrow">Account settings</p>
                 <h2 className="mt-1 text-2xl font-extrabold text-[#122560]">
-                  {customer?.firstName?.charAt(0).toUpperCase() +
-                    customer?.firstName?.slice(1)}{" "}
-                  {customer?.lastName?.charAt(0)?.toUpperCase() +
-                    customer?.lastName?.slice(1)}
+                  {customer?.firstName} {customer?.lastName}
                 </h2>
                 <p className="mt-1 text-sm font-medium text-[#587285]">
                   Keep up with customers profile data

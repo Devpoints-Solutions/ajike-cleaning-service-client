@@ -348,13 +348,15 @@ a {
   font-optical-sizing: auto;
   font-weight: 900;
   font-style: normal;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.2em;
 }
 
 .brand-tagline {
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  font-size: 13px;
+  letter-spacing: -0.05em;
 }
-.brand-tagline::after {
+/* .brand-tagline::after {
   content: " ";
   width: 20px;
   gap: 5px;
@@ -372,7 +374,7 @@ a {
   background-color: #122560;
   display: inline-block;
   margin-right: 2px;
-}
+} */
 
 .auth-brand-mobile {
   display: none;
@@ -1920,7 +1922,7 @@ a {
   z-index: 1;
 }
 
-.auth-side .brand-tagline::after {
+/* .auth-side .brand-tagline::after {
   content: " ";
   width: 20px;
   gap: 5px;
@@ -1938,7 +1940,7 @@ a {
   background-color: #ffffff;
   display: inline-block;
   margin-right: 2px;
-}
+} */
 .auth-side .brand-mark {
   background: #a3dff1;
   color: #001625;

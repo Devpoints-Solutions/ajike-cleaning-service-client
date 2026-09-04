@@ -41,7 +41,7 @@ function DashboardBrand() {
               collapsed ? "w-0 overflow-hidden opacity-0" : "w-auto opacity-100"
             }`}
           >
-            Pest & Cleaning
+            Pest Control & Cleaning
           </p>
         </div>
       </Link>
