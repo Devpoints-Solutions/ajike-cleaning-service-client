@@ -128,6 +128,7 @@ function getPageMetadata(pathname: string) {
   }
 
   const serviceMatch = normalizedPath.match(/^\/services\/([^/]+)$/);
+
   if (serviceMatch) {
     const serviceName = decodeURIComponent(serviceMatch[1])
       .replace(/[-_]+/g, " ")
@@ -158,6 +159,13 @@ function getPageMetadata(pathname: string) {
     return {
       title: "Ajike | Customer Conversation",
       description: "View and respond to an Ajike customer conversation.",
+    };
+  }
+
+  if (normalizedPath.startsWith("/admin/dashboard/customers/")) {
+    return {
+      title: "Ajike | Customer Details",
+      description: "Profile details of a customer",
     };
   }
 
