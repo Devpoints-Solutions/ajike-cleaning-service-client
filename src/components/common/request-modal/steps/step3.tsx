@@ -7,9 +7,14 @@ import type { ErrorType } from "@/lib/types";
 import { CalendarDays } from "lucide-react";
 import ServiceSelector from "../service-selector";
 
-export function Step3({ step, setCanContinue }: { step: number, setCanContinue: (canContinue: boolean, data: any) => void }) {
-
-  const [_error, setError] = useState<ErrorType>();
+export function Step3({
+  step,
+  setCanContinue,
+}: {
+  step: number;
+  setCanContinue: (canContinue: boolean, data: any) => void;
+}) {
+  const [error, setError] = useState<ErrorType>();
 
   const [step3Data, setStep3Data] = useState<{
     preferredDate: string;
@@ -33,8 +38,6 @@ export function Step3({ step, setCanContinue }: { step: number, setCanContinue: 
     }));
   }
 
-
-
   useEffect(() => {
     const timer = setTimeout(() => {
       (async () => {
@@ -42,7 +45,6 @@ export function Step3({ step, setCanContinue }: { step: number, setCanContinue: 
           await step3Schema.validate(step3Data, { abortEarly: false });
 
           setError({ message: "", field: "" });
-
 
           setCanContinue(true, step3Data);
         } catch (error: unknown) {
@@ -62,7 +64,6 @@ export function Step3({ step, setCanContinue }: { step: number, setCanContinue: 
       clearTimeout(timer);
     };
   }, [step3Data]);
-
 
   return (
     <>
@@ -169,6 +170,44 @@ export function Step3({ step, setCanContinue }: { step: number, setCanContinue: 
             </div>
           </section>
 
+          <section className="mt-2 flex items-center justify-between">
+            <div>
+              {error && error?.field === "preferredDate" && (
+                <div
+                  className="auth-error"
+                  role="alert"
+                  data-testid="text-signin-error"
+                >
+                  {error?.message}
+                </div>
+              )}
+            </div>
+
+            <div>
+              {error && error?.field === "postcode" && (
+                <div
+                  className="auth-error"
+                  role="alert"
+                  data-testid="text-signin-error"
+                >
+                  {error?.message}
+                </div>
+              )}
+            </div>
+
+            <div>
+              {error && error?.field === "serviceState" && (
+                <div
+                  className="auth-error"
+                  role="alert"
+                  data-testid="text-signin-error"
+                >
+                  {error?.message}
+                </div>
+              )}
+            </div>
+          </section>
+
           <section className="mt-3">
             <h2 className="mb-3 text-[14px] font-semibold text-[#001625]">
               Select your city
@@ -218,6 +257,16 @@ export function Step3({ step, setCanContinue }: { step: number, setCanContinue: 
               data-testid="input-request-address"
               style={{ borderRadius: "12px" }}
             />
+
+            {error && error?.field === "address" && (
+              <div
+                className="auth-error"
+                role="alert"
+                data-testid="text-signin-error"
+              >
+                {error?.message}
+              </div>
+            )}
           </div>
         </>
       )}
