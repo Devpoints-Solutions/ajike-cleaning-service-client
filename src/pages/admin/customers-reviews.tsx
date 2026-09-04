@@ -27,8 +27,6 @@ function CustomersReviews() {
     feedbackIsLoading,
   } = useReviewContext();
 
-  console.log(reviewStats);
-
   const shownReviews = useMemo(() => {
     const query = search.trim().toLowerCase();
     return customersReviews.filter(

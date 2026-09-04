@@ -19,15 +19,18 @@ export function AdminServices() {
     "All" | "One time" | "Re-occurrent"
   >("All");
 
-  const shownServices = services.filter(
-    (job) =>
-      (filter === "All" ||
-        job.status?.toLowerCase() === filter.toLowerCase()) &&
-      (serviceFilter === "All" ||
-        job.category?.toLowerCase() === serviceFilter.toLowerCase()) &&
-      (planFilter === "All" ||
-        job.plan?.toLowerCase() === planFilter.toLowerCase()),
-  );
+  const shownServices =
+    services &&
+    services?.length > 0 &&
+    services.filter(
+      (job) =>
+        (filter === "All" ||
+          job.status?.toLowerCase() === filter.toLowerCase()) &&
+        (serviceFilter === "All" ||
+          job.category?.toLowerCase() === serviceFilter.toLowerCase()) &&
+        (planFilter === "All" ||
+          job.plan?.toLowerCase() === planFilter.toLowerCase()),
+    );
 
   return (
     <AdminDashboardLayout>
@@ -82,7 +85,7 @@ export function AdminServices() {
           </div>
         </div>
 
-        {shownServices.length === 0 ? (
+        {shownServices && shownServices.length === 0 ? (
           <div className="active-schedules-empty">
             <Calendar size={48} />
             <h3>No Active Schedules</h3>
@@ -92,9 +95,11 @@ export function AdminServices() {
           </div>
         ) : (
           <div className="grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
-            {shownServices.map((service, index) => (
-              <AdminServiceCard key={index} service={service} />
-            ))}
+            {shownServices &&
+              shownServices?.length > 0 &&
+              shownServices.map((service, index) => (
+                <AdminServiceCard key={index} service={service} />
+              ))}
           </div>
         )}
 

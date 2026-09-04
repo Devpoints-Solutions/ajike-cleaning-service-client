@@ -5,13 +5,9 @@ import { useAuthContext } from "@/features/contexts/auth-context";
 import { useToast } from "@/features/hooks/use-toast";
 import type { IUser } from "@/lib/types";
 import AdminDashboardLayout from "./admin-dashboard-layout";
-
-type ProfileField = "firstName" | "lastName" | "email" | "phoneNumber" | "role";
-
-type ProfileValues = Pick<
-  IUser,
-  "firstName" | "lastName" | "email" | "phoneNumber" | "role"
->;
+import { Loader } from "@/components/common/loader";
+import { formatError } from "@/helpers/format-error";
+import type { ProfileField, ProfileValues } from "@/lib/types";
 
 const fields: Array<{
   key: ProfileField;
@@ -35,7 +31,7 @@ function getProfileValues(user: IUser): ProfileValues {
   };
 }
 
-function UserProfilePage() {
+function AdminProfilePage() {
   const { currentUser, updateIsAuthenticatedState } = useAuthContext();
   const { toast } = useToast();
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
@@ -75,7 +71,17 @@ function UserProfilePage() {
         throw new Error("The profile response was incomplete.");
       }
 
-      updateIsAuthenticatedState(updatedUser);
+      const userData = {
+        _id: updatedUser?._id,
+        firstName: updatedUser?.firstName,
+        lastName: updatedUser?.lastName,
+        email: updatedUser?.email,
+        role: updatedUser?.role,
+        phoneNumber: updatedUser?.phoneNumber,
+        picture: updatedUser?.picture,
+      };
+
+      updateIsAuthenticatedState(userData);
       setEditing({});
       toast({
         title: "Profile updated",
@@ -84,11 +90,8 @@ function UserProfilePage() {
     } catch (error) {
       toast({
         title: "Unable to update profile",
-        description:
-          error instanceof Error
-            ? error.message
-            : "Please check your details and try again.",
-        variant: "destructive",
+        description: formatError(error),
+        variant: "default",
       });
     }
   };
@@ -179,8 +182,7 @@ function UserProfilePage() {
                 disabled={!hasChanges || isLoading}
                 className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-[#122560] px-5 text-sm font-bold text-white transition hover:bg-[#1687b6] disabled:cursor-not-allowed disabled:opacity-40"
               >
-                <Save size={16} />
-                {isLoading ? "Saving..." : "Update profile"}
+                {isLoading && <Loader />} Update profile <Save size={16} />
               </button>
             </div>
           </form>
@@ -190,4 +192,4 @@ function UserProfilePage() {
   );
 }
 
-export default UserProfilePage;
+export default AdminProfilePage;

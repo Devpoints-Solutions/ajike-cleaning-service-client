@@ -35,6 +35,7 @@ import PrivacyPolicy from "@/pages/legal/privacy-policy";
 import PendingReviews from "@/pages/user/pending-reviews";
 import AdminProfilePage from "@/pages/admin/admin-profile-page";
 import UserProfilePage from "@/pages/user/user-profile-page";
+import CustomerDetailsPage from "@/pages/admin/customer-details-page";
 
 function AppRoutes() {
   const [location] = useLocation();
@@ -95,6 +96,7 @@ function AppRoutes() {
                 path="/admin/dashboard/messages/:room"
                 component={ChatMessages}
               />
+
               <Route
                 path="/admin/dashboard/services"
                 component={AdminServices}
@@ -108,6 +110,11 @@ function AppRoutes() {
               <Route
                 path="/admin/dashboard/customers"
                 component={CustomersPage}
+              />
+
+              <Route
+                path="/admin/dashboard/customers/:customerId"
+                component={CustomerDetailsPage}
               />
             </DashboardContextProvider>
           </RequireAuth>

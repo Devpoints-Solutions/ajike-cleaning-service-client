@@ -186,3 +186,15 @@ export type ReviewContextType = {
   feedbackIsLoading: boolean;
   hasMore: boolean;
 };
+
+export type ProfileField =
+  | "firstName"
+  | "lastName"
+  | "email"
+  | "phoneNumber"
+  | "role";
+
+export type ProfileValues = Pick<
+  IUser,
+  "firstName" | "lastName" | "email" | "phoneNumber" | "role"
+>;

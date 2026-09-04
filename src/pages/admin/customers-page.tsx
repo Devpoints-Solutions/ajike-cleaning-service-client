@@ -8,7 +8,10 @@ import {
   ShieldCheck,
   UserRound,
   Users,
+  MoreVertical,
+  User2,
 } from "lucide-react";
+import { Link } from "wouter";
 import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
 import { Loader } from "@/components/common/loader";
 import AdminDashboardLayout from "./admin-dashboard-layout";
@@ -24,6 +27,7 @@ function CustomersPage() {
   } = useAdminServiceContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState<"All" | "user" | "admin">("All");
+  const [selectedUserId, setSelectedUserId] = useState<string>("");
 
   const filteredUsers = useMemo(() => {
     const value = searchTerm.trim().toLowerCase();
@@ -171,6 +175,7 @@ function CustomersPage() {
                     <th className="px-3 pb-2">Role</th>
                     <th className="px-3 pb-2">Requests</th>
                     <th className="px-3 pb-2">Status</th>
+                    <th className="px-3 pb-2">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -247,6 +252,37 @@ function CustomersPage() {
                             <BadgeCheck size={12} />
                             {status}
                           </span>
+                        </td>
+
+                        <td className="ox-3 align-middle text-sm font-semibold text-[#173f5b]">
+                          <div className="schedule-row-actions">
+                            <button
+                              className="icon-button"
+                              onClick={() =>
+                                selectedUserId && selectedUserId === user?._id
+                                  ? setSelectedUserId("")
+                                  : setSelectedUserId(user?._id)
+                              }
+                              aria-label={`Actions for ${user._id}`}
+                              data-testid={`button-schedule-actions-${user._id}`}
+                            >
+                              <MoreVertical size={16} />
+                            </button>
+
+                            {selectedUserId && selectedUserId === user?._id && (
+                              <div className="schedule-actions-dropdown">
+                                <Link
+                                  href={`/admin/dashboard/customers/${selectedUserId}`}
+                                  className="schedule-action-item"
+                                  data-testid={`button-view-details-${user._id}`}
+                                  onClick={() => {}}
+                                >
+                                  <User2 size={14} />
+                                  View profile
+                                </Link>
+                              </div>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     );

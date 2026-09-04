@@ -1,19 +1,16 @@
+import { useMemo } from "react";
+import { useParams } from "wouter";
+import AdminDashboardLayout from "./admin-dashboard-layout";
+import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
+// import { Badge } from "lucide-react";
 import { useState } from "react";
 import { Check, Pencil, Save, UserRound } from "lucide-react";
-import { useUpdateProfileMutation } from "@/features/apis/user-apis";
-import { useAuthContext } from "@/features/contexts/auth-context";
+import { useUpdateUserProfileMutation } from "@/features/apis/user-apis";
 import { useToast } from "@/features/hooks/use-toast";
 import type { IUser } from "@/lib/types";
-import DashboardLayout from "./dashboard-layout";
 import { Loader } from "@/components/common/loader";
 import { formatError } from "@/helpers/format-error";
-
-type ProfileField = "firstName" | "lastName" | "email" | "phoneNumber" | "role";
-
-type ProfileValues = Pick<
-  IUser,
-  "firstName" | "lastName" | "email" | "phoneNumber" | "role"
->;
+import type { ProfileField, ProfileValues } from "@/lib/types";
 
 const fields: Array<{
   key: ProfileField;
@@ -24,6 +21,7 @@ const fields: Array<{
   { key: "lastName", label: "Last name", type: "text" },
   { key: "email", label: "Email address", type: "email" },
   { key: "phoneNumber", label: "Phone number", type: "tel" },
+  { key: "role", label: "Role", type: "text" },
 ];
 
 function getProfileValues(user: IUser): ProfileValues {
@@ -36,22 +34,29 @@ function getProfileValues(user: IUser): ProfileValues {
   };
 }
 
-function UserProfilePage() {
-  const { currentUser, updateIsAuthenticatedState } = useAuthContext();
+function CustomerDetailsPage() {
+  const { users } = useAdminServiceContext();
+  const { customerId } = useParams<{ customerId: string }>();
+  const [updateUserProfile, { isLoading }] = useUpdateUserProfileMutation();
   const { toast } = useToast();
-  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
+
+  const customer = useMemo(
+    () => users?.find((user) => user?._id === customerId),
+    [customerId],
+  );
+
   const [values, setValues] = useState<ProfileValues | null>(
-    currentUser ? getProfileValues(currentUser) : null,
+    customer ? getProfileValues(customer) : null,
   );
   const [editing, setEditing] = useState<
     Partial<Record<ProfileField, boolean>>
   >({});
 
   const hasChanges =
-    currentUser &&
+    customer &&
     values &&
     fields.some(
-      (field) => values[field.key] !== getProfileValues(currentUser)[field.key],
+      (field) => values[field.key] !== getProfileValues(customer)[field.key],
     );
 
   const toggleEditing = (field: ProfileField) => {
@@ -69,18 +74,15 @@ function UserProfilePage() {
     if (!values || !hasChanges) return;
 
     try {
-      const response = await updateProfile(values).unwrap();
-      const updatedUser = response?.data ?? response;
+      await updateUserProfile({
+        userId: customerId,
+        userData: values,
+      }).unwrap();
 
-      if (!updatedUser?._id) {
-        throw new Error("The profile response was incomplete.");
-      }
-
-      updateIsAuthenticatedState(updatedUser);
       setEditing({});
       toast({
         title: "Profile updated",
-        description: "Your account details have been saved.",
+        description: "User has been upgraded to an admin",
       });
     } catch (error) {
       toast({
@@ -91,40 +93,44 @@ function UserProfilePage() {
     }
   };
 
-  if (!currentUser || !values) {
+  if (!customer || !values) {
     return (
-      <DashboardLayout>
+      <AdminDashboardLayout>
         <div className="admin-panel p-8 text-center text-[#587285]">
-          Your profile is not available right now.
+          Profile is not available right now.
         </div>
-      </DashboardLayout>
+      </AdminDashboardLayout>
     );
   }
 
   return (
-    <DashboardLayout>
+    <AdminDashboardLayout>
       <main className="dashboard-wrap">
         <section className="admin-panel overflow-hidden rounded-2xl">
           <div className="border-b border-[#d7ebf5] bg-gradient-to-br from-[#f2fbff] to-white px-6 py-8 sm:px-10">
             <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
               <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-[#dff3fa] text-[#1687b6] ring-4 ring-white shadow-lg">
-                {currentUser.picture ? (
+                {customer.picture ? (
                   <img
-                    src={currentUser.picture}
-                    alt={`${currentUser.firstName} ${currentUser.lastName}`}
+                    src={customer?.picture}
+                    alt={`${customer?.firstName} ${customer?.lastName}`}
                     className="h-full w-full object-cover"
                   />
                 ) : (
                   <UserRound size={38} />
                 )}
               </div>
+
               <div>
                 <p className="eyebrow">Account settings</p>
                 <h2 className="mt-1 text-2xl font-extrabold text-[#122560]">
-                  Your profile
+                  {customer?.firstName?.charAt(0).toUpperCase() +
+                    customer?.firstName?.slice(1)}{" "}
+                  {customer?.lastName?.charAt(0)?.toUpperCase() +
+                    customer?.lastName?.slice(1)}
                 </h2>
                 <p className="mt-1 text-sm font-medium text-[#587285]">
-                  Keep your contact details current for smoother service.
+                  Keep up with customers profile data
                 </p>
               </div>
             </div>
@@ -154,7 +160,7 @@ function UserProfilePage() {
                         : "border-[#d7ebf5] bg-[#f8fbfd]"
                     }`}
                   />
-                  {field?.key !== "email" && (
+                  {field?.key === "role" && (
                     <button
                       type="button"
                       onClick={() => toggleEditing(field.key)}
@@ -179,15 +185,14 @@ function UserProfilePage() {
                 disabled={!hasChanges || isLoading}
                 className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-[#122560] px-5 text-sm font-bold text-white transition hover:bg-[#1687b6] disabled:cursor-not-allowed disabled:opacity-40"
               >
-                {isLoading && <Loader />}Update profile
-                <Save size={16} />
+                {isLoading && <Loader />} Update profile <Save size={16} />
               </button>
             </div>
           </form>
         </section>
       </main>
-    </DashboardLayout>
+    </AdminDashboardLayout>
   );
 }
 
-export default UserProfilePage;
+export default CustomerDetailsPage;

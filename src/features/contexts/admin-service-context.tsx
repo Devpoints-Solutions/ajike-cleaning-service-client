@@ -102,7 +102,13 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
   ] = useGetAllServicesMutation();
 
   useEffect(() => {
-    if (isAuthenticated && currentUser && currentUser?.role === "admin") {
+    if (
+      isAuthenticated &&
+      currentUser &&
+      currentUser?.role === "admin" &&
+      services?.length === 0 &&
+      users?.length === 0
+    ) {
       getAllRegisteredUsers(1);
       getAllServices(1);
     }
@@ -114,6 +120,7 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
       setUsers(usersData?.data?.users);
       setStatistics(usersData?.data?.statistics);
       setTotalUserPage(usersData?.data?.pagination?.totalPages);
+
       setFirstRequest(false);
     }
 
@@ -131,6 +138,7 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
       setServices(serviceData?.data?.services);
       setTotalServicesPage(serviceData?.data?.pagination?.totalPages);
       setServicesStats(serviceData?.data?.statistics);
+
       setFirstServicesRequest(false);
     }
 

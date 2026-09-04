@@ -28,8 +28,6 @@ const ServiceContext = createContext<ServiceContextType>({
   hasMore: true,
 });
 
-let tempServices: IService[] = [];
-
 export function ServiceContextProvider({ children }: React.PropsWithChildren) {
   const [newModalIsOpen, setNewModalIsOpen] = useState<boolean>(false);
   const [services, setServices] = useState<IService[]>([]);
@@ -63,18 +61,9 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
       isAuthenticated &&
       currentUser &&
       currentUser?.role === "user" &&
-      tempServices?.length === 0
+      services?.length === 0
     ) {
       getServicesByUser(null);
-    }
-
-    if (
-      isAuthenticated &&
-      currentUser &&
-      currentUser?.role === "user" &&
-      tempServices?.length > 0
-    ) {
-      setServices(tempServices);
     }
   }, [isAuthenticated, currentUser]);
 
@@ -84,7 +73,7 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
         (a: IService, b: IService) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
-      tempServices = srv;
+
       setServices(srv);
       setServiceStats(data?.data?.serviceStats);
       setNextVisit(data?.data?.nextVisit);
@@ -99,7 +88,6 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
         (a: IService, b: IService) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
-      tempServices = [...tempServices, ...srv];
       setServices((prev) => [...prev, ...srv]);
     }
   }, [newServiceData, newServiceSuccess]);
@@ -118,7 +106,6 @@ export function ServiceContextProvider({ children }: React.PropsWithChildren) {
     services,
     serviceStats,
     nextVisit,
-
     reOccurrentPlan,
     toggleNewModal,
     newModalIsOpen,
