@@ -215,7 +215,9 @@ function AdminRecentServices() {
 
             {topUsers && topUsers?.length > 0 && (
               <CircularProgress
-                value={(topUsers?.length / statistics?.totalCustomers) * 100}
+                value={Math.round(
+                  (topUsers?.length / statistics?.totalCustomers) * 100,
+                )}
                 size={65}
                 strokeWidth={7}
               />
