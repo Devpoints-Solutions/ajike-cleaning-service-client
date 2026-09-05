@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "wouter";
+import { Link, useParams } from "wouter";
 import {
   Bug,
   CalendarDays,
@@ -148,7 +148,7 @@ export default function AdminServiceDetails() {
                     aria-label={`Actions for ${service._id}`}
                     data-testid={`button-schedule-actions-${service._id}`}
                   >
-                    <MoreVertical size={16} />
+                    <MoreVertical size={30} />
                   </button>
                 )}
                 {service && showActions && (
@@ -290,7 +290,11 @@ export default function AdminServiceDetails() {
               </InfoItem>
             ) : (
               <InfoItem icon={User} label="Requested by">
-                <span className="break-all">User ID: {service?.user?._id}</span>
+                <span className="break-all whitespace-pre-line">
+                  {`Fullname: ${service?.user?.firstName} ${service?.user?.lastName}
+                  Phone Number: ${service?.user?.phoneNumber}
+                  Email: ${service?.user?.email}`}
+                </span>
               </InfoItem>
             )}
 
@@ -402,6 +406,21 @@ export default function AdminServiceDetails() {
                   </div>
                 </div>
               )}
+
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                  <User size={20} />
+                </div>
+                <Link href={`/admin/dashboard/customers/${service?.user?._id}`}>
+                  <p className="text-[12px] md:text-xs font-medium uppercase tracking-wider text-slate-400">
+                    Customer
+                  </p>
+
+                  <p className="mt-1 text-sm font-medium text-slate-600">
+                    {service?.user?.email}
+                  </p>
+                </Link>
+              </div>
             </div>
 
             {/* Button */}
