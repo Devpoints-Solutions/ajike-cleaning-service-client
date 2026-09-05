@@ -120,12 +120,14 @@ function CustomerDetailsPage() {
                     <UserRound size={38} />
                   )}
                 </div>
-                <BadgeCheck
-                  aria-label="Verified profile"
-                  className="absolute -bottom-1 -right-1 rounded-full bg-white text-[#1687b6]"
-                  size={25}
-                  strokeWidth={2.5}
-                />
+                {customer?.isVerified && (
+                  <BadgeCheck
+                    aria-label="Verified profile"
+                    className="absolute -bottom-1 -right-1 rounded-full bg-white text-[#1687b6]"
+                    size={25}
+                    strokeWidth={2.5}
+                  />
+                )}
               </div>
 
               <div>
@@ -164,7 +166,7 @@ function CustomerDetailsPage() {
                         : "border-[#d7ebf5] bg-[#f8fbfd]"
                     }`}
                   />
-                  {field?.key === "role" && (
+                  {field?.key === "role" && customer?.isVerified && (
                     <button
                       type="button"
                       onClick={() => toggleEditing(field.key)}

@@ -10,6 +10,7 @@ import {
   Users,
   MoreVertical,
   User2,
+  ShieldQuestionMark,
 } from "lucide-react";
 import { Link } from "wouter";
 import { useAdminServiceContext } from "@/features/contexts/admin-service-context";
@@ -181,7 +182,7 @@ function CustomersPage() {
                 <tbody>
                   {filteredUsers.map((user, index) => {
                     const role = user.role || "user";
-                    const status = role === "admin" ? "Admin" : "Active";
+                    const status = user?.isVerified ? "Active" : "Unverified";
                     const initials = getInitials(user.firstName, user.lastName);
                     const serviceCount = getServiceCount(user.email);
 
@@ -244,12 +245,16 @@ function CustomersPage() {
                         <td className="rounded-r-2xl px-3 py-4 align-middle">
                           <span
                             className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${
-                              status === "Admin"
-                                ? "bg-[#edf7ff] text-[#1d5b8f]"
+                              status === "Unverified"
+                                ? "bg-[#edf7ff] text-[#880e0a]"
                                 : "bg-[#eafbf0] text-[#236c47]"
                             }`}
                           >
-                            <BadgeCheck size={12} />
+                            {status === "Unverified" ? (
+                              <ShieldQuestionMark size={12} />
+                            ) : (
+                              <BadgeCheck size={12} />
+                            )}
                             {status}
                           </span>
                         </td>

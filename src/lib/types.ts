@@ -42,6 +42,7 @@ export interface IUser {
   role?: "user" | "admin";
   picture?: string;
   serviceCount?: number;
+  isVerified?: boolean;
 }
 
 export type AuthContextType = {
