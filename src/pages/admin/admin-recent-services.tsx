@@ -264,7 +264,12 @@ function AdminRecentServices() {
           </div>
           <div className="alert-list">
             {alertItems.map((alert) => (
-              <button key={alert.key} data-testid={`button-alert-${alert.key}`}>
+              <Link
+                href={`/admin/dashboard/services/${alert?.key}`}
+                key={alert.key}
+                data-testid={`button-alert-${alert.key}`}
+                // className="flex"
+              >
                 <alert.icon size={15} />
                 <span>
                   <strong>{alert.label}</strong>
@@ -273,7 +278,7 @@ function AdminRecentServices() {
                   </small>
                 </span>
                 <ChevronRight size={14} />
-              </button>
+              </Link>
             ))}
           </div>
         </section>

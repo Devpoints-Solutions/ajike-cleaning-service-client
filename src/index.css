@@ -3603,6 +3603,30 @@ a {
   background: none;
   text-align: left;
 }
+
+.alert-list a {
+  display: grid;
+  grid-template-columns: 19px 1fr 14px;
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  padding: 0.65rem 0;
+  border: 0;
+  border-bottom: 1px solid #f0e4cf;
+  background: none;
+  text-align: left;
+}
+
+.alert-list a > svg:first-child {
+  color: #c58432;
+}
+.alert-list a > svg:last-child {
+  color: #b79a72;
+}
+
+.alert-list a:last-child {
+  border-bottom: 0;
+}
 .alert-list button:last-child {
   border-bottom: 0;
 }
