@@ -15,6 +15,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { formatError } from "@/helpers/format-error";
 import { useAuthContext } from "@/features/contexts/auth-context";
 import GoogleButton from "./google-button";
+import { storeToken } from "@/helpers/user-session";
 
 function SignIn() {
   const [, setLocation] = useLocation();
@@ -63,12 +64,14 @@ function SignIn() {
     if (isSuccess && data && data?.data?.role === "user") {
       localStorage.setItem("isAuth", JSON.stringify(true));
       updateIsAuthenticatedState(data?.data);
+      storeToken(data?.authToken);
       setLocation("/dashboard");
     }
 
     if (isSuccess && data && data?.data?.role === "admin") {
       localStorage.setItem("isAuth", JSON.stringify(true));
       updateIsAuthenticatedState(data?.data);
+      storeToken(data?.authToken);
       setLocation("/admin/dashboard");
     }
   }, [isError, error, isSuccess, data]);
@@ -85,12 +88,14 @@ function SignIn() {
     if (googleSuccess && googleData && googleData?.data?.role === "user") {
       localStorage.setItem("isAuth", JSON.stringify(true));
       updateIsAuthenticatedState(googleData?.data);
+      storeToken(googleData?.authToken);
       setLocation("/dashboard");
     }
 
     if (googleSuccess && googleData && googleData?.data?.role === "admin") {
       localStorage.setItem("isAuth", JSON.stringify(true));
       updateIsAuthenticatedState(googleData?.data);
+      storeToken(googleData?.authToken);
       setLocation("/admin/dashboard");
     }
   }, [googleError, googleSuccess, googleData, googleIsError]);

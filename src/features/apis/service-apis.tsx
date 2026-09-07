@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getToken } from "@/helpers/user-session";
 
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
 
@@ -6,6 +7,14 @@ export const serviceApis = createApi({
   reducerPath: "serviceApi",
   baseQuery: fetchBaseQuery({
     baseUrl,
+    prepareHeaders: async (headers) => {
+      const token = await getToken();
+
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
 
   endpoints: (builder) => ({
