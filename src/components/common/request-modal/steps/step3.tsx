@@ -78,7 +78,7 @@ export function Step3({
               Tell us where you are, and a landmark close to you
             </p>
           </div>
-          <section className="mt-3 gap-5 flex items-ce">
+          <section className="mt-3 gap-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center">
             <div>
               <h2 className="text-[14px] mb-1 font-semibold text-[#001625]">
                 Choose a preferred date
