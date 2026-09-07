@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PageIntro from "@/components/common/page-intro";
 import CtaButton from "@/components/common/cta-button";
 import {
@@ -10,22 +10,12 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import contactImage from "@/assets/support.jpg";
-
-type FormState = {
-  fullName: string;
-  email: string;
-  phone: string;
-  message: string;
-};
+import { useSubmitMessageMutation } from "@/features/apis/contact-api";
+import { Loader } from "@/components/common/loader";
+import AdminSuccessModal from "@/components/common/admin-success-modal";
 
 function ContactPage() {
-  const [form, setForm] = useState<FormState>({
-    fullName: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [submitMessage, { isLoading, isSuccess }] = useSubmitMessageMutation();
 
   const contactCards = [
     {
@@ -60,21 +50,14 @@ function ContactPage() {
     },
   ];
 
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  }
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("sending");
-    setTimeout(() => {
-      setStatus("sent");
-      setForm({ fullName: "", email: "", phone: "", message: "" });
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 800);
+    const formData = new FormData(event.currentTarget);
+
+    formData.append("access_key", import.meta.env.VITE_APP_FORM_API_KEY);
+
+    submitMessage(formData);
   }
 
   return (
@@ -160,8 +143,7 @@ function ContactPage() {
                   name="fullName"
                   type="text"
                   data-testid="input-signin-email"
-                  value={form.fullName}
-                  onChange={handleChange}
+                  required
                   placeholder="Jane Doe"
                 />
               </div>
@@ -174,8 +156,7 @@ function ContactPage() {
                   id="email"
                   type="email"
                   name="email"
-                  value={form.email}
-                  onChange={handleChange}
+                  required
                   placeholder="you@example.com"
                 />
               </div>
@@ -188,8 +169,7 @@ function ContactPage() {
                   id="phone"
                   name="phone"
                   type="tel"
-                  value={form.phone}
-                  onChange={handleChange}
+                  required
                   placeholder="+1 (555) 555-5555"
                 />
               </div>
@@ -201,8 +181,6 @@ function ContactPage() {
                 <textarea
                   id="message"
                   name="message"
-                  value={form.message}
-                  onChange={handleChange}
                   rows={6}
                   required
                   placeholder="Tell us about the issue, space, or service you need..."
@@ -211,9 +189,10 @@ function ContactPage() {
 
               <button
                 type="submit"
-                className="primary-button contact-submit"
-                disabled={status === "sending"}
+                className="header-primary-button service-button"
+                disabled={isLoading}
               >
+                {isLoading && <Loader />}
                 Send Message <ArrowRight size={15} />
               </button>
 
@@ -279,6 +258,16 @@ function ContactPage() {
           </aside>
         </section>
       </main>
+
+      {isSuccess && (
+        <AdminSuccessModal
+          isOpen={isSuccess}
+          message="Your message is received, we will get back to you as soon as possible"
+          onViewService={() => {
+            window.location.href = "/contact";
+          }}
+        />
+      )}
     </>
   );
 }

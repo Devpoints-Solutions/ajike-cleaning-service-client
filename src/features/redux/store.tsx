@@ -4,6 +4,7 @@ import { authApis } from "@/features/apis/auth-apis";
 import { userApis } from "@/features/apis/user-apis";
 import { serviceApis } from "@/features/apis/service-apis";
 import { messageApis } from "../apis/message-apis";
+import { contactApi } from "../apis/contact-api";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     [userApis.reducerPath]: userApis.reducer,
     [serviceApis.reducerPath]: serviceApis.reducer,
     [messageApis.reducerPath]: messageApis.reducer,
+    [contactApi.reducerPath]: contactApi.reducer,
   },
 
   devTools: import.meta.env.NODE_ENV !== "production",
@@ -21,6 +23,7 @@ export const store = configureStore({
       userApis.middleware,
       serviceApis.middleware,
       messageApis.middleware,
+      contactApi.middleware,
     ),
 });
 
