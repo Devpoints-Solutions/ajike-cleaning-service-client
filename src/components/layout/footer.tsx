@@ -254,11 +254,15 @@ const Footer = () => {
 
                 <li className="flex items-center gap-3">
                   <Mail size={16} className="shrink-0 text-[#1687b6]" />
-                  <a
-                    href="mailto:support@ajikepestcontrol.com"
-                    className="text-blue-100/90 transition hover:text-white"
-                  >
-                    support@ajikepestcontrol.com
+                  <a href="mailto:info@ajikepestcontrol.com">
+                    info@ajikepestcontrol.com
+                  </a>
+                </li>
+
+                <li className="flex items-center gap-3">
+                  <Mail size={16} className="shrink-0 text-[#1687b6]" />
+                  <a href="mailto:ajikepestcontrol02@gmail.com">
+                    ajikepestcontrol02@gmail.com
                   </a>
                 </li>
 
@@ -286,7 +290,10 @@ const Footer = () => {
             </p>
 
             <div className="flex flex-wrap gap-5">
-              <Link href="/privacy-policy" className="transition hover:text-white">
+              <Link
+                href="/privacy-policy"
+                className="transition hover:text-white"
+              >
                 Privacy
               </Link>
 

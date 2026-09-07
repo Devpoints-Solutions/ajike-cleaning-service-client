@@ -216,7 +216,8 @@ a {
   border-radius: 1.5rem;
   padding: 1.5rem;
 }
-.section-heading {
+.section-heading,
+.contact-section-heading {
   margin-bottom: 1.2rem;
 }
 .section-heading h2 {
@@ -225,6 +226,14 @@ a {
   font: 700 clamp(1.5rem, 3vw, 2.2rem)/1.1 var(--font-display);
   letter-spacing: -0.05em;
 }
+
+.contact-section-heading h2 {
+  margin: 0.5rem 0 0;
+  color: #122560;
+  font: 700 clamp(1.8rem, 3.5vw, 3.1rem)/1 var(--font-display);
+  letter-spacing: -0.05em;
+}
+
 .contact-form {
   display: grid;
   gap: 0.95rem;
@@ -760,7 +769,8 @@ a {
 .section {
   padding-bottom: 6.5rem;
 }
-.section-heading {
+.section-heading,
+.contact-section-heading {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -773,7 +783,8 @@ a {
   /* letter-spacing: -0.08em; */
   margin: 0.65rem 0 0;
 }
-.section-heading p {
+.section-heading p,
+.contact-section-heading p {
   max-width: 300px;
   color: #60798a;
   /* font-size: 0.8rem; */
@@ -1745,7 +1756,7 @@ a {
   background: #25ad76;
 }
 .plan-card {
-  min-height: 300px;
+  min-height: 350px;
   background: #dff3fa;
   border-color: #b9dfeb;
 }
@@ -1823,6 +1834,14 @@ a {
   margin-top: 1.2rem;
   overflow-y: auto;
   height: 180px;
+}
+
+.activity-list-2 {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1.2rem;
+  overflow-y: auto;
+  height: 100%;
 }
 .activity-row {
   display: flex;
@@ -2281,10 +2300,12 @@ a {
   .section {
     padding-bottom: 4.3rem;
   }
-  .section-heading {
+  .section-heading,
+  .contact-section-heading {
     display: block;
   }
-  .section-heading p {
+  .section-heading p,
+  .contact-section-heading p {
     margin-top: 0.8rem;
   }
 
@@ -2563,6 +2584,7 @@ a {
   padding-bottom: 7rem;
 }
 .section-heading p,
+.contact-section-heading p,
 .values-grid p,
 .standard-row p,
 .people-section p,

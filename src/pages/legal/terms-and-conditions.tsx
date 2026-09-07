@@ -46,7 +46,10 @@ function TermsAndConditions() {
             <ul className="mt-4 space-y-3 border-l border-[#c8dce8] pl-4 text-sm text-[#55738a]">
               {sections.map(([number, title]) => (
                 <li key={number}>
-                  <a className="transition hover:text-[#1687b6]" href={`#terms-${number}`}>
+                  <a
+                    className="transition hover:text-[#1687b6]"
+                    href={`#terms-${number}`}
+                  >
                     {title}
                   </a>
                 </li>
@@ -81,8 +84,8 @@ function TermsAndConditions() {
                 Please give us safe access, accurate property details, and
                 relevant information about pets, children, occupants, hazards,
                 prior treatments, and areas that need attention. You are
-                responsible for following preparation, re-entry, and
-                aftercare instructions provided for a service.
+                responsible for following preparation, re-entry, and aftercare
+                instructions provided for a service.
               </p>
             </section>
             <section id="terms-4">
@@ -92,8 +95,8 @@ function TermsAndConditions() {
                 confirmed before chargeable work begins. Please contact us as
                 soon as possible if you need to reschedule or cancel. We may
                 charge for late cancellations, missed appointments, or work
-                already completed when those terms were included in your
-                booking confirmation.
+                already completed when those terms were included in your booking
+                confirmation.
               </p>
             </section>
             <section id="terms-5">
@@ -114,21 +117,26 @@ function TermsAndConditions() {
                 pest activity, stains, damage, and other conditions cannot
                 always be completely eliminated or prevented. To the extent
                 permitted by law, Ajike is not responsible for indirect or
-                unforeseeable loss arising from use of the website or a
-                service. Nothing in these terms limits rights that cannot
-                legally be limited.
+                unforeseeable loss arising from use of the website or a service.
+                Nothing in these terms limits rights that cannot legally be
+                limited.
               </p>
             </section>
             <section id="terms-7">
               <h2>7. Changes and contact</h2>
               <p>
-                We may update these terms when our services or legal
-                obligations change. The latest version will be posted here.
-                Questions about these terms can be sent to{" "}
-                <a href="mailto:support@ajikepestcontrol.com">
-                  support@ajikepestcontrol.com
-                </a>
-                .
+                We may update these terms when our services or legal obligations
+                change. The latest version will be posted here. Questions about
+                these terms can be sent to{" "}
+                <strong>
+                  <a href="mailto:info@ajikepestcontrol.com">
+                    info@ajikepestcontrol.com
+                  </a>{" "}
+                  or{" "}
+                  <a href="mailto:ajikepestcontrol02@gmail.com">
+                    ajikepestcontrol02@gmail.com
+                  </a>
+                </strong>
               </p>
             </section>
           </article>

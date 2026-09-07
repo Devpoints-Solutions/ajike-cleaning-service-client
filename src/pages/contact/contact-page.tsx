@@ -31,14 +31,20 @@ function ContactPage() {
     {
       icon: <MailCheck size={15} />,
       label: "Email",
-      value: "hello@ajikepestcontrol.com",
-      href: "mailto:hello@ajikepestcontrol.com",
+      value: "info@ajikepestcontrol.com",
+      href: "mailto:info@ajikepestcontrol.com",
+    },
+    {
+      icon: <MailCheck size={15} />,
+      label: "Email",
+      value: "ajikepestcontrol2@gmail.com",
+      href: "ajikepestcontrol2@gmail.com",
     },
     {
       icon: <PhoneCallIcon size={15} />,
       label: "Phone",
-      value: "+1 (555) 555-5555",
-      href: "tel:+15555555555",
+      value: "+1 (201) 486 0774",
+      href: "tel:+12014860774",
     },
     {
       icon: <MapPinHouse size={15} />,
@@ -138,8 +144,10 @@ function ContactPage() {
             className="contact-form-panel"
             aria-labelledby="contact-form-heading"
           >
-            <div className="section-heading">
-              <h2 id="contact-form-heading">Tell us about your property.</h2>
+            <div className="contact-section-heading">
+              <h2 id="contact-form-heading" className="text-[#122560]">
+                Tell us about your property.
+              </h2>
             </div>
 
             <form onSubmit={handleSubmit} className="auth-form contact-form">
@@ -226,16 +234,18 @@ function ContactPage() {
             aria-labelledby="company-details-heading"
             className="contact-details-panel"
           >
-            <div className="section-heading">
-              <h2 id="company-details-heading">Let’s keep it simple.</h2>
+            <div className="contact-section-heading">
+              <h2 id="company-details-heading" className="text-[#122560]">
+                Let’s keep it simple.
+              </h2>
             </div>
 
             <div className="dashboard-card plan-card contact-card">
               <div className="plan-name mb-3.5">Ajike Pest Control</div>
 
-              <div className="activity-list">
-                {contactCards.map(({ icon, label, value, href }) => (
-                  <div className="activity-row" key={label}>
+              <div className="activity-list-2">
+                {contactCards.map(({ icon, label, value, href }, index) => (
+                  <div className="activity-row" key={index}>
                     <div className="activity-icon">{icon}</div>
                     <div>
                       <strong>{label}:</strong>
@@ -253,7 +263,7 @@ function ContactPage() {
             </div>
 
             <div id="map" className="contact-map-wrap">
-              <h3 className="map-heading">Find us on the map</h3>
+              <h3 className="map-heading text-[#122560]">Find us on the map</h3>
               <div className="map-frame">
                 <iframe
                   title="Company location"

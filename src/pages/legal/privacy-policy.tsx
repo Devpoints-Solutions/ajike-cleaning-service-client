@@ -47,7 +47,10 @@ function PrivacyPolicy() {
             <ul className="mt-4 space-y-3 border-l border-[#c8dce8] pl-4 text-sm text-[#55738a]">
               {sections.map(([number, title]) => (
                 <li key={number}>
-                  <a className="transition hover:text-[#1687b6]" href={`#privacy-${number}`}>
+                  <a
+                    className="transition hover:text-[#1687b6]"
+                    href={`#privacy-${number}`}
+                  >
                     {title}
                   </a>
                 </li>
@@ -63,8 +66,8 @@ function PrivacyPolicy() {
                 address, phone number, property details, service preferences,
                 messages, and payment or booking details. We also collect
                 service notes and photographs needed to document work. When you
-                use the website, we may receive basic device, browser, and
-                usage information.
+                use the website, we may receive basic device, browser, and usage
+                information.
               </p>
             </section>
             <section id="privacy-2">
@@ -91,9 +94,9 @@ function PrivacyPolicy() {
             <section id="privacy-4">
               <h2>4. Cookies and analytics</h2>
               <p>
-                Ajike may use cookies or similar technologies to keep you
-                signed in, remember preferences, understand website traffic,
-                and improve performance. You can adjust cookie controls in your
+                Ajike may use cookies or similar technologies to keep you signed
+                in, remember preferences, understand website traffic, and
+                improve performance. You can adjust cookie controls in your
                 browser, though some account features may not work as intended
                 when essential cookies are disabled.
               </p>
@@ -103,10 +106,14 @@ function PrivacyPolicy() {
               <p>
                 You can review or update account details, unsubscribe from
                 non-essential marketing messages, or ask us about the personal
-                information we hold about you. Service and security messages
-                may still be sent when necessary. Contact{" "}
-                <a href="mailto:support@ajikepestcontrol.com">
-                  support@ajikepestcontrol.com
+                information we hold about you. Service and security messages may
+                still be sent when necessary. Contact{" "}
+                <a href="mailto:info@ajikepestcontrol.com">
+                  info@ajikepestcontrol.com
+                </a>{" "}
+                or{" "}
+                <a href="mailto:ajikepestcontrol02@gmail.com">
+                  ajikepestcontrol02@gmail.com
                 </a>{" "}
                 to make a privacy request.
               </p>
@@ -128,9 +135,16 @@ function PrivacyPolicy() {
                 under 13. We may update this policy as the application or our
                 practices change. We will post the revised policy here with a
                 new effective date. For questions, contact{" "}
-                <a href="mailto:support@ajikepestcontrol.com">
-                  support@ajikepestcontrol.com
-                </a>
+                <strong>
+                  {" "}
+                  <a href="mailto:info@ajikepestcontrol.com">
+                    info@ajikepestcontrol.com
+                  </a>{" "}
+                  or{" "}
+                  <a href="mailto:ajikepestcontrol02@gmail.com">
+                    ajikepestcontrol02@gmail.com
+                  </a>
+                </strong>
                 .
               </p>
             </section>
