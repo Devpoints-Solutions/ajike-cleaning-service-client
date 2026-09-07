@@ -151,32 +151,36 @@ function WhatAndWhere({
         {/* Bottom action */}
         <div className="fixed bottom-0 left-0 right-0 border-t border-[#dce5ed] bg-white">
           <div className="mx-auto flex  max-w-[720px] justify-between py-4 sm:px-7">
-            <button
-              type="button"
-              onClick={() => setStep((prev) => prev - 1)}
-              disabled={step <= 1 || isSuccess || isLoading}
-              className="secondary-button button-small"
-            >
-              <ChevronLeft size={19} strokeWidth={2.2} />
-              Go back
-            </button>
+            {!isSuccess && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setStep((prev) => prev - 1)}
+                  disabled={step <= 1 || isSuccess || isLoading}
+                  className="secondary-button button-small"
+                >
+                  <ChevronLeft size={19} strokeWidth={2.2} />
+                  Go back
+                </button>
 
-            <button
-              type="button"
-              onClick={(event) => {
-                if (step === 5) return submit(event);
-                handleContinue();
-              }}
-              disabled={!canContinue || isLoading || isSuccess}
-              className={`flex button-small h-[52px] min-w-[158px] items-center justify-center gap-2 rounded-full px-7 text-[15px] font-semibold transition-all duration-200 ${
-                canContinue
-                  ? "bg-[#1687b6] text-white shadow-sm hover:bg-[#11749d] active:scale-[0.98]"
-                  : "cursor-not-allowed bg-[#1687b6]/50 text-white"
-              }`}
-            >
-              {isLoading && <Loader />} Continue
-              <ChevronRight size={19} strokeWidth={2.2} />
-            </button>
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    if (step === 5) return submit(event);
+                    handleContinue();
+                  }}
+                  disabled={!canContinue || isLoading || isSuccess}
+                  className={`flex button-small h-[52px] min-w-[158px] items-center justify-center gap-2 rounded-full px-7 text-[15px] font-semibold transition-all duration-200 ${
+                    canContinue
+                      ? "bg-[#1687b6] text-white shadow-sm hover:bg-[#11749d] active:scale-[0.98]"
+                      : "cursor-not-allowed bg-[#1687b6]/50 text-white"
+                  }`}
+                >
+                  {isLoading && <Loader />} Continue
+                  <ChevronRight size={19} strokeWidth={2.2} />
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
