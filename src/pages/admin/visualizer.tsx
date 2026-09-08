@@ -44,7 +44,7 @@ function Visualizer() {
     services.filter((job) => job?.status?.toLowerCase() === "completed")
       .length ||
     servicesStats?.totalCompletedServices ||
-    42;
+    0;
 
   const baselineCompleted =
     servicesStats?.totalCompletedServices || Math.max(completedCount - 4, 1);
