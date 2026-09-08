@@ -121,6 +121,7 @@ export function AdminContextProvider({ children }: { children: ReactNode }) {
       setStatistics(usersData?.data?.statistics);
       setTotalUserPage(usersData?.data?.pagination?.totalPages);
 
+      // console.log(usersData);
       setFirstRequest(false);
     }
 

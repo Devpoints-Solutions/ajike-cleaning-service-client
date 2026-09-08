@@ -15,7 +15,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useAuthContext } from "@/features/contexts/auth-context";
 import { formatError } from "@/helpers/format-error";
 import GoogleButton from "./google-button";
-import { storeToken } from "@/helpers/user-session";
+// import { storeToken } from "@/helpers/user-session";
 
 const formInput = [
   { name: "firstName", placeholder: "John", label: "First name" },
@@ -105,14 +105,17 @@ function SignUp() {
     if (googleSuccess && googleData && googleData?.data?.role === "user") {
       localStorage.setItem("isAuth", JSON.stringify(true));
       updateIsAuthenticatedState(googleData?.data);
-      storeToken(googleData?.authToken);
+      localStorage.setItem("authToken", googleData?.authToken);
+      // storeToken(googleData?.authToken);
       setLocation("/dashboard");
     }
 
     if (googleSuccess && googleData && googleData?.data?.role === "admin") {
       localStorage.setItem("isAuth", JSON.stringify(true));
       updateIsAuthenticatedState(googleData?.data);
-      storeToken(googleData?.authToken);
+
+      localStorage.setItem("authToken", googleData?.authToken);
+      // storeToken(googleData?.authToken);
       setLocation("/admin/dashboard");
     }
   }, [googleError, googleSuccess, googleData, googleIsError]);

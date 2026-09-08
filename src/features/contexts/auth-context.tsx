@@ -3,7 +3,7 @@ import { Redirect } from "wouter";
 import type { AuthContextType, IUser } from "@/lib/types";
 import { useGetProfileMutation } from "../apis/user-apis";
 import { useLogoutAccountMutation } from "../apis/auth-apis";
-import { deleteToken } from "@/helpers/user-session";
+// import { deleteToken } from "@/helpers/user-session";
 
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
@@ -49,7 +49,8 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     localStorage.removeItem("isAuth");
     setIsAuthenticated(false);
     setCurrentUser(null);
-    await deleteToken();
+    localStorage.removeItem("authToken");
+    // await deleteToken();
     window.location.href = "/";
   }
 

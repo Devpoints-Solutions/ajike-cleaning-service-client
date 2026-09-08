@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getToken } from "@/helpers/user-session";
+// import { getToken } from "@/helpers/user-session";
 
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
 
@@ -8,7 +8,8 @@ export const userApis = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl,
     prepareHeaders: async (headers) => {
-      const token = await getToken();
+      // const token = await getToken();
+      const token = localStorage.getItem("authToken");
 
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -22,14 +23,14 @@ export const userApis = createApi({
       query: (payload) => ({
         url: `/users?page=${payload}`,
         method: "GET",
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
     getProfile: builder.mutation({
       query: () => ({
         url: "/users/profile",
         method: "GET",
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
     updateProfile: builder.mutation({
@@ -37,7 +38,7 @@ export const userApis = createApi({
         url: "/users/profile/update",
         method: "PUT",
         body: payload,
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
 
@@ -46,7 +47,7 @@ export const userApis = createApi({
         url: `/users/profile/${payload.userId}/update`,
         method: "PUT",
         body: payload.userData,
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
   }),

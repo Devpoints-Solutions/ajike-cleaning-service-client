@@ -30,7 +30,7 @@ export const authApis = createApi({
         url: "/auth/login",
         method: "POST",
         body: payload,
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
 
@@ -38,7 +38,7 @@ export const authApis = createApi({
       query: () => ({
         url: "/auth/logout",
         method: "POST",
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
 
@@ -63,7 +63,7 @@ export const authApis = createApi({
         url: "/auth/login/google",
         method: "POST",
         body: payload,
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
   }),

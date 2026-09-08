@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getToken } from "@/helpers/user-session";
+// import { getToken } from "@/helpers/user-session";
 
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
 
@@ -8,7 +8,7 @@ export const serviceApis = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl,
     prepareHeaders: async (headers) => {
-      const token = await getToken();
+      const token = localStorage.getItem("authToken");
 
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -22,7 +22,7 @@ export const serviceApis = createApi({
       query: (payload) => ({
         url: "/services",
         method: "POST",
-        credentials: "include",
+        // credentials: "include",
         body: payload,
       }),
     }),
@@ -30,7 +30,7 @@ export const serviceApis = createApi({
       query: (payload) => ({
         url: `/services/admin?page=${payload}`,
         method: "GET",
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
 
@@ -38,7 +38,7 @@ export const serviceApis = createApi({
       query: () => ({
         url: `/services/user`,
         method: "GET",
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
 
@@ -46,7 +46,7 @@ export const serviceApis = createApi({
       query: (payload) => ({
         url: `/services/user?page=${payload}`,
         method: "GET",
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
 
@@ -55,7 +55,7 @@ export const serviceApis = createApi({
         url: `/services/${payload?.serviceId}/feedback`,
         method: "POST",
         body: payload?.serviceData,
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
 
@@ -63,7 +63,7 @@ export const serviceApis = createApi({
       query: (payload) => ({
         url: `/services/feedback?page=${payload}`,
         method: "GET",
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
 
@@ -72,7 +72,7 @@ export const serviceApis = createApi({
         url: `/services/${payload?.serviceId}`,
         method: "PUT",
         body: payload?.serviceData,
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
 
@@ -80,7 +80,7 @@ export const serviceApis = createApi({
       query: () => ({
         url: "/services/user/completed-services",
         method: "GET",
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
   }),

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getToken } from "@/helpers/user-session";
+// import { getToken } from "@/helpers/user-session";
 
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
 
@@ -8,7 +8,7 @@ export const messageApis = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl,
     prepareHeaders: async (headers) => {
-      const token = await getToken();
+      const token = localStorage.getItem("authToken");
 
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -22,14 +22,14 @@ export const messageApis = createApi({
       query: (payload) => ({
         url: `/messages/user?page=${payload}`,
         method: "GET",
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
     getAllRooms: builder.mutation({
       query: (payload) => ({
         url: `/messages/rooms?page=${payload}`,
         method: "GET",
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
 
@@ -37,7 +37,7 @@ export const messageApis = createApi({
       query: ({ page, room }) => ({
         url: `/messages/rooms/${room}/messages?page=${page}`,
         method: "GET",
-        credentials: "include",
+        // credentials: "include",
       }),
     }),
   }),

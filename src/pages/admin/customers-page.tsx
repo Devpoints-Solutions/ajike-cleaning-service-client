@@ -55,6 +55,8 @@ function CustomersPage() {
         service?.user?.email === email || service?.customer?.email === email,
     ).length;
 
+  console.log(statistics);
+
   return (
     <AdminDashboardLayout>
       <main className="dashboard-wrap">
@@ -181,7 +183,7 @@ function CustomersPage() {
                 </thead>
                 <tbody>
                   {filteredUsers.map((user, index) => {
-                    const role = user.role || "user";
+                    const role = user?.role || "user";
                     const status = user?.isVerified ? "Active" : "Unverified";
                     const initials = getInitials(user.firstName, user.lastName);
                     const serviceCount = getServiceCount(user.email);
